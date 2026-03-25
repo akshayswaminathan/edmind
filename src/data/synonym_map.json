@@ -1,0 +1,3611 @@
+{
+  "ABO incompatibility": [
+    "blood type mismatch",
+    "hemolytic disease",
+    "hdn"
+  ],
+  "ACE inhibitor": [
+    "angiotensin-converting enzyme inhibitor",
+    "acei"
+  ],
+  "AIDS": [
+    "acquired immunodeficiency syndrome",
+    "hiv infection",
+    "aids"
+  ],
+  "AKA": [
+    "also known as"
+  ],
+  "ARB inhibitor": [
+    "angiotensin receptor blocker",
+    "arbi"
+  ],
+  "ARDS": [
+    "acute respiratory distress syndrome",
+    "ards"
+  ],
+  "Abdominal aortic aneurysm obstruction": [],
+  "Abdominal compartment syndrome": [
+    "acs"
+  ],
+  "Abnormal clotting factor": [],
+  "Abscess": [
+    "pus-filled cavity",
+    "boil"
+  ],
+  "Acetabular labral tear": [
+    "labral tear"
+  ],
+  "Acetaminophen poisoning": [
+    "tylenol overdose"
+  ],
+  "Acid damage": [],
+  "Acidosis": [
+    "metabolic acidosis",
+    "respiratory acidosis"
+  ],
+  "Acoustic neuroma": [
+    "vestibular schwannoma"
+  ],
+  "Acromegaly": [
+    "growth hormone excess"
+  ],
+  "Acute HIV infection": [
+    "primary hiv infection"
+  ],
+  "Acute adrenal insufficiency": [
+    "adrenal crisis"
+  ],
+  "Acute aggravation of COPD": [
+    "copd exacerbation"
+  ],
+  "Acute angle-closure glaucoma": [
+    "angle-closure glaucoma"
+  ],
+  "Acute appendicitis": [
+    "appendicitis"
+  ],
+  "Acute arterial obstruction": [],
+  "Acute arterial occlusion": [],
+  "Acute bacterial sinusitis": [
+    "sinus infection"
+  ],
+  "Acute cerebellitis": [],
+  "Acute cholangitis": [
+    "biliary infection"
+  ],
+  "Acute cholecystitis": [
+    "gallbladder inflammation"
+  ],
+  "Acute complicated urinary tract infection": [],
+  "Acute disseminated encephalomyelitis": [
+    "ade"
+  ],
+  "Acute epiglottitis": [
+    "epiglottis inflammation"
+  ],
+  "Acute exacerbation of COPD": [
+    "copd flare-up"
+  ],
+  "Acute exacerbation of interstitial lung disease": [],
+  "Acute fatty liver in pregnancy": [
+    "aFLP"
+  ],
+  "Acute generalized exanthematous pustulosis": [],
+  "Acute glaucoma": [
+    "glaucoma attack"
+  ],
+  "Acute glaucoma attack": [],
+  "Acute glomerulonephritis": [
+    "nephritis"
+  ],
+  "Acute graft-versus-host disease": [
+    "gvhd"
+  ],
+  "Acute hemorrhagic conjunctivitis": [],
+  "Acute hepatitis": [
+    "liver inflammation"
+  ],
+  "Acute hydrocephalus": [
+    "increased intracranial pressure"
+  ],
+  "Acute inner ear disorder": [],
+  "Acute intermittent porphyria": [],
+  "Acute interstitial pneumonia": [],
+  "Acute kidney injury": [
+    "aki"
+  ],
+  "Acute labyrinthitis": [],
+  "Acute myocardial infarction": [
+    "heart attack",
+    "mi"
+  ],
+  "Acute pancreatitis": [
+    "pancreas inflammation"
+  ],
+  "Acute pericarditis": [
+    "pericardial inflammation"
+  ],
+  "Acute poststreptococcal glomerulonephritis": [],
+  "Acute pulmonary edema": [
+    "lung fluid buildup"
+  ],
+  "Acute purulent thyroiditis": [],
+  "Acute pyogenic arthritis": [],
+  "Acute renal artery occlusion": [],
+  "Acute suppurative mastitis": [],
+  "Acute worsening of Hashimoto's disease": [],
+  "Addison disease": [
+    "adrenal insufficiency"
+  ],
+  "Adrenal infarction": [],
+  "Adrenal insufficiency": [
+    "adrenal crisis"
+  ],
+  "Adrenal tumor": [],
+  "After endoscopic treatment": [],
+  "After enema use": [],
+  "After lung biopsy": [],
+  "After the prostate biopsy": [],
+  "After the umbilical artery catheter insertion": [],
+  "Airway foreign body": [],
+  "Airway obstruction": [],
+  "Alcohol abuse": [
+    "substance use disorder"
+  ],
+  "Alcohol withdrawal": [
+    "dt",
+    "withdrawal syndrome"
+  ],
+  "Alcoholic cirrhosis": [
+    "liver cirrhosis"
+  ],
+  "Alcoholic hepatitis": [],
+  "Alkali aspiration": [],
+  "Alkali damage": [],
+  "Allopurinol": [],
+  "Altitude sickness": [
+    "mountain sickness"
+  ],
+  "Aminoglycoside": [],
+  "Amiodarone": [],
+  "Amniotic fluid embolism": [],
+  "Amphetamine": [],
+  "Amphotericin B": [],
+  "Amyloidosis": [
+    "amyloid disease",
+    "protein deposition disease"
+  ],
+  "Anaphylactoid purpura disease (Henoch–Schonlein purpura)": [
+    "hsp",
+    "henoch-schonlein purpura"
+  ],
+  "Anaphylaxis": [
+    "severe allergic reaction",
+    "anaphylactic shock"
+  ],
+  "Anemia": [
+    "low red blood cells",
+    "iron deficiency"
+  ],
+  "Anemia gravis": [],
+  "Aneurysms": [
+    "vascular dilation",
+    "arterial aneurysm"
+  ],
+  "Angina pectoris": [
+    "chest pain",
+    "angina"
+  ],
+  "Angiodysplasia": [
+    "vascular malformation",
+    "vascular dysplasia"
+  ],
+  "Angioedema": [
+    "swelling",
+    "edema"
+  ],
+  "Angioedema with ACE inhibitors": [
+    "ace inhibitor angioedema"
+  ],
+  "Angiography agents": [
+    "contrast agents",
+    "contrast media"
+  ],
+  "Anorexia nervosa": [
+    "anorexia",
+    "eating disorder"
+  ],
+  "Anoxia": [
+    "lack of oxygen",
+    "oxygen deprivation"
+  ],
+  "Anterior inferior cerebellar artery syndrome": [
+    "aica syndrome"
+  ],
+  "Anterior spinal artery occlusion": [
+    "anterior spinal occlusion"
+  ],
+  "Anterior spinal artery syndrome": [
+    "anterior spinal syndrome"
+  ],
+  "Anti-Parkinson agents": [
+    "parkinson's drugs",
+    "dopaminergic agents"
+  ],
+  "Anti-cancer drugs": [
+    "chemotherapy",
+    "oncology drugs"
+  ],
+  "Anti-phospholipid antibody syndrome": [
+    "aps",
+    "lupus anticoagulant syndrome"
+  ],
+  "Antibiotic": [
+    "abx",
+    "antibacterial"
+  ],
+  "Anticholinergic drugs": [
+    "anticholinergics",
+    "cholinergic blockers"
+  ],
+  "Anticoagulant": [
+    "blood thinner",
+    "antithrombotic"
+  ],
+  "Antidepressants": [
+    "mood stabilizers",
+    "antidepressant drugs"
+  ],
+  "Antiepileptic drugs": [
+    "anticonvulsants",
+    "epilepsy medications"
+  ],
+  "Antihistamines": [
+    "allergy meds",
+    "h1 blockers"
+  ],
+  "Antihypertensives": [
+    "blood pressure meds",
+    "bp medications"
+  ],
+  "Antiphlogistic": [
+    "anti-inflammatory"
+  ],
+  "Antiplatelet agent": [
+    "platelet inhibitor",
+    "antithrombotic"
+  ],
+  "Antisialagogues": [
+    "saliva inhibitors"
+  ],
+  "Antispasmodic": [
+    "muscle relaxant",
+    "spasm relief"
+  ],
+  "Anxiolytics": [
+    "anti-anxiety meds",
+    "anxiety relief"
+  ],
+  "Aorta intestinal fistula": [],
+  "Aortic aneurysm": [
+    "aortic dilation",
+    "aortic bulge"
+  ],
+  "Aortic aneurysm expansion": [],
+  "Aortic aneurysm rupture": [
+    "aortic rupture"
+  ],
+  "Aortic aneurysms paroxysmal supraventricular": [],
+  "Aortic bronchial fistula": [],
+  "Aortic dissection": [
+    "aortic tear",
+    "dissecting aneurysm"
+  ],
+  "Aortic reflux": [
+    "aortic regurgitation"
+  ],
+  "Aortic valve stenosis": [
+    "narrowed aortic valve"
+  ],
+  "Aortitis": [
+    "inflammation of aorta"
+  ],
+  "Aortitis syndrome": [],
+  "Appendicitis": [
+    "appendix inflammation",
+    "appendix infection"
+  ],
+  "Appendicitis abscess": [
+    "appendix abscess"
+  ],
+  "Arrhythmia": [
+    "irregular heartbeat",
+    "heart rhythm disorder"
+  ],
+  "Arsenic intoxication": [
+    "arsenic poisoning"
+  ],
+  "Arterial embolism": [
+    "arterial blockage",
+    "embolism"
+  ],
+  "Arterial occlusion": [
+    "blocked artery"
+  ],
+  "Arterial thrombosis": [
+    "arterial clot",
+    "thrombus"
+  ],
+  "Arterio-enteric fistula": [],
+  "Arteriovenous fistula": [
+    "av fistula"
+  ],
+  "Arteriovenous malformation": [
+    "avm",
+    "vascular malformation"
+  ],
+  "Ascites due to right heart failure": [
+    "heart failure ascites"
+  ],
+  "Aspergillosis": [
+    "fungal infection",
+    "aspergillus infection"
+  ],
+  "Asphyxia": [
+    "suffocation",
+    "oxygen deprivation"
+  ],
+  "Aspiration": [
+    "inhalation",
+    "aspiration injury"
+  ],
+  "Aspiration pneumonitis": [
+    "chemical pneumonia"
+  ],
+  "Aspirin intoxication": [
+    "salicylate toxicity"
+  ],
+  "Asthma": [
+    "reactive airway disease",
+    "asthmatic condition"
+  ],
+  "Atonic bleeding": [],
+  "Atrial fibrillation": [
+    "afib",
+    "irregular heartbeat"
+  ],
+  "Atrioventricular node reentry-related tachycardia": [
+    "avrt",
+    "reentry tachycardia"
+  ],
+  "Auricular cellulitis": [
+    "ear cellulitis"
+  ],
+  "Autoimmune disease": [
+    "autoimmune disorder"
+  ],
+  "Autoimmune hepatitis": [
+    "liver autoimmune disease"
+  ],
+  "Back pain with neurological symptoms": [
+    "neuropathic back pain"
+  ],
+  "Bacterial conjunctivitis": [
+    "pink eye",
+    "bacterial eye infection"
+  ],
+  "Bacterial embolism": [],
+  "Bacterial endocarditis": [
+    "heart infection"
+  ],
+  "Bacterial infection": [
+    "bacterial disease"
+  ],
+  "Bacterial meningitis": [
+    "meningitis",
+    "bacterial brain infection"
+  ],
+  "Bacterial peritonitis": [
+    "peritoneal infection"
+  ],
+  "Bacterial pneumonia": [
+    "lung infection"
+  ],
+  "Basilar aneurysms": [],
+  "Basilar artery occlusion": [],
+  "Basilar artery stenosis": [],
+  "Basilar insufficiency": [],
+  "Basilar meningitis": [],
+  "Basilar migraine": [],
+  "Beriberi": [
+    "thiamine deficiency"
+  ],
+  "Beta-blocker": [
+    "beta antagonist",
+    "beta blocker"
+  ],
+  "Bilateral diaphragmatic paralysis": [
+    "diaphragmatic palsy",
+    "bilateral phrenic nerve injury"
+  ],
+  "Bilateral ureteral stone": [
+    "bilateral ureterolithiasis"
+  ],
+  "Bile duct obstruction": [
+    "biliary obstruction",
+    "cholestasis"
+  ],
+  "Bladder and rectal disorder": [
+    "bladder-rectal dysfunction"
+  ],
+  "Bladder rupture": [
+    "bladder perforation"
+  ],
+  "Bladder tumor": [
+    "bladder neoplasm"
+  ],
+  "Bleeding": [
+    "hemorrhage",
+    "blood loss"
+  ],
+  "Blood disorders": [
+    "hematologic disorders"
+  ],
+  "Blood transfusion between mother and child": [
+    "maternal-fetal transfusion"
+  ],
+  "Blood transfusion reaction": [
+    "transfusion reaction"
+  ],
+  "Blood vessels (occlusion)": [
+    "vascular occlusion"
+  ],
+  "Body of vertebra flame": [],
+  "Bone metastasis": [
+    "bone mets"
+  ],
+  "Bone tumor": [
+    "bone neoplasm"
+  ],
+  "Botulism": [
+    "food poisoning",
+    "botulinum toxin"
+  ],
+  "Bowel movement disorder due to anatomic disorder": [
+    "anatomic bowel disorder"
+  ],
+  "Bowel movement disorder due to function disorder": [
+    "functional bowel disorder"
+  ],
+  "Brain abscess": [
+    "cerebral abscess"
+  ],
+  "Brain tumor": [
+    "cerebral neoplasm"
+  ],
+  "Brainstem encephalitis": [
+    "brainstem inflammation"
+  ],
+  "Brainstem hemorrhage": [
+    "brainstem bleed"
+  ],
+  "Brainstem infarction": [
+    "brainstem stroke"
+  ],
+  "Brainstem tumor": [
+    "brainstem neoplasm"
+  ],
+  "Brainstem vascular disorder": [
+    "brainstem vascular disease"
+  ],
+  "Breast abscess": [
+    "mammary abscess"
+  ],
+  "Bromocriptine": [
+    "bromocriptine mesylate"
+  ],
+  "Bronchial asthma": [
+    "asthma",
+    "reactive airway disease"
+  ],
+  "Bronchial rupture": [
+    "bronchial tear"
+  ],
+  "Bronchodilatation": [
+    "bronchodilation"
+  ],
+  "Bronchoscopic injury": [
+    "bronchoscopy injury"
+  ],
+  "Brown–Séquard syndrome": [
+    "hemisection syndrome"
+  ],
+  "Buccal abscess": [
+    "oral abscess"
+  ],
+  "Budd-Chiari syndrome": [
+    "hepatic vein thrombosis"
+  ],
+  "Bulbar palsy": [
+    "bulbar weakness"
+  ],
+  "Bullous myringitis": [
+    "bullous otitis media"
+  ],
+  "Burns": [
+    "thermal injury"
+  ],
+  "CMV": [
+    "cytomegalovirus"
+  ],
+  "CO poisoning": [
+    "carbon monoxide poisoning"
+  ],
+  "COPD": [
+    "chronic obstructive pulmonary disease"
+  ],
+  "Ca-blocking agent": [
+    "calcium channel blocker"
+  ],
+  "Caffeine": [
+    "stimulant"
+  ],
+  "Calcineurin inhibitor (including cyclosporin A)": [
+    "calcineurin inhibitors"
+  ],
+  "Campylobacter": [
+    "campylobacter infection"
+  ],
+  "Cancellation of the beta-blocker": [
+    "beta-blocker discontinuation"
+  ],
+  "Cancer": [
+    "malignancy"
+  ],
+  "Cancer metastasis": [
+    "metastatic cancer"
+  ],
+  "Cancer of the head of the pancreas": [
+    "pancreatic head cancer"
+  ],
+  "Cancer pain": [
+    "malignant pain"
+  ],
+  "Cancerous polyarthritis": [
+    "malignant arthritis"
+  ],
+  "Cannabis abuse": [
+    "marijuana abuse"
+  ],
+  "Carbamazepine": [
+    "tegretol"
+  ],
+  "Carcinoid syndrome": [
+    "carcinoid tumor syndrome"
+  ],
+  "Carcinomatous peritonitis": [
+    "peritoneal carcinomatosis"
+  ],
+  "Cardiac rupture": [
+    "heart rupture"
+  ],
+  "Cardiac sarcoidosis": [
+    "sarcoid heart disease"
+  ],
+  "Cardiac tamponade": [
+    "pericardial tamponade"
+  ],
+  "Cardiogenic pulmonary edema": [
+    "cardiogenic edema"
+  ],
+  "Cardiogenic shock": [
+    "heart failure shock"
+  ],
+  "Cardiomyopathy": [
+    "heart muscle disease"
+  ],
+  "Carotid artery dissection": [
+    "carotid dissection"
+  ],
+  "Carotid-cavernous fistula (internal carotid artery)": [
+    "carotid-cavernous fistula"
+  ],
+  "Carotid-cavernous sinus fistula": [
+    "cavernous sinus fistula"
+  ],
+  "Catastrophic anti-phospholipid syndrome": [
+    "catastrophic APS"
+  ],
+  "Catheter obstruction": [
+    "catheter blockage"
+  ],
+  "Cauda equina syndrome": [
+    "cauda equina"
+  ],
+  "Cavernous sinus thrombosis": [
+    "cavernous thrombosis"
+  ],
+  "Cefem antimicrobial agent (cephalosporin)": [
+    "cephalosporin"
+  ],
+  "Cellulitis": [
+    "skin infection"
+  ],
+  "Cellulitis of the external ear": [
+    "auricular cellulitis"
+  ],
+  "Central cord syndrome": [
+    "central cord injury"
+  ],
+  "Central diabetes insipidus": [
+    "diabetes insipidus"
+  ],
+  "Central hypoventilation syndrome": [
+    "Ondine's curse"
+  ],
+  "Central retinal artery occlusion": [
+    "CRAO"
+  ],
+  "Central retinal vein occlusion": [
+    "CRVO"
+  ],
+  "Cephalohematoma": [
+    "cranial hematoma"
+  ],
+  "Cerebellum hemorrhage": [
+    "cerebellar bleed"
+  ],
+  "Cerebellum infarction": [
+    "cerebellar stroke"
+  ],
+  "Cerebral aneurysm": [
+    "brain aneurysm"
+  ],
+  "Cerebral contusion": [
+    "brain bruise"
+  ],
+  "Cerebral edema by DKA": [
+    "cerebral edema",
+    "brain swelling",
+    "dka-related edema"
+  ],
+  "Cerebral hemorrhage": [
+    "brain bleed",
+    "intracerebral hemorrhage",
+    "ICH"
+  ],
+  "Cerebral infarction": [
+    "stroke",
+    "CVA",
+    "brain infarct"
+  ],
+  "Cerebral trauma": [
+    "brain injury",
+    "head trauma",
+    "cerebral injury"
+  ],
+  "Cerebral venous sinus thrombosis": [
+    "CVST",
+    "venous sinus thrombosis"
+  ],
+  "Cerebrovascular disease": [
+    "CVD",
+    "vascular disease",
+    "stroke disease"
+  ],
+  "Cervical cancer": [
+    "cervical carcinoma",
+    "cervical neoplasm"
+  ],
+  "Cervical cord injury": [
+    "spinal cord injury",
+    "cervical spine injury"
+  ],
+  "Cervical spine fracture": [
+    "cervical fracture",
+    "neck fracture"
+  ],
+  "Cheiro-oral syndrome": [
+    "cheiro-oral",
+    "hand-mouth syndrome"
+  ],
+  "Chikungunya fever": [
+    "chikungunya",
+    "chik fever"
+  ],
+  "Chlamydia pharyngitis": [
+    "chlamydia throat infection",
+    "chlamydial pharyngitis"
+  ],
+  "Cholangitis": [
+    "bile duct infection",
+    "cholestatic infection"
+  ],
+  "Cholecystitis": [
+    "gallbladder inflammation",
+    "gallbladder infection"
+  ],
+  "Cholera": [
+    "cholera infection",
+    "vibrio cholerae"
+  ],
+  "Cholestasis of pregnancy": [
+    "pregnancy cholestasis",
+    "obstetric cholestasis"
+  ],
+  "Cholestatic jaundice": [
+    "cholestatic liver disease",
+    "jaundice"
+  ],
+  "Cholesterol embolization": [
+    "cholesterol crystal embolism",
+    "cholesterol emboli"
+  ],
+  "Chronic subdural hematoma": [
+    "subdural hematoma",
+    "chronic SDH"
+  ],
+  "Churg–Strauss syndrome": [
+    "eosinophilic granulomatosis",
+    "Churg-Strauss"
+  ],
+  "Chylorrhea": [
+    "chyle leakage",
+    "lymphatic leakage"
+  ],
+  "Ciguatera poisoning": [
+    "ciguatera",
+    "fish poisoning"
+  ],
+  "Cimetidine": [
+    "cimetidine",
+    "H2 blocker"
+  ],
+  "Cirrhosis": [
+    "liver cirrhosis",
+    "chronic liver disease"
+  ],
+  "Cisplatin": [
+    "cisplatin",
+    "chemotherapy agent"
+  ],
+  "Coagulation disorder": [
+    "bleeding disorder",
+    "coagulation issue"
+  ],
+  "Coarctation of the aorta": [
+    "aortic coarctation",
+    "aortic narrowing"
+  ],
+  "Cocaine abuse": [
+    "cocaine addiction",
+    "cocaine use"
+  ],
+  "Cocaine inhalation": [
+    "snorting cocaine",
+    "cocaine use"
+  ],
+  "Collagenosis": [
+    "collagen disease",
+    "connective tissue disease"
+  ],
+  "Colorectal cancer": [
+    "colon cancer",
+    "rectal cancer"
+  ],
+  "Compartment syndrome": [
+    "muscle compartment syndrome",
+    "compartment pressure syndrome"
+  ],
+  "Compressive optic nerve disorder": [
+    "optic nerve compression",
+    "optic neuropathy"
+  ],
+  "Concussion": [
+    "mild TBI",
+    "head injury"
+  ],
+  "Congenital anomaly": [
+    "birth defect",
+    "congenital defect"
+  ],
+  "Congenital heart diseases": [
+    "congenital heart defects",
+    "congenital heart conditions"
+  ],
+  "Congestive heart failure": [
+    "CHF",
+    "heart failure"
+  ],
+  "Constrictive pericarditis": [
+    "pericardial constriction",
+    "pericarditis"
+  ],
+  "Contrast media": [
+    "contrast agent",
+    "contrast dye"
+  ],
+  "Conus medullaris syndrome": [
+    "conus syndrome",
+    "medullary syndrome"
+  ],
+  "Convulsions": [
+    "seizures",
+    "fits"
+  ],
+  "Corneal foreign body": [
+    "foreign body in eye",
+    "corneal FB"
+  ],
+  "Corneal ulcer": [
+    "eye ulcer",
+    "corneal abrasion"
+  ],
+  "Corpus uteri carcinoma": [
+    "endometrial cancer",
+    "uterine cancer"
+  ],
+  "Croup": [
+    "laryngotracheobronchitis",
+    "barking cough"
+  ],
+  "Cryoglobulinemia": [
+    "cryoglobulins",
+    "cold-induced condition"
+  ],
+  "Cushing disease": [
+    "Cushing's disease",
+    "pituitary adenoma"
+  ],
+  "Cushing's syndrome": [
+    "Cushing's",
+    "hypercortisolism"
+  ],
+  "Cutaneous abscess": [
+    "skin abscess",
+    "cutaneous infection"
+  ],
+  "Cyan": [
+    "cyanosis",
+    "bluish discoloration"
+  ],
+  "DKA": [
+    "diabetic ketoacidosis",
+    "diabetic coma"
+  ],
+  "Damage to the abdominal organs": [],
+  "Decubitus ulcer": [
+    "pressure ulcer",
+    "bed sore"
+  ],
+  "Deep cervical abscess": [
+    "deep neck abscess",
+    "cervical abscess"
+  ],
+  "Deep cervical cavity abscess": [
+    "deep cervical abscess",
+    "deep neck abscess"
+  ],
+  "Deep neck infection": [
+    "deep neck abscess",
+    "cervical infection"
+  ],
+  "Deep vein thrombosis": [
+    "DVT",
+    "venous thrombosis"
+  ],
+  "Dehydration": [
+    "fluid loss",
+    "dehydrated state"
+  ],
+  "Delayed umbilical cord ligation": [],
+  "Delirium tremens": [
+    "DTs",
+    "alcohol withdrawal delirium"
+  ],
+  "Demeclocycline": [
+    "demeclocycline",
+    "tetracycline antibiotic"
+  ],
+  "Dengue fever": [
+    "dengue",
+    "breakbone fever"
+  ],
+  "Depression with suicidal ideation": [
+    "suicidal depression",
+    "depression with SI"
+  ],
+  "Depression with suicidal ideation and suicide attempts": [
+    "severe depression",
+    "depression with SI and attempts"
+  ],
+  "Depression with suicide attempts": [
+    "depression with attempts",
+    "severe depression"
+  ],
+  "Diabetes": [
+    "diabetes mellitus",
+    "sugar diabetes"
+  ],
+  "Diabetes insipidus": [
+    "DI",
+    "water diabetes"
+  ],
+  "Diabetes mellitus": [
+    "DM",
+    "sugar diabetes"
+  ],
+  "Diabetes type 1": [
+    "type 1 diabetes",
+    "insulin-dependent diabetes"
+  ],
+  "Diabetes type 2": [
+    "type 2 diabetes",
+    "non-insulin-dependent diabetes"
+  ],
+  "Diabetic ketoacidosis": [
+    "DKA",
+    "diabetic coma"
+  ],
+  "Dialytic encephalopathy": [
+    "dialysis-related encephalopathy",
+    "dialysis encephalopathy"
+  ],
+  "Diaphragm injury": [
+    "diaphragmatic injury",
+    "diaphragm trauma"
+  ],
+  "Diaphragmatic abscess": [
+    "diaphragmatic infection",
+    "abscess in diaphragm"
+  ],
+  "Diaphragmatic hernia": [
+    "hiatal hernia",
+    "diaphragm hernia"
+  ],
+  "Diarrhea": [
+    "loose stools",
+    "watery stools"
+  ],
+  "Diencephalon tumor": [
+    "diencephalic tumor",
+    "brain tumor"
+  ],
+  "Diencephalon-related tumor (craniopharyngioma)": [
+    "craniopharyngioma",
+    "diencephalon tumor"
+  ],
+  "Different-group blood transfusion": [],
+  "Diffuse axonal injury": [
+    "DAI",
+    "diffuse brain injury"
+  ],
+  "Diffuse pulmonary alveolar hemorrhage": [
+    "pulmonary hemorrhage",
+    "alveolar bleeding",
+    "lung bleeding"
+  ],
+  "Digitalis toxicity": [
+    "digoxin toxicity",
+    "digitalis overdose",
+    "digitalis poisoning"
+  ],
+  "Digoxin intoxication": [
+    "digoxin toxicity",
+    "digoxin overdose"
+  ],
+  "Digoxin toxicity": [
+    "digitalis toxicity",
+    "digoxin overdose",
+    "digoxin poisoning"
+  ],
+  "Diphtheria": [
+    "corynebacterium diphtheriae",
+    "diphtheritic infection"
+  ],
+  "Direct trauma to the extraocular muscles (e.g., intramuscular hematoma)": [],
+  "Dislocation": [
+    "joint dislocation",
+    "dislocated joint"
+  ],
+  "Dislocation of the jaw": [
+    "jaw dislocation",
+    "mandibular dislocation"
+  ],
+  "Disorders of magnesium metabolism": [],
+  "Dissecting aneurysm": [
+    "aortic dissection",
+    "dissecting aortic aneurysm"
+  ],
+  "Disseminated gonococcal infection": [
+    "gonococcal sepsis",
+    "disseminated gonorrhea"
+  ],
+  "Disseminated intravascular coagulation": [
+    "DIC",
+    "coagulation disorder"
+  ],
+  "Diuretics": [
+    "water pills",
+    "diuretic medications"
+  ],
+  "Diverticulitis": [
+    "diverticular disease",
+    "diverticular inflammation"
+  ],
+  "Domestic violence": [
+    "DV",
+    "intimate partner violence"
+  ],
+  "Dopamine antagonist": [
+    "dopamine blocker",
+    "antipsychotic"
+  ],
+  "Drowning": [
+    "near drowning",
+    "suffocation in water"
+  ],
+  "Drug": [
+    "medication",
+    "substance"
+  ],
+  "Drug aspiration": [
+    "aspiration of drug",
+    "drug inhalation"
+  ],
+  "Drug eruption": [
+    "drug rash",
+    "medication rash"
+  ],
+  "Drug induced": [
+    "medication induced",
+    "drug-related"
+  ],
+  "Drug intoxication": [
+    "substance intoxication",
+    "drug overdose"
+  ],
+  "Drug withdrawal": [
+    "withdrawal syndrome",
+    "substance withdrawal"
+  ],
+  "Drug-induced enteritis": [
+    "medication-induced enteritis",
+    "drug-related enteritis"
+  ],
+  "Drug-induced hepatitis": [
+    "medication-induced hepatitis",
+    "drug-related liver injury"
+  ],
+  "Drug-induced hypersensitivity vasculitis": [
+    "drug hypersensitivity",
+    "medication-induced vasculitis"
+  ],
+  "Drug-induced injury": [
+    "medication injury",
+    "drug-related injury"
+  ],
+  "Drug-induced myopathy": [
+    "medication myopathy",
+    "drug-related myopathy"
+  ],
+  "Drug-induced sensitivity": [],
+  "Dysentery": [
+    "bloody diarrhea",
+    "intestinal infection"
+  ],
+  "Ear canal cholesteatoma": [
+    "cholesteatoma",
+    "ear cyst"
+  ],
+  "Ear tumor": [
+    "aural tumor",
+    "ear neoplasm"
+  ],
+  "Early rupture of the membrane": [
+    "premature rupture",
+    "PROM"
+  ],
+  "Earwax": [
+    "cerumen",
+    "earwax buildup"
+  ],
+  "Eating disorders": [
+    "ED",
+    "disordered eating"
+  ],
+  "Eclampsia": [
+    "seizures in pregnancy",
+    "pregnancy-induced seizures"
+  ],
+  "Ecthyma gangrenosum": [
+    "gangrenous skin infection",
+    "ecthyma"
+  ],
+  "Ectopic hormone-secreting tumor": [
+    "ectopic tumor",
+    "hormone-secreting neoplasm"
+  ],
+  "Ectopic pregnancy": [
+    "tubal pregnancy",
+    "extrauterine pregnancy"
+  ],
+  "Ehlers–Danlos syndrome": [
+    "EDS",
+    "connective tissue disorder"
+  ],
+  "Eisenmenger syndrome": [
+    "pulmonary hypertension",
+    "cyanotic heart disease"
+  ],
+  "Electrolyte disorders": [
+    "electrolyte imbalance",
+    "mineral imbalance"
+  ],
+  "Embolic arterial occlusion": [
+    "arterial embolism",
+    "embolic occlusion"
+  ],
+  "Embolism": [
+    "vascular occlusion",
+    "blood clot"
+  ],
+  "Empty sella syndrome": [
+    "empty sella",
+    "sella turcica"
+  ],
+  "Empyema": [
+    "pleural empyema",
+    "infected pleural effusion"
+  ],
+  "Encephalitis": [
+    "brain inflammation",
+    "viral encephalitis"
+  ],
+  "Endocarditis": [
+    "heart valve infection",
+    "infective endocarditis"
+  ],
+  "Endocrine disorders": [
+    "hormonal disorders",
+    "endocrinopathies"
+  ],
+  "Endogenous substance: Hemoglobin": [
+    "hemoglobin",
+    "blood pigment"
+  ],
+  "Endogenous substance: Myoglobin": [
+    "myoglobin",
+    "muscle pigment"
+  ],
+  "Endogenous substance: Tumor lytic agent": [],
+  "Endogenous substance: Uric acid": [
+    "uric acid",
+    "gout marker"
+  ],
+  "Endometrial cancer": [
+    "uterine cancer",
+    "endometrial carcinoma"
+  ],
+  "Endometritis": [
+    "uterine inflammation",
+    "endometrial infection"
+  ],
+  "Endophthalmitis": [
+    "eye infection",
+    "intraocular infection"
+  ],
+  "Entamoeba histolytica": [
+    "amoebic dysentery",
+    "amoebic infection"
+  ],
+  "Enterohemorrhagic Escherichia coli": [
+    "EHEC",
+    "shiga toxin-producing E. coli"
+  ],
+  "Epiconus syndrome": [],
+  "Epididymitis": [
+    "inflammation of epididymis",
+    "epididymal infection"
+  ],
+  "Epidural abscess": [
+    "spinal abscess",
+    "epidural infection"
+  ],
+  "Epidural hemorrhage": [
+    "epidural bleed",
+    "spinal hemorrhage"
+  ],
+  "Epiglottitis": [
+    "inflammation of epiglottis",
+    "epiglottic infection"
+  ],
+  "Epiglottitis due to the accidental ingestion of a toxic substance": [],
+  "Epilepsy": [
+    "seizure disorder",
+    "epileptic syndrome"
+  ],
+  "Episcleritis": [
+    "scleral inflammation",
+    "episcleral disease"
+  ],
+  "Erythrocytosis": [
+    "increased red blood cells",
+    "polycythemia"
+  ],
+  "Esophageal adenocarcinoma": [
+    "esophageal cancer",
+    "adenocarcinoma of esophagus"
+  ],
+  "Esophageal cancer": [
+    "esophageal carcinoma",
+    "cancer of the esophagus"
+  ],
+  "Esophageal rupture": [
+    "esophageal perforation",
+    "ruptured esophagus"
+  ],
+  "Esophageal ulcer": [
+    "esophageal sore",
+    "ulcer of esophagus"
+  ],
+  "Esophageal varices": [
+    "varicose veins of esophagus",
+    "esophageal dilations"
+  ],
+  "Ethanol": [
+    "alcohol",
+    "ethyl alcohol"
+  ],
+  "Excessive infusion": [],
+  "Extradural hematoma": [
+    "extradural bleed",
+    "subdural hematoma"
+  ],
+  "Extrahepatic biliary atresia": [],
+  "Eyeball rupture": [
+    "ocular rupture",
+    "eye perforation"
+  ],
+  "Factor V deficiency": [
+    "factor V disorder",
+    "coagulation factor deficiency"
+  ],
+  "Fallopian tube abscess": [
+    "tubal abscess",
+    "abscess of fallopian tube"
+  ],
+  "Fat embolism": [
+    "fat globule embolism",
+    "fat embolic syndrome"
+  ],
+  "Femoral head avascular necrosis": [
+    "femoral head necrosis",
+    "avascular necrosis",
+    "osteonecrosis"
+  ],
+  "Femoroacetabular impingement": [
+    "FAI",
+    "hip impingement"
+  ],
+  "Fibrosis": [
+    "scar tissue",
+    "fibrotic tissue"
+  ],
+  "Fitz-Hugh-Curtis syndrome": [
+    "FHC syndrome",
+    "perihepatitis"
+  ],
+  "Folic acid": [
+    "vitamin B9",
+    "folate"
+  ],
+  "Folic acid deficiency": [
+    "folate deficiency",
+    "vitamin B9 deficiency"
+  ],
+  "Following brain surgery": [],
+  "Foreign body": [
+    "FB",
+    "object"
+  ],
+  "Fournier's gangrene": [
+    "FG",
+    "necrotizing fasciitis"
+  ],
+  "Fourth nerve (trochlear nerve) palsy": [
+    "trochlear palsy",
+    "CN IV palsy"
+  ],
+  "Fracture": [
+    "break",
+    "fx"
+  ],
+  "Fracture of the malar・Fracture of the maxilla": [
+    "malar fracture",
+    "maxillary fracture"
+  ],
+  "Fracture of the mandible": [
+    "mandibular fracture",
+    "jaw fracture"
+  ],
+  "Fracture of the orbital floor": [
+    "orbital floor fracture",
+    "blowout fracture"
+  ],
+  "Fulminant diabetes": [
+    "rapid onset diabetes",
+    "acute diabetes"
+  ],
+  "Fulminant hepatitis": [
+    "acute liver failure",
+    "severe hepatitis"
+  ],
+  "Fulminant myocarditis": [
+    "acute myocarditis",
+    "severe myocarditis"
+  ],
+  "Fungal embolism": [
+    "fungal emboli",
+    "fungal blockage"
+  ],
+  "Fungal infection": [
+    "mycosis",
+    "fungal disease"
+  ],
+  "Fungal toxin T2 (Mycotoxins [T2]) - bioterrorism": [],
+  "Gallbladder cancer": [
+    "cholangiocarcinoma",
+    "gallbladder carcinoma"
+  ],
+  "Gastric cancer": [
+    "stomach cancer",
+    "gastric carcinoma"
+  ],
+  "Gastric ulcer": [
+    "stomach ulcer",
+    "peptic ulcer"
+  ],
+  "Gastrointestinal bleeding": [
+    "GI bleeding",
+    "digestive bleeding"
+  ],
+  "Gastrointestinal cancer": [
+    "GI cancer",
+    "digestive cancer"
+  ],
+  "Gastrointestinal malignant tumor": [
+    "GI tumor",
+    "malignant GI neoplasm"
+  ],
+  "Gastrointestinal perforation": [
+    "GI perforation",
+    "intestinal perforation"
+  ],
+  "Gastrointestinal perforation (to retroperitoneum)": [
+    "retroperitoneal perforation"
+  ],
+  "Gastrointestinal tumor": [
+    "GI tumor",
+    "digestive tumor"
+  ],
+  "Gentamicin": [
+    "gent",
+    "aminoglycoside"
+  ],
+  "Germinoma": [
+    "germ cell tumor",
+    "germinoma tumor"
+  ],
+  "Gestational diabetes": [
+    "GDM",
+    "pregnancy diabetes"
+  ],
+  "Giant cell arteritis": [
+    "temporal arteritis",
+    "GCA"
+  ],
+  "Giant cell hepatitis": [
+    "GCH",
+    "giant cell liver disease"
+  ],
+  "Giardia lamblia": [
+    "giardia",
+    "giardiasis"
+  ],
+  "Glaucoma": [
+    "high eye pressure",
+    "optic nerve damage"
+  ],
+  "Glioma": [
+    "brain tumor",
+    "glial tumor"
+  ],
+  "Glucagonoma": [
+    "glucagon-secreting tumor"
+  ],
+  "Glycerol": [
+    "glycerin",
+    "glycerine"
+  ],
+  "Gonorrhea": [
+    "GC",
+    "gonococcal infection"
+  ],
+  "Graft-versus-host disease": [
+    "GVHD",
+    "transplant rejection"
+  ],
+  "Granulomatous mastitis": [
+    "granuloma",
+    "mastitis"
+  ],
+  "Graves' disease": [
+    "hyperthyroidism",
+    "toxic goiter"
+  ],
+  "Guillain–Barré syndrome": [
+    "GBS",
+    "acute inflammatory demyelinating polyneuropathy"
+  ],
+  "HELLP syndrome": [
+    "HELLP",
+    "hemolysis elevated liver enzymes low platelets"
+  ],
+  "HIV": [
+    "human immunodeficiency virus",
+    "AIDS virus"
+  ],
+  "HSV": [
+    "herpes simplex virus",
+    "herpes"
+  ],
+  "Hallucinogen abuse": [
+    "psychedelic abuse",
+    "drug abuse"
+  ],
+  "Head and neck soft tissue abscess": [
+    "neck abscess",
+    "head abscess"
+  ],
+  "Head injury": [
+    "traumatic brain injury",
+    "TBI"
+  ],
+  "Heart failure": [
+    "HF",
+    "congestive heart failure"
+  ],
+  "Heat stroke": [
+    "heat illness",
+    "hyperthermia"
+  ],
+  "Heatstroke": [
+    "heat exhaustion",
+    "heat illness"
+  ],
+  "Heavy metal": [
+    "toxic metal",
+    "metal poisoning"
+  ],
+  "Hematologic diseases": [
+    "blood disorders",
+    "hematological disorders"
+  ],
+  "Hematopoiesis diseases": [],
+  "Hematorrhachis": [],
+  "Hemobilia": [
+    "biliary hemorrhage",
+    "blood in bile"
+  ],
+  "Hemolysis": [
+    "red cell breakdown",
+    "blood cell lysis"
+  ],
+  "Hemolysis with vitamin K3": [],
+  "Hemolytic anemia": [
+    "HA",
+    "anemia due to hemolysis"
+  ],
+  "Hemolytic disease": [
+    "hemolytic disorder",
+    "blood disorder"
+  ],
+  "Hemolytic uremic syndrome": [
+    "HUS",
+    "hemolytic kidney syndrome"
+  ],
+  "Hemoperitoneum": [
+    "blood in peritoneum",
+    "peritoneal hemorrhage"
+  ],
+  "Hemophagocytic syndrome": [
+    "HPS",
+    "hemophagocytic lymphohistiocytosis"
+  ],
+  "Hemophilia": [
+    "bleeding disorder",
+    "hemophilia A/B"
+  ],
+  "Hemosuccus pancreaticus": [
+    "pancreatic hemorrhage",
+    "bleeding from pancreas"
+  ],
+  "Hemothorax": [
+    "blood in pleural space",
+    "pleural effusion"
+  ],
+  "Heparin-induced thrombocytopenia": [
+    "HIT",
+    "heparin reaction"
+  ],
+  "Heparin-induced thrombosis": [
+    "heparin-related thrombosis"
+  ],
+  "Hepatic disorders": [
+    "liver diseases",
+    "liver disorders"
+  ],
+  "Hepatic encephalopathy": [
+    "liver failure brain",
+    "HE"
+  ],
+  "Hepatic vein thrombosis": [
+    "Budd-Chiari syndrome",
+    "hepatic vein clot"
+  ],
+  "Hepatitis": [
+    "liver inflammation",
+    "liver infection"
+  ],
+  "Hepatitis C": [
+    "HCV",
+    "hep C"
+  ],
+  "Hepatocellular carcinoma rupture": [
+    "HCC rupture",
+    "liver cancer rupture"
+  ],
+  "Hepatorenal syndrome": [
+    "HRS",
+    "liver-kidney syndrome"
+  ],
+  "Hernia": [
+    "prolapse",
+    "bulge"
+  ],
+  "Hernia paraphimosis": [],
+  "Herniated disc with neurological symptoms": [
+    "herniated disc",
+    "slipped disc"
+  ],
+  "Herpes simplex infection": [
+    "hsv infection",
+    "oral herpes",
+    "genital herpes",
+    "cold sores"
+  ],
+  "Herpes zoster": [
+    "shingles",
+    "zoster",
+    "varicella zoster"
+  ],
+  "Herpes zoster without rash": [],
+  "Histamine H2 receptor blocker": [
+    "h2 blocker",
+    "h2 antagonist"
+  ],
+  "Hodgkin's lymphoma": [
+    "hodgkin lymphoma",
+    "hodgkin disease"
+  ],
+  "Homomating type protein C deficiency": [],
+  "Homomating type protein S deficiency": [],
+  "Human immunodeficiency virus infection": [
+    "hiv infection",
+    "hiv"
+  ],
+  "Hydralazine": [
+    "apresoline"
+  ],
+  "Hydrocephalus": [
+    "water on the brain",
+    "ventriculomegaly"
+  ],
+  "Hydronephrosis (including stricture at the pelviureteric junction)": [
+    "kidney swelling",
+    "urinary obstruction"
+  ],
+  "Hypercalcemia": [
+    "high calcium",
+    "calcium overload"
+  ],
+  "Hypercapnia": [
+    "high carbon dioxide",
+    "co2 retention"
+  ],
+  "Hyperemesis gravidarum": [
+    "severe morning sickness",
+    "pregnancy nausea"
+  ],
+  "Hyperglycemia": [
+    "high blood sugar",
+    "elevated glucose"
+  ],
+  "Hyperkalemia": [
+    "high potassium",
+    "potassium overload"
+  ],
+  "Hypermagnesemia": [
+    "high magnesium"
+  ],
+  "Hypernatremia": [
+    "high sodium",
+    "sodium overload"
+  ],
+  "Hyperosmolar coma": [
+    "hyperosmolar state",
+    "hyperosmolar crisis"
+  ],
+  "Hyperosmolar hyperglycemic syndrome": [
+    "hhs",
+    "hyperglycemic crisis"
+  ],
+  "Hyperosmolar non-ketonic coma": [],
+  "Hyperparathyroidism": [
+    "high parathyroid hormone",
+    "hyperparathyroid"
+  ],
+  "Hypertensive crisis": [
+    "severe hypertension",
+    "blood pressure crisis"
+  ],
+  "Hypertensive emergency": [
+    "hypertensive urgency",
+    "blood pressure emergency"
+  ],
+  "Hypertensive heart disease": [
+    "hypertensive heart condition"
+  ],
+  "Hypertensive urgency": [
+    "high blood pressure urgency"
+  ],
+  "Hyperthermia symptom": [
+    "overheating",
+    "heat illness"
+  ],
+  "Hyperthyroidism": [
+    "overactive thyroid",
+    "thyroid storm"
+  ],
+  "Hypertrophic cardiomyopathy": [
+    "hcm",
+    "thickened heart muscle"
+  ],
+  "Hypertrophic obstructive cardiomyopathy": [
+    "hocm",
+    "obstructive hcm"
+  ],
+  "Hyperviscosity syndrome": [
+    "thick blood syndrome"
+  ],
+  "Hyphema": [
+    "blood in anterior chamber"
+  ],
+  "Hypoalbuminemia": [
+    "low albumin"
+  ],
+  "Hypoaldosteronism": [
+    "low aldosterone"
+  ],
+  "Hypocalcemia": [
+    "low calcium",
+    "calcium deficiency"
+  ],
+  "Hypoglycemia": [
+    "low blood sugar",
+    "sugar crash"
+  ],
+  "Hypokalemia": [
+    "low potassium",
+    "potassium deficiency"
+  ],
+  "Hypomagnesemia": [
+    "low magnesium"
+  ],
+  "Hyponatremia": [
+    "low sodium",
+    "sodium deficiency"
+  ],
+  "Hypophosphatemia": [
+    "low phosphate"
+  ],
+  "Hypoproteinemia": [
+    "low protein"
+  ],
+  "Hypothermia": [
+    "low body temperature",
+    "cold exposure"
+  ],
+  "Hypothyroidism": [
+    "underactive thyroid",
+    "low thyroid function"
+  ],
+  "Hypovitaminosis": [
+    "vitamin deficiency"
+  ],
+  "Hypoxemia": [
+    "low oxygen levels",
+    "oxygen deficiency"
+  ],
+  "Hypoxia-related headache": [
+    "oxygen deprivation headache"
+  ],
+  "ITP": [
+    "idiopathic thrombocytopenic purpura"
+  ],
+  "Iatrogenic": [
+    "doctor-induced",
+    "treatment-related"
+  ],
+  "Idiopathic bacterial peritonitis": [],
+  "Idiopathic thrombocytopenic purpura": [
+    "itp",
+    "thrombocytopenic purpura"
+  ],
+  "Ifosfamide": [],
+  "Iliopsoas abscess": [
+    "psoas abscess"
+  ],
+  "Impingement syndrome": [
+    "shoulder impingement",
+    "impingement"
+  ],
+  "Incarcerated inguinal hernia": [
+    "strangulated hernia"
+  ],
+  "Increased intracranial pressure": [
+    "elevated icp",
+    "high intracranial pressure"
+  ],
+  "Indinavir": [],
+  "Infection": [
+    "infectious disease",
+    "contagion"
+  ],
+  "Infectious coxarthritis": [],
+  "Infectious enteritis": [],
+  "Infectious mononucleosis": [
+    "mono",
+    "kissing disease"
+  ],
+  "Infectious proctitis": [],
+  "Infective endocarditis": [
+    "bacterial endocarditis"
+  ],
+  "Inferior myocardial infarction": [
+    "inferior mi",
+    "lower heart attack"
+  ],
+  "Inferior vena cava obstruction": [
+    "ivc obstruction"
+  ],
+  "Inflammatory carcinoma of the breast": [
+    "inflammatory breast cancer"
+  ],
+  "Inflammatory colitis": [
+    "inflammatory bowel disease"
+  ],
+  "Influenza": [
+    "flu"
+  ],
+  "Insulin": [
+    "insulin hormone"
+  ],
+  "Internal carotid artery aneurysm (oculomotor nerve palsy)": [],
+  "Intervertebral disc inflammation": [
+    "discitis"
+  ],
+  "Intestinal atresia": [],
+  "Intestinal ischemia": [
+    "bowel ischemia"
+  ],
+  "Intestinal obstruction": [
+    "bowel blockage",
+    "intestinal blockage"
+  ],
+  "Intra-peritoneal abscess": [],
+  "Intraabdominal organ bleeding": [],
+  "Intracranial bleeding": [
+    "brain bleed"
+  ],
+  "Intracranial disease": [],
+  "Intradural and extramedullary tumors of the spinal cord": [],
+  "Intrahepatic biliary atresia": [],
+  "Intussusception": [
+    "telescoping bowel",
+    "bowel invagination"
+  ],
+  "Invasive carcinoma": [
+    "invasive cancer",
+    "malignant neoplasm",
+    "cancer",
+    "carcinoma"
+  ],
+  "Iritis": [
+    "anterior uveitis",
+    "iritis",
+    "eye inflammation"
+  ],
+  "Iron-deficiency anemia": [
+    "iron deficiency",
+    "IDA",
+    "anemia"
+  ],
+  "Irradiation": [
+    "radiation therapy",
+    "radiation treatment"
+  ],
+  "Ischemia (after progressing from a prerenal factor and being operated on for the premature separation of the placenta)": [],
+  "Ischemic enteritis": [
+    "intestinal ischemia",
+    "ischemic bowel"
+  ],
+  "Ischemic optic neuropathy": [
+    "ION",
+    "optic nerve ischemia"
+  ],
+  "Isoniazid": [
+    "INH",
+    "antitubercular drug"
+  ],
+  "Japanese spotted fever": [
+    "JSF",
+    "tick-borne illness"
+  ],
+  "Jaw circumference abscess": [],
+  "Jugular vein thrombosis": [
+    "JVT",
+    "jugular thrombosis"
+  ],
+  "Kawasaki disease": [
+    "Kawasaki syndrome",
+    "mucocutaneous lymph node syndrome"
+  ],
+  "Keratitis": [
+    "corneal inflammation",
+    "eye infection"
+  ],
+  "Ketoacidosis": [
+    "DKA",
+    "diabetic ketoacidosis"
+  ],
+  "Kidney cancer": [
+    "renal cancer",
+    "renal cell carcinoma"
+  ],
+  "Kidney movement phlebothrombosis": [],
+  "Klebsiella oxytoca": [
+    "k. oxytoca",
+    "bacterial infection"
+  ],
+  "Labyrinthitis": [
+    "inner ear infection",
+    "vestibular inflammation"
+  ],
+  "Laceration of the eyelid": [
+    "eyelid cut",
+    "eyelid injury"
+  ],
+  "Lack of antiepileptic drugs": [],
+  "Lambert-Eaton syndrome": [
+    "LES",
+    "LEMS"
+  ],
+  "Large pleural effusion": [
+    "pleural effusion",
+    "fluid in pleura"
+  ],
+  "Laryngeal injury": [
+    "laryngeal trauma",
+    "throat injury"
+  ],
+  "Lassitude-related hyperthyroidism": [],
+  "Last years of acute kidney injury": [],
+  "Lateral medullary syndrome (Wallenberg syndrome)": [
+    "Wallenberg syndrome",
+    "lateral medullary infarct"
+  ],
+  "Lead poisoning": [
+    "plumbism",
+    "lead toxicity"
+  ],
+  "Left atrial myxoma": [
+    "myxoma",
+    "left atrial tumor"
+  ],
+  "Lemierre's syndrome": [
+    "thrombophlebitis",
+    "septic thrombophlebitis"
+  ],
+  "Leptospirosis": [
+    "lepto",
+    "bacterial infection"
+  ],
+  "Leukemia": [
+    "blood cancer",
+    "leukemic disorder"
+  ],
+  "Leukocytoclastic vasculitis": [
+    "LCV",
+    "small vessel vasculitis"
+  ],
+  "Lithium": [
+    "Li",
+    "mood stabilizer"
+  ],
+  "Liver abscess": [
+    "hepatic abscess",
+    "liver infection"
+  ],
+  "Liver failure": [
+    "hepatic failure",
+    "liver dysfunction"
+  ],
+  "Loop diuretics": [
+    "loop diuretic",
+    "furosemide"
+  ],
+  "Lower cranial neuropathy due to VZV": [],
+  "Lower gastrointestinal bleeding": [
+    "LGIB",
+    "lower GI bleed"
+  ],
+  "Ludwig's angina": [
+    "submandibular space infection",
+    "angina"
+  ],
+  "Ludwig’s angina": [
+    "submandibular space infection",
+    "angina"
+  ],
+  "Lumbar radiculopathy": [
+    "lumbar radiculitis",
+    "nerve root pain"
+  ],
+  "Lung abscess": [
+    "pulmonary abscess",
+    "lung infection"
+  ],
+  "Lung abscess (lung abscess)": [],
+  "Lupus nephritis": [
+    "lupus kidney disease",
+    "kidney lupus"
+  ],
+  "Lupus vasculitis": [
+    "lupus vascular disease",
+    "vascular lupus"
+  ],
+  "Lyme disease": [
+    "Lyme borreliosis",
+    "tick-borne disease"
+  ],
+  "Lymphangitic carcinomatosis": [
+    "lymphatic cancer spread",
+    "carcinomatosis"
+  ],
+  "Lymphoma": [
+    "lymphatic cancer",
+    "lymphoid malignancy"
+  ],
+  "MAO inhibitor": [
+    "MAOI",
+    "antidepressant"
+  ],
+  "Malaria": [
+    "malarial infection",
+    "mosquito-borne disease"
+  ],
+  "Malignant hypertension": [
+    "accelerated hypertension",
+    "severe hypertension"
+  ],
+  "Malignant hyperthermia": [
+    "MH",
+    "anesthetic hyperthermia"
+  ],
+  "Malignant lymphoma": [
+    "malignant lymphoid neoplasm",
+    "aggressive lymphoma"
+  ],
+  "Malignant otitis externa": [
+    "malignant ear infection",
+    "ear infection"
+  ],
+  "Malignant syndrome": [
+    "neuroleptic malignant syndrome",
+    "NMS"
+  ],
+  "Malignant tumor": [
+    "cancerous tumor",
+    "malignant neoplasm"
+  ],
+  "Malignant tumor of the otolaryngology region": [],
+  "Malnutrition": [
+    "nutritional deficiency",
+    "undernutrition"
+  ],
+  "Mandibular circumference abscess": [],
+  "Mannitol": [
+    "osmotic diuretic",
+    "mannitol solution"
+  ],
+  "Mass fluid loss": [],
+  "Massive bleeding": [
+    "hemorrhage",
+    "severe bleeding"
+  ],
+  "Mastocytosis": [
+    "mast cell disorder",
+    "mast cell disease"
+  ],
+  "Mastoididitis": [],
+  "Mastoiditis": [
+    "mastoid infection",
+    "ear infection"
+  ],
+  "Maxillary fracture": [
+    "maxillary injury",
+    "facial fracture"
+  ],
+  "Measles": [
+    "rubeola",
+    "viral infection"
+  ],
+  "Meckel’s diverticulum": [
+    "Meckel's anomaly",
+    "intestinal diverticulum"
+  ],
+  "Mediastinal emphysema": [
+    "pneumomediastinum",
+    "air in mediastinum"
+  ],
+  "Mediastinitis": [
+    "mediastinal infection",
+    "mediastinal inflammation"
+  ],
+  "Medullary carcinoma of the thyroid": [
+    "medullary thyroid cancer",
+    "thyroid carcinoma"
+  ],
+  "Meningioma": [
+    "meningeal tumor",
+    "brain tumor"
+  ],
+  "Meningitis": [
+    "meningeal inflammation",
+    "brain infection"
+  ],
+  "Meningococcal infection": [
+    "meningococcal disease",
+    "bacterial meningitis"
+  ],
+  "Meniscocytosis": [],
+  "Mesalamine": [
+    "5-ASA",
+    "anti-inflammatory drug"
+  ],
+  "Mesenteric ischemia": [
+    "intestinal ischemia",
+    "mesenteric infarction"
+  ],
+  "Mesenteric thrombosis": [
+    "mesenteric vein thrombosis",
+    "intestinal thrombosis"
+  ],
+  "Metabolic diseases": [
+    "metabolic disorders",
+    "metabolic conditions"
+  ],
+  "Metastases to stomach": [
+    "stomach metastases",
+    "gastric metastasis"
+  ],
+  "Metastatic bone tumor": [
+    "bone mets",
+    "metastatic bone cancer"
+  ],
+  "Metastatic malignancy tumor": [
+    "malignant mets",
+    "metastatic cancer"
+  ],
+  "Metastatic tumor": [
+    "mets",
+    "secondary tumor"
+  ],
+  "Methemoglobinemia": [
+    "methemoglobin",
+    "blood disorder"
+  ],
+  "Microscopic polyangiitis": [
+    "mpa",
+    "small vessel vasculitis"
+  ],
+  "Miller Fisher syndrome": [
+    "mfs",
+    "fisher syndrome"
+  ],
+  "Miscarriage": [
+    "spontaneous abortion",
+    "pregnancy loss"
+  ],
+  "Mitral stenosis": [
+    "mitral narrowing",
+    "valvular stenosis"
+  ],
+  "Mitral valve prolapse": [
+    "mvp",
+    "prolapsed valve"
+  ],
+  "Mitral valve thrombus": [
+    "mitral thrombus",
+    "valve clot"
+  ],
+  "Morphine": [
+    "opioid",
+    "morphine sulfate"
+  ],
+  "Mucous plug": [
+    "mucus blockage",
+    "airway plug"
+  ],
+  "Multifocal atrial tachycardia": [
+    "mat",
+    "atrial tachycardia"
+  ],
+  "Multiple myeloma": [
+    "plasma cell myeloma",
+    "myeloma"
+  ],
+  "Multiple pulmonary embolism": [
+    "multiple pe",
+    "pulmonary emboli"
+  ],
+  "Multiple rib fractures": [
+    "rib fractures",
+    "multiple rib breaks"
+  ],
+  "Mumps epididymitis": [
+    "epididymitis",
+    "mumps infection"
+  ],
+  "Myasthenia gravis": [
+    "mg",
+    "muscle weakness disorder"
+  ],
+  "Myasthenia gravis crisis": [
+    "mg crisis",
+    "severe mg"
+  ],
+  "Mycoplasma": [
+    "mycoplasma infection",
+    "atypical pneumonia"
+  ],
+  "Myelitis": [
+    "spinal cord inflammation",
+    "myelopathy"
+  ],
+  "Myocardial infarction": [
+    "mi",
+    "heart attack"
+  ],
+  "Myocarditis": [
+    "heart inflammation",
+    "myocardial inflammation"
+  ],
+  "Myoglobinuria due to rhabdomyolysis": [
+    "myoglobinuria",
+    "muscle breakdown"
+  ],
+  "Myxedema": [
+    "severe hypothyroidism",
+    "thyroid crisis"
+  ],
+  "NOMI": [
+    "non-occlusive mesenteric ischemia",
+    "mesenteric ischemia"
+  ],
+  "NSAIDs": [
+    "nonsteroidal anti-inflammatories",
+    "anti-inflammatories"
+  ],
+  "Narcotic withdrawal": [
+    "opioid withdrawal",
+    "withdrawal syndrome"
+  ],
+  "Nasal septum perforation": [
+    "septal perforation",
+    "nasal hole"
+  ],
+  "Neck injury": [
+    "cervical injury",
+    "neck trauma"
+  ],
+  "Necrotizing fasciitis": [
+    "flesh-eating disease",
+    "nec fasciitis"
+  ],
+  "Necrotizing vasculitis": [
+    "vasculitis",
+    "inflammatory vasculitis"
+  ],
+  "Neonates": [
+    "newborns",
+    "infants"
+  ],
+  "Nephrogenic diabetes insipidus": [
+    "nephrogenic DI",
+    "diabetes insipidus"
+  ],
+  "Nephrotic syndrome": [
+    "nephrosis",
+    "proteinuria syndrome"
+  ],
+  "Neurogenic bladder dysfunction": [
+    "neurogenic bladder",
+    "bladder dysfunction"
+  ],
+  "Neuroleptic malignant syndrome": [
+    "nms",
+    "malignant syndrome"
+  ],
+  "Neutropenia": [
+    "low neutrophils",
+    "neutrophil deficiency"
+  ],
+  "Nitrate drugs": [
+    "nitrates",
+    "vasodilators"
+  ],
+  "Nitroglycerine": [
+    "nitro",
+    "glyceryl trinitrate"
+  ],
+  "Nocturnal hypoglycemia": [
+    "nighttime hypoglycemia",
+    "night hypoglycemia"
+  ],
+  "Non-Hodgkin's lymphoma": [
+    "nhl",
+    "lymphoma"
+  ],
+  "Non-cardiogenic pulmonary edema": [
+    "pulmonary edema",
+    "non-cardiac edema"
+  ],
+  "Non-convulsive status epilepticus": [
+    "ncse",
+    "non-convulsive seizure"
+  ],
+  "Non-steroidal anti-inflammatory drugs": [
+    "nsaids",
+    "anti-inflammatories"
+  ],
+  "Nongonococcal infection": [
+    "ng infection",
+    "non-gonococcal"
+  ],
+  "Noradrenaline": [
+    "norepinephrine",
+    "noradrenaline hormone"
+  ],
+  "Normal pressure hydrocephalus": [
+    "nph",
+    "hydrocephalus"
+  ],
+  "Obstructive cholangiocarcinoma": [
+    "cholangiocarcinoma",
+    "bile duct cancer"
+  ],
+  "Ombocytopenia": [
+    "low platelet count",
+    "thrombocytopenia"
+  ],
+  "One-and-a-half syndrome": [
+    "1.5 syndrome",
+    "oculomotor syndrome"
+  ],
+  "Opioid abuse": [
+    "opioid addiction",
+    "opioid misuse"
+  ],
+  "Opioid antagonists": [
+    "opioid blockers",
+    "antagonist drugs"
+  ],
+  "Optic neuritis": [
+    "optic nerve inflammation",
+    "nerve inflammation"
+  ],
+  "Oral candidiasis": [
+    "thrush",
+    "oral yeast infection"
+  ],
+  "Oral hypoglycemics": [
+    "oral diabetes meds",
+    "diabetes drugs"
+  ],
+  "Orbital apex syndrome": [
+    "orbital syndrome",
+    "apex syndrome"
+  ],
+  "Orbital blowout fracture": [
+    "blowout fracture",
+    "orbital fracture"
+  ],
+  "Orbital cellulitis": [
+    "eye infection",
+    "orbital infection"
+  ],
+  "Organophosphate poisoning": [
+    "organophosphate toxicity",
+    "pesticide poisoning"
+  ],
+  "Osteomyelitis": [
+    "bone infection",
+    "bone inflammation"
+  ],
+  "Osteomyelitis (iliac region)": [
+    "iliac osteomyelitis",
+    "iliac bone infection"
+  ],
+  "Other abnormal clotting factors": [],
+  "Other drugs that cause thirst": [],
+  "Otitis media": [
+    "ear infection",
+    "middle ear infection"
+  ],
+  "Ototoxic drugs": [
+    "ear toxic drugs",
+    "ototoxic medications"
+  ],
+  "Ovarian abscess": [
+    "ovarian infection",
+    "abscess"
+  ],
+  "Ovarian hemorrhage": [
+    "ovarian bleeding",
+    "hemorrhage"
+  ],
+  "Ovarian tumor stem torsion": [
+    "ovarian torsion",
+    "torsion"
+  ],
+  "PPI": [
+    "proton pump inhibitor",
+    "acid reducer"
+  ],
+  "Pancoast tumor": [
+    "superior sulcus tumor",
+    "lung apex tumor"
+  ],
+  "Pancreatic abscess": [
+    "pancreatic infection",
+    "abscess"
+  ],
+  "Pancreatic cancer": [
+    "pancreatic carcinoma",
+    "pancreatic tumor"
+  ],
+  "Pancreatitis": [
+    "inflammation of pancreas",
+    "pancreatic inflammation"
+  ],
+  "Panhypopituitarism": [
+    "pituitary failure",
+    "hormonal deficiency"
+  ],
+  "Paralytic ileus": [
+    "intestinal obstruction",
+    "ileus"
+  ],
+  "Parapharyngeal abscess": [
+    "pharyngeal abscess",
+    "abscess"
+  ],
+  "Parasitic embolism": [
+    "parasite embolism",
+    "embolic disease"
+  ],
+  "Parathyroid disorders": [
+    "parathyroid disease",
+    "gland disorders"
+  ],
+  "Parotid abscess": [
+    "parotid gland infection",
+    "abscess"
+  ],
+  "Paroxysmal atrial fibrillation": [
+    "paroxysmal afib",
+    "episodic afib",
+    "atrial flutter",
+    "intermittent afib"
+  ],
+  "Pedicle torsion": [
+    "pedicle twist",
+    "spinal torsion"
+  ],
+  "Pelvic fracture": [
+    "hip fracture",
+    "pelvic break"
+  ],
+  "Pelvic infection": [
+    "pelvic abscess",
+    "pelvic inflammatory disease"
+  ],
+  "Pelvic inflammation syndrome": [],
+  "Pelvic inflammatory disease": [
+    "pid",
+    "pelvic infection"
+  ],
+  "Pelvic tumor": [
+    "pelvic mass",
+    "pelvic neoplasm"
+  ],
+  "Penetrating wound by foreign body": [
+    "penetrating injury",
+    "foreign body injury"
+  ],
+  "Penicillin": [
+    "pen",
+    "pcn"
+  ],
+  "Pentamidine": [],
+  "Peptic ulcer": [
+    "stomach ulcer",
+    "gastric ulcer"
+  ],
+  "Perforation of tympanic membrane": [
+    "ear drum perforation",
+    "tympanic rupture"
+  ],
+  "Pericarditis": [
+    "pericardial inflammation",
+    "heart sac inflammation"
+  ],
+  "Perilymphatic fistula": [],
+  "Perinatal endometritis": [],
+  "Perinephric abscess": [
+    "renal abscess",
+    "kidney abscess"
+  ],
+  "Periocular cellulitis": [
+    "orbital cellulitis",
+    "eye cellulitis"
+  ],
+  "Peripartum cardiomyopathy": [
+    "postpartum cardiomyopathy",
+    "peripartum heart failure"
+  ],
+  "Perirectal (anal) abscess": [
+    "anal abscess",
+    "perianal abscess"
+  ],
+  "Peritonitis": [
+    "abdominal inflammation",
+    "peritoneal inflammation"
+  ],
+  "Peritonsillar abscess": [
+    "tonsil abscess",
+    "peritonsillar infection"
+  ],
+  "Peritonsillitis": [
+    "tonsillitis",
+    "tonsil inflammation"
+  ],
+  "Perthes disease": [
+    "legg-calvé-perthes disease",
+    "avascular necrosis"
+  ],
+  "Pharyngeal shingles": [
+    "herpes zoster",
+    "shingles in throat"
+  ],
+  "Pharyngeal tumor": [
+    "throat tumor",
+    "pharyngeal neoplasm"
+  ],
+  "Pharynx foreign body": [
+    "throat foreign object",
+    "pharyngeal obstruction"
+  ],
+  "Pharynx hematoma": [],
+  "Pharynx trauma": [
+    "throat injury",
+    "pharyngeal injury"
+  ],
+  "Phenothiazine": [],
+  "Phenytoin": [
+    "dilantin",
+    "phenytoin sodium"
+  ],
+  "Pheochromocytoma": [
+    "pheo",
+    "adrenal tumor"
+  ],
+  "Phlebothrombosis": [],
+  "Physical abuse": [
+    "child abuse",
+    "domestic violence"
+  ],
+  "Pituitary adenoma": [
+    "pituitary tumor",
+    "adenoma"
+  ],
+  "Pituitary apoplexy": [
+    "pituitary hemorrhage",
+    "pituitary infarction"
+  ],
+  "Pituitary infarction": [],
+  "Pituitary tumor": [
+    "pituitary adenoma",
+    "pituitary neoplasm"
+  ],
+  "Pituitary dysfunction": [
+    "hypopituitarism",
+    "pituitary failure"
+  ],
+  "Placenta previa": [
+    "low-lying placenta",
+    "placental obstruction"
+  ],
+  "Placental abruption": [
+    "abruptio placentae",
+    "placental detachment"
+  ],
+  "Pneumonia": [
+    "lung infection",
+    "pneumonitis"
+  ],
+  "Pneumothorax": [
+    "collapsed lung",
+    "air in pleural space"
+  ],
+  "Poisoning": [
+    "toxic exposure",
+    "overdose"
+  ],
+  "Polyarteritis nodosa": [
+    "pan",
+    "systemic vasculitis"
+  ],
+  "Polycythemia vera": [
+    "pv",
+    "primary polycythemia"
+  ],
+  "Polyuria": [
+    "excessive urination",
+    "frequent urination"
+  ],
+  "Porphyria": [],
+  "Portal hypertension": [
+    "portal high blood pressure",
+    "liver hypertension"
+  ],
+  "Portal vein thrombosis": [
+    "pvt",
+    "portal vein clot"
+  ],
+  "Post-concussion syndrome": [
+    "pcs",
+    "post-concussion symptoms"
+  ],
+  "Post-convulsion complications": [],
+  "Post-partum hemorrhage": [
+    "pph",
+    "postnatal bleeding"
+  ],
+  "Posterior spinal artery syndrome": [],
+  "Posterior urethral valve": [
+    "puv",
+    "urethral obstruction"
+  ],
+  "Postoperative occlusion": [],
+  "Postoperative ulcer": [],
+  "Pre-eclampsia": [
+    "pregnancy hypertension",
+    "gestational hypertension"
+  ],
+  "Pregnancy": [
+    "gestation",
+    "expecting"
+  ],
+  "Pregnancy-induced hypertension": [
+    "gestational hypertension",
+    "pregnancy hypertension"
+  ],
+  "Premature birth": [
+    "preterm birth",
+    "early delivery"
+  ],
+  "Prenatal infection": [],
+  "Primary amyloidosis": [],
+  "Primary biliary cirrhosis": [
+    "pbc",
+    "biliary cirrhosis"
+  ],
+  "Primary bilious cholangitis": [],
+  "Primary pulmonary hypertension": [
+    "pph",
+    "pulmonary high blood pressure"
+  ],
+  "Propylene glycol": [],
+  "Prostate abscess": [
+    "prostatic abscess",
+    "prostate infection"
+  ],
+  "Prostate cancer": [
+    "prostatic carcinoma",
+    "pc"
+  ],
+  "Prostatic hypertrophy": [
+    "benign prostatic hyperplasia",
+    "bph"
+  ],
+  "Prostatitis": [
+    "prostate inflammation",
+    "prostate infection"
+  ],
+  "Proximal femoral fracture": [
+    "hip fracture",
+    "proximal femur break"
+  ],
+  "Pseudomembranous enteritis": [
+    "c. difficile colitis",
+    "antibiotic-associated colitis"
+  ],
+  "Psychogenic polydipsia": [
+    "psychogenic thirst",
+    "excessive drinking"
+  ],
+  "Psychogenic polydipsia (excessive drinking of water)": [],
+  "Psychosis such as schizophrenia": [
+    "psychotic disorder",
+    "mental illness"
+  ],
+  "Psychotropic drugs": [
+    "psychoactive medications",
+    "mental health drugs"
+  ],
+  "Pulmonary arteriovenous malformations": [
+    "pulmonary avm",
+    "arteriovenous malformations"
+  ],
+  "Pulmonary edema": [
+    "lung swelling",
+    "fluid in lungs"
+  ],
+  "Pulmonary embolism": [
+    "pe",
+    "lung embolism"
+  ],
+  "Pulmonary emphysema": [
+    "copd",
+    "lung disease"
+  ],
+  "Pulmonary hemorrhage originating in the perinatal period": [],
+  "Pulmonary hypertension": [
+    "ph",
+    "high blood pressure in lungs"
+  ],
+  "Pulmonary infarction": [
+    "lung infarct"
+  ],
+  "Pulmonary thromboembolism": [
+    "pte",
+    "pulmonary embolism"
+  ],
+  "Pulmonary tuberculosis": [
+    "tb",
+    "lung tb"
+  ],
+  "Pulmonary vascular dysplasia": [],
+  "Pulmonary-artery catheter perforation": [],
+  "Purpura fulminans": [
+    "fulminant purpura"
+  ],
+  "Purulent abscess": [
+    "pus-filled abscess"
+  ],
+  "Purulent venous thrombosis": [
+    "pus thrombosis"
+  ],
+  "Pyelonephritis": [
+    "kidney infection",
+    "pyelo"
+  ],
+  "Pyloric obstruction": [
+    "pyloric blockage"
+  ],
+  "Pyloric stenosis": [
+    "pyloric stricture"
+  ],
+  "Pyogenic arthritis": [
+    "infectious arthritis"
+  ],
+  "Pyramiditis": [],
+  "Rabies": [
+    "hydrophobia"
+  ],
+  "Radiation enteritis": [],
+  "Radiation injuries (cranial radiation)": [],
+  "Ramsay–Hunt syndrome": [
+    "ramsay hunt"
+  ],
+  "Rapidly progressive glomerulonephritis": [
+    "rapid glomerulonephritis"
+  ],
+  "Rectus muscle abscess": [],
+  "Rejection after the liver transplantation": [
+    "liver transplant rejection"
+  ],
+  "Renal abscess": [
+    "kidney abscess"
+  ],
+  "Renal artery embolism": [],
+  "Renal artery occlusion": [
+    "renal artery blockage"
+  ],
+  "Renal artery stenosis": [
+    "narrowed renal artery"
+  ],
+  "Renal artery thrombosis": [],
+  "Renal infarction": [
+    "kidney infarct"
+  ],
+  "Renal injury": [
+    "kidney injury"
+  ],
+  "Renal vein embolism": [],
+  "Renal vein obstruction": [
+    "renal vein blockage"
+  ],
+  "Renal vein thrombosis": [
+    "renal vein clot"
+  ],
+  "Respiratory distress": [
+    "shortness of breath"
+  ],
+  "Respiratory failure": [
+    "breathing failure"
+  ],
+  "Retention of urine": [
+    "urinary retention"
+  ],
+  "Retinal detachment": [
+    "detached retina"
+  ],
+  "Retrobulbar hemorrhage": [],
+  "Retrobulbar optic neuritis": [],
+  "Retroperitoneal hemorrhage": [],
+  "Retroperitoneal tumor": [],
+  "Retropharyngeal abscess": [],
+  "Reversible rear leukoencephalopathy": [],
+  "Reye's syndrome": [
+    "Reye syndrome"
+  ],
+  "Reye’s syndrome": [
+    "Reye syndrome"
+  ],
+  "Rh (D) incompatibility": [
+    "rh incompatibility"
+  ],
+  "Rhabdomyolysis": [
+    "rhabdo"
+  ],
+  "Rickettsial infection": [
+    "rickettsiosis"
+  ],
+  "Rifampin": [
+    "rifampicin"
+  ],
+  "Rocky Mountain spotted fever": [
+    "rmsf"
+  ],
+  "Rubella": [
+    "German measles"
+  ],
+  "Rupture of abdominal aortic aneurysm": [
+    "abdominal aortic rupture"
+  ],
+  "Rupture of ovarian tumor stems": [],
+  "SAH": [
+    "subarachnoid hemorrhage"
+  ],
+  "SLE": [
+    "lupus"
+  ],
+  "Salmonella": [],
+  "Salpingitis": [
+    "fallopian tube infection"
+  ],
+  "Salt-losing nephropathy": [],
+  "Sarcoidosis": [],
+  "Scabies": [],
+  "Scarlet fever": [],
+  "Sciatica with motor radiculopathy": [
+    "sciatica"
+  ],
+  "Scleritis": [],
+  "Scleroderma": [],
+  "Scorpion bite": [],
+  "Scrub typhus": [],
+  "Scurvy": [],
+  "Sedative overdose internal use": [],
+  "Sepsis": [
+    "blood infection"
+  ],
+  "Septic arthritis": [
+    "infected joint"
+  ],
+  "Septic arthritis of TMJ": [],
+  "Septic shock": [],
+  "Serotonin increase agent": [],
+  "Serotonin syndrome": [],
+  "Severe acidosis": [],
+  "Severe anemia": [],
+  "Severe asthma": [
+    "asthma attack"
+  ],
+  "Severe asthma attack": [],
+  "Severe bleeding": [
+    "massive hemorrhage"
+  ],
+  "Severe dehydration": [],
+  "Severe head injury": [
+    "traumatic brain injury"
+  ],
+  "Severe infection": [
+    "sepsis",
+    "systemic infection",
+    "blood infection"
+  ],
+  "Severe metabolic acidosis": [
+    "metabolic acidosis",
+    "acidosis"
+  ],
+  "Severe pneumonia": [
+    "pneumonia",
+    "lung infection"
+  ],
+  "Severe trauma": [
+    "major trauma",
+    "traumatic injury"
+  ],
+  "Severe valvular heart disease": [
+    "valvular heart disease",
+    "valvular disease"
+  ],
+  "Sexual assault": [
+    "sexual violence",
+    "rape"
+  ],
+  "Sexual organs trauma": [
+    "genital trauma",
+    "pelvic injury"
+  ],
+  "Sexual trauma": [
+    "sexual injury",
+    "sexual violence"
+  ],
+  "Sheehan syndrome": [
+    "postpartum pituitary gland failure"
+  ],
+  "Shock": [
+    "hypoperfusion",
+    "circulatory shock"
+  ],
+  "Shunt malfunction": [
+    "shunt failure",
+    "shunt issue"
+  ],
+  "Sick sinus syndrome": [
+    "SSS",
+    "sick sinus"
+  ],
+  "Sildenafil": [
+    "viagra",
+    "erectile dysfunction medication"
+  ],
+  "Simple herpes": [
+    "herpes simplex",
+    "cold sores"
+  ],
+  "Sinusitis": [
+    "sinus infection",
+    "sinus inflammation"
+  ],
+  "Sixth nerve (abducens nerve) palsy": [
+    "abducens palsy",
+    "sixth nerve palsy"
+  ],
+  "Sjogren syndrome": [
+    "Sjogren's",
+    "autoimmune sialadenitis"
+  ],
+  "Skull fracture": [
+    "head fracture",
+    "cranial fracture"
+  ],
+  "Small bowel obstruction": [
+    "SBO",
+    "intestinal blockage"
+  ],
+  "Smoke inhalation": [
+    "smoke injury",
+    "inhalation injury"
+  ],
+  "Snakebite": [
+    "snake bite",
+    "venomous bite"
+  ],
+  "Soft tissue abscess": [
+    "tissue abscess",
+    "skin abscess"
+  ],
+  "Spider bite": [
+    "spider bite",
+    "venomous bite"
+  ],
+  "Spinal arteriovenous malformation": [
+    "spinal AVM",
+    "AV malformation"
+  ],
+  "Spinal compression fracture": [
+    "compression fracture",
+    "vertebral fracture"
+  ],
+  "Spinal cord epiconus syndrome": [
+    "epiconus syndrome",
+    "cord syndrome"
+  ],
+  "Spinal cord infarction": [
+    "cord infarction",
+    "spinal stroke"
+  ],
+  "Spinal cord injury": [
+    "SCI",
+    "cord injury"
+  ],
+  "Spinal cord tumor": [
+    "cord tumor",
+    "spinal neoplasm"
+  ],
+  "Spinal epidural hematoma": [
+    "epidural hematoma",
+    "spinal hematoma"
+  ],
+  "Spinal epidural metastasis": [
+    "epidural metastasis",
+    "spinal metastasis"
+  ],
+  "Spinal fistula": [
+    "spinal shunt",
+    "fistula"
+  ],
+  "Spinal infections": [
+    "spinal infection",
+    "cord infection"
+  ],
+  "Spinal shock": [
+    "cord shock",
+    "spinal reflex loss"
+  ],
+  "Splenic abscess": [
+    "spleen abscess",
+    "splenic infection"
+  ],
+  "Splenic infarction": [
+    "spleen infarction",
+    "splenic ischemia"
+  ],
+  "Splenic injury": [
+    "spleen injury",
+    "splenic trauma"
+  ],
+  "Spondylosis": [
+    "degenerative disc disease",
+    "spinal degeneration"
+  ],
+  "Stagnation mastitis": [
+    "mastitis",
+    "breast infection"
+  ],
+  "Staphylococcal scalded skin syndrome": [
+    "SSSS",
+    "staph skin syndrome"
+  ],
+  "Status epilepticus": [
+    "seizure status",
+    "epileptic status"
+  ],
+  "Stenosis": [
+    "narrowing",
+    "constriction"
+  ],
+  "Steroid": [
+    "corticosteroid",
+    "anti-inflammatory"
+  ],
+  "Stevens–Johnson": [
+    "SJS",
+    "SJS syndrome"
+  ],
+  "Stimulant": [
+    "stimulant drug",
+    "uppers"
+  ],
+  "Stomach・duodenal biopsy after-bleeding": [],
+  "Strangulation ileus": [
+    "closed-loop obstruction",
+    "ileus"
+  ],
+  "Streptococcal toxic shock syndrome": [
+    "STSS",
+    "toxic shock syndrome"
+  ],
+  "Streptomycin": [
+    "antibiotic",
+    "strepto"
+  ],
+  "Subacute endocarditis": [
+    "subacute bacterial endocarditis",
+    "endocarditis"
+  ],
+  "Subacute thyroiditis": [
+    "de Quervain's thyroiditis",
+    "thyroiditis"
+  ],
+  "Subarachnoid hemorrhage": [
+    "SAH",
+    "brain bleed"
+  ],
+  "Subclavian steal syndrome": [
+    "subclavian steal",
+    "steal syndrome"
+  ],
+  "Subdural hemorrhage": [
+    "subdural hematoma",
+    "SDH"
+  ],
+  "Submandibular abscess": [
+    "submandibular infection",
+    "jaw abscess"
+  ],
+  "Subperiosteal abscess": [
+    "subperiosteal infection",
+    "periosteal abscess"
+  ],
+  "Subphrenic abscesses": [
+    "subphrenic infection",
+    "abdominal abscess"
+  ],
+  "Subphrenic abscesses due to ulcer perforation": [],
+  "Substance abuse": [
+    "drug abuse",
+    "substance use"
+  ],
+  "Sudden deafness": [
+    "sudden hearing loss",
+    "acute deafness"
+  ],
+  "Sugars": [
+    "glucose",
+    "carbohydrates"
+  ],
+  "Suicide attempt": [
+    "self-harm",
+    "suicidal behavior"
+  ],
+  "Sulfhemoglobinemia": [
+    "sulfhemoglobin",
+    "sulfhemoglobinemia"
+  ],
+  "Sulfonamide": [
+    "sulfa drug",
+    "sulfonamide antibiotic"
+  ],
+  "Suppurated portal vein thrombosis": [
+    "portal vein thrombosis",
+    "PVT"
+  ],
+  "Sympathomimetic drugs": [
+    "stimulants",
+    "sympathomimetics"
+  ],
+  "Syphilis": [
+    "STD",
+    "venereal disease"
+  ],
+  "Syringomyelia": [
+    "cystic myelopathy",
+    "syrinx"
+  ],
+  "Systemic infection": [
+    "systemic illness",
+    "widespread infection"
+  ],
+  "TTP": [
+    "thrombotic thrombocytopenic purpura",
+    "TTP syndrome"
+  ],
+  "Tachycardia with bronchial pressure": [],
+  "Temporal arteritis": [
+    "giant cell arteritis",
+    "temporal arteritis"
+  ],
+  "Temporal lobe epilepsy": [
+    "TLE",
+    "lobe epilepsy"
+  ],
+  "Temporomandibular joint abscess": [
+    "TMJ abscess",
+    "jaw abscess"
+  ],
+  "Temporomandibular joint osteomyelitis": [
+    "TMJ infection",
+    "jaw osteomyelitis"
+  ],
+  "Tension pneumothorax": [
+    "tension PTX",
+    "pneumothorax"
+  ],
+  "Terminal chronic renal failure": [
+    "end-stage renal disease",
+    "ESRD"
+  ],
+  "Testicular cancer": [
+    "testicular neoplasm",
+    "orchid cancer"
+  ],
+  "Testicular torsion": [
+    "torsion",
+    "twisted testicle"
+  ],
+  "Testicular tumor bleeding": [],
+  "Tetanus": [
+    "lockjaw",
+    "tetanus infection",
+    "tetanus disease"
+  ],
+  "Tetrodotoxin toxicity": [
+    "fugu poisoning",
+    "tetrodotoxin poisoning"
+  ],
+  "Thalamic infarcts": [
+    "thalamic stroke",
+    "thalamic ischemia"
+  ],
+  "Theophylline": [
+    "theo",
+    "aminophylline"
+  ],
+  "Theophylline intoxication": [
+    "theophylline overdose",
+    "theophylline toxicity"
+  ],
+  "Thiamine deficiency": [
+    "beriberi",
+    "vitamin b1 deficiency"
+  ],
+  "Third nerve (oculomotor nerve) palsy": [
+    "oculomotor palsy",
+    "third cranial nerve palsy"
+  ],
+  "Thoracic aortic aneurysm": [
+    "thoracic aneurysm",
+    "aortic dissection"
+  ],
+  "Thoracic injury": [
+    "chest injury",
+    "thoracic trauma"
+  ],
+  "Thrombocytopenia/Abnormal platelet function": [
+    "low platelet count",
+    "thrombocytopenic disorder"
+  ],
+  "Thrombosed varicose vein": [
+    "thrombosed vein",
+    "clotted varicose vein"
+  ],
+  "Thrombotic thrombocytopenic purpura": [
+    "ttp",
+    "thrombotic purpura"
+  ],
+  "Thrombotic thrombocytopenic purpura (TTP)": [
+    "ttp",
+    "thrombotic purpura"
+  ],
+  "Thrombus": [
+    "blood clot",
+    "vascular occlusion"
+  ],
+  "Thyroid abnormalities": [
+    "thyroid disorders",
+    "thyroid issues"
+  ],
+  "Thyroid cancer": [
+    "thyroid carcinoma",
+    "thyroid malignancy"
+  ],
+  "Thyroid diseases": [
+    "thyroid disorders",
+    "thyroid conditions"
+  ],
+  "Thyroid dysfunction": [
+    "thyroid disorder",
+    "thyroid imbalance"
+  ],
+  "Thyroid function abnormality": [
+    "thyroid dysfunction",
+    "thyroid issue"
+  ],
+  "Thyroiditis": [
+    "thyroid inflammation",
+    "hashimoto's thyroiditis"
+  ],
+  "Thyrotoxic crisis": [
+    "thyroid storm",
+    "thyrotoxicosis crisis"
+  ],
+  "Thyrotoxicosis": [
+    "hyperthyroidism",
+    "thyroid overactivity"
+  ],
+  "Tick paralysis": [
+    "tick-borne paralysis",
+    "tick-induced paralysis"
+  ],
+  "Tonsillitis": [
+    "tonsil infection",
+    "tonsil inflammation"
+  ],
+  "Torsion of the ovary": [
+    "ovarian torsion",
+    "twisted ovary"
+  ],
+  "Torsion of the testicular appendages": [
+    "testicular torsion",
+    "torsion of appendix testis"
+  ],
+  "Toxic epidermal necrolysis": [
+    "ten",
+    "lyell's syndrome"
+  ],
+  "Toxic megacolon": [
+    "megacolon",
+    "toxic colitis"
+  ],
+  "Toxic shock syndrome": [
+    "tss",
+    "toxic shock"
+  ],
+  "Toxic shock-like syndrome": [
+    "tsls",
+    "shock-like syndrome"
+  ],
+  "Toxoplasma": [
+    "toxoplasmosis",
+    "toxoplasma gondii"
+  ],
+  "Tracheoesophageal fistula": [
+    "tef",
+    "tracheoesophageal connection"
+  ],
+  "Transient cerebral ischemic attacks and related syndromes": [
+    "transient ischemic attacks",
+    "tia syndromes"
+  ],
+  "Transient ischemic attack": [
+    "tia",
+    "mini-stroke"
+  ],
+  "Transplant rejection": [
+    "graft rejection",
+    "organ rejection"
+  ],
+  "Transverse disorder caused by trauma・demyelination・inflammation": [],
+  "Transverse myelitis": [
+    "myelitis",
+    "transverse spinal cord inflammation"
+  ],
+  "Trauma": [
+    "injury",
+    "physical trauma"
+  ],
+  "Traumatic brain injury": [
+    "tbi",
+    "head injury"
+  ],
+  "Traumatic esophageal rupture": [
+    "esophageal tear",
+    "esophageal injury"
+  ],
+  "Traumatic optic neuropathy": [
+    "optic nerve injury",
+    "optic nerve trauma"
+  ],
+  "Traumatic subarachnoid hemorrhage": [
+    "subarachnoid bleed",
+    "traumatic saH"
+  ],
+  "Traumatic subdural hemorrhage": [
+    "subdural hematoma",
+    "traumatic sdH"
+  ],
+  "Trepanation of the cornea": [],
+  "Tricuspid stenosis": [
+    "tricuspid valve stenosis",
+    "narrowed tricuspid valve"
+  ],
+  "Tricyclic antidepressant": [
+    "tca",
+    "tricyclics"
+  ],
+  "Tuberculosis": [
+    "tb",
+    "consumption"
+  ],
+  "Tuberculous peritonitis": [
+    "tb peritonitis",
+    "peritoneal tuberculosis"
+  ],
+  "Tuberculous spondylitis": [
+    "pott's disease",
+    "spinal tuberculosis"
+  ],
+  "Tubo-ovarian abscess": [
+    "to abscess",
+    "tubo-ovarian infection"
+  ],
+  "Tularemia": [
+    "rabbit fever",
+    "tularemia infection"
+  ],
+  "Tumor": [
+    "neoplasm",
+    "mass"
+  ],
+  "Twin-to-twin transfusion syndrome": [
+    "ttts",
+    "twin transfusion"
+  ],
+  "Typhoid": [
+    "typhoid fever",
+    "enteric fever"
+  ],
+  "Ulcer perforation": [
+    "perforated ulcer",
+    "ulcer rupture"
+  ],
+  "Ulcerative colitis": [
+    "uc",
+    "inflammatory bowel disease"
+  ],
+  "Unstable angina": [
+    "angina pectoris",
+    "unstable chest pain"
+  ],
+  "Upper airway foreign body": [
+    "foreign body aspiration",
+    "airway obstruction"
+  ],
+  "Upper airway obstruction": [
+    "airway blockage",
+    "upper airway issue"
+  ],
+  "Upper gastrointestinal bleeding": [
+    "ugib",
+    "upper gi bleed"
+  ],
+  "Upper gastrointestinal tract malignant tumors": [
+    "upper gi tumors",
+    "malignant upper gi"
+  ],
+  "Uremia": [
+    "uremic syndrome",
+    "kidney failure"
+  ],
+  "Ureterocele": [
+    "ureteral cyst",
+    "ureter pouch"
+  ],
+  "Urethral rupture": [
+    "urethral tear",
+    "ruptured urethra"
+  ],
+  "Urinary bladder stone": [
+    "bladder stone",
+    "vesical calculus"
+  ],
+  "Urinary tract infection": [
+    "uti",
+    "bladder infection"
+  ],
+  "Uterine cancer": [
+    "uterine carcinoma",
+    "endometrial cancer"
+  ],
+  "Uterine rupture": [
+    "ruptured uterus",
+    "uterine tear"
+  ],
+  "Uveitis": [
+    "inflammation of the uvea",
+    "uveal inflammation"
+  ],
+  "VP shunt": [
+    "ventriculoperitoneal shunt",
+    "vp shunt"
+  ],
+  "VZV": [
+    "varicella-zoster virus",
+    "chickenpox virus"
+  ],
+  "Valproic acid": [
+    "valproate",
+    "divalproex"
+  ],
+  "Vancomycin": [
+    "vanco",
+    "glycopeptide antibiotic"
+  ],
+  "Variant angina": [
+    "prinzmetal angina",
+    "vasospastic angina"
+  ],
+  "Varicella": [
+    "chickenpox",
+    "varicella infection"
+  ],
+  "Varicella herpes simplex virus infection": [],
+  "Vasa previa": [
+    "vasa previa condition",
+    "vasa previa complication"
+  ],
+  "Vascular leakage syndrome": [],
+  "Vasculitis": [
+    "inflammation of blood vessels",
+    "vascular inflammation"
+  ],
+  "Vein embolus": [
+    "venous embolism",
+    "vein clot"
+  ],
+  "Venous obstruction": [
+    "venous thrombosis",
+    "venous blockage",
+    "vein occlusion"
+  ],
+  "Ventricular arrhythmias": [
+    "ventricular tachycardia",
+    "vt",
+    "ventricular fibrillation",
+    "vf"
+  ],
+  "Vertebral artery dissection": [
+    "vertebral dissection",
+    "cervical artery dissection"
+  ],
+  "Vertebral fracture without neurological symptoms": [
+    "vertebral fracture",
+    "spinal fracture"
+  ],
+  "Vertebral fractures with spinal cord compression": [
+    "compression fracture",
+    "spinal cord injury"
+  ],
+  "Vertebral osteomyelitis": [
+    "spinal osteomyelitis",
+    "vertebral infection"
+  ],
+  "Vertebrobasilar insufficiency": [
+    "posterior circulation insufficiency",
+    "vertebrobasilar syndrome"
+  ],
+  "Vincristine": [],
+  "Viral conjunctivitis": [
+    "pink eye",
+    "viral eye infection"
+  ],
+  "Viral encephalitis": [
+    "viral brain infection",
+    "encephalitis"
+  ],
+  "Viral hepatitis": [
+    "hepatitis",
+    "liver inflammation"
+  ],
+  "Viral myocarditis": [
+    "viral heart inflammation",
+    "myocarditis"
+  ],
+  "Viral nephritis": [
+    "viral kidney infection",
+    "nephritis"
+  ],
+  "Virus infection": [
+    "viral infection",
+    "viral disease"
+  ],
+  "Vitamin B1": [
+    "thiamine"
+  ],
+  "Vitamin B12": [
+    "cobalamin"
+  ],
+  "Vitamin B12 deficiency": [
+    "cobalamin deficiency",
+    "b12 deficiency"
+  ],
+  "Vitamin B3 deficiency": [
+    "niacin deficiency"
+  ],
+  "Vitamin B6": [
+    "pyridoxine"
+  ],
+  "Vitamin B6 deficiency": [
+    "pyridoxine deficiency"
+  ],
+  "Vitamin E deficiency (e.g., abetalipoproteinemia)": [
+    "tocopherol deficiency"
+  ],
+  "Vitreous hemorrhage": [
+    "vitreous bleed",
+    "eye hemorrhage"
+  ],
+  "Vocal cord dysfunction": [
+    "vocal cord disorder",
+    "laryngeal dysfunction"
+  ],
+  "Volvulus": [
+    "intestinal twist",
+    "bowel obstruction"
+  ],
+  "Vomiting": [
+    "emesis",
+    "throwing up"
+  ],
+  "Wallenberg syndrome": [
+    "lateral medullary syndrome"
+  ],
+  "Waterhouse–Friderichsen syndrome": [
+    "adrenal hemorrhage syndrome"
+  ],
+  "Wegener granuloma": [
+    "granulomatosis with polyangiitis"
+  ],
+  "Wernicke encephalopathy": [
+    "wernicke syndrome",
+    "thiamine deficiency encephalopathy"
+  ],
+  "Whooping cough": [
+    "pertussis"
+  ],
+  "Withdrawal of antidepressants": [
+    "antidepressant withdrawal",
+    "discontinuation syndrome"
+  ],
+  "Yersinia": [],
+  "Zygomycosis": [
+    "mucormycosis"
+  ],
+  "von Willebrand disease": [
+    "vwd"
+  ],
+  "Α-Thalassemia": [
+    "alpha thalassemia"
+  ],
+  "Α2 receptor stimulants": []
+}

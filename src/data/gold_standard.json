@@ -1,0 +1,9191 @@
+[
+  {
+    "chiefComplaint": "Fever",
+    "red": [
+      {
+        "name": "Septic shock",
+        "icd10": "A419"
+      },
+      {
+        "name": "Meningitis",
+        "icd10": "G039"
+      },
+      {
+        "name": "Bacterial pneumonia",
+        "icd10": "J159"
+      },
+      {
+        "name": "Peritonitis",
+        "icd10": "K659"
+      },
+      {
+        "name": "Encephalitis",
+        "icd10": "G049"
+      },
+      {
+        "name": "Epiglottitis",
+        "icd10": "J051"
+      },
+      {
+        "name": "Necrotizing fasciitis",
+        "icd10": "M7269"
+      },
+      {
+        "name": "Acute complicated urinary tract infection",
+        "icd10": "N111"
+      },
+      {
+        "name": "Fulminant myocarditis",
+        "icd10": "I408"
+      },
+      {
+        "name": "Cerebrovascular disease",
+        "icd10": "I679"
+      },
+      {
+        "name": "Aortic aneurysm",
+        "icd10": "I719"
+      },
+      {
+        "name": "Acute myocardial infarction",
+        "icd10": "I219"
+      },
+      {
+        "name": "Pulmonary infarction",
+        "icd10": "I269"
+      },
+      {
+        "name": "Thyrotoxic crisis",
+        "icd10": "E055"
+      },
+      {
+        "name": "Fulminant diabetes",
+        "icd10": "E101"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Brain abscess",
+        "icd10": "G060"
+      },
+      {
+        "name": "Adrenal insufficiency",
+        "icd10": "E272"
+      },
+      {
+        "name": "Empyema",
+        "icd10": "J869"
+      },
+      {
+        "name": "Appendicitis",
+        "icd10": "K37"
+      },
+      {
+        "name": "Diverticulitis",
+        "icd10": "K573"
+      },
+      {
+        "name": "Cholecystitis",
+        "icd10": "K819"
+      },
+      {
+        "name": "Pyelonephritis",
+        "icd10": "N12"
+      },
+      {
+        "name": "Perinephric abscess",
+        "icd10": "N151"
+      },
+      {
+        "name": "Tubo-ovarian abscess",
+        "icd10": "N709"
+      },
+      {
+        "name": "Pelvic inflammatory disease",
+        "icd10": "N739"
+      },
+      {
+        "name": "Cellulitis",
+        "icd10": "L039"
+      },
+      {
+        "name": "Soft tissue abscess",
+        "icd10": "D481"
+      },
+      {
+        "name": "Decubitus ulcer",
+        "icd10": "L89"
+      },
+      {
+        "name": "Liver abscess",
+        "icd10": "K750"
+      },
+      {
+        "name": "Pancreatic abscess",
+        "icd10": "K85"
+      },
+      {
+        "name": "Splenic abscess",
+        "icd10": "D733"
+      },
+      {
+        "name": "Intra-peritoneal abscess",
+        "icd10": "K650"
+      },
+      {
+        "name": "Endocarditis",
+        "icd10": "I38"
+      },
+      {
+        "name": "Pericarditis",
+        "icd10": "I319"
+      },
+      {
+        "name": "Purulent venous thrombosis",
+        "icd10": "I80"
+      },
+      {
+        "name": "Diaphragmatic abscess",
+        "icd10": "K650"
+      },
+      {
+        "name": "Hepatitis",
+        "icd10": "K759"
+      },
+      {
+        "name": "Pancreatitis",
+        "icd10": "K85"
+      },
+      {
+        "name": "Head and neck soft tissue abscess",
+        "icd10": "D210"
+      },
+      {
+        "name": "Peritonsillar abscess",
+        "icd10": "J36"
+      },
+      {
+        "name": "Retropharyngeal abscess",
+        "icd10": "J390"
+      },
+      {
+        "name": "Temporomandibular joint abscess",
+        "icd10": "D480"
+      },
+      {
+        "name": "Buccal abscess",
+        "icd10": "L020"
+      },
+      {
+        "name": "Iliopsoas abscess",
+        "icd10": "K650"
+      },
+      {
+        "name": "Epidural abscess",
+        "icd10": "G062"
+      },
+      {
+        "name": "Prostate abscess",
+        "icd10": "N412"
+      },
+      {
+        "name": "Tuberculosis",
+        "icd10": "A169"
+      },
+      {
+        "name": "Osteomyelitis",
+        "icd10": "M8699"
+      },
+      {
+        "name": "Vertebral osteomyelitis",
+        "icd10": "M4659"
+      },
+      {
+        "name": "Mastoididitis",
+        "icd10": "H709"
+      },
+      {
+        "name": "Pyramiditis",
+        "icd10": "H702"
+      },
+      {
+        "name": "Heatstroke",
+        "icd10": "T670"
+      },
+      {
+        "name": "Malignant syndrome",
+        "icd10": "G210"
+      },
+      {
+        "name": "Malignant hyperthermia",
+        "icd10": "R509"
+      },
+      {
+        "name": "Congestive heart failure",
+        "icd10": "I500"
+      },
+      {
+        "name": "Deep vein thrombosis",
+        "icd10": "I802"
+      },
+      {
+        "name": "Multiple pulmonary embolism",
+        "icd10": "I269"
+      },
+      {
+        "name": "Thyroiditis",
+        "icd10": "E069"
+      },
+      {
+        "name": "Drug withdrawal",
+        "icd10": "F193"
+      },
+      {
+        "name": "Post-convulsion complications",
+        "icd10": "R252"
+      },
+      {
+        "name": "Cholangitis",
+        "icd10": "K830"
+      },
+      {
+        "name": "Pyogenic arthritis",
+        "icd10": "M00"
+      },
+      {
+        "name": "Catastrophic anti-phospholipid syndrome",
+        "icd10": "D68"
+      },
+      {
+        "name": "Streptococcal toxic shock syndrome",
+        "icd10": "A483"
+      },
+      {
+        "name": "Thrombotic thrombocytopenic purpura (TTP)",
+        "icd10": "D693"
+      },
+      {
+        "name": "Hemophagocytic syndrome",
+        "icd10": "D762"
+      },
+      {
+        "name": "Opioid abuse",
+        "icd10": "F111"
+      },
+      {
+        "name": "Non-steroidal anti-inflammatory drugs",
+        "icd10": "T393"
+      },
+      {
+        "name": "Cellulitis of the external ear",
+        "icd10": "H601"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "General weakness",
+    "red": [
+      {
+        "name": "Organophosphate poisoning",
+        "icd10": "T600"
+      },
+      {
+        "name": "Encephalitis",
+        "icd10": "G049"
+      },
+      {
+        "name": "Meningitis",
+        "icd10": "G039"
+      },
+      {
+        "name": "Septic shock",
+        "icd10": "A419"
+      },
+      {
+        "name": "Myocardial infarction",
+        "icd10": "I219"
+      },
+      {
+        "name": "Arrhythmia",
+        "icd10": "I499"
+      },
+      {
+        "name": "Respiratory failure",
+        "icd10": "J969"
+      },
+      {
+        "name": "Severe infection",
+        "icd10": "B99"
+      },
+      {
+        "name": "Hyperkalemia",
+        "icd10": "E875"
+      },
+      {
+        "name": "Bleeding",
+        "icd10": "R58"
+      },
+      {
+        "name": "Heart failure",
+        "icd10": "I509"
+      },
+      {
+        "name": "Hypoglycemia",
+        "icd10": "E162"
+      },
+      {
+        "name": "Trauma",
+        "icd10": "T149"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Botulism",
+        "icd10": "A051"
+      },
+      {
+        "name": "Rabies",
+        "icd10": "A829"
+      },
+      {
+        "name": "Tetanus",
+        "icd10": "A35"
+      },
+      {
+        "name": "Adrenal insufficiency",
+        "icd10": "E272"
+      },
+      {
+        "name": "Myasthenia gravis crisis",
+        "icd10": "G700"
+      },
+      {
+        "name": "Guillain–Barré syndrome",
+        "icd10": "G610"
+      },
+      {
+        "name": "Epidural abscess",
+        "icd10": "G062"
+      },
+      {
+        "name": "Brain tumor",
+        "icd10": "D432"
+      },
+      {
+        "name": "Spinal cord infarction",
+        "icd10": "G951"
+      },
+      {
+        "name": "Anterior spinal artery occlusion",
+        "icd10": "G951"
+      },
+      {
+        "name": "Impingement syndrome",
+        "icd10": "M754"
+      },
+      {
+        "name": "Transverse myelitis",
+        "icd10": "G373"
+      },
+      {
+        "name": "Lambert-Eaton syndrome",
+        "icd10": "C80"
+      },
+      {
+        "name": "Dehydration",
+        "icd10": "E86"
+      },
+      {
+        "name": "Endocrine disorders",
+        "icd10": "E349"
+      },
+      {
+        "name": "Thyroid abnormalities",
+        "icd10": "E079"
+      },
+      {
+        "name": "Diabetes mellitus",
+        "icd10": "G711"
+      },
+      {
+        "name": "Electrolyte disorders",
+        "icd10": "E87"
+      },
+      {
+        "name": "Hepatitis",
+        "icd10": "K759"
+      },
+      {
+        "name": "Liver failure",
+        "icd10": "K729"
+      },
+      {
+        "name": "Drug intoxication",
+        "icd10": "T509"
+      },
+      {
+        "name": "Depression with suicidal ideation",
+        "icd10": "F329"
+      },
+      {
+        "name": "Human immunodeficiency virus infection",
+        "icd10": "B20"
+      },
+      {
+        "name": "Alcohol abuse",
+        "icd10": "F101"
+      },
+      {
+        "name": "Opioid abuse",
+        "icd10": "F111"
+      },
+      {
+        "name": "Cocaine abuse",
+        "icd10": "F141"
+      },
+      {
+        "name": "Heat stroke",
+        "icd10": "T678"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Headache",
+    "red": [
+      {
+        "name": "Subarachnoid hemorrhage",
+        "icd10": "I609"
+      },
+      {
+        "name": "Intracranial bleeding",
+        "icd10": "S068, I629"
+      },
+      {
+        "name": "Cerebral infarction",
+        "icd10": "I639"
+      },
+      {
+        "name": "Subdural hemorrhage",
+        "icd10": "I620"
+      },
+      {
+        "name": "Epidural hemorrhage",
+        "icd10": "S064"
+      },
+      {
+        "name": "Pituitary apoplexy",
+        "icd10": "E236"
+      },
+      {
+        "name": "Cerebral venous sinus thrombosis",
+        "icd10": "G08"
+      },
+      {
+        "name": "Carotid artery dissection",
+        "icd10": "I720"
+      },
+      {
+        "name": "Hypertensive crisis",
+        "icd10": "I10"
+      },
+      {
+        "name": "Bacterial meningitis",
+        "icd10": "G009"
+      },
+      {
+        "name": "Encephalitis",
+        "icd10": "G049"
+      },
+      {
+        "name": "Hypoxia-related headache",
+        "icd10": "G448"
+      },
+      {
+        "name": "Hypercapnia",
+        "icd10": "R068"
+      },
+      {
+        "name": "Hypoglycemia",
+        "icd10": "E162"
+      },
+      {
+        "name": "Pre-eclampsia",
+        "icd10": "O149"
+      },
+      {
+        "name": "Severe anemia",
+        "icd10": "D649"
+      },
+      {
+        "name": "Severe trauma",
+        "icd10": "T149"
+      },
+      {
+        "name": "Cerebral edema by DKA",
+        "icd10": "G936"
+      },
+      {
+        "name": "CO poisoning",
+        "icd10": "T58"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Brain abscess",
+        "icd10": "G060"
+      },
+      {
+        "name": "Vertebral artery dissection",
+        "icd10": "I605"
+      },
+      {
+        "name": "Brain tumor",
+        "icd10": "D432"
+      },
+      {
+        "name": "Temporal arteritis",
+        "icd10": "M316"
+      },
+      {
+        "name": "Acute hydrocephalus",
+        "icd10": "G919"
+      },
+      {
+        "name": "Shunt malfunction",
+        "icd10": "T85"
+      },
+      {
+        "name": "Herpes zoster",
+        "icd10": "B029"
+      },
+      {
+        "name": "Acute glaucoma",
+        "icd10": "H402"
+      },
+      {
+        "name": "Uveitis",
+        "icd10": "H209"
+      },
+      {
+        "name": "Optic neuritis",
+        "icd10": "H46"
+      },
+      {
+        "name": "Acute bacterial sinusitis",
+        "icd10": "J019"
+      },
+      {
+        "name": "Mastoididitis",
+        "icd10": "H709"
+      },
+      {
+        "name": "Pyramiditis",
+        "icd10": "H702"
+      },
+      {
+        "name": "Drug induced",
+        "icd10": "G444"
+      },
+      {
+        "name": "Nitrate drugs",
+        "icd10": "G444"
+      },
+      {
+        "name": "MAO inhibitor",
+        "icd10": "T431"
+      },
+      {
+        "name": "Alcohol abuse",
+        "icd10": "F102"
+      },
+      {
+        "name": "Drug intoxication",
+        "icd10": "T509"
+      },
+      {
+        "name": "Alcohol withdrawal",
+        "icd10": "F103"
+      },
+      {
+        "name": "Drug withdrawal",
+        "icd10": "F193"
+      },
+      {
+        "name": "Pheochromocytoma",
+        "icd10": "D350"
+      },
+      {
+        "name": "Altitude sickness",
+        "icd10": "T702"
+      },
+      {
+        "name": "Dengue fever",
+        "icd10": "A90"
+      },
+      {
+        "name": "Chikungunya fever",
+        "icd10": "A920"
+      },
+      {
+        "name": "Thyrotoxicosis",
+        "icd10": "E059"
+      },
+      {
+        "name": "Opioid abuse",
+        "icd10": "F111"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Dyspnea",
+    "red": [
+      {
+        "name": "Myocardial infarction",
+        "icd10": "I219"
+      },
+      {
+        "name": "Cardiac tamponade",
+        "icd10": "I319"
+      },
+      {
+        "name": "Cardiogenic pulmonary edema",
+        "icd10": "I501"
+      },
+      {
+        "name": "Pulmonary thromboembolism",
+        "icd10": "I269"
+      },
+      {
+        "name": "Fat embolism",
+        "icd10": "T791"
+      },
+      {
+        "name": "Fulminant myocarditis",
+        "icd10": "I408"
+      },
+      {
+        "name": "Arrhythmia",
+        "icd10": "I499"
+      },
+      {
+        "name": "Pulmonary embolism",
+        "icd10": "I269"
+      },
+      {
+        "name": "Airway obstruction",
+        "icd10": "J988"
+      },
+      {
+        "name": "Airway foreign body",
+        "icd10": "T179"
+      },
+      {
+        "name": "Epiglottitis",
+        "icd10": "J051"
+      },
+      {
+        "name": "Anaphylaxis",
+        "icd10": "T782"
+      },
+      {
+        "name": "Tension pneumothorax",
+        "icd10": "J930"
+      },
+      {
+        "name": "Severe asthma attack",
+        "icd10": "J46"
+      },
+      {
+        "name": "Non-cardiogenic pulmonary edema",
+        "icd10": "J81"
+      },
+      {
+        "name": "Diaphragm injury",
+        "icd10": "S278"
+      },
+      {
+        "name": "Bilateral diaphragmatic paralysis",
+        "icd10": "J986"
+      },
+      {
+        "name": "Severe pneumonia",
+        "icd10": "J189"
+      },
+      {
+        "name": "Septic shock",
+        "icd10": "A419"
+      },
+      {
+        "name": "Bleeding",
+        "icd10": "R58"
+      },
+      {
+        "name": "Hemothorax",
+        "icd10": "J942"
+      },
+      {
+        "name": "Damage to the abdominal organs",
+        "icd10": "S369"
+      },
+      {
+        "name": "Organophosphate poisoning",
+        "icd10": "T600"
+      },
+      {
+        "name": "Severe trauma",
+        "icd10": "T149"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Pulmonary hypertension",
+        "icd10": "I270"
+      },
+      {
+        "name": "Botulism",
+        "icd10": "A051"
+      },
+      {
+        "name": "Myocarditis",
+        "icd10": "I514"
+      },
+      {
+        "name": "Severe valvular heart disease",
+        "icd10": "I38"
+      },
+      {
+        "name": "Pneumothorax",
+        "icd10": "J939"
+      },
+      {
+        "name": "Multiple rib fractures",
+        "icd10": "S2240"
+      },
+      {
+        "name": "Large pleural effusion",
+        "icd10": "J90"
+      },
+      {
+        "name": "Large pleural effusion",
+        "icd10": "J91"
+      },
+      {
+        "name": "Pneumonia",
+        "icd10": "J189"
+      },
+      {
+        "name": "Aspiration pneumonitis",
+        "icd10": "J690"
+      },
+      {
+        "name": "Acute exacerbation of COPD",
+        "icd10": "J441"
+      },
+      {
+        "name": "Acute exacerbation of interstitial lung disease",
+        "icd10": "J841"
+      },
+      {
+        "name": "Lymphangitic carcinomatosis",
+        "icd10": "C798"
+      },
+      {
+        "name": "CO poisoning",
+        "icd10": "T58"
+      },
+      {
+        "name": "Methemoglobinemia",
+        "icd10": "D749"
+      },
+      {
+        "name": "Intestinal obstruction",
+        "icd10": "K567"
+      },
+      {
+        "name": "Acute kidney injury",
+        "icd10": "N179"
+      },
+      {
+        "name": "Electrolyte disorders",
+        "icd10": "E87"
+      },
+      {
+        "name": "Acidosis",
+        "icd10": "E872"
+      },
+      {
+        "name": "DKA",
+        "icd10": "E141"
+      },
+      {
+        "name": "Uremia",
+        "icd10": "N19"
+      },
+      {
+        "name": "Thyroid diseases",
+        "icd10": "E079"
+      },
+      {
+        "name": "Guillain–Barré syndrome",
+        "icd10": "G610"
+      },
+      {
+        "name": "Myasthenia gravis crisis",
+        "icd10": "G700"
+      },
+      {
+        "name": "Intracranial disease",
+        "icd10": "R060"
+      },
+      {
+        "name": "Drug withdrawal",
+        "icd10": "F193"
+      },
+      {
+        "name": "Alcohol withdrawal",
+        "icd10": "F103"
+      },
+      {
+        "name": "Narcotic withdrawal",
+        "icd10": "F193"
+      },
+      {
+        "name": "Tick paralysis",
+        "icd10": "B880"
+      },
+      {
+        "name": "Dehydration",
+        "icd10": "E86"
+      },
+      {
+        "name": "Opioid abuse",
+        "icd10": "F111"
+      },
+      {
+        "name": "Hypertensive heart disease",
+        "icd10": "I11"
+      },
+      {
+        "name": "Hypertensive urgency",
+        "icd10": "I160"
+      },
+      {
+        "name": "Hypertensive emergency",
+        "icd10": "I161"
+      },
+      {
+        "name": "Angina pectoris",
+        "icd10": "I20"
+      },
+      {
+        "name": "Nephrotic syndrome",
+        "icd10": "N04"
+      },
+      {
+        "name": "Hyperglycemia",
+        "icd10": "R739"
+      },
+      {
+        "name": "Hypothermia",
+        "icd10": "T68"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Hyperventilation",
+    "red": [
+      {
+        "name": "Myocardial infarction",
+        "icd10": "I219"
+      },
+      {
+        "name": "Cardiac tamponade",
+        "icd10": "I319"
+      },
+      {
+        "name": "Cardiogenic pulmonary edema",
+        "icd10": "I501"
+      },
+      {
+        "name": "Pulmonary thromboembolism",
+        "icd10": "I269"
+      },
+      {
+        "name": "Fat embolism",
+        "icd10": "T791"
+      },
+      {
+        "name": "Fulminant myocarditis",
+        "icd10": "I408"
+      },
+      {
+        "name": "Arrhythmia",
+        "icd10": "I499"
+      },
+      {
+        "name": "Pulmonary embolism",
+        "icd10": "I269"
+      },
+      {
+        "name": "Airway obstruction",
+        "icd10": "J988"
+      },
+      {
+        "name": "Airway foreign body",
+        "icd10": "T179"
+      },
+      {
+        "name": "Epiglottitis",
+        "icd10": "J051"
+      },
+      {
+        "name": "Anaphylaxis",
+        "icd10": "T782"
+      },
+      {
+        "name": "Tension pneumothorax",
+        "icd10": "J930"
+      },
+      {
+        "name": "Severe asthma attack",
+        "icd10": "J46"
+      },
+      {
+        "name": "Non-cardiogenic pulmonary edema",
+        "icd10": "J81"
+      },
+      {
+        "name": "Diaphragm injury",
+        "icd10": "S278"
+      },
+      {
+        "name": "Bilateral diaphragmatic paralysis",
+        "icd10": "J986"
+      },
+      {
+        "name": "Severe pneumonia",
+        "icd10": "J189"
+      },
+      {
+        "name": "Septic shock",
+        "icd10": "A419"
+      },
+      {
+        "name": "Bleeding",
+        "icd10": "R58"
+      },
+      {
+        "name": "Damage to the abdominal organs",
+        "icd10": "S369"
+      },
+      {
+        "name": "Organophosphate poisoning",
+        "icd10": "T600"
+      },
+      {
+        "name": "Severe trauma",
+        "icd10": "T149"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Botulism",
+        "icd10": "A051"
+      },
+      {
+        "name": "Myocarditis",
+        "icd10": "I514"
+      },
+      {
+        "name": "Severe valvular heart disease",
+        "icd10": "I38"
+      },
+      {
+        "name": "Pneumothorax",
+        "icd10": "J939"
+      },
+      {
+        "name": "Multiple rib fractures",
+        "icd10": "S2240"
+      },
+      {
+        "name": "Pneumonia",
+        "icd10": "J189"
+      },
+      {
+        "name": "Aspiration pneumonitis",
+        "icd10": "J690"
+      },
+      {
+        "name": "Acute aggravation of COPD",
+        "icd10": "J441"
+      },
+      {
+        "name": "CO poisoning",
+        "icd10": "T58"
+      },
+      {
+        "name": "Methemoglobinemia",
+        "icd10": "D749"
+      },
+      {
+        "name": "Intestinal obstruction",
+        "icd10": "K567"
+      },
+      {
+        "name": "Acute kidney injury",
+        "icd10": "N179"
+      },
+      {
+        "name": "Adrenal insufficiency",
+        "icd10": "E272"
+      },
+      {
+        "name": "Electrolyte disorders",
+        "icd10": "E87"
+      },
+      {
+        "name": "Acidosis",
+        "icd10": "E872"
+      },
+      {
+        "name": "DKA",
+        "icd10": "E141"
+      },
+      {
+        "name": "Uremia",
+        "icd10": "N19"
+      },
+      {
+        "name": "Thyroid diseases",
+        "icd10": "E079"
+      },
+      {
+        "name": "Guillain–Barré syndrome",
+        "icd10": "G610"
+      },
+      {
+        "name": "Myasthenia gravis crisis",
+        "icd10": "G700"
+      },
+      {
+        "name": "Intracranial disease",
+        "icd10": "R060"
+      },
+      {
+        "name": "Drug withdrawal",
+        "icd10": "F193"
+      },
+      {
+        "name": "Alcohol withdrawal",
+        "icd10": "F103"
+      },
+      {
+        "name": "Narcotic withdrawal",
+        "icd10": "F193"
+      },
+      {
+        "name": "Tick paralysis",
+        "icd10": "B880"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Chest pain",
+    "red": [
+      {
+        "name": "Myocardial infarction",
+        "icd10": "I219"
+      },
+      {
+        "name": "Aortic aneurysm rupture",
+        "icd10": "I71"
+      },
+      {
+        "name": "Aortic dissection",
+        "icd10": "I710"
+      },
+      {
+        "name": "Cardiac tamponade",
+        "icd10": "I319"
+      },
+      {
+        "name": "Cardiac rupture",
+        "icd10": "I219"
+      },
+      {
+        "name": "Arrhythmia",
+        "icd10": "I499"
+      },
+      {
+        "name": "Pulmonary embolism",
+        "icd10": "I269"
+      },
+      {
+        "name": "Tension pneumothorax",
+        "icd10": "J930"
+      },
+      {
+        "name": "Severe trauma",
+        "icd10": "T149"
+      },
+      {
+        "name": "Esophageal rupture",
+        "icd10": "K223"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Unstable angina",
+        "icd10": "I200"
+      },
+      {
+        "name": "Variant angina",
+        "icd10": "I201"
+      },
+      {
+        "name": "Acute pericarditis",
+        "icd10": "I309"
+      },
+      {
+        "name": "Myocarditis",
+        "icd10": "I514"
+      },
+      {
+        "name": "Coarctation of the aorta",
+        "icd10": "Q253"
+      },
+      {
+        "name": "Mitral valve prolapse",
+        "icd10": "I341"
+      },
+      {
+        "name": "Splenic infarction",
+        "icd10": "D735"
+      },
+      {
+        "name": "Pneumothorax",
+        "icd10": "J939"
+      },
+      {
+        "name": "Pneumonia",
+        "icd10": "J189"
+      },
+      {
+        "name": "Mediastinal emphysema",
+        "icd10": "J982"
+      },
+      {
+        "name": "Empyema",
+        "icd10": "J869"
+      },
+      {
+        "name": "Mediastinitis",
+        "icd10": "J985"
+      },
+      {
+        "name": "Ulcer perforation",
+        "icd10": "R074"
+      },
+      {
+        "name": "Cholecystitis",
+        "icd10": "K819"
+      },
+      {
+        "name": "Pancreatitis",
+        "icd10": "K85"
+      },
+      {
+        "name": "Osteomyelitis",
+        "icd10": "M8699"
+      },
+      {
+        "name": "Multiple rib fractures",
+        "icd10": "S2240"
+      },
+      {
+        "name": "Diaphragmatic abscess",
+        "icd10": "K650"
+      },
+      {
+        "name": "Alkali aspiration",
+        "icd10": "R074"
+      },
+      {
+        "name": "Cocaine abuse",
+        "icd10": "F141"
+      },
+      {
+        "name": "Peptic ulcer",
+        "icd10": "K27"
+      },
+      {
+        "name": "Gastrointestinal bleeding",
+        "icd10": "K922"
+      },
+      {
+        "name": "Cellulitis",
+        "icd10": "L039"
+      },
+      {
+        "name": "Hyperemesis gravidarum",
+        "icd10": "O210"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Nausea・vomiting",
+    "red": [
+      {
+        "name": "Subarachnoid hemorrhage",
+        "icd10": "I609"
+      },
+      {
+        "name": "Cerebral infarction",
+        "icd10": "I639"
+      },
+      {
+        "name": "Meningitis",
+        "icd10": "G039"
+      },
+      {
+        "name": "Peritonitis",
+        "icd10": "K659"
+      },
+      {
+        "name": "Septic shock",
+        "icd10": "A419"
+      },
+      {
+        "name": "Myocardial infarction",
+        "icd10": "I219"
+      },
+      {
+        "name": "Cardiac tamponade",
+        "icd10": "I319"
+      },
+      {
+        "name": "Torsion of the ovary",
+        "icd10": "N835"
+      },
+      {
+        "name": "Hypoxemia",
+        "icd10": "R090"
+      },
+      {
+        "name": "Foreign body",
+        "icd10": "R11"
+      },
+      {
+        "name": "Organophosphate poisoning",
+        "icd10": "T600"
+      },
+      {
+        "name": "Head injury",
+        "icd10": "S099"
+      },
+      {
+        "name": "Esophageal rupture",
+        "icd10": "K223"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "DKA",
+        "icd10": "E141"
+      },
+      {
+        "name": "Intestinal ischemia",
+        "icd10": "R11"
+      },
+      {
+        "name": "Adrenal insufficiency",
+        "icd10": "E272"
+      },
+      {
+        "name": "Gastrointestinal bleeding",
+        "icd10": "K922"
+      },
+      {
+        "name": "Cholangitis",
+        "icd10": "K830"
+      },
+      {
+        "name": "Brain tumor",
+        "icd10": "D432"
+      },
+      {
+        "name": "Increased intracranial pressure",
+        "icd10": "G932"
+      },
+      {
+        "name": "Appendicitis",
+        "icd10": "K37"
+      },
+      {
+        "name": "Pancreatitis",
+        "icd10": "K85"
+      },
+      {
+        "name": "Hepatitis",
+        "icd10": "K759"
+      },
+      {
+        "name": "Cholecystitis",
+        "icd10": "K819"
+      },
+      {
+        "name": "Intestinal obstruction",
+        "icd10": "K567"
+      },
+      {
+        "name": "Volvulus",
+        "icd10": "K562"
+      },
+      {
+        "name": "Damage to the abdominal organs",
+        "icd10": "S369"
+      },
+      {
+        "name": "Idiopathic bacterial peritonitis",
+        "icd10": "K650"
+      },
+      {
+        "name": "Gastrointestinal tumor",
+        "icd10": "D379"
+      },
+      {
+        "name": "Pyloric obstruction",
+        "icd10": "K311"
+      },
+      {
+        "name": "Uremia",
+        "icd10": "N19"
+      },
+      {
+        "name": "Pyelonephritis",
+        "icd10": "N12"
+      },
+      {
+        "name": "Hyperemesis gravidarum",
+        "icd10": "O210"
+      },
+      {
+        "name": "Pregnancy",
+        "icd10": "Z33"
+      },
+      {
+        "name": "Thyroid diseases",
+        "icd10": "E07"
+      },
+      {
+        "name": "Electrolyte disorders",
+        "icd10": "E87"
+      },
+      {
+        "name": "Hyponatremia",
+        "icd10": "E871"
+      },
+      {
+        "name": "Hypercalcemia",
+        "icd10": "E835"
+      },
+      {
+        "name": "Hypermagnesemia",
+        "icd10": "E834"
+      },
+      {
+        "name": "Mesenteric thrombosis",
+        "icd10": "K550"
+      },
+      {
+        "name": "Embolism",
+        "icd10": "K550"
+      },
+      {
+        "name": "Renal artery thrombosis",
+        "icd10": "N280"
+      },
+      {
+        "name": "Glaucoma",
+        "icd10": "H409"
+      },
+      {
+        "name": "Drug intoxication",
+        "icd10": "T509"
+      },
+      {
+        "name": "Drug withdrawal",
+        "icd10": "F193"
+      },
+      {
+        "name": "Acetaminophen poisoning",
+        "icd10": "T391"
+      },
+      {
+        "name": "Digoxin intoxication",
+        "icd10": "T460"
+      },
+      {
+        "name": "Aspirin intoxication",
+        "icd10": "T390"
+      },
+      {
+        "name": "Theophylline intoxication",
+        "icd10": "T486"
+      },
+      {
+        "name": "Narcotic withdrawal",
+        "icd10": "F193"
+      },
+      {
+        "name": "Arsenic intoxication",
+        "icd10": "T570"
+      },
+      {
+        "name": "CO poisoning",
+        "icd10": "T58"
+      },
+      {
+        "name": "Depression with suicide attempts",
+        "icd10": "F329"
+      },
+      {
+        "name": "Anorexia nervosa",
+        "icd10": "F500"
+      },
+      {
+        "name": "Altitude sickness",
+        "icd10": "T702"
+      },
+      {
+        "name": "Whooping cough",
+        "icd10": "A37"
+      },
+      {
+        "name": "Opioid abuse",
+        "icd10": "F111"
+      },
+      {
+        "name": "Pneumonia",
+        "icd10": "J189"
+      },
+      {
+        "name": "Acute pulmonary edema",
+        "icd10": "J81"
+      },
+      {
+        "name": "Urinary tract infection",
+        "icd10": "N390"
+      },
+      {
+        "name": "Pelvic inflammatory disease",
+        "icd10": "N739"
+      },
+      {
+        "name": "Heat stroke",
+        "icd10": "T678"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Jaundice",
+    "red": [
+      {
+        "name": "Fulminant hepatitis",
+        "icd10": "B199"
+      },
+      {
+        "name": "Drug-induced hepatitis",
+        "icd10": "K716"
+      },
+      {
+        "name": "Viral hepatitis",
+        "icd10": "B199"
+      },
+      {
+        "name": "Alcoholic hepatitis",
+        "icd10": "K701"
+      },
+      {
+        "name": "Reye’s syndrome",
+        "icd10": "G937"
+      },
+      {
+        "name": "Acute fatty liver in pregnancy",
+        "icd10": "O266"
+      },
+      {
+        "name": "Septic shock",
+        "icd10": "A419"
+      },
+      {
+        "name": "Pulmonary embolism",
+        "icd10": "I269"
+      },
+      {
+        "name": "Abdominal aortic aneurysm obstruction",
+        "icd10": "I714"
+      },
+      {
+        "name": "Budd-Chiari syndrome",
+        "icd10": "I820"
+      },
+      {
+        "name": "Blood transfusion reaction",
+        "icd10": "T809"
+      },
+      {
+        "name": "Eclampsia",
+        "icd10": "O159"
+      },
+      {
+        "name": "HELLP syndrome",
+        "icd10": "O141"
+      },
+      {
+        "name": "Thyrotoxic crisis",
+        "icd10": "E055"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Congestive heart failure",
+        "icd10": "I500"
+      },
+      {
+        "name": "Intestinal ischemia",
+        "icd10": "K550"
+      },
+      {
+        "name": "Cholangitis",
+        "icd10": "K830"
+      },
+      {
+        "name": "Heat stroke",
+        "icd10": "T67"
+      },
+      {
+        "name": "Hepatitis",
+        "icd10": "K759"
+      },
+      {
+        "name": "Pancreatitis",
+        "icd10": "K85"
+      },
+      {
+        "name": "Rejection after the liver transplantation",
+        "icd10": "T864"
+      },
+      {
+        "name": "Bile duct obstruction",
+        "icd10": "K831"
+      },
+      {
+        "name": "Cancer of the head of the pancreas",
+        "icd10": "C250"
+      },
+      {
+        "name": "Postoperative occlusion",
+        "icd10": "T818"
+      },
+      {
+        "name": "Autoimmune hepatitis",
+        "icd10": "K754"
+      },
+      {
+        "name": "Primary biliary cirrhosis",
+        "icd10": "K743"
+      },
+      {
+        "name": "Infectious mononucleosis",
+        "icd10": "B279"
+      },
+      {
+        "name": "Hemolytic anemia",
+        "icd10": "D589"
+      },
+      {
+        "name": "Hyperemesis gravidarum",
+        "icd10": "O210"
+      },
+      {
+        "name": "Invasive carcinoma",
+        "icd10": "C795"
+      },
+      {
+        "name": "Graft-versus-host disease",
+        "icd10": "T860"
+      },
+      {
+        "name": "Leptospirosis",
+        "icd10": "A279"
+      },
+      {
+        "name": "Malaria",
+        "icd10": "B54"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Waist・back pain",
+    "red": [
+      {
+        "name": "Extradural hematoma",
+        "icd10": "S064"
+      },
+      {
+        "name": "Vertebral fractures with spinal cord compression",
+        "icd10": "T080"
+      },
+      {
+        "name": "Meningitis",
+        "icd10": "G039"
+      },
+      {
+        "name": "Aortic dissection",
+        "icd10": "I710"
+      },
+      {
+        "name": "Aortic aneurysm rupture",
+        "icd10": "I71"
+      },
+      {
+        "name": "Aortic aneurysm expansion",
+        "icd10": "I719"
+      },
+      {
+        "name": "Pulmonary embolism",
+        "icd10": "I269"
+      },
+      {
+        "name": "Retroperitoneal hemorrhage",
+        "icd10": "K661"
+      },
+      {
+        "name": "Severe trauma",
+        "icd10": "T149"
+      },
+      {
+        "name": "Bladder rupture",
+        "icd10": "N324"
+      },
+      {
+        "name": "Urethral rupture",
+        "icd10": "S373"
+      },
+      {
+        "name": "Torsion of the ovary",
+        "icd10": "N835"
+      },
+      {
+        "name": "Esophageal rupture",
+        "icd10": "K223"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Epidural abscess",
+        "icd10": "G062"
+      },
+      {
+        "name": "Back pain with neurological symptoms",
+        "icd10": "M5495"
+      },
+      {
+        "name": "Herniated disc with neurological symptoms",
+        "icd10": "M512"
+      },
+      {
+        "name": "Tumor",
+        "icd10": "D489"
+      },
+      {
+        "name": "Cancer metastasis",
+        "icd10": "C76, C77, C78, C79, C80"
+      },
+      {
+        "name": "Sciatica with motor radiculopathy",
+        "icd10": "M5438"
+      },
+      {
+        "name": "Vertebral fracture without neurological symptoms",
+        "icd10": "T080"
+      },
+      {
+        "name": "Iliopsoas abscess",
+        "icd10": "K650"
+      },
+      {
+        "name": "Spinal infections",
+        "icd10": "M465"
+      },
+      {
+        "name": "Transverse myelitis",
+        "icd10": "G373"
+      },
+      {
+        "name": "Vertebral osteomyelitis",
+        "icd10": "M4659"
+      },
+      {
+        "name": "Intervertebral disc inflammation",
+        "icd10": "M4649"
+      },
+      {
+        "name": "Tuberculous spondylitis",
+        "icd10": "A180"
+      },
+      {
+        "name": "Cauda equina syndrome",
+        "icd10": "G834"
+      },
+      {
+        "name": "Multiple myeloma",
+        "icd10": "C900"
+      },
+      {
+        "name": "Renal infarction",
+        "icd10": "N280"
+      },
+      {
+        "name": "Acute pancreatitis",
+        "icd10": "K85"
+      },
+      {
+        "name": "Pyelonephritis",
+        "icd10": "N12"
+      },
+      {
+        "name": "Renal abscess",
+        "icd10": "N151"
+      },
+      {
+        "name": "Cholecystitis",
+        "icd10": "K819"
+      },
+      {
+        "name": "Gastrointestinal perforation (to retroperitoneum)",
+        "icd10": "K22, K25, K26, K27, K28"
+      },
+      {
+        "name": "Gastric ulcer",
+        "icd10": "K259"
+      },
+      {
+        "name": "Pneumonia",
+        "icd10": "J189"
+      },
+      {
+        "name": "Tubo-ovarian abscess",
+        "icd10": "N709"
+      },
+      {
+        "name": "Prostatitis",
+        "icd10": "N419"
+      },
+      {
+        "name": "Retroperitoneal tumor",
+        "icd10": "D483"
+      },
+      {
+        "name": "Acute appendicitis",
+        "icd10": "K35"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Ophthalmalgia",
+    "red": [
+      {
+        "name": "Eyeball rupture",
+        "icd10": "S053"
+      },
+      {
+        "name": "Acid damage",
+        "icd10": "S05"
+      },
+      {
+        "name": "Alkali damage",
+        "icd10": "S05"
+      },
+      {
+        "name": "Retrobulbar hemorrhage",
+        "icd10": "S05"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Glaucoma",
+        "icd10": "H409"
+      },
+      {
+        "name": "Corneal foreign body",
+        "icd10": "T150"
+      },
+      {
+        "name": "Hyphema",
+        "icd10": "H210"
+      },
+      {
+        "name": "Retinal detachment",
+        "icd10": "H332"
+      },
+      {
+        "name": "Periocular cellulitis",
+        "icd10": "H050"
+      },
+      {
+        "name": "Vitreous hemorrhage",
+        "icd10": "H431"
+      },
+      {
+        "name": "Endophthalmitis",
+        "icd10": "H440"
+      },
+      {
+        "name": "Optic neuritis",
+        "icd10": "H46"
+      },
+      {
+        "name": "HSV",
+        "icd10": "B005"
+      },
+      {
+        "name": "VZV",
+        "icd10": "B018"
+      },
+      {
+        "name": "Corneal ulcer",
+        "icd10": "H160"
+      },
+      {
+        "name": "Iritis",
+        "icd10": "H209"
+      },
+      {
+        "name": "Laceration of the eyelid",
+        "icd10": "S011"
+      },
+      {
+        "name": "Traumatic optic neuropathy",
+        "icd10": "H470"
+      },
+      {
+        "name": "Temporal arteritis",
+        "icd10": "M316"
+      },
+      {
+        "name": "Subperiosteal abscess",
+        "icd10": "M8689"
+      },
+      {
+        "name": "Cavernous sinus thrombosis",
+        "icd10": "G08"
+      },
+      {
+        "name": "Herpes zoster",
+        "icd10": "B029"
+      },
+      {
+        "name": "Fracture of the orbital floor",
+        "icd10": "S0230"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Syncope",
+    "red": [
+      {
+        "name": "Subarachnoid hemorrhage",
+        "icd10": "I609"
+      },
+      {
+        "name": "Aortic dissection",
+        "icd10": "I710"
+      },
+      {
+        "name": "Aortic aneurysm rupture",
+        "icd10": "I71"
+      },
+      {
+        "name": "Myocardial infarction",
+        "icd10": "I219"
+      },
+      {
+        "name": "Pulmonary embolism",
+        "icd10": "I269"
+      },
+      {
+        "name": "Arrhythmia",
+        "icd10": "I499"
+      },
+      {
+        "name": "Aortic valve stenosis",
+        "icd10": "I350"
+      },
+      {
+        "name": "Aortic reflux",
+        "icd10": "I351"
+      },
+      {
+        "name": "Hypertrophic obstructive cardiomyopathy",
+        "icd10": "I421"
+      },
+      {
+        "name": "Cardiac tamponade",
+        "icd10": "I319"
+      },
+      {
+        "name": "Bleeding",
+        "icd10": "R58"
+      },
+      {
+        "name": "Intraabdominal organ bleeding",
+        "icd10": "K661"
+      },
+      {
+        "name": "Ectopic pregnancy",
+        "icd10": "O009"
+      },
+      {
+        "name": "Trauma",
+        "icd10": "T149"
+      },
+      {
+        "name": "Septic shock",
+        "icd10": "A419"
+      },
+      {
+        "name": "Hypoglycemia",
+        "icd10": "E162"
+      },
+      {
+        "name": "Anoxia",
+        "icd10": "T71"
+      },
+      {
+        "name": "Anaphylaxis",
+        "icd10": "T782"
+      },
+      {
+        "name": "Tension pneumothorax",
+        "icd10": "J930"
+      },
+      {
+        "name": "Epilepsy",
+        "icd10": "G409"
+      },
+      {
+        "name": "CO poisoning",
+        "icd10": "T58"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Transient ischemic attack",
+        "icd10": "G459"
+      },
+      {
+        "name": "Non-convulsive status epilepticus",
+        "icd10": "G419"
+      },
+      {
+        "name": "Basilar artery stenosis",
+        "icd10": "I651"
+      },
+      {
+        "name": "Primary pulmonary hypertension",
+        "icd10": "I270"
+      },
+      {
+        "name": "Mitral stenosis",
+        "icd10": "I050"
+      },
+      {
+        "name": "Tricuspid stenosis",
+        "icd10": "I070"
+      },
+      {
+        "name": "Infective endocarditis",
+        "icd10": "I330"
+      },
+      {
+        "name": "Hypertrophic cardiomyopathy",
+        "icd10": "I422"
+      },
+      {
+        "name": "Mitral valve thrombus",
+        "icd10": "I340"
+      },
+      {
+        "name": "Left atrial myxoma",
+        "icd10": "D151"
+      },
+      {
+        "name": "Cardiac sarcoidosis",
+        "icd10": "D868"
+      },
+      {
+        "name": "Eisenmenger syndrome",
+        "icd10": "Q218"
+      },
+      {
+        "name": "Drug intoxication",
+        "icd10": "T509"
+      },
+      {
+        "name": "Dehydration",
+        "icd10": "E86"
+      },
+      {
+        "name": "Hyperkalemia",
+        "icd10": "E875"
+      },
+      {
+        "name": "Hypokalemia",
+        "icd10": "E876"
+      },
+      {
+        "name": "Concussion",
+        "icd10": "S060"
+      },
+      {
+        "name": "Heat stroke",
+        "icd10": "T678"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Altered state of consciousness",
+    "red": [
+      {
+        "name": "Meningitis",
+        "icd10": "G039"
+      },
+      {
+        "name": "Encephalitis",
+        "icd10": "G049"
+      },
+      {
+        "name": "SAH",
+        "icd10": "I609"
+      },
+      {
+        "name": "Cerebral infarction",
+        "icd10": "I639"
+      },
+      {
+        "name": "Cerebral hemorrhage",
+        "icd10": "I619"
+      },
+      {
+        "name": "Status epilepticus",
+        "icd10": "G419"
+      },
+      {
+        "name": "Non-convulsive status epilepticus",
+        "icd10": "G419"
+      },
+      {
+        "name": "Cerebral venous sinus thrombosis",
+        "icd10": "G08"
+      },
+      {
+        "name": "Pulmonary embolism",
+        "icd10": "I269"
+      },
+      {
+        "name": "Myocardial infarction",
+        "icd10": "I219"
+      },
+      {
+        "name": "Cardiac tamponade",
+        "icd10": "I319"
+      },
+      {
+        "name": "Arrhythmia",
+        "icd10": "I499"
+      },
+      {
+        "name": "Bleeding",
+        "icd10": "R58"
+      },
+      {
+        "name": "Severe anemia",
+        "icd10": "D649"
+      },
+      {
+        "name": "Hypertensive crisis",
+        "icd10": "I10"
+      },
+      {
+        "name": "Septic shock",
+        "icd10": "A419"
+      },
+      {
+        "name": "Hypoglycemia",
+        "icd10": "E162"
+      },
+      {
+        "name": "Severe anemia",
+        "icd10": "D649"
+      },
+      {
+        "name": "Anoxia",
+        "icd10": "G931"
+      },
+      {
+        "name": "Reye's syndrome",
+        "icd10": "G937"
+      },
+      {
+        "name": "Pituitary apoplexy",
+        "icd10": "E236"
+      },
+      {
+        "name": "Trauma",
+        "icd10": "T149"
+      },
+      {
+        "name": "Subdural hemorrhage",
+        "icd10": "I620"
+      },
+      {
+        "name": "CO poisoning",
+        "icd10": "T58"
+      },
+      {
+        "name": "Epidural hemorrhage",
+        "icd10": "S064"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Hypothermia",
+        "icd10": "T68"
+      },
+      {
+        "name": "Brain abscess",
+        "icd10": "G060"
+      },
+      {
+        "name": "Cerebral contusion",
+        "icd10": "S062"
+      },
+      {
+        "name": "Diffuse axonal injury",
+        "icd10": "T144"
+      },
+      {
+        "name": "Increased intracranial pressure",
+        "icd10": "G932"
+      },
+      {
+        "name": "Acute hydrocephalus",
+        "icd10": "G919"
+      },
+      {
+        "name": "Wernicke encephalopathy",
+        "icd10": "E512"
+      },
+      {
+        "name": "Brain tumor",
+        "icd10": "D432"
+      },
+      {
+        "name": "Pituitary adenoma",
+        "icd10": "D352"
+      },
+      {
+        "name": "Neuroleptic malignant syndrome",
+        "icd10": "G210"
+      },
+      {
+        "name": "Myocarditis",
+        "icd10": "I514"
+      },
+      {
+        "name": "TTP",
+        "icd10": "M311"
+      },
+      {
+        "name": "Lupus vasculitis",
+        "icd10": "M319"
+      },
+      {
+        "name": "Hypertensive urgency",
+        "icd10": "I160"
+      },
+      {
+        "name": "Electrolyte disorders",
+        "icd10": "E87"
+      },
+      {
+        "name": "Hyponatremia",
+        "icd10": "E871"
+      },
+      {
+        "name": "Hypokalemia",
+        "icd10": "E876"
+      },
+      {
+        "name": "Hypocalcemia",
+        "icd10": "E835"
+      },
+      {
+        "name": "Hypomagnesemia",
+        "icd10": "E834"
+      },
+      {
+        "name": "Endocrine disorders",
+        "icd10": "E349"
+      },
+      {
+        "name": "Pituitary dysfunction",
+        "icd10": "R451"
+      },
+      {
+        "name": "Thyroid dysfunction",
+        "icd10": "R451"
+      },
+      {
+        "name": "Parathyroid disorders",
+        "icd10": "R451"
+      },
+      {
+        "name": "Adrenal insufficiency",
+        "icd10": "E272"
+      },
+      {
+        "name": "Ketoacidosis",
+        "icd10": "E872"
+      },
+      {
+        "name": "Hyperosmolar coma",
+        "icd10": "E140"
+      },
+      {
+        "name": "Hyperthermia symptom",
+        "icd10": "R509"
+      },
+      {
+        "name": "Heat stroke",
+        "icd10": "T67"
+      },
+      {
+        "name": "Malignant syndrome",
+        "icd10": "G210"
+      },
+      {
+        "name": "Malignant hyperthermia",
+        "icd10": "R509"
+      },
+      {
+        "name": "Hepatitis",
+        "icd10": "K759"
+      },
+      {
+        "name": "Liver failure",
+        "icd10": "K729"
+      },
+      {
+        "name": "Drug intoxication",
+        "icd10": "T509"
+      },
+      {
+        "name": "Drug withdrawal",
+        "icd10": "F193"
+      },
+      {
+        "name": "Alcohol abuse",
+        "icd10": "F102"
+      },
+      {
+        "name": "Alcohol withdrawal",
+        "icd10": "F103"
+      },
+      {
+        "name": "Thiamine deficiency",
+        "icd10": "E519"
+      },
+      {
+        "name": "Folic acid deficiency",
+        "icd10": "E538"
+      },
+      {
+        "name": "Vitamin B6 deficiency",
+        "icd10": "E531"
+      },
+      {
+        "name": "Vitamin B12 deficiency",
+        "icd10": "E538"
+      },
+      {
+        "name": "Vitamin B3 deficiency",
+        "icd10": "E52"
+      },
+      {
+        "name": "Uremia",
+        "icd10": "N19"
+      },
+      {
+        "name": "Delirium tremens",
+        "icd10": "F104"
+      },
+      {
+        "name": "Suicide attempt",
+        "icd10": "Z915"
+      },
+      {
+        "name": "Altitude sickness",
+        "icd10": "T702"
+      },
+      {
+        "name": "Drowning",
+        "icd10": "T751"
+      },
+      {
+        "name": "Hyperglycemia",
+        "icd10": "R739"
+      },
+      {
+        "name": "Opioid abuse",
+        "icd10": "F111"
+      },
+      {
+        "name": "Hypertensive emergency",
+        "icd10": "I161"
+      },
+      {
+        "name": "Gastrointestinal bleeding",
+        "icd10": "K922"
+      },
+      {
+        "name": "Convulsions",
+        "icd10": "R568"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Convulsions・convulsive seizure",
+    "red": [
+      {
+        "name": "Arrhythmia",
+        "icd10": "I499"
+      },
+      {
+        "name": "Myocardial infarction",
+        "icd10": "I219"
+      },
+      {
+        "name": "Subarachnoid hemorrhage",
+        "icd10": "I609"
+      },
+      {
+        "name": "Cerebral hemorrhage",
+        "icd10": "I619"
+      },
+      {
+        "name": "Head injury",
+        "icd10": "S099"
+      },
+      {
+        "name": "Meningitis",
+        "icd10": "G039"
+      },
+      {
+        "name": "Encephalitis",
+        "icd10": "G049"
+      },
+      {
+        "name": "Cerebral venous sinus thrombosis",
+        "icd10": "G08"
+      },
+      {
+        "name": "Hypoglycemia",
+        "icd10": "E162"
+      },
+      {
+        "name": "Anoxia",
+        "icd10": "G931"
+      },
+      {
+        "name": "Thyrotoxic crisis",
+        "icd10": "E055"
+      },
+      {
+        "name": "Eclampsia",
+        "icd10": "O159"
+      },
+      {
+        "name": "Trauma",
+        "icd10": "T149"
+      },
+      {
+        "name": "Septic shock",
+        "icd10": "A419"
+      },
+      {
+        "name": "Status epilepticus",
+        "icd10": "G419"
+      },
+      {
+        "name": "Aortic valve stenosis",
+        "icd10": "I350"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Hyperglycemia",
+        "icd10": "R739"
+      },
+      {
+        "name": "Infective endocarditis",
+        "icd10": "I330"
+      },
+      {
+        "name": "Left atrial myxoma",
+        "icd10": "D151"
+      },
+      {
+        "name": "Atrial fibrillation",
+        "icd10": "I48"
+      },
+      {
+        "name": "Arteriovenous malformation",
+        "icd10": "Q273"
+      },
+      {
+        "name": "Brain tumor",
+        "icd10": "D432"
+      },
+      {
+        "name": "Collagenosis",
+        "icd10": "M359"
+      },
+      {
+        "name": "Vasculitis",
+        "icd10": "I739"
+      },
+      {
+        "name": "SLE",
+        "icd10": "M329"
+      },
+      {
+        "name": "Sjogren syndrome",
+        "icd10": "M350"
+      },
+      {
+        "name": "Anti-phospholipid antibody syndrome",
+        "icd10": "D688"
+      },
+      {
+        "name": "Reversible rear leukoencephalopathy",
+        "icd10": "I678"
+      },
+      {
+        "name": "Lack of antiepileptic drugs",
+        "icd10": "T42"
+      },
+      {
+        "name": "Electrolyte disorders",
+        "icd10": "E87"
+      },
+      {
+        "name": "Hyponatremia",
+        "icd10": "E871"
+      },
+      {
+        "name": "Hypokalemia",
+        "icd10": "E876"
+      },
+      {
+        "name": "Hypocalcemia",
+        "icd10": "E835"
+      },
+      {
+        "name": "Hypomagnesemia",
+        "icd10": "E834"
+      },
+      {
+        "name": "Hypophosphatemia",
+        "icd10": "E833"
+      },
+      {
+        "name": "DKA",
+        "icd10": "E141"
+      },
+      {
+        "name": "Hyperosmolar non-ketonic coma",
+        "icd10": "E140"
+      },
+      {
+        "name": "Hepatic encephalopathy",
+        "icd10": "K729"
+      },
+      {
+        "name": "Uremia",
+        "icd10": "N19"
+      },
+      {
+        "name": "Alcohol abuse",
+        "icd10": "F102"
+      },
+      {
+        "name": "Alcohol withdrawal",
+        "icd10": "F103"
+      },
+      {
+        "name": "Drug intoxication",
+        "icd10": "T509"
+      },
+      {
+        "name": "Drug withdrawal",
+        "icd10": "F193"
+      },
+      {
+        "name": "Blood disorders",
+        "icd10": "D70, D71, D72, D73, D74, D75, D76, D77"
+      },
+      {
+        "name": "Syphilis",
+        "icd10": "A539"
+      },
+      {
+        "name": "Porphyria",
+        "icd10": "E802"
+      },
+      {
+        "name": "Tetanus",
+        "icd10": "A35"
+      },
+      {
+        "name": "Rabies",
+        "icd10": "A829"
+      },
+      {
+        "name": "Dehydration",
+        "icd10": "E86"
+      },
+      {
+        "name": "Opioid abuse",
+        "icd10": "F111"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Stomach ache",
+    "red": [
+      {
+        "name": "Rupture of abdominal aortic aneurysm",
+        "icd10": "I713"
+      },
+      {
+        "name": "Aortic dissection",
+        "icd10": "I710"
+      },
+      {
+        "name": "Acute myocardial infarction",
+        "icd10": "I219"
+      },
+      {
+        "name": "Pulmonary embolism",
+        "icd10": "I269"
+      },
+      {
+        "name": "Gastrointestinal bleeding",
+        "icd10": "K922"
+      },
+      {
+        "name": "Hepatocellular carcinoma rupture",
+        "icd10": "C220"
+      },
+      {
+        "name": "Bacterial peritonitis",
+        "icd10": "K658"
+      },
+      {
+        "name": "Splenic injury",
+        "icd10": "S360"
+      },
+      {
+        "name": "Placental abruption",
+        "icd10": "O459"
+      },
+      {
+        "name": "Ectopic pregnancy",
+        "icd10": "O009"
+      },
+      {
+        "name": "Ovarian tumor stem torsion",
+        "icd10": "D27"
+      },
+      {
+        "name": "Rupture of ovarian tumor stems",
+        "icd10": "D391"
+      },
+      {
+        "name": "Severe trauma",
+        "icd10": "T149"
+      },
+      {
+        "name": "Arterial embolism",
+        "icd10": "I749"
+      },
+      {
+        "name": "Septic shock",
+        "icd10": "A419"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Mesenteric ischemia",
+        "icd10": "K550"
+      },
+      {
+        "name": "Arterial thrombosis",
+        "icd10": "I749"
+      },
+      {
+        "name": "Vein embolus",
+        "icd10": "I829"
+      },
+      {
+        "name": "NOMI",
+        "icd10": "K550"
+      },
+      {
+        "name": "Pericarditis",
+        "icd10": "I319"
+      },
+      {
+        "name": "Myocarditis",
+        "icd10": "I514"
+      },
+      {
+        "name": "Splenic infarction",
+        "icd10": "D735"
+      },
+      {
+        "name": "Renal infarction",
+        "icd10": "N280"
+      },
+      {
+        "name": "Adrenal infarction",
+        "icd10": "E274"
+      },
+      {
+        "name": "Suppurated portal vein thrombosis",
+        "icd10": "I81"
+      },
+      {
+        "name": "Renal vein thrombosis",
+        "icd10": "I823"
+      },
+      {
+        "name": "Anterior spinal artery occlusion",
+        "icd10": "G951"
+      },
+      {
+        "name": "Gastrointestinal perforation",
+        "icd10": "K22, K25, K26, K27, K28"
+      },
+      {
+        "name": "Appendicitis",
+        "icd10": "K37"
+      },
+      {
+        "name": "Diverticulitis",
+        "icd10": "K573"
+      },
+      {
+        "name": "Ischemic enteritis",
+        "icd10": "K559"
+      },
+      {
+        "name": "Strangulation ileus",
+        "icd10": "K562"
+      },
+      {
+        "name": "Volvulus",
+        "icd10": "K562"
+      },
+      {
+        "name": "Intussusception",
+        "icd10": "K561"
+      },
+      {
+        "name": "Hernia paraphimosis",
+        "icd10": "K42, K43, K44, K45, K46"
+      },
+      {
+        "name": "Acute cholangitis",
+        "icd10": "K830"
+      },
+      {
+        "name": "Acute hepatitis",
+        "icd10": "K720"
+      },
+      {
+        "name": "Acute pancreatitis",
+        "icd10": "K85"
+      },
+      {
+        "name": "Acute cholecystitis",
+        "icd10": "K810"
+      },
+      {
+        "name": "Liver abscess",
+        "icd10": "K750"
+      },
+      {
+        "name": "Iliopsoas abscess",
+        "icd10": "K650"
+      },
+      {
+        "name": "Diaphragmatic abscess",
+        "icd10": "K650"
+      },
+      {
+        "name": "Epidural abscess",
+        "icd10": "G062"
+      },
+      {
+        "name": "Toxic megacolon",
+        "icd10": "K593"
+      },
+      {
+        "name": "Fitz-Hugh-Curtis syndrome",
+        "icd10": "A54"
+      },
+      {
+        "name": "DKA",
+        "icd10": "E141"
+      },
+      {
+        "name": "AKA",
+        "icd10": "E872"
+      },
+      {
+        "name": "Testicular torsion",
+        "icd10": "N44"
+      },
+      {
+        "name": "Epididymitis",
+        "icd10": "N459"
+      },
+      {
+        "name": "Ovarian hemorrhage",
+        "icd10": "N838"
+      },
+      {
+        "name": "Metabolic diseases",
+        "icd10": "E88"
+      },
+      {
+        "name": "Uremia",
+        "icd10": "N19"
+      },
+      {
+        "name": "Acute intermittent porphyria",
+        "icd10": "E802"
+      },
+      {
+        "name": "Hypercalcemia",
+        "icd10": "E835"
+      },
+      {
+        "name": "Acute adrenal insufficiency",
+        "icd10": "E272"
+      },
+      {
+        "name": "Pneumonia",
+        "icd10": "J189"
+      },
+      {
+        "name": "Pelvic inflammation syndrome",
+        "icd10": "N739"
+      },
+      {
+        "name": "Tubo-ovarian abscess",
+        "icd10": "N709"
+      },
+      {
+        "name": "Pyelonephritis",
+        "icd10": "N12"
+      },
+      {
+        "name": "Spinal compression fracture",
+        "icd10": "T080"
+      },
+      {
+        "name": "Infectious mononucleosis",
+        "icd10": "B279"
+      },
+      {
+        "name": "Waterhouse–Friderichsen syndrome",
+        "icd10": "A391"
+      },
+      {
+        "name": "Epilepsy",
+        "icd10": "G409"
+      },
+      {
+        "name": "Glaucoma",
+        "icd10": "H409"
+      },
+      {
+        "name": "SLE",
+        "icd10": "M329"
+      },
+      {
+        "name": "Vasculitis",
+        "icd10": "R104"
+      },
+      {
+        "name": "Angioedema with ACE inhibitors",
+        "icd10": "D841"
+      },
+      {
+        "name": "Lead poisoning",
+        "icd10": "T560"
+      },
+      {
+        "name": "Arsenic intoxication",
+        "icd10": "T570"
+      },
+      {
+        "name": "Snakebite",
+        "icd10": "T630"
+      },
+      {
+        "name": "Spider bite",
+        "icd10": "T633"
+      },
+      {
+        "name": "Scorpion bite",
+        "icd10": "T632"
+      },
+      {
+        "name": "Malaria",
+        "icd10": "B54"
+      },
+      {
+        "name": "Physical abuse",
+        "icd10": "T741"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Hematemesis・Melena",
+    "red": [
+      {
+        "name": "Esophageal varices",
+        "icd10": "I859"
+      },
+      {
+        "name": "Aorta intestinal fistula",
+        "icd10": "I772"
+      },
+      {
+        "name": "Gastrointestinal bleeding",
+        "icd10": "K922"
+      },
+      {
+        "name": "Pulmonary embolism",
+        "icd10": "I269"
+      },
+      {
+        "name": "Pulmonary infarction",
+        "icd10": "I269"
+      },
+      {
+        "name": "Antiplatelet agent",
+        "icd10": "D683"
+      },
+      {
+        "name": "Anticoagulant",
+        "icd10": "T458, T459"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Gastrointestinal perforation",
+        "icd10": "K22, K25, K26, K27, K28"
+      },
+      {
+        "name": "Postoperative ulcer",
+        "icd10": "K270"
+      },
+      {
+        "name": "Stomach・duodenal biopsy after-bleeding",
+        "icd10": "T810"
+      },
+      {
+        "name": "Esophageal ulcer",
+        "icd10": "K221"
+      },
+      {
+        "name": "Hemosuccus pancreaticus",
+        "icd10": "K859"
+      },
+      {
+        "name": "Hemobilia",
+        "icd10": "K838"
+      },
+      {
+        "name": "Upper gastrointestinal tract malignant tumors",
+        "icd10": "C15, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25, C26"
+      },
+      {
+        "name": "Metastases to stomach",
+        "icd10": "C788"
+      },
+      {
+        "name": "Angiodysplasia",
+        "icd10": "K552"
+      },
+      {
+        "name": "Foreign body",
+        "icd10": "T181"
+      },
+      {
+        "name": "Lung abscess",
+        "icd10": "J852"
+      },
+      {
+        "name": "Tuberculosis",
+        "icd10": "A169"
+      },
+      {
+        "name": "Bronchodilatation",
+        "icd10": "J47"
+      },
+      {
+        "name": "Diffuse pulmonary alveolar hemorrhage",
+        "icd10": "R048"
+      },
+      {
+        "name": "Malignant tumor of the otolaryngology region",
+        "icd10": "C09, C10, C11, C12, C13, C14, C30, C31, C32, C33, C34, C37, C38, C39"
+      },
+      {
+        "name": "Alkali aspiration",
+        "icd10": "T543"
+      },
+      {
+        "name": "Drug intoxication",
+        "icd10": "T509"
+      },
+      {
+        "name": "Blood disorders",
+        "icd10": "D70, D71, D72, D73, D74, D75, D76, D77"
+      },
+      {
+        "name": "Pulmonary arteriovenous malformations",
+        "icd10": "I280"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Melena/Hematochezia",
+    "red": [
+      {
+        "name": "Upper gastrointestinal bleeding",
+        "icd10": "K922"
+      },
+      {
+        "name": "Lower gastrointestinal bleeding",
+        "icd10": "K922"
+      },
+      {
+        "name": "Arterio-enteric fistula",
+        "icd10": "I772"
+      },
+      {
+        "name": "Trauma",
+        "icd10": "T149"
+      },
+      {
+        "name": "Septic shock",
+        "icd10": "A419"
+      },
+      {
+        "name": "Antiplatelet agent",
+        "icd10": "D683"
+      },
+      {
+        "name": "Anticoagulant",
+        "icd10": "T458, T459"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Mesenteric ischemia",
+        "icd10": "K550"
+      },
+      {
+        "name": "Volvulus",
+        "icd10": "K562"
+      },
+      {
+        "name": "Ischemic enteritis",
+        "icd10": "K559"
+      },
+      {
+        "name": "Diverticulitis",
+        "icd10": "K573"
+      },
+      {
+        "name": "Meckel’s diverticulum",
+        "icd10": "Q430"
+      },
+      {
+        "name": "Gastrointestinal malignant tumor",
+        "icd10": "C15, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25, C26"
+      },
+      {
+        "name": "Infectious enteritis",
+        "icd10": "A09"
+      },
+      {
+        "name": "Salmonella",
+        "icd10": "A020"
+      },
+      {
+        "name": "Dysentery",
+        "icd10": "A039"
+      },
+      {
+        "name": "Campylobacter",
+        "icd10": "A045"
+      },
+      {
+        "name": "Enterohemorrhagic Escherichia coli",
+        "icd10": "A043"
+      },
+      {
+        "name": "Entamoeba histolytica",
+        "icd10": "A060"
+      },
+      {
+        "name": "CMV",
+        "icd10": "B259"
+      },
+      {
+        "name": "Klebsiella oxytoca",
+        "icd10": "J150"
+      },
+      {
+        "name": "Angiodysplasia",
+        "icd10": "K552"
+      },
+      {
+        "name": "Iatrogenic",
+        "icd10": "K921"
+      },
+      {
+        "name": "After endoscopic treatment",
+        "icd10": "K918"
+      },
+      {
+        "name": "After enema use",
+        "icd10": "T185"
+      },
+      {
+        "name": "Drug-induced enteritis",
+        "icd10": "K528"
+      },
+      {
+        "name": "Pseudomembranous enteritis",
+        "icd10": "A047"
+      },
+      {
+        "name": "Arteriovenous malformation",
+        "icd10": "Q273"
+      },
+      {
+        "name": "Portal hypertension",
+        "icd10": "K766"
+      },
+      {
+        "name": "Foreign body",
+        "icd10": "T185"
+      },
+      {
+        "name": "Radiation enteritis",
+        "icd10": "K520"
+      },
+      {
+        "name": "After the prostate biopsy",
+        "icd10": "T810"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Hemoptysis",
+    "red": [
+      {
+        "name": "Aortic bronchial fistula",
+        "icd10": "J980"
+      },
+      {
+        "name": "Severe pneumonia",
+        "icd10": "J189"
+      },
+      {
+        "name": "Antiplatelet agent",
+        "icd10": "D683"
+      },
+      {
+        "name": "Anticoagulant",
+        "icd10": "T458, T459"
+      },
+      {
+        "name": "Bronchial rupture",
+        "icd10": "S274"
+      },
+      {
+        "name": "Pulmonary embolism",
+        "icd10": "I269"
+      },
+      {
+        "name": "Heart failure",
+        "icd10": "I509"
+      },
+      {
+        "name": "Coagulation disorder",
+        "icd10": "D689"
+      },
+      {
+        "name": "Thoracic injury",
+        "icd10": "S299"
+      },
+      {
+        "name": "Epiglottitis due to the accidental ingestion of a toxic substance",
+        "icd10": "J051"
+      },
+      {
+        "name": "Foreign body",
+        "icd10": "T179"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Thrombocytopenia/Abnormal platelet function",
+        "icd10": "D691"
+      },
+      {
+        "name": "Pulmonary hypertension",
+        "icd10": "I270"
+      },
+      {
+        "name": "Arteriovenous malformation",
+        "icd10": "Q273"
+      },
+      {
+        "name": "Pulmonary vascular dysplasia",
+        "icd10": "P271"
+      },
+      {
+        "name": "Lung abscess (lung abscess)",
+        "icd10": "J852"
+      },
+      {
+        "name": "Uremia",
+        "icd10": "N19"
+      },
+      {
+        "name": "Bronchoscopic injury",
+        "icd10": "S274"
+      },
+      {
+        "name": "After lung biopsy",
+        "icd10": "T810"
+      },
+      {
+        "name": "Tuberculosis",
+        "icd10": "A169"
+      },
+      {
+        "name": "Mitral stenosis",
+        "icd10": "I050"
+      },
+      {
+        "name": "Pulmonary-artery catheter perforation",
+        "icd10": "T812"
+      },
+      {
+        "name": "Tularemia",
+        "icd10": "A219"
+      },
+      {
+        "name": "Fungal toxin T2 (Mycotoxins [T2]) - bioterrorism",
+        "icd10": "B49"
+      },
+      {
+        "name": "Cocaine inhalation",
+        "icd10": "F141"
+      },
+      {
+        "name": "Pulmonary hemorrhage originating in the perinatal period",
+        "icd10": "P260"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Diarrhea",
+    "red": [
+      {
+        "name": "Anaphylaxis",
+        "icd10": "T782"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Gastrointestinal bleeding",
+        "icd10": "K922"
+      },
+      {
+        "name": "Mesenteric ischemia",
+        "icd10": "K550"
+      },
+      {
+        "name": "Pseudomembranous enteritis",
+        "icd10": "A047"
+      },
+      {
+        "name": "Appendicitis",
+        "icd10": "K37"
+      },
+      {
+        "name": "Volvulus",
+        "icd10": "K562"
+      },
+      {
+        "name": "Infectious enteritis",
+        "icd10": "A09"
+      },
+      {
+        "name": "Salmonella",
+        "icd10": "A020"
+      },
+      {
+        "name": "Dysentery",
+        "icd10": "A039"
+      },
+      {
+        "name": "Campylobacter",
+        "icd10": "A045"
+      },
+      {
+        "name": "Cholera",
+        "icd10": "A009"
+      },
+      {
+        "name": "Yersinia",
+        "icd10": "A058"
+      },
+      {
+        "name": "Enterohemorrhagic Escherichia coli",
+        "icd10": "A043"
+      },
+      {
+        "name": "Entamoeba histolytica",
+        "icd10": "A060"
+      },
+      {
+        "name": "Giardia lamblia",
+        "icd10": "A071"
+      },
+      {
+        "name": "Ischemic enteritis",
+        "icd10": "K559"
+      },
+      {
+        "name": "Obstructive cholangiocarcinoma",
+        "icd10": "C240"
+      },
+      {
+        "name": "Pneumonia",
+        "icd10": "J189"
+      },
+      {
+        "name": "Pyelonephritis",
+        "icd10": "N12"
+      },
+      {
+        "name": "Idiopathic bacterial peritonitis",
+        "icd10": "K650"
+      },
+      {
+        "name": "Acute HIV infection",
+        "icd10": "B230"
+      },
+      {
+        "name": "Thyrotoxic crisis",
+        "icd10": "E055"
+      },
+      {
+        "name": "Adrenal insufficiency",
+        "icd10": "E272"
+      },
+      {
+        "name": "Uremia",
+        "icd10": "N19"
+      },
+      {
+        "name": "Medullary carcinoma of the thyroid",
+        "icd10": "C73"
+      },
+      {
+        "name": "Ulcerative colitis",
+        "icd10": "K51"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Constipation",
+    "red": [
+      {
+        "name": "Spinal cord injury",
+        "icd10": "T093"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Intestinal obstruction",
+        "icd10": "K567"
+      },
+      {
+        "name": "Volvulus",
+        "icd10": "K562"
+      },
+      {
+        "name": "Gastrointestinal perforation",
+        "icd10": "K22, K25, K26, K27, K28, K631"
+      },
+      {
+        "name": "Paralytic ileus",
+        "icd10": "K560"
+      },
+      {
+        "name": "Colorectal cancer",
+        "icd10": "C189"
+      },
+      {
+        "name": "Carcinomatous peritonitis",
+        "icd10": "C786"
+      },
+      {
+        "name": "Hernia",
+        "icd10": "K409, K419, K429, K439, K458, K432,"
+      },
+      {
+        "name": "Bladder and rectal disorder",
+        "icd10": "N319"
+      },
+      {
+        "name": "Dehydration",
+        "icd10": "E86"
+      },
+      {
+        "name": "Hypokalemia",
+        "icd10": "E876"
+      },
+      {
+        "name": "Hypercalcemia",
+        "icd10": "E835"
+      },
+      {
+        "name": "Uremia",
+        "icd10": "N19"
+      },
+      {
+        "name": "Depression with suicide attempts",
+        "icd10": "F329"
+      },
+      {
+        "name": "Eating disorders",
+        "icd10": "F509"
+      },
+      {
+        "name": "Sexual assault",
+        "icd10": "K590"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Bleeding outside menstrual period or post-coital bleeding",
+    "red": [
+      {
+        "name": "Ectopic pregnancy",
+        "icd10": "O009"
+      },
+      {
+        "name": "Placenta previa",
+        "icd10": "O441"
+      },
+      {
+        "name": "Placental abruption",
+        "icd10": "O459"
+      },
+      {
+        "name": "Antiplatelet agent",
+        "icd10": "D683"
+      },
+      {
+        "name": "Anticoagulant",
+        "icd10": "T458, T459"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Sexual organs trauma",
+        "icd10": "S399"
+      },
+      {
+        "name": "Foreign body",
+        "icd10": "T19"
+      },
+      {
+        "name": "Pelvic infection",
+        "icd10": "N739"
+      },
+      {
+        "name": "Cervical cancer",
+        "icd10": "C539"
+      },
+      {
+        "name": "Endometrial cancer",
+        "icd10": "C549"
+      },
+      {
+        "name": "Thyroid diseases",
+        "icd10": "E079"
+      },
+      {
+        "name": "Blood disorders",
+        "icd10": "D70, D71, D72, D73, D74, D75, D76, D77"
+      },
+      {
+        "name": "von Willebrand disease",
+        "icd10": "D680"
+      },
+      {
+        "name": "ITP",
+        "icd10": "D693"
+      },
+      {
+        "name": "Leukemia",
+        "icd10": "C959"
+      },
+      {
+        "name": "Drug induced",
+        "icd10": "N939"
+      },
+      {
+        "name": "Thrombocytopenia/Abnormal platelet function",
+        "icd10": "D691"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Pregnancy-related circumstances <20 weeks",
+    "red": [
+      {
+        "name": "Ectopic pregnancy",
+        "icd10": "O009"
+      },
+      {
+        "name": "Placenta previa",
+        "icd10": "O44"
+      },
+      {
+        "name": "Antiplatelet agent",
+        "icd10": "D683"
+      },
+      {
+        "name": "Anticoagulant",
+        "icd10": "T458, T459"
+      },
+      {
+        "name": "Pre-eclampsia",
+        "icd10": "O14"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Pedicle torsion",
+        "icd10": "N488"
+      },
+      {
+        "name": "Miscarriage",
+        "icd10": "O039"
+      },
+      {
+        "name": "Sexual assault",
+        "icd10": "O20, O21, O22, O23, O24, O25, O26, O28"
+      },
+      {
+        "name": "Sexual trauma",
+        "icd10": "O29"
+      },
+      {
+        "name": "Appendicitis",
+        "icd10": "K37"
+      },
+      {
+        "name": "Pyelonephritis",
+        "icd10": "N12"
+      },
+      {
+        "name": "Inflammatory colitis",
+        "icd10": "A09"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Pregnancy-related circumstances >20 weeks",
+    "red": [
+      {
+        "name": "Vasa previa",
+        "icd10": "O694"
+      },
+      {
+        "name": "Pregnancy-induced hypertension",
+        "icd10": "O149"
+      },
+      {
+        "name": "Eclampsia",
+        "icd10": "O159"
+      },
+      {
+        "name": "Placental abruption",
+        "icd10": "O459"
+      },
+      {
+        "name": "Post-partum hemorrhage",
+        "icd10": "O721"
+      },
+      {
+        "name": "Atonic bleeding",
+        "icd10": "O721"
+      },
+      {
+        "name": "Uterine rupture",
+        "icd10": "O711"
+      },
+      {
+        "name": "Peripartum cardiomyopathy",
+        "icd10": "O903"
+      },
+      {
+        "name": "Pulmonary embolism",
+        "icd10": "I269"
+      },
+      {
+        "name": "HELLP syndrome",
+        "icd10": "O141"
+      },
+      {
+        "name": "Amniotic fluid embolism",
+        "icd10": "O881"
+      },
+      {
+        "name": "Antiplatelet agent",
+        "icd10": "D683"
+      },
+      {
+        "name": "Anticoagulant",
+        "icd10": "T458, T459"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Deep vein thrombosis",
+        "icd10": "I802"
+      },
+      {
+        "name": "Early rupture of the membrane",
+        "icd10": "O429"
+      },
+      {
+        "name": "Premature birth",
+        "icd10": "O60"
+      },
+      {
+        "name": "Perinatal endometritis",
+        "icd10": "N719"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Cyanosis",
+    "red": [
+      {
+        "name": "Heart failure",
+        "icd10": "I509"
+      },
+      {
+        "name": "Shock",
+        "icd10": "R579"
+      },
+      {
+        "name": "Arterial occlusion",
+        "icd10": "I709"
+      },
+      {
+        "name": "Embolic arterial occlusion",
+        "icd10": "R230"
+      },
+      {
+        "name": "Thrombus",
+        "icd10": "R230"
+      },
+      {
+        "name": "Venous obstruction",
+        "icd10": "R230"
+      },
+      {
+        "name": "VP shunt",
+        "icd10": "T850"
+      },
+      {
+        "name": "Pulmonary embolism",
+        "icd10": "I269"
+      },
+      {
+        "name": "ARDS",
+        "icd10": "J80"
+      },
+      {
+        "name": "Upper airway obstruction",
+        "icd10": "Q348"
+      },
+      {
+        "name": "Upper airway foreign body",
+        "icd10": "T179"
+      },
+      {
+        "name": "Severe pneumonia",
+        "icd10": "J189"
+      },
+      {
+        "name": "Tension pneumothorax",
+        "icd10": "J930"
+      },
+      {
+        "name": "Severe asthma",
+        "icd10": "J46"
+      },
+      {
+        "name": "Septic shock",
+        "icd10": "A419"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Pulmonary hypertension",
+        "icd10": "I270"
+      },
+      {
+        "name": "Congenital anomaly",
+        "icd10": "Q899"
+      },
+      {
+        "name": "Diaphragmatic hernia",
+        "icd10": "K449"
+      },
+      {
+        "name": "Altitude sickness",
+        "icd10": "T702"
+      },
+      {
+        "name": "Methemoglobinemia",
+        "icd10": "D749"
+      },
+      {
+        "name": "Sulfhemoglobinemia",
+        "icd10": "D748"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Gait disturbance・weakness・ataxy",
+    "red": [
+      {
+        "name": "Subarachnoid hemorrhage",
+        "icd10": "I609"
+      },
+      {
+        "name": "Cerebral hemorrhage",
+        "icd10": "I619"
+      },
+      {
+        "name": "Cerebral infarction",
+        "icd10": "I639"
+      },
+      {
+        "name": "Aortic dissection",
+        "icd10": "I710"
+      },
+      {
+        "name": "Severe trauma",
+        "icd10": "T149"
+      },
+      {
+        "name": "Septic shock",
+        "icd10": "A419"
+      },
+      {
+        "name": "Anoxia",
+        "icd10": "G931"
+      },
+      {
+        "name": "Severe anemia",
+        "icd10": "D649"
+      },
+      {
+        "name": "Bleeding",
+        "icd10": "R58"
+      },
+      {
+        "name": "Hypoglycemia",
+        "icd10": "E162"
+      },
+      {
+        "name": "Extradural hematoma",
+        "icd10": "S064"
+      },
+      {
+        "name": "Brainstem encephalitis",
+        "icd10": "G610"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Brain tumor",
+        "icd10": "D432"
+      },
+      {
+        "name": "Chronic subdural hematoma",
+        "icd10": "I620"
+      },
+      {
+        "name": "Hydrocephalus",
+        "icd10": "G919"
+      },
+      {
+        "name": "Normal pressure hydrocephalus",
+        "icd10": "G912"
+      },
+      {
+        "name": "Wernicke encephalopathy",
+        "icd10": "E512"
+      },
+      {
+        "name": "Anterior spinal artery syndrome",
+        "icd10": "G951"
+      },
+      {
+        "name": "Spinal fistula",
+        "icd10": "A521"
+      },
+      {
+        "name": "Spondylosis",
+        "icd10": "M4782"
+      },
+      {
+        "name": "Lumbar radiculopathy",
+        "icd10": "M541"
+      },
+      {
+        "name": "Epidural abscess",
+        "icd10": "G062"
+      },
+      {
+        "name": "Guillain–Barré syndrome",
+        "icd10": "G610"
+      },
+      {
+        "name": "Tetrodotoxin toxicity",
+        "icd10": "T612"
+      },
+      {
+        "name": "Ciguatera poisoning",
+        "icd10": "T611"
+      },
+      {
+        "name": "Botulism",
+        "icd10": "A051"
+      },
+      {
+        "name": "Deep vein thrombosis",
+        "icd10": "I802"
+      },
+      {
+        "name": "Coarctation of the aorta",
+        "icd10": "Q253"
+      },
+      {
+        "name": "Electrolyte disorders",
+        "icd10": "E87"
+      },
+      {
+        "name": "Drug-induced myopathy",
+        "icd10": "G720"
+      },
+      {
+        "name": "Drug intoxication",
+        "icd10": "T509"
+      },
+      {
+        "name": "Phenytoin",
+        "icd10": "K061"
+      },
+      {
+        "name": "Carbamazepine",
+        "icd10": "T421"
+      },
+      {
+        "name": "Valproic acid",
+        "icd10": "T426"
+      },
+      {
+        "name": "Lead poisoning",
+        "icd10": "T560"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Symptom of appendicular weakness・cerebrovascular disorder",
+    "red": [
+      {
+        "name": "Subarachnoid hemorrhage",
+        "icd10": "I609"
+      },
+      {
+        "name": "Cerebral hemorrhage",
+        "icd10": "I619"
+      },
+      {
+        "name": "Cerebral infarction",
+        "icd10": "I639, G529"
+      },
+      {
+        "name": "Spinal cord injury",
+        "icd10": "T093"
+      },
+      {
+        "name": "Aortic dissection",
+        "icd10": "I710"
+      },
+      {
+        "name": "Severe trauma",
+        "icd10": "T149"
+      },
+      {
+        "name": "Septic shock",
+        "icd10": "A419"
+      },
+      {
+        "name": "Anoxia",
+        "icd10": "G931"
+      },
+      {
+        "name": "Anemia gravis",
+        "icd10": "D649"
+      },
+      {
+        "name": "Bleeding",
+        "icd10": "R58"
+      },
+      {
+        "name": "Hypoglycemia",
+        "icd10": "E162"
+      },
+      {
+        "name": "Epilepsy",
+        "icd10": "G409"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Brainstem encephalitis",
+        "icd10": "G610"
+      },
+      {
+        "name": "Brain abscess",
+        "icd10": "G060"
+      },
+      {
+        "name": "Spinal cord infarction",
+        "icd10": "G951"
+      },
+      {
+        "name": "Brain tumor",
+        "icd10": "D432"
+      },
+      {
+        "name": "Chronic subdural hematoma",
+        "icd10": "I620"
+      },
+      {
+        "name": "Hydrocephalus",
+        "icd10": "G919"
+      },
+      {
+        "name": "Normal pressure hydrocephalus",
+        "icd10": "G912"
+      },
+      {
+        "name": "Wernicke encephalopathy",
+        "icd10": "E512"
+      },
+      {
+        "name": "Acute disseminated encephalomyelitis",
+        "icd10": "G040"
+      },
+      {
+        "name": "Cauda equina syndrome",
+        "icd10": "G834"
+      },
+      {
+        "name": "Anterior spinal artery syndrome",
+        "icd10": "G951"
+      },
+      {
+        "name": "Myelitis",
+        "icd10": "G049"
+      },
+      {
+        "name": "Spinal epidural hematoma",
+        "icd10": "T093"
+      },
+      {
+        "name": "Intradural and extramedullary tumors of the spinal cord",
+        "icd10": "D421"
+      },
+      {
+        "name": "Spinal arteriovenous malformation",
+        "icd10": "Q273"
+      },
+      {
+        "name": "Arteriovenous fistula",
+        "icd10": "I770"
+      },
+      {
+        "name": "Spinal epidural metastasis",
+        "icd10": "C794"
+      },
+      {
+        "name": "Spinal fistula",
+        "icd10": "A521"
+      },
+      {
+        "name": "Lumbar radiculopathy",
+        "icd10": "M541"
+      },
+      {
+        "name": "Spinal cord epiconus syndrome",
+        "icd10": "G958"
+      },
+      {
+        "name": "Guillain–Barré syndrome",
+        "icd10": "G610"
+      },
+      {
+        "name": "Tetrodotoxin toxicity",
+        "icd10": "T612"
+      },
+      {
+        "name": "Ciguatera poisoning",
+        "icd10": "T611"
+      },
+      {
+        "name": "Botulism",
+        "icd10": "A051"
+      },
+      {
+        "name": "Acute arterial occlusion",
+        "icd10": "I742"
+      },
+      {
+        "name": "Acute arterial occlusion",
+        "icd10": "I743"
+      },
+      {
+        "name": "Deep vein thrombosis",
+        "icd10": "I802"
+      },
+      {
+        "name": "Coarctation of the aorta",
+        "icd10": "Q253"
+      },
+      {
+        "name": "Electrolyte disorders",
+        "icd10": "E87"
+      },
+      {
+        "name": "Drug-induced myopathy",
+        "icd10": "G720"
+      },
+      {
+        "name": "Drug intoxication",
+        "icd10": "T509"
+      },
+      {
+        "name": "Phenytoin",
+        "icd10": "K061"
+      },
+      {
+        "name": "Carbamazepine",
+        "icd10": "T421"
+      },
+      {
+        "name": "Valproic acid",
+        "icd10": "T426"
+      },
+      {
+        "name": "Lead poisoning",
+        "icd10": "T560"
+      },
+      {
+        "name": "Sedative overdose internal use",
+        "icd10": "T427"
+      },
+      {
+        "name": "Disorders of magnesium metabolism",
+        "icd10": "E83"
+      },
+      {
+        "name": "Dehydration",
+        "icd10": "E86"
+      },
+      {
+        "name": "Hypertensive urgency",
+        "icd10": "I160"
+      },
+      {
+        "name": "Hypertensive emergency",
+        "icd10": "I161"
+      },
+      {
+        "name": "Traumatic subdural hemorrhage",
+        "icd10": "S065"
+      },
+      {
+        "name": "Traumatic subarachnoid hemorrhage",
+        "icd10": "S066"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Ear ache",
+    "red": [
+      {
+        "name": "Severe trauma",
+        "icd10": "T149"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Mastoiditis",
+        "icd10": "H709"
+      },
+      {
+        "name": "Foreign body",
+        "icd10": "T16"
+      },
+      {
+        "name": "Ramsay–Hunt syndrome",
+        "icd10": "B022"
+      },
+      {
+        "name": "Otitis media",
+        "icd10": "H669"
+      },
+      {
+        "name": "Ear canal cholesteatoma",
+        "icd10": "H604"
+      },
+      {
+        "name": "Ear tumor",
+        "icd10": "D485"
+      },
+      {
+        "name": "Auricular cellulitis",
+        "icd10": "H601"
+      },
+      {
+        "name": "Tonsillitis",
+        "icd10": "J039"
+      },
+      {
+        "name": "Bullous myringitis",
+        "icd10": "H730"
+      },
+      {
+        "name": "Sinusitis",
+        "icd10": "J329"
+      },
+      {
+        "name": "Thyroid diseases",
+        "icd10": "E079"
+      },
+      {
+        "name": "Perforation of tympanic membrane",
+        "icd10": "H72"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Tinnitus",
+    "red": [
+      {
+        "name": "Skull fracture",
+        "icd10": "S0290"
+      },
+      {
+        "name": "Trauma",
+        "icd10": "T149"
+      },
+      {
+        "name": "Basilar insufficiency",
+        "icd10": "G450"
+      },
+      {
+        "name": "Basilar artery occlusion",
+        "icd10": "I651"
+      },
+      {
+        "name": "Aneurysms",
+        "icd10": "I729"
+      },
+      {
+        "name": "Viral encephalitis",
+        "icd10": "A86"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Acoustic neuroma",
+        "icd10": "D433"
+      },
+      {
+        "name": "Labyrinthitis",
+        "icd10": "H830"
+      },
+      {
+        "name": "Pyramiditis",
+        "icd10": "H702"
+      },
+      {
+        "name": "Drug induced",
+        "icd10": "H931"
+      },
+      {
+        "name": "Loop diuretics",
+        "icd10": "Y544"
+      },
+      {
+        "name": "NSAIDs",
+        "icd10": "Y459"
+      },
+      {
+        "name": "Antibiotic",
+        "icd10": "H931"
+      },
+      {
+        "name": "Anti-cancer drugs",
+        "icd10": "T451"
+      },
+      {
+        "name": "Ethanol",
+        "icd10": "H931"
+      },
+      {
+        "name": "Propylene glycol",
+        "icd10": "H931"
+      },
+      {
+        "name": "Thyroid diseases",
+        "icd10": "E079"
+      },
+      {
+        "name": "Depression with suicide attempts",
+        "icd10": "F329"
+      },
+      {
+        "name": "Syphilis",
+        "icd10": "A539"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "General malaise",
+    "red": [
+      {
+        "name": "Arrhythmia",
+        "icd10": "I499"
+      },
+      {
+        "name": "Anemia gravis",
+        "icd10": "D649"
+      },
+      {
+        "name": "Bleeding",
+        "icd10": "R58"
+      },
+      {
+        "name": "Septic shock",
+        "icd10": "A419"
+      },
+      {
+        "name": "Anoxia",
+        "icd10": "G931"
+      },
+      {
+        "name": "Hypoglycemia",
+        "icd10": "E162"
+      },
+      {
+        "name": "Myocardial infarction",
+        "icd10": "I214"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Hyperglycemia",
+        "icd10": "R739"
+      },
+      {
+        "name": "Electrolyte disorders",
+        "icd10": "E87"
+      },
+      {
+        "name": "Hyponatremia",
+        "icd10": "E871"
+      },
+      {
+        "name": "Hypokalemia",
+        "icd10": "E876"
+      },
+      {
+        "name": "Hypercalcemia",
+        "icd10": "E835"
+      },
+      {
+        "name": "Acute kidney injury",
+        "icd10": "N179"
+      },
+      {
+        "name": "Thyroid function abnormality",
+        "icd10": "E079"
+      },
+      {
+        "name": "Thyrotoxic crisis",
+        "icd10": "E055"
+      },
+      {
+        "name": "Hypothyroidism",
+        "icd10": "E039"
+      },
+      {
+        "name": "Subacute thyroiditis",
+        "icd10": "E061"
+      },
+      {
+        "name": "Lassitude-related hyperthyroidism",
+        "icd10": "E059"
+      },
+      {
+        "name": "Infectious mononucleosis",
+        "icd10": "B279"
+      },
+      {
+        "name": "Tuberculosis",
+        "icd10": "A169"
+      },
+      {
+        "name": "Drug induced",
+        "icd10": "R53"
+      },
+      {
+        "name": "Beta-blocker",
+        "icd10": "T44"
+      },
+      {
+        "name": "Diuretics",
+        "icd10": "T509"
+      },
+      {
+        "name": "Antihistamines",
+        "icd10": "T450"
+      },
+      {
+        "name": "Psychotropic drugs",
+        "icd10": "F199"
+      },
+      {
+        "name": "Steroid",
+        "icd10": "R53"
+      },
+      {
+        "name": "Alcohol abuse",
+        "icd10": "F101"
+      },
+      {
+        "name": "Malignant tumor",
+        "icd10": "C80"
+      },
+      {
+        "name": "Brain tumor",
+        "icd10": "D432"
+      },
+      {
+        "name": "Depression with suicide attempts",
+        "icd10": "F329"
+      },
+      {
+        "name": "Myasthenia gravis",
+        "icd10": "G700"
+      },
+      {
+        "name": "Addison disease",
+        "icd10": "E271"
+      },
+      {
+        "name": "Primary amyloidosis",
+        "icd10": "E859"
+      },
+      {
+        "name": "Cardiomyopathy",
+        "icd10": "I429"
+      },
+      {
+        "name": "Heart failure",
+        "icd10": "I509"
+      },
+      {
+        "name": "Pneumonia",
+        "icd10": "J189"
+      },
+      {
+        "name": "Asthma",
+        "icd10": "J45"
+      },
+      {
+        "name": "Traumatic subdural hemorrhage",
+        "icd10": "S065"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Malaise",
+    "red": [
+      {
+        "name": "Encephalitis",
+        "icd10": "G049"
+      },
+      {
+        "name": "Meningitis",
+        "icd10": "G039"
+      },
+      {
+        "name": "Non-convulsive status epilepticus",
+        "icd10": "G419"
+      },
+      {
+        "name": "Pulmonary embolism",
+        "icd10": "I269"
+      },
+      {
+        "name": "Myocardial infarction",
+        "icd10": "I219"
+      },
+      {
+        "name": "Arrhythmia",
+        "icd10": "I499"
+      },
+      {
+        "name": "Bleeding",
+        "icd10": "R58"
+      },
+      {
+        "name": "Anemia gravis",
+        "icd10": "D649"
+      },
+      {
+        "name": "Hypoglycemia",
+        "icd10": "E162"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Brain abscess",
+        "icd10": "G060"
+      },
+      {
+        "name": "Myocarditis",
+        "icd10": "I514"
+      },
+      {
+        "name": "TTP",
+        "icd10": "M311"
+      },
+      {
+        "name": "Electrolyte disorders",
+        "icd10": "E87"
+      },
+      {
+        "name": "Hyponatremia",
+        "icd10": "E871"
+      },
+      {
+        "name": "Hypokalemia",
+        "icd10": "E876"
+      },
+      {
+        "name": "Hypocalcemia",
+        "icd10": "E835"
+      },
+      {
+        "name": "Hypomagnesemia",
+        "icd10": "E834"
+      },
+      {
+        "name": "Ketoacidosis",
+        "icd10": "E872"
+      },
+      {
+        "name": "Hyperosmolar coma",
+        "icd10": "E140"
+      },
+      {
+        "name": "Hepatitis",
+        "icd10": "K759"
+      },
+      {
+        "name": "Liver failure",
+        "icd10": "K729"
+      },
+      {
+        "name": "Drug intoxication",
+        "icd10": "T509"
+      },
+      {
+        "name": "Drug withdrawal",
+        "icd10": "F193"
+      },
+      {
+        "name": "Alcohol withdrawal",
+        "icd10": "F103"
+      },
+      {
+        "name": "Thiamine deficiency",
+        "icd10": "E519"
+      },
+      {
+        "name": "Uremia",
+        "icd10": "N19"
+      },
+      {
+        "name": "Heart failure",
+        "icd10": "I509"
+      },
+      {
+        "name": "Acute kidney injury",
+        "icd10": "N179"
+      },
+      {
+        "name": "Hypothyroidism",
+        "icd10": "E039"
+      },
+      {
+        "name": "Depression with suicide attempts",
+        "icd10": "F329"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Night sweats・night sweat",
+    "red": [],
+    "yellow": [
+      {
+        "name": "Bacterial endocarditis",
+        "icd10": "I330"
+      },
+      {
+        "name": "Osteomyelitis",
+        "icd10": "M8699"
+      },
+      {
+        "name": "Body of vertebra flame",
+        "icd10": "R619"
+      },
+      {
+        "name": "Purulent abscess",
+        "icd10": "R619"
+      },
+      {
+        "name": "Spinal cord injury",
+        "icd10": "T093"
+      },
+      {
+        "name": "Thyrotoxic crisis",
+        "icd10": "E055"
+      },
+      {
+        "name": "Nocturnal hypoglycemia",
+        "icd10": "E162"
+      },
+      {
+        "name": "Drug induced",
+        "icd10": "R619"
+      },
+      {
+        "name": "Insulin",
+        "icd10": "R619"
+      },
+      {
+        "name": "Sildenafil",
+        "icd10": "R619"
+      },
+      {
+        "name": "Nitroglycerine",
+        "icd10": "R619"
+      },
+      {
+        "name": "Hydralazine",
+        "icd10": "R619"
+      },
+      {
+        "name": "Bromocriptine",
+        "icd10": "R619"
+      },
+      {
+        "name": "Tricyclic antidepressant",
+        "icd10": "T430"
+      },
+      {
+        "name": "Alcohol withdrawal",
+        "icd10": "F103"
+      },
+      {
+        "name": "Withdrawal of antidepressants",
+        "icd10": "R619"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Lymphadenopathy",
+    "red": [],
+    "yellow": [
+      {
+        "name": "Systemic infection",
+        "icd10": "A00-B99"
+      },
+      {
+        "name": "Infectious mononucleosis",
+        "icd10": "B279"
+      },
+      {
+        "name": "Acute HIV infection",
+        "icd10": "B230"
+      },
+      {
+        "name": "Lymphoma",
+        "icd10": "C859"
+      },
+      {
+        "name": "Leukemia",
+        "icd10": "C959"
+      },
+      {
+        "name": "Metastatic malignancy tumor",
+        "icd10": "C799"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "posterior cervical pain",
+    "red": [
+      {
+        "name": "Meningitis",
+        "icd10": "G039"
+      },
+      {
+        "name": "Cervical spine fracture",
+        "icd10": "S1290"
+      },
+      {
+        "name": "Dislocation",
+        "icd10": "T143"
+      },
+      {
+        "name": "Cervical cord injury",
+        "icd10": "S141"
+      },
+      {
+        "name": "Aortic dissection",
+        "icd10": "I710"
+      },
+      {
+        "name": "Subarachnoid hemorrhage",
+        "icd10": "I609"
+      },
+      {
+        "name": "Myocardial infarction",
+        "icd10": "I219"
+      },
+      {
+        "name": "Carotid artery dissection",
+        "icd10": "I720"
+      },
+      {
+        "name": "Extradural hematoma",
+        "icd10": "S064"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Vertebral osteomyelitis",
+        "icd10": "M4659"
+      },
+      {
+        "name": "Epidural abscess",
+        "icd10": "G062"
+      },
+      {
+        "name": "Osteomyelitis",
+        "icd10": "M8699"
+      },
+      {
+        "name": "Transverse myelitis",
+        "icd10": "G373"
+      },
+      {
+        "name": "Bone tumor",
+        "icd10": "D480"
+      },
+      {
+        "name": "Bone metastasis",
+        "icd10": "C795"
+      },
+      {
+        "name": "Multiple myeloma",
+        "icd10": "C900"
+      },
+      {
+        "name": "Tuberculosis",
+        "icd10": "A169"
+      },
+      {
+        "name": "Pancoast tumor",
+        "icd10": "C341"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Recent weight change Weight loss",
+    "red": [],
+    "yellow": [
+      {
+        "name": "Diabetes insipidus",
+        "icd10": "E232"
+      },
+      {
+        "name": "Central hypoventilation syndrome",
+        "icd10": "G473"
+      },
+      {
+        "name": "Anemia",
+        "icd10": "D649"
+      },
+      {
+        "name": "Congestive heart failure",
+        "icd10": "I500"
+      },
+      {
+        "name": "Dehydration",
+        "icd10": "E86"
+      },
+      {
+        "name": "Infection",
+        "icd10": "A00-B99"
+      },
+      {
+        "name": "Subacute endocarditis",
+        "icd10": "I339"
+      },
+      {
+        "name": "Tuberculosis",
+        "icd10": "A169"
+      },
+      {
+        "name": "Aspergillosis",
+        "icd10": "B449"
+      },
+      {
+        "name": "Abscess",
+        "icd10": "L029"
+      },
+      {
+        "name": "AIDS",
+        "icd10": "B24"
+      },
+      {
+        "name": "Asthma",
+        "icd10": "J459"
+      },
+      {
+        "name": "Pulmonary emphysema",
+        "icd10": "J439"
+      },
+      {
+        "name": "Adrenal insufficiency",
+        "icd10": "E272"
+      },
+      {
+        "name": "Depression with suicide attempts",
+        "icd10": "F329"
+      },
+      {
+        "name": "Substance abuse",
+        "icd10": "F191"
+      },
+      {
+        "name": "Poisoning",
+        "icd10": "T659"
+      },
+      {
+        "name": "Oral hypoglycemics",
+        "icd10": "T383"
+      },
+      {
+        "name": "Diuretics",
+        "icd10": "T509"
+      },
+      {
+        "name": "Digoxin toxicity",
+        "icd10": "T46"
+      },
+      {
+        "name": "Amphetamine",
+        "icd10": "F151"
+      },
+      {
+        "name": "Cyan",
+        "icd10": "T650"
+      },
+      {
+        "name": "Heart failure",
+        "icd10": "I509"
+      },
+      {
+        "name": "Acute kidney injury",
+        "icd10": "N17, N19"
+      },
+      {
+        "name": "Nephrotic syndrome",
+        "icd10": "N049"
+      },
+      {
+        "name": "Cirrhosis",
+        "icd10": "K746"
+      },
+      {
+        "name": "Cancer",
+        "icd10": "C80"
+      },
+      {
+        "name": "Thyroid cancer",
+        "icd10": "C73"
+      },
+      {
+        "name": "Esophageal adenocarcinoma",
+        "icd10": "C159"
+      },
+      {
+        "name": "Gallbladder cancer",
+        "icd10": "C23"
+      },
+      {
+        "name": "Kidney cancer",
+        "icd10": "C64"
+      },
+      {
+        "name": "Colorectal cancer",
+        "icd10": "C189"
+      },
+      {
+        "name": "Uterine cancer",
+        "icd10": "C55"
+      },
+      {
+        "name": "Multiple myeloma",
+        "icd10": "C900"
+      },
+      {
+        "name": "Leukemia",
+        "icd10": "C959"
+      },
+      {
+        "name": "Non-Hodgkin's lymphoma",
+        "icd10": "C859"
+      },
+      {
+        "name": "Diencephalon tumor",
+        "icd10": "D430"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Hypertension",
+    "red": [
+      {
+        "name": "Subarachnoid hemorrhage",
+        "icd10": "I609"
+      },
+      {
+        "name": "Intracranial bleeding",
+        "icd10": "S068"
+      },
+      {
+        "name": "Intracranial bleeding",
+        "icd10": "I629"
+      },
+      {
+        "name": "Cerebral infarction",
+        "icd10": "I639"
+      },
+      {
+        "name": "Myocardial infarction",
+        "icd10": "I219"
+      },
+      {
+        "name": "Heart failure",
+        "icd10": "I509"
+      },
+      {
+        "name": "Pulmonary embolism",
+        "icd10": "I269"
+      },
+      {
+        "name": "Pre-eclampsia",
+        "icd10": "O149"
+      },
+      {
+        "name": "Hypertensive crisis",
+        "icd10": "I169"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Acute renal artery occlusion",
+        "icd10": "N280"
+      },
+      {
+        "name": "Aortitis syndrome",
+        "icd10": "M314"
+      },
+      {
+        "name": "Vasculitis",
+        "icd10": "I10"
+      },
+      {
+        "name": "Coarctation of the aorta",
+        "icd10": "Q253"
+      },
+      {
+        "name": "Cardiomyopathy",
+        "icd10": "I429"
+      },
+      {
+        "name": "Drug intoxication",
+        "icd10": "T509"
+      },
+      {
+        "name": "Hyperthyroidism",
+        "icd10": "E059"
+      },
+      {
+        "name": "Pheochromocytoma",
+        "icd10": "D350"
+      },
+      {
+        "name": "Pyelonephritis",
+        "icd10": "N12"
+      },
+      {
+        "name": "Cushing disease",
+        "icd10": "E240"
+      },
+      {
+        "name": "Serotonin syndrome",
+        "icd10": "T887"
+      },
+      {
+        "name": "Hyperthyroidism",
+        "icd10": "E07"
+      },
+      {
+        "name": "Alcohol abuse",
+        "icd10": "F101"
+      },
+      {
+        "name": "Opioid abuse",
+        "icd10": "F111"
+      },
+      {
+        "name": "Cannabis abuse",
+        "icd10": "F120"
+      },
+      {
+        "name": "Cocaine abuse",
+        "icd10": "F141"
+      },
+      {
+        "name": "Hallucinogen abuse",
+        "icd10": "F161"
+      },
+      {
+        "name": "Hypertensive urgency",
+        "icd10": "I160"
+      },
+      {
+        "name": "Hypertensive emergency",
+        "icd10": "I161"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Generalized edema・bilateral swelling of the legs・edema",
+    "red": [
+      {
+        "name": "Anaphylaxis",
+        "icd10": "T782"
+      },
+      {
+        "name": "Pre-eclampsia",
+        "icd10": "O149"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Congestive heart failure",
+        "icd10": "I500"
+      },
+      {
+        "name": "Inferior vena cava obstruction",
+        "icd10": "H348"
+      },
+      {
+        "name": "Deep vein thrombosis",
+        "icd10": "I802"
+      },
+      {
+        "name": "Malignant hypertension",
+        "icd10": "I10"
+      },
+      {
+        "name": "Constrictive pericarditis",
+        "icd10": "I311"
+      },
+      {
+        "name": "Vascular leakage syndrome",
+        "icd10": "R601"
+      },
+      {
+        "name": "Pulmonary hypertension",
+        "icd10": "I270"
+      },
+      {
+        "name": "Acute kidney injury",
+        "icd10": "N179"
+      },
+      {
+        "name": "Acute glomerulonephritis",
+        "icd10": "N009"
+      },
+      {
+        "name": "Nephrotic syndrome",
+        "icd10": "N049"
+      },
+      {
+        "name": "Cirrhosis",
+        "icd10": "K746"
+      },
+      {
+        "name": "Myxedema",
+        "icd10": "E039"
+      },
+      {
+        "name": "Adrenal insufficiency",
+        "icd10": "E272"
+      },
+      {
+        "name": "Malnutrition",
+        "icd10": "E46"
+      },
+      {
+        "name": "Beriberi",
+        "icd10": "E511"
+      },
+      {
+        "name": "Pelvic tumor",
+        "icd10": "D487"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Unilateral swelling of the legs・edema",
+    "red": [
+      {
+        "name": "Necrotizing fasciitis",
+        "icd10": "M7269"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Congestive heart failure",
+        "icd10": "I500"
+      },
+      {
+        "name": "Deep vein thrombosis",
+        "icd10": "I802"
+      },
+      {
+        "name": "Compartment syndrome",
+        "icd10": "T796"
+      },
+      {
+        "name": "Cellulitis",
+        "icd10": "L039"
+      },
+      {
+        "name": "Fracture",
+        "icd10": "T1420"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Cough・sputum",
+    "red": [
+      {
+        "name": "Tension pneumothorax",
+        "icd10": "J930"
+      },
+      {
+        "name": "Severe asthma",
+        "icd10": "J45"
+      },
+      {
+        "name": "Anaphylaxis",
+        "icd10": "T782"
+      },
+      {
+        "name": "Airway foreign body",
+        "icd10": "T174"
+      },
+      {
+        "name": "Aspiration",
+        "icd10": "T179"
+      },
+      {
+        "name": "Epiglottitis",
+        "icd10": "J051"
+      },
+      {
+        "name": "Aortic aneurysm",
+        "icd10": "I719"
+      },
+      {
+        "name": "Pulmonary embolism",
+        "icd10": "I269"
+      },
+      {
+        "name": "Traumatic esophageal rupture",
+        "icd10": "S278"
+      },
+      {
+        "name": "Smoke inhalation",
+        "icd10": "T273"
+      },
+      {
+        "name": "Severe pneumonia",
+        "icd10": "J189"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Lung abscess",
+        "icd10": "J852"
+      },
+      {
+        "name": "Empyema",
+        "icd10": "J869"
+      },
+      {
+        "name": "Acute interstitial pneumonia",
+        "icd10": "J841"
+      },
+      {
+        "name": "Pulmonary tuberculosis",
+        "icd10": "A162"
+      },
+      {
+        "name": "Acute aggravation of COPD",
+        "icd10": "J441"
+      },
+      {
+        "name": "Influenza",
+        "icd10": "J111"
+      },
+      {
+        "name": "Measles",
+        "icd10": "B059"
+      },
+      {
+        "name": "Mediastinitis",
+        "icd10": "J985"
+      },
+      {
+        "name": "Tracheoesophageal fistula",
+        "icd10": "J980"
+      },
+      {
+        "name": "Heart failure",
+        "icd10": "I509"
+      },
+      {
+        "name": "Pericarditis",
+        "icd10": "I319"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Hiccups",
+    "red": [
+      {
+        "name": "Thoracic aortic aneurysm",
+        "icd10": "I712"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Splenic infarction",
+        "icd10": "D735"
+      },
+      {
+        "name": "Pneumonia",
+        "icd10": "J189"
+      },
+      {
+        "name": "Pericarditis",
+        "icd10": "I319"
+      },
+      {
+        "name": "Uremia",
+        "icd10": "N19"
+      },
+      {
+        "name": "Brainstem tumor",
+        "icd10": "D431"
+      },
+      {
+        "name": "Basilar meningitis",
+        "icd10": "G00, G01, G02, G03"
+      },
+      {
+        "name": "Subphrenic abscesses",
+        "icd10": "K650"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Stridor",
+    "red": [
+      {
+        "name": "Severe asthma attack",
+        "icd10": "J46"
+      },
+      {
+        "name": "Acute epiglottitis",
+        "icd10": "J051"
+      },
+      {
+        "name": "Croup",
+        "icd10": "J209"
+      },
+      {
+        "name": "Anaphylaxis",
+        "icd10": "T782"
+      },
+      {
+        "name": "Foreign body",
+        "icd10": "T17"
+      },
+      {
+        "name": "Pulmonary edema",
+        "icd10": "J81"
+      },
+      {
+        "name": "Heart failure",
+        "icd10": "I509"
+      },
+      {
+        "name": "Pulmonary embolism",
+        "icd10": "I269"
+      },
+      {
+        "name": "Laryngeal injury",
+        "icd10": "S198"
+      },
+      {
+        "name": "Angioedema",
+        "icd10": "D841"
+      },
+      {
+        "name": "Asphyxia",
+        "icd10": "R09"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Acute aggravation of COPD",
+        "icd10": "J441"
+      },
+      {
+        "name": "Mucous plug",
+        "icd10": "R061"
+      },
+      {
+        "name": "Retropharyngeal abscess",
+        "icd10": "J390"
+      },
+      {
+        "name": "Vocal cord dysfunction",
+        "icd10": "J383"
+      },
+      {
+        "name": "Cannabis abuse",
+        "icd10": "F120"
+      },
+      {
+        "name": "Myocardial infarction",
+        "icd10": "I219"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Abdominal distension・mass",
+    "red": [
+      {
+        "name": "Rupture of abdominal aortic aneurysm",
+        "icd10": "I713"
+      },
+      {
+        "name": "Pulmonary embolism",
+        "icd10": "I269"
+      },
+      {
+        "name": "Severe trauma",
+        "icd10": "T149"
+      },
+      {
+        "name": "Hepatocellular carcinoma rupture",
+        "icd10": "C220"
+      },
+      {
+        "name": "Hemoperitoneum",
+        "icd10": "K661"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Ascites due to right heart failure",
+        "icd10": "I500, R18"
+      },
+      {
+        "name": "Constrictive pericarditis",
+        "icd10": "I311"
+      },
+      {
+        "name": "Myocardial infarction",
+        "icd10": "I219"
+      },
+      {
+        "name": "Volvulus",
+        "icd10": "K562"
+      },
+      {
+        "name": "Small bowel obstruction",
+        "icd10": "K566"
+      },
+      {
+        "name": "Intussusception",
+        "icd10": "K561"
+      },
+      {
+        "name": "Appendicitis abscess",
+        "icd10": "K353"
+      },
+      {
+        "name": "Toxic megacolon",
+        "icd10": "K593"
+      },
+      {
+        "name": "Hepatitis",
+        "icd10": "K759"
+      },
+      {
+        "name": "Pancreatitis",
+        "icd10": "K85"
+      },
+      {
+        "name": "Diverticulitis",
+        "icd10": "K573"
+      },
+      {
+        "name": "Subphrenic abscesses due to ulcer perforation",
+        "icd10": "K650"
+      },
+      {
+        "name": "Tuberculous peritonitis",
+        "icd10": "A183"
+      },
+      {
+        "name": "Portal vein thrombosis",
+        "icd10": "I81"
+      },
+      {
+        "name": "Hepatic vein thrombosis",
+        "icd10": "I820"
+      },
+      {
+        "name": "Pregnancy",
+        "icd10": "Z33"
+      },
+      {
+        "name": "Fallopian tube abscess",
+        "icd10": "N709"
+      },
+      {
+        "name": "Ovarian abscess",
+        "icd10": "N709"
+      },
+      {
+        "name": "Salpingitis",
+        "icd10": "N709"
+      },
+      {
+        "name": "Perinephric abscess",
+        "icd10": "N151"
+      },
+      {
+        "name": "Iliopsoas abscess",
+        "icd10": "K650"
+      },
+      {
+        "name": "Osteomyelitis (iliac region)",
+        "icd10": "M8695"
+      },
+      {
+        "name": "Hypoalbuminemia",
+        "icd10": "E880"
+      },
+      {
+        "name": "Chylorrhea",
+        "icd10": "I898"
+      },
+      {
+        "name": "Hernia",
+        "icd10": "K42"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Loss of appetite",
+    "red": [
+      {
+        "name": "Acute myocardial infarction",
+        "icd10": "I219"
+      },
+      {
+        "name": "Heart failure",
+        "icd10": "I509"
+      },
+      {
+        "name": "Fulminant hepatitis",
+        "icd10": "B199"
+      },
+      {
+        "name": "Septic shock",
+        "icd10": "A419"
+      },
+      {
+        "name": "Meningitis",
+        "icd10": "G039"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Cholangitis",
+        "icd10": "K830"
+      },
+      {
+        "name": "Gastrointestinal bleeding",
+        "icd10": "K922"
+      },
+      {
+        "name": "Mesenteric ischemia",
+        "icd10": "K550"
+      },
+      {
+        "name": "Intestinal obstruction",
+        "icd10": "K567"
+      },
+      {
+        "name": "Hepatic encephalopathy",
+        "icd10": "K729"
+      },
+      {
+        "name": "Cholecystitis",
+        "icd10": "K819"
+      },
+      {
+        "name": "Pancreatitis",
+        "icd10": "K85"
+      },
+      {
+        "name": "Acute hepatitis",
+        "icd10": "K720"
+      },
+      {
+        "name": "Malignant tumor",
+        "icd10": "C80"
+      },
+      {
+        "name": "Gastrointestinal cancer",
+        "icd10": "C15, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25, C26"
+      },
+      {
+        "name": "Gastric cancer",
+        "icd10": "C169"
+      },
+      {
+        "name": "Pancreatic cancer",
+        "icd10": "C259"
+      },
+      {
+        "name": "Cancer pain",
+        "icd10": "R522"
+      },
+      {
+        "name": "Acute kidney injury",
+        "icd10": "N179"
+      },
+      {
+        "name": "Uremia",
+        "icd10": "N19"
+      },
+      {
+        "name": "DKA",
+        "icd10": "E141"
+      },
+      {
+        "name": "Endocrine disorders",
+        "icd10": "E349"
+      },
+      {
+        "name": "Hypothyroidism",
+        "icd10": "E039"
+      },
+      {
+        "name": "Adrenal insufficiency",
+        "icd10": "E272"
+      },
+      {
+        "name": "Panhypopituitarism",
+        "icd10": "E230"
+      },
+      {
+        "name": "Hypocalcemia",
+        "icd10": "E878"
+      },
+      {
+        "name": "HIV",
+        "icd10": "B24"
+      },
+      {
+        "name": "Drug intoxication",
+        "icd10": "T509"
+      },
+      {
+        "name": "Drug induced",
+        "icd10": "R630"
+      },
+      {
+        "name": "NSAIDs",
+        "icd10": "Y459"
+      },
+      {
+        "name": "Digitalis toxicity",
+        "icd10": "T460"
+      },
+      {
+        "name": "Theophylline",
+        "icd10": "T486"
+      },
+      {
+        "name": "Anti-Parkinson agents",
+        "icd10": "T42"
+      },
+      {
+        "name": "Anti-cancer drugs",
+        "icd10": "T451"
+      },
+      {
+        "name": "Morphine",
+        "icd10": "T402"
+      },
+      {
+        "name": "Alcohol abuse",
+        "icd10": "F101"
+      },
+      {
+        "name": "Depression with suicidal ideation",
+        "icd10": "F329"
+      },
+      {
+        "name": "Brain tumor",
+        "icd10": "D432"
+      },
+      {
+        "name": "Pregnancy",
+        "icd10": "Z33"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Rectum・perineum pain",
+    "red": [
+      {
+        "name": "Trauma",
+        "icd10": "T149"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Perirectal (anal) abscess",
+        "icd10": "K611"
+      },
+      {
+        "name": "Infectious proctitis",
+        "icd10": "K628"
+      },
+      {
+        "name": "Gonorrhea",
+        "icd10": "A54"
+      },
+      {
+        "name": "Simple herpes",
+        "icd10": "B009"
+      },
+      {
+        "name": "Foreign body",
+        "icd10": "T185"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Hematuria",
+    "red": [
+      {
+        "name": "Renal injury",
+        "icd10": "S370"
+      },
+      {
+        "name": "Bladder rupture",
+        "icd10": "N324"
+      },
+      {
+        "name": "Hematologic diseases",
+        "icd10": "D68, D75"
+      },
+      {
+        "name": "Antiplatelet agent",
+        "icd10": "D683"
+      },
+      {
+        "name": "Anticoagulant",
+        "icd10": "T458, T459"
+      },
+      {
+        "name": "Disseminated intravascular coagulation",
+        "icd10": "D65"
+      },
+      {
+        "name": "Different-group blood transfusion",
+        "icd10": "T809"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Malignant hyperthermia",
+        "icd10": "R509"
+      },
+      {
+        "name": "Malignant syndrome",
+        "icd10": "G210"
+      },
+      {
+        "name": "Pyelonephritis",
+        "icd10": "N12"
+      },
+      {
+        "name": "Acute glomerulonephritis",
+        "icd10": "N009"
+      },
+      {
+        "name": "Hemolytic uremic syndrome",
+        "icd10": "D593"
+      },
+      {
+        "name": "Rapidly progressive glomerulonephritis",
+        "icd10": "N019"
+      },
+      {
+        "name": "Renal artery embolism",
+        "icd10": "N280"
+      },
+      {
+        "name": "Renal vein embolism",
+        "icd10": "I823"
+      },
+      {
+        "name": "Infective endocarditis",
+        "icd10": "I330"
+      },
+      {
+        "name": "Myoglobinuria due to rhabdomyolysis",
+        "icd10": "R821"
+      },
+      {
+        "name": "Malaria",
+        "icd10": "B54"
+      },
+      {
+        "name": "Snakebite",
+        "icd10": "T630"
+      },
+      {
+        "name": "Spider bite",
+        "icd10": "T633"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Nose bleed",
+    "red": [
+      {
+        "name": "Skull fracture",
+        "icd10": "S0290"
+      },
+      {
+        "name": "Antiplatelet agent",
+        "icd10": "D683"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Blood disorders",
+        "icd10": "D70, D71, D72, D73, D74, D75, D76, D77"
+      },
+      {
+        "name": "Leukemia",
+        "icd10": "C959"
+      },
+      {
+        "name": "Thrombocytopenia/Abnormal platelet function",
+        "icd10": "D691"
+      },
+      {
+        "name": "Hemophilia",
+        "icd10": "D66"
+      },
+      {
+        "name": "Other abnormal clotting factors",
+        "icd10": "D689"
+      },
+      {
+        "name": "Foreign body",
+        "icd10": "T171"
+      },
+      {
+        "name": "Nasal septum perforation",
+        "icd10": "J348"
+      },
+      {
+        "name": "Malignant tumor",
+        "icd10": "C30"
+      },
+      {
+        "name": "Anticoagulant",
+        "icd10": "T458, T459"
+      },
+      {
+        "name": "Syphilis",
+        "icd10": "A539"
+      },
+      {
+        "name": "Brain tumor",
+        "icd10": "C71"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Hoarseness",
+    "red": [
+      {
+        "name": "Epiglottitis",
+        "icd10": "J051"
+      },
+      {
+        "name": "Pharynx foreign body",
+        "icd10": "T172"
+      },
+      {
+        "name": "Smoke inhalation",
+        "icd10": "T273"
+      },
+      {
+        "name": "Pharynx trauma",
+        "icd10": "S101"
+      },
+      {
+        "name": "Aortic dissection",
+        "icd10": "I710"
+      },
+      {
+        "name": "Anaphylaxis",
+        "icd10": "T782"
+      },
+      {
+        "name": "Angioedema",
+        "icd10": "T783"
+      },
+      {
+        "name": "Cerebral infarction",
+        "icd10": "I639"
+      },
+      {
+        "name": "Foreign body",
+        "icd10": "T179"
+      },
+      {
+        "name": "Aortic aneurysm",
+        "icd10": "I719"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Wallenberg syndrome",
+        "icd10": "I663"
+      },
+      {
+        "name": "Deep neck infection",
+        "icd10": "A00-B99"
+      },
+      {
+        "name": "Peritonsillar abscess",
+        "icd10": "J36"
+      },
+      {
+        "name": "Retropharyngeal abscess",
+        "icd10": "J390"
+      },
+      {
+        "name": "Ludwig’s angina",
+        "icd10": "K122"
+      },
+      {
+        "name": "Lemierre's syndrome",
+        "icd10": "I808"
+      },
+      {
+        "name": "Mediastinitis",
+        "icd10": "J985"
+      },
+      {
+        "name": "Drug aspiration",
+        "icd10": "R490"
+      },
+      {
+        "name": "Myasthenia gravis",
+        "icd10": "G700"
+      },
+      {
+        "name": "Jugular vein thrombosis",
+        "icd10": "I829"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Arthralgia・joint enlargement",
+    "red": [
+      {
+        "name": "Trauma",
+        "icd10": "T149"
+      },
+      {
+        "name": "Septic shock",
+        "icd10": "A419"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Metastatic bone tumor",
+        "icd10": "C795"
+      },
+      {
+        "name": "Cancerous polyarthritis",
+        "icd10": "C900"
+      },
+      {
+        "name": "Infective endocarditis",
+        "icd10": "I330"
+      },
+      {
+        "name": "Acute pyogenic arthritis",
+        "icd10": "M0099"
+      },
+      {
+        "name": "Disseminated gonococcal infection",
+        "icd10": "A54"
+      },
+      {
+        "name": "Nongonococcal infection",
+        "icd10": "A00-B99"
+      },
+      {
+        "name": "Hepatitis",
+        "icd10": "K759"
+      },
+      {
+        "name": "HIV",
+        "icd10": "B24"
+      },
+      {
+        "name": "Leptospirosis",
+        "icd10": "A279"
+      },
+      {
+        "name": "Lyme disease",
+        "icd10": "A692"
+      },
+      {
+        "name": "Cellulitis",
+        "icd10": "L039"
+      },
+      {
+        "name": "Tuberculosis",
+        "icd10": "A169"
+      },
+      {
+        "name": "Hemophilia",
+        "icd10": "D66"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Hyperemia",
+    "red": [],
+    "yellow": [
+      {
+        "name": "Acute angle-closure glaucoma",
+        "icd10": "H402"
+      },
+      {
+        "name": "Orbital cellulitis",
+        "icd10": "H050"
+      },
+      {
+        "name": "Keratitis",
+        "icd10": "H169"
+      },
+      {
+        "name": "Scleritis",
+        "icd10": "H150"
+      },
+      {
+        "name": "Episcleritis",
+        "icd10": "H151"
+      },
+      {
+        "name": "Uveitis",
+        "icd10": "H209"
+      },
+      {
+        "name": "Zygomycosis",
+        "icd10": "B465"
+      },
+      {
+        "name": "Acute hemorrhagic conjunctivitis",
+        "icd10": "B303"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Dysphagia",
+    "red": [
+      {
+        "name": "Epiglottitis",
+        "icd10": "J051"
+      },
+      {
+        "name": "Cerebral hemorrhage",
+        "icd10": "I619"
+      },
+      {
+        "name": "Cerebral infarction",
+        "icd10": "I639"
+      },
+      {
+        "name": "Head injury",
+        "icd10": "S099"
+      },
+      {
+        "name": "Anaphylaxis",
+        "icd10": "T782"
+      },
+      {
+        "name": "Angioedema",
+        "icd10": "T783"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Deep cervical abscess",
+        "icd10": "J390"
+      },
+      {
+        "name": "Peritonsillar abscess",
+        "icd10": "J36"
+      },
+      {
+        "name": "Retropharyngeal abscess",
+        "icd10": "J390"
+      },
+      {
+        "name": "Ludwig's angina",
+        "icd10": "K122"
+      },
+      {
+        "name": "Foreign body",
+        "icd10": "T17"
+      },
+      {
+        "name": "Guillain–Barré syndrome",
+        "icd10": "G610"
+      },
+      {
+        "name": "Myasthenia gravis",
+        "icd10": "G700"
+      },
+      {
+        "name": "Botulism",
+        "icd10": "A051"
+      },
+      {
+        "name": "Lower cranial neuropathy due to VZV",
+        "icd10": "G527"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Palpitations・arrhythmia tachycardia",
+    "red": [
+      {
+        "name": "Ventricular arrhythmias",
+        "icd10": "I499"
+      },
+      {
+        "name": "Myocardial infarction",
+        "icd10": "I219"
+      },
+      {
+        "name": "Heart failure",
+        "icd10": "I509"
+      },
+      {
+        "name": "Pulmonary embolism",
+        "icd10": "I269"
+      },
+      {
+        "name": "Fat embolism",
+        "icd10": "T791"
+      },
+      {
+        "name": "Carotid-cavernous sinus fistula",
+        "icd10": "I770"
+      },
+      {
+        "name": "Severe infection",
+        "icd10": "B99"
+      },
+      {
+        "name": "Massive bleeding",
+        "icd10": "R58"
+      },
+      {
+        "name": "Trauma",
+        "icd10": "T149"
+      },
+      {
+        "name": "Tension pneumothorax",
+        "icd10": "J930"
+      },
+      {
+        "name": "Hypoglycemia",
+        "icd10": "E162"
+      },
+      {
+        "name": "Anoxia",
+        "icd10": "R090"
+      },
+      {
+        "name": "Hyperkalemia",
+        "icd10": "E875"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Acidosis",
+        "icd10": "E872"
+      },
+      {
+        "name": "Aortic aneurysms paroxysmal supraventricular",
+        "icd10": "I719"
+      },
+      {
+        "name": "Tachycardia with bronchial pressure",
+        "icd10": "I471"
+      },
+      {
+        "name": "Atrioventricular node reentry-related tachycardia",
+        "icd10": "I470"
+      },
+      {
+        "name": "Atrial fibrillation",
+        "icd10": "I48"
+      },
+      {
+        "name": "Hyperthyroidism",
+        "icd10": "E059"
+      },
+      {
+        "name": "Mitral valve prolapse",
+        "icd10": "I341"
+      },
+      {
+        "name": "Left atrial myxoma",
+        "icd10": "D151"
+      },
+      {
+        "name": "Thyrotoxic crisis",
+        "icd10": "E055"
+      },
+      {
+        "name": "Drug induced",
+        "icd10": "R000"
+      },
+      {
+        "name": "Drug withdrawal",
+        "icd10": "F193"
+      },
+      {
+        "name": "Cancellation of the beta-blocker",
+        "icd10": "F193"
+      },
+      {
+        "name": "Tricyclic antidepressant",
+        "icd10": "T430"
+      },
+      {
+        "name": "Insulin",
+        "icd10": "E168"
+      },
+      {
+        "name": "Theophylline",
+        "icd10": "T486"
+      },
+      {
+        "name": "Sympathomimetic drugs",
+        "icd10": "T44"
+      },
+      {
+        "name": "Pheochromocytoma",
+        "icd10": "D350"
+      },
+      {
+        "name": "Pregnancy",
+        "icd10": "Z33"
+      },
+      {
+        "name": "Multifocal atrial tachycardia",
+        "icd10": "I471"
+      },
+      {
+        "name": "Digitalis toxicity",
+        "icd10": "T460"
+      },
+      {
+        "name": "Theophylline intoxication",
+        "icd10": "T486"
+      },
+      {
+        "name": "Hypokalemia",
+        "icd10": "E876"
+      },
+      {
+        "name": "Alcohol abuse",
+        "icd10": "F101"
+      },
+      {
+        "name": "Cannabis abuse",
+        "icd10": "F120"
+      },
+      {
+        "name": "Hypertensive urgency",
+        "icd10": "I160"
+      },
+      {
+        "name": "COPD",
+        "icd10": "J449"
+      },
+      {
+        "name": "Asthma",
+        "icd10": "J45"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Palpitations・arrhythmia bradycardia",
+    "red": [
+      {
+        "name": "Inferior myocardial infarction",
+        "icd10": "I211"
+      },
+      {
+        "name": "Sick sinus syndrome",
+        "icd10": "I495"
+      },
+      {
+        "name": "Arrhythmia",
+        "icd10": "I499"
+      },
+      {
+        "name": "Septic shock",
+        "icd10": "A419"
+      },
+      {
+        "name": "Increased intracranial pressure",
+        "icd10": "G932"
+      },
+      {
+        "name": "Spinal shock",
+        "icd10": "R578"
+      },
+      {
+        "name": "Hyperkalemia",
+        "icd10": "E875"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Hypothermia",
+        "icd10": "T68"
+      },
+      {
+        "name": "Viral myocarditis",
+        "icd10": "I400"
+      },
+      {
+        "name": "Adrenal insufficiency",
+        "icd10": "E272"
+      },
+      {
+        "name": "Drug induced",
+        "icd10": "R001"
+      },
+      {
+        "name": "Digoxin toxicity",
+        "icd10": "T46"
+      },
+      {
+        "name": "Beta-blocker",
+        "icd10": "T44"
+      },
+      {
+        "name": "Ca-blocking agent",
+        "icd10": "T46"
+      },
+      {
+        "name": "Amiodarone",
+        "icd10": "T46"
+      },
+      {
+        "name": "Lithium",
+        "icd10": "T435"
+      },
+      {
+        "name": "Cimetidine",
+        "icd10": "T47"
+      },
+      {
+        "name": "Hypothyroidism",
+        "icd10": "E039"
+      },
+      {
+        "name": "Infection",
+        "icd10": "A00-B99"
+      },
+      {
+        "name": "Lyme disease",
+        "icd10": "A692"
+      },
+      {
+        "name": "Typhoid",
+        "icd10": "A010"
+      },
+      {
+        "name": "Mycoplasma",
+        "icd10": "A493"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Visual impairment",
+    "red": [
+      {
+        "name": "Intracranial bleeding",
+        "icd10": "S068, I629"
+      },
+      {
+        "name": "Cerebral infarction",
+        "icd10": "I639"
+      },
+      {
+        "name": "Pituitary apoplexy",
+        "icd10": "E236"
+      },
+      {
+        "name": "Transient cerebral ischemic attacks and related syndromes",
+        "icd10": "G45"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Acute glaucoma attack",
+        "icd10": "H402"
+      },
+      {
+        "name": "Blood vessels (occlusion)",
+        "icd10": "H348"
+      },
+      {
+        "name": "Central retinal artery occlusion",
+        "icd10": "H341"
+      },
+      {
+        "name": "Temporal arteritis",
+        "icd10": "M316"
+      },
+      {
+        "name": "Ischemic optic neuropathy",
+        "icd10": "H470"
+      },
+      {
+        "name": "Central retinal vein occlusion",
+        "icd10": "H348"
+      },
+      {
+        "name": "Retinal detachment",
+        "icd10": "H332"
+      },
+      {
+        "name": "Retrobulbar optic neuritis",
+        "icd10": "H46"
+      },
+      {
+        "name": "Vitreous hemorrhage",
+        "icd10": "H431"
+      },
+      {
+        "name": "Compressive optic nerve disorder",
+        "icd10": "H470"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Oro-facial pain",
+    "red": [
+      {
+        "name": "Myocardial infarction",
+        "icd10": "I219"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Wallenberg syndrome",
+        "icd10": "I663"
+      },
+      {
+        "name": "Ramsay–Hunt syndrome",
+        "icd10": "B022"
+      },
+      {
+        "name": "Temporal arteritis",
+        "icd10": "M316"
+      },
+      {
+        "name": "Herpes zoster without rash",
+        "icd10": "B029"
+      },
+      {
+        "name": "Cellulitis",
+        "icd10": "L03"
+      },
+      {
+        "name": "Fracture of the orbital floor",
+        "icd10": "S0230"
+      },
+      {
+        "name": "Fracture of the malar・Fracture of the maxilla",
+        "icd10": "S0240"
+      },
+      {
+        "name": "Fracture of the mandible",
+        "icd10": "S0260"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Sore throat",
+    "red": [
+      {
+        "name": "Acute epiglottitis",
+        "icd10": "J051"
+      },
+      {
+        "name": "Anaphylaxis",
+        "icd10": "T782"
+      },
+      {
+        "name": "Pharynx trauma",
+        "icd10": "S101"
+      },
+      {
+        "name": "Pharynx hematoma",
+        "icd10": "S100"
+      },
+      {
+        "name": "Penetrating wound by foreign body",
+        "icd10": "T17"
+      },
+      {
+        "name": "Myocardial infarction",
+        "icd10": "I219"
+      },
+      {
+        "name": "Aortic dissection",
+        "icd10": "I710"
+      },
+      {
+        "name": "Toxic epidermal necrolysis",
+        "icd10": "L512"
+      },
+      {
+        "name": "Stevens–Johnson",
+        "icd10": "L511"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Botulism",
+        "icd10": "A051"
+      },
+      {
+        "name": "Peritonsillar abscess",
+        "icd10": "J36"
+      },
+      {
+        "name": "Retropharyngeal abscess",
+        "icd10": "J390"
+      },
+      {
+        "name": "Ludwig's angina",
+        "icd10": "K122"
+      },
+      {
+        "name": "Deep cervical cavity abscess",
+        "icd10": "J390"
+      },
+      {
+        "name": "Parapharyngeal abscess",
+        "icd10": "J390"
+      },
+      {
+        "name": "Pharyngeal tumor",
+        "icd10": "D370"
+      },
+      {
+        "name": "Esophageal cancer",
+        "icd10": "C159"
+      },
+      {
+        "name": "Malignant lymphoma",
+        "icd10": "C859"
+      },
+      {
+        "name": "Pharyngeal shingles",
+        "icd10": "B029"
+      },
+      {
+        "name": "Oral candidiasis",
+        "icd10": "B370"
+      },
+      {
+        "name": "Diphtheria",
+        "icd10": "A369"
+      },
+      {
+        "name": "Lemierre's syndrome",
+        "icd10": "I808"
+      },
+      {
+        "name": "Tetanus",
+        "icd10": "A35"
+      },
+      {
+        "name": "Neutropenia",
+        "icd10": "D70"
+      },
+      {
+        "name": "Infectious mononucleosis",
+        "icd10": "B279"
+      },
+      {
+        "name": "Subacute thyroiditis",
+        "icd10": "E061"
+      },
+      {
+        "name": "Acute HIV infection",
+        "icd10": "B230"
+      },
+      {
+        "name": "Gonorrhea",
+        "icd10": "A545"
+      },
+      {
+        "name": "Chlamydia pharyngitis",
+        "icd10": "A564"
+      },
+      {
+        "name": "Syphilis",
+        "icd10": "A539"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Neck mass・neck pain",
+    "red": [
+      {
+        "name": "Bleeding",
+        "icd10": "R58"
+      },
+      {
+        "name": "Acute epiglottitis",
+        "icd10": "J051"
+      },
+      {
+        "name": "Myocardial infarction",
+        "icd10": "I219"
+      },
+      {
+        "name": "Aneurysms",
+        "icd10": "I729"
+      },
+      {
+        "name": "Subarachnoid hemorrhage",
+        "icd10": "I609"
+      },
+      {
+        "name": "Trauma",
+        "icd10": "T149"
+      },
+      {
+        "name": "Cervical spine fracture",
+        "icd10": "T1420"
+      },
+      {
+        "name": "Meningitis",
+        "icd10": "G039"
+      },
+      {
+        "name": "Necrotizing fasciitis",
+        "icd10": "M7269"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Vertebral artery dissection",
+        "icd10": "I726"
+      },
+      {
+        "name": "Retropharyngeal abscess",
+        "icd10": "J390"
+      },
+      {
+        "name": "Submandibular abscess",
+        "icd10": "K122"
+      },
+      {
+        "name": "Parapharyngeal abscess",
+        "icd10": "J390"
+      },
+      {
+        "name": "Carotid artery dissection",
+        "icd10": "I720"
+      },
+      {
+        "name": "Thrombosed varicose vein",
+        "icd10": "I839, I868"
+      },
+      {
+        "name": "Temporal arteritis",
+        "icd10": "M316"
+      },
+      {
+        "name": "Spinal epidural hematoma",
+        "icd10": "T093"
+      },
+      {
+        "name": "Aortitis",
+        "icd10": "I776"
+      },
+      {
+        "name": "Hematorrhachis",
+        "icd10": "G968"
+      },
+      {
+        "name": "Cellulitis",
+        "icd10": "L039"
+      },
+      {
+        "name": "Epidural abscess",
+        "icd10": "G062"
+      },
+      {
+        "name": "Vertebral osteomyelitis",
+        "icd10": "M4659"
+      },
+      {
+        "name": "Spinal epidural metastasis",
+        "icd10": "C794"
+      },
+      {
+        "name": "Spinal cord tumor",
+        "icd10": "D434"
+      },
+      {
+        "name": "Bone metastasis",
+        "icd10": "C795"
+      },
+      {
+        "name": "Tuberculosis",
+        "icd10": "A169"
+      },
+      {
+        "name": "Acute purulent thyroiditis",
+        "icd10": "E060"
+      },
+      {
+        "name": "Acute worsening of Hashimoto's disease",
+        "icd10": "E063"
+      },
+      {
+        "name": "Thyroiditis",
+        "icd10": "E069"
+      },
+      {
+        "name": "Subphrenic abscesses",
+        "icd10": "K650"
+      },
+      {
+        "name": "Pancoast tumor",
+        "icd10": "C341"
+      },
+      {
+        "name": "Esophageal cancer",
+        "icd10": "C159"
+      },
+      {
+        "name": "Infectious mononucleosis",
+        "icd10": "B279"
+      },
+      {
+        "name": "Cutaneous abscess",
+        "icd10": "L02"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Vertigo or dizziness",
+    "red": [
+      {
+        "name": "Cerebral hemorrhage",
+        "icd10": "I619"
+      },
+      {
+        "name": "Cerebellum hemorrhage",
+        "icd10": "I614"
+      },
+      {
+        "name": "Brainstem hemorrhage",
+        "icd10": "I613"
+      },
+      {
+        "name": "Cerebral infarction",
+        "icd10": "I639"
+      },
+      {
+        "name": "Cerebellum infarction",
+        "icd10": "I635"
+      },
+      {
+        "name": "Brainstem infarction",
+        "icd10": "I635"
+      },
+      {
+        "name": "Vertebrobasilar insufficiency",
+        "icd10": "G450"
+      },
+      {
+        "name": "Head injury",
+        "icd10": "S099"
+      },
+      {
+        "name": "Hypoglycemia",
+        "icd10": "E162"
+      },
+      {
+        "name": "Arrhythmia",
+        "icd10": "I499"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Vertebral artery dissection",
+        "icd10": "I726"
+      },
+      {
+        "name": "Wallenberg syndrome",
+        "icd10": "I663"
+      },
+      {
+        "name": "Temporal lobe epilepsy",
+        "icd10": "G402"
+      },
+      {
+        "name": "Anterior inferior cerebellar artery syndrome",
+        "icd10": "I671, I663"
+      },
+      {
+        "name": "Subclavian steal syndrome",
+        "icd10": "G458"
+      },
+      {
+        "name": "Normal pressure hydrocephalus",
+        "icd10": "G912"
+      },
+      {
+        "name": "Acute inner ear disorder",
+        "icd10": "H83"
+      },
+      {
+        "name": "Labyrinthitis",
+        "icd10": "H830"
+      },
+      {
+        "name": "Sudden deafness",
+        "icd10": "H912"
+      },
+      {
+        "name": "Ramsay–Hunt syndrome",
+        "icd10": "B022"
+      },
+      {
+        "name": "Ototoxic drugs",
+        "icd10": "R42"
+      },
+      {
+        "name": "Aminoglycoside",
+        "icd10": "T365"
+      },
+      {
+        "name": "Vancomycin",
+        "icd10": "A491"
+      },
+      {
+        "name": "Diuretics",
+        "icd10": "T509"
+      },
+      {
+        "name": "Perilymphatic fistula",
+        "icd10": "H831"
+      },
+      {
+        "name": "Basilar migraine",
+        "icd10": "G431"
+      },
+      {
+        "name": "Neck injury",
+        "icd10": "S199"
+      },
+      {
+        "name": "Syphilis",
+        "icd10": "A539"
+      },
+      {
+        "name": "Tuberculosis",
+        "icd10": "A169"
+      },
+      {
+        "name": "Drug induced",
+        "icd10": "R42"
+      },
+      {
+        "name": "Antihypertensives",
+        "icd10": "T465"
+      },
+      {
+        "name": "Anxiolytics",
+        "icd10": "Y47"
+      },
+      {
+        "name": "Antidepressants",
+        "icd10": "T432"
+      },
+      {
+        "name": "Antiepileptic drugs",
+        "icd10": "T42"
+      },
+      {
+        "name": "Thyroid diseases",
+        "icd10": "E079"
+      },
+      {
+        "name": "Wernicke encephalopathy",
+        "icd10": "E512"
+      },
+      {
+        "name": "Cannabis abuse",
+        "icd10": "F120"
+      },
+      {
+        "name": "Hypertensive urgency",
+        "icd10": "I160"
+      },
+      {
+        "name": "Paroxysmal atrial fibrillation",
+        "icd10": "I480"
+      },
+      {
+        "name": "Hyperglycemia",
+        "icd10": "R739"
+      },
+      {
+        "name": "Concussion",
+        "icd10": "S060"
+      },
+      {
+        "name": "Heat stroke",
+        "icd10": "T678"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Numbness",
+    "red": [
+      {
+        "name": "Intracranial bleeding",
+        "icd10": "S068, I629"
+      },
+      {
+        "name": "Cerebral infarction",
+        "icd10": "I639"
+      },
+      {
+        "name": "Acute arterial obstruction",
+        "icd10": "I742, I743"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Cauda equina syndrome",
+        "icd10": "G834"
+      },
+      {
+        "name": "Conus medullaris syndrome",
+        "icd10": "G958"
+      },
+      {
+        "name": "Epiconus syndrome",
+        "icd10": "G958"
+      },
+      {
+        "name": "Guillain–Barré syndrome",
+        "icd10": "G610"
+      },
+      {
+        "name": "Compartment syndrome",
+        "icd10": "T796"
+      },
+      {
+        "name": "Spinal cord injury",
+        "icd10": "T093"
+      },
+      {
+        "name": "Hypokalemia",
+        "icd10": "E876"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Eruption",
+    "red": [
+      {
+        "name": "Necrotizing fasciitis",
+        "icd10": "M7269"
+      },
+      {
+        "name": "Toxic shock syndrome",
+        "icd10": "A483"
+      },
+      {
+        "name": "Toxic shock-like syndrome",
+        "icd10": "A483"
+      },
+      {
+        "name": "Staphylococcal scalded skin syndrome",
+        "icd10": "L00"
+      },
+      {
+        "name": "Disseminated intravascular coagulation",
+        "icd10": "D65"
+      },
+      {
+        "name": "Meningococcal infection",
+        "icd10": "A399"
+      },
+      {
+        "name": "Stevens–Johnson",
+        "icd10": "L511"
+      },
+      {
+        "name": "Acute generalized exanthematous pustulosis",
+        "icd10": "L080"
+      },
+      {
+        "name": "Toxic epidermal necrolysis",
+        "icd10": "L512"
+      },
+      {
+        "name": "Anaphylaxis",
+        "icd10": "T782"
+      },
+      {
+        "name": "Angioedema",
+        "icd10": "T783"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Virus infection",
+        "icd10": "B349"
+      },
+      {
+        "name": "Measles",
+        "icd10": "B059"
+      },
+      {
+        "name": "Rubella",
+        "icd10": "B069"
+      },
+      {
+        "name": "Dengue fever",
+        "icd10": "A90"
+      },
+      {
+        "name": "Bacterial infection",
+        "icd10": "A499"
+      },
+      {
+        "name": "Syphilis",
+        "icd10": "A539"
+      },
+      {
+        "name": "Typhoid",
+        "icd10": "A010"
+      },
+      {
+        "name": "Scarlet fever",
+        "icd10": "A38"
+      },
+      {
+        "name": "Rickettsial infection",
+        "icd10": "A799"
+      },
+      {
+        "name": "Scrub typhus",
+        "icd10": "A753"
+      },
+      {
+        "name": "Japanese spotted fever",
+        "icd10": "A778a"
+      },
+      {
+        "name": "Infective endocarditis",
+        "icd10": "I330"
+      },
+      {
+        "name": "Herpes simplex infection",
+        "icd10": "B009"
+      },
+      {
+        "name": "Varicella herpes simplex virus infection",
+        "icd10": "B019"
+      },
+      {
+        "name": "Drug eruption",
+        "icd10": "L270"
+      },
+      {
+        "name": "Drug-induced sensitivity",
+        "icd10": "L270"
+      },
+      {
+        "name": "Acute graft-versus-host disease",
+        "icd10": "T860"
+      },
+      {
+        "name": "Acute HIV infection",
+        "icd10": "B230"
+      },
+      {
+        "name": "Kawasaki disease",
+        "icd10": "M303"
+      },
+      {
+        "name": "Leukocytoclastic vasculitis",
+        "icd10": "L959"
+      },
+      {
+        "name": "Drug-induced hypersensitivity vasculitis",
+        "icd10": "M310"
+      },
+      {
+        "name": "Anaphylactoid purpura disease (Henoch–Schonlein purpura)",
+        "icd10": "D690"
+      },
+      {
+        "name": "Microscopic polyangiitis",
+        "icd10": "M300"
+      },
+      {
+        "name": "Wegener granuloma",
+        "icd10": "M313"
+      },
+      {
+        "name": "Churg–Strauss syndrome",
+        "icd10": "M301"
+      },
+      {
+        "name": "Cryoglobulinemia",
+        "icd10": "D891"
+      },
+      {
+        "name": "Cholesterol embolization",
+        "icd10": "I749"
+      },
+      {
+        "name": "Blood disorders",
+        "icd10": "D70, D71, D72, D73, D74, D75, D76, D77"
+      },
+      {
+        "name": "Leukemia",
+        "icd10": "C959"
+      },
+      {
+        "name": "Thrombocytopenia/Abnormal platelet function",
+        "icd10": "D691"
+      },
+      {
+        "name": "Abnormal clotting factor",
+        "icd10": "D689"
+      },
+      {
+        "name": "Cellulitis",
+        "icd10": "L039"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Hearing impairment",
+    "red": [
+      {
+        "name": "Brainstem vascular disorder",
+        "icd10": "I60, I61, I62, I63, I64, I65, I66, I67, I68, I69"
+      },
+      {
+        "name": "Basilar insufficiency",
+        "icd10": "G450"
+      },
+      {
+        "name": "Basilar artery occlusion",
+        "icd10": "I651"
+      },
+      {
+        "name": "Aneurysms",
+        "icd10": "I729"
+      },
+      {
+        "name": "Trauma",
+        "icd10": "T149"
+      },
+      {
+        "name": "Bleeding",
+        "icd10": "R58"
+      },
+      {
+        "name": "Skull fracture",
+        "icd10": "S0290"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Sudden deafness",
+        "icd10": "H912"
+      },
+      {
+        "name": "Malignant otitis externa",
+        "icd10": "H602"
+      },
+      {
+        "name": "Acute labyrinthitis",
+        "icd10": "H830"
+      },
+      {
+        "name": "Pyramiditis",
+        "icd10": "H702"
+      },
+      {
+        "name": "Labyrinthitis",
+        "icd10": "H830"
+      },
+      {
+        "name": "Earwax",
+        "icd10": "H612"
+      },
+      {
+        "name": "Foreign body",
+        "icd10": "T16"
+      },
+      {
+        "name": "Drug intoxication",
+        "icd10": "T509"
+      },
+      {
+        "name": "Streptomycin",
+        "icd10": "T365"
+      },
+      {
+        "name": "Gentamicin",
+        "icd10": "H910"
+      },
+      {
+        "name": "Isoniazid",
+        "icd10": "H910"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Scrotal pain・swelling",
+    "red": [
+      {
+        "name": "Fournier's gangrene",
+        "icd10": "M7265"
+      },
+      {
+        "name": "Trauma",
+        "icd10": "T149"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Testicular torsion",
+        "icd10": "N44"
+      },
+      {
+        "name": "Torsion of the testicular appendages",
+        "icd10": "N44"
+      },
+      {
+        "name": "Incarcerated inguinal hernia",
+        "icd10": "K403"
+      },
+      {
+        "name": "Testicular tumor bleeding",
+        "icd10": "N501"
+      },
+      {
+        "name": "Testicular cancer",
+        "icd10": "D401"
+      },
+      {
+        "name": "Mumps epididymitis",
+        "icd10": "B260"
+      },
+      {
+        "name": "Malignant lymphoma",
+        "icd10": "C859"
+      },
+      {
+        "name": "Leukemia",
+        "icd10": "C959"
+      },
+      {
+        "name": "Epididymitis",
+        "icd10": "N45"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Pain in the lower extremities",
+    "red": [
+      {
+        "name": "Dissecting aneurysm",
+        "icd10": "I710"
+      },
+      {
+        "name": "Arterial embolism",
+        "icd10": "I749"
+      },
+      {
+        "name": "Severe trauma",
+        "icd10": "T149"
+      },
+      {
+        "name": "Necrotizing fasciitis",
+        "icd10": "M7269"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Phlebothrombosis",
+        "icd10": "I829"
+      },
+      {
+        "name": "Fracture",
+        "icd10": "T1420"
+      },
+      {
+        "name": "Osteomyelitis",
+        "icd10": "M8699"
+      },
+      {
+        "name": "Compartment syndrome",
+        "icd10": "T796"
+      },
+      {
+        "name": "Cellulitis",
+        "icd10": "L039"
+      },
+      {
+        "name": "Endocarditis",
+        "icd10": "I38"
+      },
+      {
+        "name": "Electrolyte disorders",
+        "icd10": "E87"
+      },
+      {
+        "name": "Hyponatremia",
+        "icd10": "E871"
+      },
+      {
+        "name": "Hypokalemia",
+        "icd10": "E876"
+      },
+      {
+        "name": "Tetanus",
+        "icd10": "A35"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Anxiety・depression",
+    "red": [
+      {
+        "name": "Myocardial infarction",
+        "icd10": "I219"
+      },
+      {
+        "name": "Pulmonary embolism",
+        "icd10": "I269"
+      },
+      {
+        "name": "Heart failure",
+        "icd10": "I509"
+      },
+      {
+        "name": "Arrhythmia",
+        "icd10": "I499"
+      },
+      {
+        "name": "Meningitis",
+        "icd10": "G039"
+      },
+      {
+        "name": "Encephalitis",
+        "icd10": "G049"
+      },
+      {
+        "name": "Severe bleeding",
+        "icd10": "R58"
+      },
+      {
+        "name": "Septic shock",
+        "icd10": "A419"
+      },
+      {
+        "name": "Severe acidosis",
+        "icd10": "E872"
+      },
+      {
+        "name": "Severe asthma",
+        "icd10": "J45"
+      },
+      {
+        "name": "Hypoglycemia",
+        "icd10": "E162"
+      },
+      {
+        "name": "Trauma",
+        "icd10": "T149"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Epilepsy",
+        "icd10": "G409"
+      },
+      {
+        "name": "Electrolyte disorders",
+        "icd10": "E87"
+      },
+      {
+        "name": "Anemia",
+        "icd10": "D649"
+      },
+      {
+        "name": "Hepatic encephalopathy",
+        "icd10": "K729"
+      },
+      {
+        "name": "Uremia",
+        "icd10": "N19"
+      },
+      {
+        "name": "Endocrine disorders",
+        "icd10": "E349"
+      },
+      {
+        "name": "Hypothyroidism",
+        "icd10": "E039"
+      },
+      {
+        "name": "Hyperthyroidism",
+        "icd10": "E059"
+      },
+      {
+        "name": "Pheochromocytoma",
+        "icd10": "D350"
+      },
+      {
+        "name": "Adrenal insufficiency",
+        "icd10": "E272"
+      },
+      {
+        "name": "Drug intoxication",
+        "icd10": "T509"
+      },
+      {
+        "name": "Drug withdrawal",
+        "icd10": "F193"
+      },
+      {
+        "name": "Antispasmodic",
+        "icd10": "Y46"
+      },
+      {
+        "name": "Antidepressants",
+        "icd10": "T432"
+      },
+      {
+        "name": "Antihistamines",
+        "icd10": "T450"
+      },
+      {
+        "name": "Antihypertensives",
+        "icd10": "T465"
+      },
+      {
+        "name": "Antiphlogistic",
+        "icd10": "Y45"
+      },
+      {
+        "name": "Anti-Parkinson agents",
+        "icd10": "T42"
+      },
+      {
+        "name": "Caffeine",
+        "icd10": "F152"
+      },
+      {
+        "name": "Digitalis toxicity",
+        "icd10": "T460"
+      },
+      {
+        "name": "Opioid abuse",
+        "icd10": "F111"
+      },
+      {
+        "name": "Stimulant",
+        "icd10": "T436"
+      },
+      {
+        "name": "Alcohol abuse",
+        "icd10": "F102"
+      },
+      {
+        "name": "Heavy metal",
+        "icd10": "T56"
+      },
+      {
+        "name": "Hypovitaminosis",
+        "icd10": "E569"
+      },
+      {
+        "name": "Vitamin B1",
+        "icd10": "E519"
+      },
+      {
+        "name": "Vitamin B12",
+        "icd10": "E538"
+      },
+      {
+        "name": "Folic acid",
+        "icd10": "E538"
+      },
+      {
+        "name": "Post-concussion syndrome",
+        "icd10": "F072"
+      },
+      {
+        "name": "Acute intermittent porphyria",
+        "icd10": "E802"
+      },
+      {
+        "name": "Depression with suicidal ideation and suicide attempts",
+        "icd10": "F329"
+      },
+      {
+        "name": "Disorders of magnesium metabolism",
+        "icd10": "E834"
+      },
+      {
+        "name": "Dehydration",
+        "icd10": "E86"
+      },
+      {
+        "name": "Cannabis abuse",
+        "icd10": "F120"
+      },
+      {
+        "name": "Cocaine abuse",
+        "icd10": "F141"
+      },
+      {
+        "name": "Gastrointestinal bleeding",
+        "icd10": "K922"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Thirst",
+    "red": [
+      {
+        "name": "Esophageal varices",
+        "icd10": "I850"
+      },
+      {
+        "name": "Burns",
+        "icd10": "T300"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Heat stroke",
+        "icd10": "T67"
+      },
+      {
+        "name": "Dehydration",
+        "icd10": "E86"
+      },
+      {
+        "name": "Diabetic ketoacidosis",
+        "icd10": "E141"
+      },
+      {
+        "name": "Hyperosmolar hyperglycemic syndrome",
+        "icd10": "E146"
+      },
+      {
+        "name": "Gestational diabetes",
+        "icd10": "O244"
+      },
+      {
+        "name": "Acute kidney injury",
+        "icd10": "N179"
+      },
+      {
+        "name": "Cushing's syndrome",
+        "icd10": "E249"
+      },
+      {
+        "name": "Glucagonoma",
+        "icd10": "D137"
+      },
+      {
+        "name": "Hyperparathyroidism",
+        "icd10": "E213"
+      },
+      {
+        "name": "Adrenal tumor",
+        "icd10": "D441"
+      },
+      {
+        "name": "Sepsis",
+        "icd10": "A419"
+      },
+      {
+        "name": "Liver failure",
+        "icd10": "K729"
+      },
+      {
+        "name": "Heart failure",
+        "icd10": "I509"
+      },
+      {
+        "name": "Electrolyte disorders",
+        "icd10": "E87"
+      },
+      {
+        "name": "Hyponatremia",
+        "icd10": "E871"
+      },
+      {
+        "name": "Hypernatremia",
+        "icd10": "E870"
+      },
+      {
+        "name": "Hypercalcemia",
+        "icd10": "E835"
+      },
+      {
+        "name": "Hypokalemia",
+        "icd10": "E876"
+      },
+      {
+        "name": "Central diabetes insipidus",
+        "icd10": "E232"
+      },
+      {
+        "name": "Nephrogenic diabetes insipidus",
+        "icd10": "N251"
+      },
+      {
+        "name": "Alcoholic cirrhosis",
+        "icd10": "K703"
+      },
+      {
+        "name": "Drug induced",
+        "icd10": "K117"
+      },
+      {
+        "name": "Lithium",
+        "icd10": "T435"
+      },
+      {
+        "name": "Anticholinergic drugs",
+        "icd10": "T443"
+      },
+      {
+        "name": "Diuretics",
+        "icd10": "T509"
+      },
+      {
+        "name": "Demeclocycline",
+        "icd10": "R631"
+      },
+      {
+        "name": "Phenothiazine",
+        "icd10": "T433"
+      },
+      {
+        "name": "Meniscocytosis",
+        "icd10": "D571"
+      },
+      {
+        "name": "Snakebite",
+        "icd10": "T630"
+      },
+      {
+        "name": "Hypothyroidism",
+        "icd10": "E039"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Insomnia",
+    "red": [],
+    "yellow": [
+      {
+        "name": "Heart failure",
+        "icd10": "I509"
+      },
+      {
+        "name": "COPD",
+        "icd10": "J449"
+      },
+      {
+        "name": "Bronchial asthma",
+        "icd10": "J459"
+      },
+      {
+        "name": "Hyperthyroidism",
+        "icd10": "E059"
+      },
+      {
+        "name": "Drug intoxication",
+        "icd10": "T509"
+      },
+      {
+        "name": "Drug withdrawal",
+        "icd10": "F193"
+      },
+      {
+        "name": "Antispasmodic",
+        "icd10": "Y46"
+      },
+      {
+        "name": "Antidepressants",
+        "icd10": "T432"
+      },
+      {
+        "name": "Antihistamines",
+        "icd10": "T450"
+      },
+      {
+        "name": "Antihypertensives",
+        "icd10": "T465"
+      },
+      {
+        "name": "Antiphlogistic",
+        "icd10": "Y45"
+      },
+      {
+        "name": "Anti-Parkinson agents",
+        "icd10": "T42"
+      },
+      {
+        "name": "Caffeine",
+        "icd10": "F152"
+      },
+      {
+        "name": "Digitalis toxicity",
+        "icd10": "T460"
+      },
+      {
+        "name": "Drug",
+        "icd10": "F112"
+      },
+      {
+        "name": "Stimulant",
+        "icd10": "T436"
+      },
+      {
+        "name": "Alcohol abuse",
+        "icd10": "F102"
+      },
+      {
+        "name": "Heavy metal",
+        "icd10": "T56"
+      },
+      {
+        "name": "Depression with suicidal ideation and suicide attempts",
+        "icd10": "F329"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Tremors",
+    "red": [
+      {
+        "name": "Subarachnoid hemorrhage",
+        "icd10": "I609"
+      },
+      {
+        "name": "Intracranial bleeding",
+        "icd10": "S068"
+      },
+      {
+        "name": "Intracranial bleeding",
+        "icd10": "I629"
+      },
+      {
+        "name": "Cerebral infarction",
+        "icd10": "I639"
+      },
+      {
+        "name": "Severe head injury",
+        "icd10": "S099"
+      },
+      {
+        "name": "Hypoglycemia",
+        "icd10": "E162"
+      },
+      {
+        "name": "Epilepsy",
+        "icd10": "G409"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Brainstem encephalitis",
+        "icd10": "G610"
+      },
+      {
+        "name": "Acute cerebellitis",
+        "icd10": "G040"
+      },
+      {
+        "name": "Brain tumor",
+        "icd10": "D432"
+      },
+      {
+        "name": "Acute disseminated encephalomyelitis",
+        "icd10": "G040"
+      },
+      {
+        "name": "Hyperthyroidism",
+        "icd10": "E059"
+      },
+      {
+        "name": "Hypothyroidism",
+        "icd10": "E039"
+      },
+      {
+        "name": "Alcohol withdrawal",
+        "icd10": "F103"
+      },
+      {
+        "name": "Drug withdrawal",
+        "icd10": "F193"
+      },
+      {
+        "name": "Uremia",
+        "icd10": "N19"
+      },
+      {
+        "name": "Dialytic encephalopathy",
+        "icd10": "N185"
+      },
+      {
+        "name": "Ramsay–Hunt syndrome",
+        "icd10": "B022"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Stupor・abnormality",
+    "red": [],
+    "yellow": [
+      {
+        "name": "Thalamic infarcts",
+        "icd10": "I662"
+      },
+      {
+        "name": "Cheiro-oral syndrome",
+        "icd10": "L271"
+      },
+      {
+        "name": "Lateral medullary syndrome (Wallenberg syndrome)",
+        "icd10": "I663"
+      },
+      {
+        "name": "Guillain–Barré syndrome",
+        "icd10": "G610"
+      },
+      {
+        "name": "Miller Fisher syndrome",
+        "icd10": "G610"
+      },
+      {
+        "name": "Spinal cord infarction",
+        "icd10": "G951"
+      },
+      {
+        "name": "Myelitis",
+        "icd10": "G049"
+      },
+      {
+        "name": "Transverse disorder caused by trauma・demyelination・inflammation",
+        "icd10": "G838"
+      },
+      {
+        "name": "Brown–Séquard syndrome",
+        "icd10": "G838"
+      },
+      {
+        "name": "Anterior spinal artery syndrome",
+        "icd10": "G951"
+      },
+      {
+        "name": "Posterior spinal artery syndrome",
+        "icd10": "G951"
+      },
+      {
+        "name": "Central cord syndrome",
+        "icd10": "G825"
+      },
+      {
+        "name": "Syringomyelia",
+        "icd10": "G950"
+      },
+      {
+        "name": "Spinal cord tumor",
+        "icd10": "D434"
+      },
+      {
+        "name": "Uremia",
+        "icd10": "N19"
+      },
+      {
+        "name": "Drug induced",
+        "icd10": "R448"
+      },
+      {
+        "name": "Vincristine",
+        "icd10": "T451"
+      },
+      {
+        "name": "Isoniazid",
+        "icd10": "R448"
+      },
+      {
+        "name": "Phenytoin",
+        "icd10": "K061"
+      },
+      {
+        "name": "Cisplatin",
+        "icd10": "T451"
+      },
+      {
+        "name": "Poisoning",
+        "icd10": "T659"
+      },
+      {
+        "name": "Vitamin B6",
+        "icd10": "E531"
+      },
+      {
+        "name": "Lead poisoning",
+        "icd10": "T560"
+      },
+      {
+        "name": "Alcohol abuse",
+        "icd10": "G621"
+      },
+      {
+        "name": "HIV",
+        "icd10": "B24"
+      },
+      {
+        "name": "Syphilis",
+        "icd10": "A539"
+      },
+      {
+        "name": "Lyme disease",
+        "icd10": "A692"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Neonatal jaundice",
+    "red": [
+      {
+        "name": "Septic shock",
+        "icd10": "A419"
+      },
+      {
+        "name": "Severe metabolic acidosis",
+        "icd10": "E872"
+      },
+      {
+        "name": "Hemolytic disease",
+        "icd10": "P559"
+      },
+      {
+        "name": "Rh (D) incompatibility",
+        "icd10": "O360"
+      },
+      {
+        "name": "ABO incompatibility",
+        "icd10": "P551"
+      },
+      {
+        "name": "Asphyxia",
+        "icd10": "R090"
+      },
+      {
+        "name": "Respiratory distress",
+        "icd10": "P220"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Hypothermia",
+        "icd10": "T68"
+      },
+      {
+        "name": "Prenatal infection",
+        "icd10": "P379"
+      },
+      {
+        "name": "Toxoplasma",
+        "icd10": "B589"
+      },
+      {
+        "name": "Rubella",
+        "icd10": "B069"
+      },
+      {
+        "name": "CMV",
+        "icd10": "B259"
+      },
+      {
+        "name": "HSV",
+        "icd10": "B009"
+      },
+      {
+        "name": "Syphilis",
+        "icd10": "A539"
+      },
+      {
+        "name": "Cephalohematoma",
+        "icd10": "P120"
+      },
+      {
+        "name": "Twin-to-twin transfusion syndrome",
+        "icd10": "O430"
+      },
+      {
+        "name": "Blood transfusion between mother and child",
+        "icd10": "O430"
+      },
+      {
+        "name": "Delayed umbilical cord ligation",
+        "icd10": "P026"
+      },
+      {
+        "name": "Erythrocytosis",
+        "icd10": "D751"
+      },
+      {
+        "name": "Α-Thalassemia",
+        "icd10": "D560"
+      },
+      {
+        "name": "Hypoproteinemia",
+        "icd10": "E778"
+      },
+      {
+        "name": "Hemolysis with vitamin K3",
+        "icd10": "P53"
+      },
+      {
+        "name": "Intrahepatic biliary atresia",
+        "icd10": "Q442"
+      },
+      {
+        "name": "Extrahepatic biliary atresia",
+        "icd10": "Q442"
+      },
+      {
+        "name": "Pyloric stenosis",
+        "icd10": "K311"
+      },
+      {
+        "name": "Intestinal atresia",
+        "icd10": "P769"
+      },
+      {
+        "name": "Bowel movement disorder due to function disorder",
+        "icd10": "K598"
+      },
+      {
+        "name": "Bowel movement disorder due to anatomic disorder",
+        "icd10": "K598"
+      },
+      {
+        "name": "Giant cell hepatitis",
+        "icd10": "P592"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Purpura",
+    "red": [
+      {
+        "name": "Disseminated intravascular coagulation",
+        "icd10": "D65"
+      },
+      {
+        "name": "Severe trauma",
+        "icd10": "T149"
+      },
+      {
+        "name": "Septic shock",
+        "icd10": "A419"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Heparin-induced thrombocytopenia",
+        "icd10": "D695"
+      },
+      {
+        "name": "Heparin-induced thrombosis",
+        "icd10": "D695"
+      },
+      {
+        "name": "Ombocytopenia",
+        "icd10": "D691"
+      },
+      {
+        "name": "ITP",
+        "icd10": "D693"
+      },
+      {
+        "name": "Thrombotic thrombocytopenic purpura",
+        "icd10": "M311"
+      },
+      {
+        "name": "Homomating type protein C deficiency",
+        "icd10": "D685"
+      },
+      {
+        "name": "Homomating type protein S deficiency",
+        "icd10": "D685"
+      },
+      {
+        "name": "Anti-phospholipid antibody syndrome",
+        "icd10": "D688"
+      },
+      {
+        "name": "Factor V deficiency",
+        "icd10": "D682"
+      },
+      {
+        "name": "Purpura fulminans",
+        "icd10": "A394"
+      },
+      {
+        "name": "Disseminated gonococcal infection",
+        "icd10": "A54"
+      },
+      {
+        "name": "Ecthyma gangrenosum",
+        "icd10": "L88"
+      },
+      {
+        "name": "Rocky Mountain spotted fever",
+        "icd10": "A770"
+      },
+      {
+        "name": "Cholesterol embolization",
+        "icd10": "I749"
+      },
+      {
+        "name": "Bacterial embolism",
+        "icd10": "A499"
+      },
+      {
+        "name": "Fungal embolism",
+        "icd10": "B49"
+      },
+      {
+        "name": "Parasitic embolism",
+        "icd10": "B89"
+      },
+      {
+        "name": "Ehlers–Danlos syndrome",
+        "icd10": "Q796"
+      },
+      {
+        "name": "Amyloidosis",
+        "icd10": "E859"
+      },
+      {
+        "name": "Scurvy",
+        "icd10": "E54"
+      },
+      {
+        "name": "Domestic violence",
+        "icd10": "F910"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Trismus",
+    "red": [
+      {
+        "name": "Meningitis",
+        "icd10": "G039"
+      },
+      {
+        "name": "Encephalitis",
+        "icd10": "G049"
+      },
+      {
+        "name": "Status epilepticus",
+        "icd10": "G419"
+      },
+      {
+        "name": "Severe trauma",
+        "icd10": "T149"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Tetanus",
+        "icd10": "A35"
+      },
+      {
+        "name": "Temporomandibular joint osteomyelitis",
+        "icd10": "K102"
+      },
+      {
+        "name": "Septic arthritis of TMJ",
+        "icd10": "K076"
+      },
+      {
+        "name": "Ludwig's angina",
+        "icd10": "K122"
+      },
+      {
+        "name": "Peritonsillitis",
+        "icd10": "J36"
+      },
+      {
+        "name": "Peritonsillar abscess",
+        "icd10": "L029"
+      },
+      {
+        "name": "Mandibular circumference abscess",
+        "icd10": "K102"
+      },
+      {
+        "name": "Jaw circumference abscess",
+        "icd10": "K102"
+      },
+      {
+        "name": "Parapharyngeal abscess",
+        "icd10": "J390"
+      },
+      {
+        "name": "Parotid abscess",
+        "icd10": "K113"
+      },
+      {
+        "name": "Maxillary fracture",
+        "icd10": "S026"
+      },
+      {
+        "name": "Foreign body",
+        "icd10": "T17"
+      },
+      {
+        "name": "Bulbar palsy",
+        "icd10": "G122"
+      },
+      {
+        "name": "Brain tumor",
+        "icd10": "D432"
+      },
+      {
+        "name": "Metastatic tumor",
+        "icd10": "C80"
+      },
+      {
+        "name": "Dislocation of the jaw",
+        "icd10": "S030"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Itching",
+    "red": [],
+    "yellow": [
+      {
+        "name": "Varicella",
+        "icd10": "B019"
+      },
+      {
+        "name": "Scabies",
+        "icd10": "B86"
+      },
+      {
+        "name": "HIV",
+        "icd10": "B24"
+      },
+      {
+        "name": "Terminal chronic renal failure",
+        "icd10": "N180"
+      },
+      {
+        "name": "Hepatic disorders",
+        "icd10": "K769"
+      },
+      {
+        "name": "Primary bilious cholangitis",
+        "icd10": "K743"
+      },
+      {
+        "name": "Cholestatic jaundice",
+        "icd10": "K710"
+      },
+      {
+        "name": "Hepatitis C",
+        "icd10": "B182"
+      },
+      {
+        "name": "Cholestasis of pregnancy",
+        "icd10": "K831"
+      },
+      {
+        "name": "Hematopoiesis diseases",
+        "icd10": "L299"
+      },
+      {
+        "name": "Polycythemia vera",
+        "icd10": "D45"
+      },
+      {
+        "name": "Iron-deficiency anemia",
+        "icd10": "D509"
+      },
+      {
+        "name": "Mastocytosis",
+        "icd10": "Q822"
+      },
+      {
+        "name": "Hodgkin's lymphoma",
+        "icd10": "C819"
+      },
+      {
+        "name": "Non-Hodgkin's lymphoma",
+        "icd10": "C859"
+      },
+      {
+        "name": "Multiple myeloma",
+        "icd10": "C900"
+      },
+      {
+        "name": "Endocrine disorders",
+        "icd10": "E349"
+      },
+      {
+        "name": "Hyperthyroidism",
+        "icd10": "E059"
+      },
+      {
+        "name": "Hypothyroidism",
+        "icd10": "E039"
+      },
+      {
+        "name": "Diabetes",
+        "icd10": "E14"
+      },
+      {
+        "name": "Carcinoid syndrome",
+        "icd10": "E340"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Polyposia (primary cause)",
+    "red": [],
+    "yellow": [
+      {
+        "name": "Diabetes",
+        "icd10": "E14"
+      },
+      {
+        "name": "Psychogenic polydipsia",
+        "icd10": "F453"
+      },
+      {
+        "name": "Psychosis such as schizophrenia",
+        "icd10": "F232"
+      },
+      {
+        "name": "Central diabetes insipidus",
+        "icd10": "E232"
+      },
+      {
+        "name": "Nephrogenic diabetes insipidus",
+        "icd10": "N251"
+      },
+      {
+        "name": "Antisialagogues",
+        "icd10": "K117"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Polyposia diuresis",
+    "red": [
+      {
+        "name": "Meningitis",
+        "icd10": "G039"
+      },
+      {
+        "name": "Encephalitis",
+        "icd10": "G049"
+      },
+      {
+        "name": "Cerebrovascular disease",
+        "icd10": "I679"
+      },
+      {
+        "name": "Cerebral trauma",
+        "icd10": "S069"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Following brain surgery",
+        "icd10": "T889"
+      },
+      {
+        "name": "Last years of acute kidney injury",
+        "icd10": "N179"
+      },
+      {
+        "name": "Salt-losing nephropathy",
+        "icd10": "R631"
+      },
+      {
+        "name": "Salt-losing nephropathy",
+        "icd10": "R35"
+      },
+      {
+        "name": "Hypoaldosteronism",
+        "icd10": "E274"
+      },
+      {
+        "name": "Leukemia",
+        "icd10": "C959"
+      },
+      {
+        "name": "Diabetes",
+        "icd10": "E14"
+      },
+      {
+        "name": "Hypokalemia",
+        "icd10": "E876"
+      },
+      {
+        "name": "Hypercalcemia",
+        "icd10": "E835"
+      },
+      {
+        "name": "Hypothermia",
+        "icd10": "T68"
+      },
+      {
+        "name": "Drug induced",
+        "icd10": "R63.1, R35"
+      },
+      {
+        "name": "Opioid antagonists",
+        "icd10": "R63.1, R35"
+      },
+      {
+        "name": "Α2 receptor stimulants",
+        "icd10": "R63.1, R35"
+      },
+      {
+        "name": "Lithium",
+        "icd10": "T435"
+      },
+      {
+        "name": "Amphotericin B",
+        "icd10": "R63.1, R35"
+      },
+      {
+        "name": "Other drugs that cause thirst",
+        "icd10": "R63.1, R35"
+      },
+      {
+        "name": "Mannitol",
+        "icd10": "R63.1, R35"
+      },
+      {
+        "name": "Angiography agents",
+        "icd10": "R63.1, R35"
+      },
+      {
+        "name": "Sugars",
+        "icd10": "E14"
+      },
+      {
+        "name": "Glycerol",
+        "icd10": "R63.1, R35"
+      },
+      {
+        "name": "Lymphoma",
+        "icd10": "C859"
+      },
+      {
+        "name": "Psychogenic polydipsia (excessive drinking of water)",
+        "icd10": "F453"
+      },
+      {
+        "name": "Psychosis such as schizophrenia",
+        "icd10": "F232"
+      },
+      {
+        "name": "Excessive infusion",
+        "icd10": "R63.1, R35"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Oliguria",
+    "red": [
+      {
+        "name": "Bleeding",
+        "icd10": "R58"
+      },
+      {
+        "name": "Burns",
+        "icd10": "T300"
+      },
+      {
+        "name": "Severe dehydration",
+        "icd10": "E86"
+      },
+      {
+        "name": "Mass fluid loss",
+        "icd10": "R34"
+      },
+      {
+        "name": "Vomiting",
+        "icd10": "R11"
+      },
+      {
+        "name": "Diarrhea",
+        "icd10": "A09"
+      },
+      {
+        "name": "Polyuria",
+        "icd10": "R35"
+      },
+      {
+        "name": "Heart failure",
+        "icd10": "I509"
+      },
+      {
+        "name": "Cardiogenic shock",
+        "icd10": "R570"
+      },
+      {
+        "name": "Congenital heart diseases",
+        "icd10": "Q249"
+      },
+      {
+        "name": "Arrhythmia",
+        "icd10": "I499"
+      },
+      {
+        "name": "Pulmonary thromboembolism",
+        "icd10": "I269"
+      },
+      {
+        "name": "Acute myocardial infarction",
+        "icd10": "I219"
+      },
+      {
+        "name": "Septic shock",
+        "icd10": "A419"
+      },
+      {
+        "name": "Anaphylaxis",
+        "icd10": "T782"
+      },
+      {
+        "name": "Thrombus",
+        "icd10": "R34"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Myocarditis",
+        "icd10": "I514"
+      },
+      {
+        "name": "Diuretics",
+        "icd10": "R34"
+      },
+      {
+        "name": "Renal artery stenosis",
+        "icd10": "I701"
+      },
+      {
+        "name": "Hypercalcemia",
+        "icd10": "E835"
+      },
+      {
+        "name": "Hepatorenal syndrome",
+        "icd10": "K767"
+      },
+      {
+        "name": "Abdominal compartment syndrome",
+        "icd10": "T796"
+      },
+      {
+        "name": "Pancreatitis",
+        "icd10": "K85"
+      },
+      {
+        "name": "NSAIDs",
+        "icd10": "R34"
+      },
+      {
+        "name": "Amphotericin B",
+        "icd10": "R34"
+      },
+      {
+        "name": "Noradrenaline",
+        "icd10": "R34"
+      },
+      {
+        "name": "Contrast media",
+        "icd10": "T886"
+      },
+      {
+        "name": "Calcineurin inhibitor (including cyclosporin A)",
+        "icd10": "R34"
+      },
+      {
+        "name": "ACE inhibitor",
+        "icd10": "R34"
+      },
+      {
+        "name": "ARB inhibitor",
+        "icd10": "R34"
+      },
+      {
+        "name": "Ischemia (after progressing from a prerenal factor and being operated on for the premature separation of the placenta)",
+        "icd10": "R34"
+      },
+      {
+        "name": "Endogenous substance: Hemoglobin",
+        "icd10": "R823"
+      },
+      {
+        "name": "Endogenous substance: Myoglobin",
+        "icd10": "R821"
+      },
+      {
+        "name": "Endogenous substance: Tumor lytic agent",
+        "icd10": "R34"
+      },
+      {
+        "name": "Endogenous substance: Uric acid",
+        "icd10": "R34"
+      },
+      {
+        "name": "Hemolysis",
+        "icd10": "D593"
+      },
+      {
+        "name": "Rhabdomyolysis",
+        "icd10": "M6289"
+      },
+      {
+        "name": "Aminoglycoside",
+        "icd10": "R34"
+      },
+      {
+        "name": "Lithium",
+        "icd10": "T435"
+      },
+      {
+        "name": "Pentamidine",
+        "icd10": "R34"
+      },
+      {
+        "name": "Cisplatin",
+        "icd10": "R34"
+      },
+      {
+        "name": "Ifosfamide",
+        "icd10": "R34"
+      },
+      {
+        "name": "Rapidly progressive glomerulonephritis",
+        "icd10": "N019"
+      },
+      {
+        "name": "Acute poststreptococcal glomerulonephritis",
+        "icd10": "N009"
+      },
+      {
+        "name": "Transplant rejection",
+        "icd10": "R34"
+      },
+      {
+        "name": "Irradiation",
+        "icd10": "R34"
+      },
+      {
+        "name": "Vasculitis",
+        "icd10": "R34"
+      },
+      {
+        "name": "Malignant hypertension",
+        "icd10": "I10"
+      },
+      {
+        "name": "Scleroderma",
+        "icd10": "M349"
+      },
+      {
+        "name": "Thrombotic thrombocytopenic purpura",
+        "icd10": "M311"
+      },
+      {
+        "name": "Hemolytic uremic syndrome",
+        "icd10": "D593"
+      },
+      {
+        "name": "Hyperviscosity syndrome",
+        "icd10": "R701"
+      },
+      {
+        "name": "Nephrotic syndrome",
+        "icd10": "N049"
+      },
+      {
+        "name": "Lupus nephritis",
+        "icd10": "M321"
+      },
+      {
+        "name": "Pyelonephritis",
+        "icd10": "N12"
+      },
+      {
+        "name": "Viral nephritis",
+        "icd10": "N059"
+      },
+      {
+        "name": "Fungal infection",
+        "icd10": "B49"
+      },
+      {
+        "name": "Autoimmune disease",
+        "icd10": "M359"
+      },
+      {
+        "name": "Sarcoidosis",
+        "icd10": "D869"
+      },
+      {
+        "name": "Leukemia",
+        "icd10": "C959"
+      },
+      {
+        "name": "Penicillin",
+        "icd10": "R34"
+      },
+      {
+        "name": "Cefem antimicrobial agent (cephalosporin)",
+        "icd10": "R34"
+      },
+      {
+        "name": "Histamine H2 receptor blocker",
+        "icd10": "R34"
+      },
+      {
+        "name": "PPI",
+        "icd10": "R34"
+      },
+      {
+        "name": "Allopurinol",
+        "icd10": "R34"
+      },
+      {
+        "name": "Rifampin",
+        "icd10": "R34"
+      },
+      {
+        "name": "Indinavir",
+        "icd10": "R34"
+      },
+      {
+        "name": "Mesalamine",
+        "icd10": "R34"
+      },
+      {
+        "name": "Sulfonamide",
+        "icd10": "R34"
+      },
+      {
+        "name": "Renal artery occlusion",
+        "icd10": "N280"
+      },
+      {
+        "name": "Renal vein obstruction",
+        "icd10": "I823"
+      },
+      {
+        "name": "Kidney movement phlebothrombosis",
+        "icd10": "R34"
+      },
+      {
+        "name": "Neonates",
+        "icd10": "R34"
+      },
+      {
+        "name": "After the umbilical artery catheter insertion",
+        "icd10": "R34"
+      },
+      {
+        "name": "Bilateral ureteral stone",
+        "icd10": "N209"
+      },
+      {
+        "name": "Tumor",
+        "icd10": "D489"
+      },
+      {
+        "name": "Fibrosis",
+        "icd10": "R34"
+      },
+      {
+        "name": "Hydronephrosis (including stricture at the pelviureteric junction)",
+        "icd10": "N133"
+      },
+      {
+        "name": "Prostatic hypertrophy",
+        "icd10": "N40"
+      },
+      {
+        "name": "Prostate cancer",
+        "icd10": "C61"
+      },
+      {
+        "name": "Bladder tumor",
+        "icd10": "D414"
+      },
+      {
+        "name": "Retroperitoneal tumor",
+        "icd10": "D483"
+      },
+      {
+        "name": "Urinary bladder stone",
+        "icd10": "N210"
+      },
+      {
+        "name": "Tricyclic antidepressant",
+        "icd10": "T430"
+      },
+      {
+        "name": "Anticholinergic drugs",
+        "icd10": "R34"
+      },
+      {
+        "name": "Sympathomimetic drugs",
+        "icd10": "R34"
+      },
+      {
+        "name": "Stenosis",
+        "icd10": "R34"
+      },
+      {
+        "name": "Ureterocele",
+        "icd10": "N288"
+      },
+      {
+        "name": "Posterior urethral valve",
+        "icd10": "Q642"
+      },
+      {
+        "name": "Catheter obstruction",
+        "icd10": "R34"
+      },
+      {
+        "name": "Neurogenic bladder dysfunction",
+        "icd10": "N319"
+      },
+      {
+        "name": "Spinal cord injury",
+        "icd10": "T093"
+      },
+      {
+        "name": "Spinal cord tumor",
+        "icd10": "D434"
+      },
+      {
+        "name": "Retention of urine",
+        "icd10": "R33"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Redness・tenderness of the breast",
+    "red": [],
+    "yellow": [
+      {
+        "name": "Inflammatory carcinoma of the breast",
+        "icd10": "C509"
+      },
+      {
+        "name": "Stagnation mastitis",
+        "icd10": "N61"
+      },
+      {
+        "name": "Acute suppurative mastitis",
+        "icd10": "N61"
+      },
+      {
+        "name": "Granulomatous mastitis",
+        "icd10": "N61"
+      },
+      {
+        "name": "Breast abscess",
+        "icd10": "L029"
+      },
+      {
+        "name": "Polyarteritis nodosa",
+        "icd10": "M300"
+      },
+      {
+        "name": "Necrotizing vasculitis",
+        "icd10": "M319"
+      },
+      {
+        "name": "Cellulitis",
+        "icd10": "L039"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Menstrual abnormalities",
+    "red": [],
+    "yellow": [
+      {
+        "name": "Empty sella syndrome",
+        "icd10": "E236"
+      },
+      {
+        "name": "Pituitary infarction",
+        "icd10": "N926"
+      },
+      {
+        "name": "Pituitary apoplexy",
+        "icd10": "E236"
+      },
+      {
+        "name": "Sheehan syndrome",
+        "icd10": "E230"
+      },
+      {
+        "name": "Pituitary tumor",
+        "icd10": "D443"
+      },
+      {
+        "name": "Acromegaly",
+        "icd10": "E220"
+      },
+      {
+        "name": "Cushing disease",
+        "icd10": "E240"
+      },
+      {
+        "name": "Meningioma",
+        "icd10": "D329"
+      },
+      {
+        "name": "Germinoma",
+        "icd10": "C80"
+      },
+      {
+        "name": "Glioma",
+        "icd10": "C719"
+      },
+      {
+        "name": "Corpus uteri carcinoma",
+        "icd10": "C549"
+      },
+      {
+        "name": "Endometritis",
+        "icd10": "N719"
+      },
+      {
+        "name": "Traumatic brain injury",
+        "icd10": "S069"
+      },
+      {
+        "name": "Radiation injuries (cranial radiation)",
+        "icd10": "N926"
+      },
+      {
+        "name": "Diencephalon-related tumor (craniopharyngioma)",
+        "icd10": "D430"
+      },
+      {
+        "name": "Basilar aneurysms",
+        "icd10": "I671"
+      },
+      {
+        "name": "Hyperthyroidism",
+        "icd10": "E059"
+      },
+      {
+        "name": "Hypothyroidism",
+        "icd10": "E039"
+      },
+      {
+        "name": "Idiopathic thrombocytopenic purpura",
+        "icd10": "D693"
+      },
+      {
+        "name": "Anticoagulant",
+        "icd10": "N926"
+      },
+      {
+        "name": "Ectopic hormone-secreting tumor",
+        "icd10": "E342"
+      },
+      {
+        "name": "Diabetes type 1",
+        "icd10": "E10"
+      },
+      {
+        "name": "Diabetes type 2",
+        "icd10": "E11"
+      },
+      {
+        "name": "Drug induced",
+        "icd10": "N926"
+      },
+      {
+        "name": "Dopamine antagonist",
+        "icd10": "N926"
+      },
+      {
+        "name": "Serotonin increase agent",
+        "icd10": "N926"
+      },
+      {
+        "name": "Pregnancy",
+        "icd10": "Z33"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Diplopia",
+    "red": [
+      {
+        "name": "Cerebral hemorrhage",
+        "icd10": "I619"
+      },
+      {
+        "name": "Cerebral infarction",
+        "icd10": "I639"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Brain tumor",
+        "icd10": "D432"
+      },
+      {
+        "name": "Cerebral aneurysm",
+        "icd10": "I671"
+      },
+      {
+        "name": "Carotid-cavernous fistula (internal carotid artery)",
+        "icd10": "I671"
+      },
+      {
+        "name": "Internal carotid artery aneurysm (oculomotor nerve palsy)",
+        "icd10": "I720"
+      },
+      {
+        "name": "Third nerve (oculomotor nerve) palsy",
+        "icd10": "H490"
+      },
+      {
+        "name": "Fourth nerve (trochlear nerve) palsy",
+        "icd10": "H491"
+      },
+      {
+        "name": "Sixth nerve (abducens nerve) palsy",
+        "icd10": "H492"
+      },
+      {
+        "name": "Guillain–Barré syndrome",
+        "icd10": "G610"
+      },
+      {
+        "name": "Miller Fisher syndrome",
+        "icd10": "G610"
+      },
+      {
+        "name": "Wernicke encephalopathy",
+        "icd10": "E512"
+      },
+      {
+        "name": "One-and-a-half syndrome",
+        "icd10": "H512"
+      },
+      {
+        "name": "Orbital blowout fracture",
+        "icd10": "S0230"
+      },
+      {
+        "name": "Direct trauma to the extraocular muscles (e.g., intramuscular hematoma)",
+        "icd10": "H532"
+      },
+      {
+        "name": "Giant cell arteritis",
+        "icd10": "M316"
+      },
+      {
+        "name": "Graves' disease",
+        "icd10": "E050"
+      },
+      {
+        "name": "Myasthenia gravis",
+        "icd10": "G700"
+      },
+      {
+        "name": "Botulism",
+        "icd10": "A051"
+      },
+      {
+        "name": "Orbital apex syndrome",
+        "icd10": "H493"
+      },
+      {
+        "name": "Vitamin E deficiency (e.g., abetalipoproteinemia)",
+        "icd10": "E560"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Photophobia",
+    "red": [
+      {
+        "name": "Retrobulbar hemorrhage",
+        "icd10": "H531"
+      },
+      {
+        "name": "Acid damage",
+        "icd10": "H531"
+      },
+      {
+        "name": "Alkali damage",
+        "icd10": "H531"
+      },
+      {
+        "name": "Subarachnoid hemorrhage",
+        "icd10": "I609"
+      },
+      {
+        "name": "Meningitis",
+        "icd10": "G039"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Iritis",
+        "icd10": "H209"
+      },
+      {
+        "name": "Uveitis",
+        "icd10": "H209"
+      },
+      {
+        "name": "Endophthalmitis",
+        "icd10": "H440"
+      },
+      {
+        "name": "Optic neuritis",
+        "icd10": "H46"
+      },
+      {
+        "name": "Bacterial conjunctivitis",
+        "icd10": "B99"
+      },
+      {
+        "name": "Viral conjunctivitis",
+        "icd10": "B309"
+      },
+      {
+        "name": "HSV",
+        "icd10": "B005"
+      },
+      {
+        "name": "VZV",
+        "icd10": "B018"
+      },
+      {
+        "name": "Hyphema",
+        "icd10": "H210"
+      },
+      {
+        "name": "Vitreous hemorrhage",
+        "icd10": "H431"
+      },
+      {
+        "name": "Foreign body",
+        "icd10": "H531"
+      },
+      {
+        "name": "Drug-induced injury",
+        "icd10": "H531"
+      },
+      {
+        "name": "Trepanation of the cornea",
+        "icd10": "H160"
+      },
+      {
+        "name": "Corneal ulcer",
+        "icd10": "H160"
+      },
+      {
+        "name": "Traumatic brain injury",
+        "icd10": "S069"
+      },
+      {
+        "name": "Concussion",
+        "icd10": "S060"
+      },
+      {
+        "name": "Pituitary tumor",
+        "icd10": "D443"
+      }
+    ]
+  },
+  {
+    "chiefComplaint": "Coxalgia",
+    "red": [
+      {
+        "name": "Pelvic fracture",
+        "icd10": "S3280"
+      },
+      {
+        "name": "Aortic aneurysm rupture",
+        "icd10": "I71"
+      }
+    ],
+    "yellow": [
+      {
+        "name": "Proximal femoral fracture",
+        "icd10": "S72"
+      },
+      {
+        "name": "Femoral head avascular necrosis",
+        "icd10": "M8785"
+      },
+      {
+        "name": "Septic arthritis",
+        "icd10": "M0099"
+      },
+      {
+        "name": "Acetabular labral tear",
+        "icd10": "S798"
+      },
+      {
+        "name": "Perthes disease",
+        "icd10": "M9115"
+      },
+      {
+        "name": "Femoroacetabular impingement",
+        "icd10": "M2585"
+      },
+      {
+        "name": "Bone tumor",
+        "icd10": "D480"
+      },
+      {
+        "name": "Metastatic tumor",
+        "icd10": "C80"
+      },
+      {
+        "name": "Infectious coxarthritis",
+        "icd10": "M2555"
+      },
+      {
+        "name": "Osteomyelitis",
+        "icd10": "M8699"
+      },
+      {
+        "name": "Iliopsoas abscess",
+        "icd10": "K650"
+      },
+      {
+        "name": "Rectus muscle abscess",
+        "icd10": "K61"
+      },
+      {
+        "name": "Hemophilia",
+        "icd10": "D66"
+      }
+    ]
+  }
+]
