@@ -3,10 +3,10 @@
   "outputDirectory": "dist",
   "framework": "vite",
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api" }
+    { "source": "/api/(.*)", "destination": "/api/index.cjs" }
   ],
   "functions": {
-    "api/index.js": {
+    "api/index.cjs": {
       "maxDuration": 60,
       "includeFiles": "src/data/**"
     }
