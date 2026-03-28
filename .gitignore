@@ -24,3 +24,4 @@ scripts/output
 *.njsproj
 *.sln
 *.sw?
+.Rhistory

@@ -3,6 +3,7 @@ import { HomeScreen } from './screens/HomeScreen';
 import { ComplaintScreen } from './screens/ComplaintScreen';
 import { ResultScreen } from './screens/ResultScreen';
 import { SummaryScreen } from './screens/SummaryScreen';
+import { CaseSimScreen } from './screens/CaseSimScreen';
 import { complaints, COMPLAINT_SLUGS } from './data/complaints';
 
 const SUMMARY_AFTER = 5;
@@ -25,6 +26,7 @@ function App() {
     userList: [],
     result: null,
   });
+  const [currentCaseId, setCurrentCaseId] = useState(null);
 
   function handleUpdateSettings(updates) {
     setSettings(prev => ({ ...prev, ...updates }));
@@ -79,6 +81,11 @@ function App() {
     setScreen('home');
   }
 
+  function handleStartCase(caseId) {
+    setCurrentCaseId(caseId);
+    setScreen('caseSim');
+  }
+
   function handleDrillAgain() {
     const slug = COMPLAINT_SLUGS[Math.floor(Math.random() * COMPLAINT_SLUGS.length)];
     handleStartDrill(slug);
@@ -92,6 +99,7 @@ function App() {
           session={session}
           onUpdateSettings={handleUpdateSettings}
           onStartDrill={handleStartDrill}
+          onStartCase={handleStartCase}
         />
       );
     case 'drill':
@@ -112,6 +120,13 @@ function App() {
           onRetry={handleRetry}
           onHome={handleHome}
           onSessionUpdate={handleSessionUpdate}
+        />
+      );
+    case 'caseSim':
+      return (
+        <CaseSimScreen
+          caseId={currentCaseId}
+          onHome={handleHome}
         />
       );
     case 'summary':

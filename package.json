@@ -4,10 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "server": "node server.cjs",
+    "dev": "node server.cjs & for i in 1 2 3 4 5; do curl -s http://localhost:3001/ >/dev/null 2>&1 && break || sleep 1; done && vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "process-cases": "node scripts/process-cases.cjs",
+    "augment-dx": "node scripts/augment-differentials.cjs"
   },
   "dependencies": {
     "cors": "^2.8.6",

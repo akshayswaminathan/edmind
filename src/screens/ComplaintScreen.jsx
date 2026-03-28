@@ -112,8 +112,10 @@ export function ComplaintScreen({ complaintSlug, timerSeconds, onSubmit, onExit 
           <h1 className="text-3xl font-bold text-gray-900 tracking-tight mb-2">
             {complaint.chiefComplaint}
           </h1>
-          <div className="flex items-center justify-center gap-3 text-xs text-gray-300">
-            <span>{complaint.red.length + complaint.yellow.length} diagnoses</span>
+          <div className="flex items-center justify-center gap-3 text-xs">
+            <span className="text-red-400">{complaint.red.length} must-not-miss</span>
+            <span className="text-gray-200">&middot;</span>
+            <span className="text-amber-400">{complaint.yellow.length} important</span>
           </div>
         </div>
 
