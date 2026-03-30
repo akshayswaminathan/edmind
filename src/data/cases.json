@@ -1,57 +1,57 @@
 [
   {
-    "title": "Chronic LUQ pain with opioid overdose and behavioral toxicity in an elderly male with complex cardiac history",
-    "doorChart": "72-year-old male — LUQ pain with chronic history and self-harm attempt in ED — ESI 2",
-    "chiefComplaint": "Longstanding left upper quadrant pain and acute overdose behavior in the ED",
-    "demographics": "Male in his early 70s",
-    "pmh": "Chronic pain; atrial fibrillation; heart failure; obesity; diabetes; prior thoracotomy; multiple vascular and respiratory comorbidities; substance use history including opioid use disorder with prior treatment",
+    "title": "Acute exacerbation of chronic RLQ pain with benzodiazepine misuse and combative behavior in a middle-aged woman with rheumatic heart disease",
+    "doorChart": "58-year-old female \u2014 RLQ pain with medication misuse and agitation in ED \u2014 ESI 2",
+    "chiefComplaint": "Worsening right lower quadrant pain and acute sedative misuse with escalating behavior in the ED",
+    "demographics": "Female in her late 50s",
+    "pmh": "Chronic pelvic and abdominal pain; rheumatic heart disease with mitral valve replacement; morbid obesity; type 2 diabetes; peripheral vascular disease; COPD; history of benzodiazepine use disorder with prior rehab admissions",
     "vitals": {
-      "hr": 76,
-      "bp": "128/92",
-      "rr": 18,
-      "spo2": "100%",
-      "temp": "98.4F"
+      "hr": 88,
+      "bp": "142/86",
+      "rr": 20,
+      "spo2": "97%",
+      "temp": "98.9F"
     },
     "patientProfile": {
-      "age": "72-year-old",
-      "sex": "male",
-      "arrivalMode": "brought in by triage or security after an overdose event in the ED",
-      "historyOfPresentIllness": "I’ve had LUQ stabbing pain for years that never seems to go away. It’s been hard to control with my prescribed meds. Today I came to the ED after I took more of my meds to see if I could get relief and because I felt ignored by the team. I’ve had surgeries including a thoracotomy, and pain management has always been involved. I’ve had a few hospital visits before for this issue, and this time I felt the need to act out because the pain wouldn’t settle and I wanted care right away. I denied new illnesses like fever or shortness of breath, and I was focused on my pain and getting my pain meds adjusted. I initially became agitated, was placed on a psychiatric hold, and later required monitoring and de-escalation. I later became physically disruptive in the hallway, leading to restraints and a telepsychiatry evaluation. I reported that I had taken a large amount of my pain medications to prove a point and to get a quicker response. I has a long history of chronic pain and complex cardiac disease, including atrial fibrillation with intermittent episodes, and I am currently on a regimen for pain management. I denied active suicidal or homicidal intent at baseline, though the events escalated. I was upset about how my pain management had been approached and was seeking adjustments. I remained polite when a care-provider was present during some interviews but remained distrustful of the ED team during the initial assessment. I recognized that I needed care but felt overwhelmed by the system and feared losing control of my pain regimen.",
-      "socialHistory": "Former smoker; history of alcohol use but currently not drinking; retired and living with caregiver; works or has worked as a long-haul driver; high burden of chronic illnesses affecting activities of daily living",
-      "medications": "Duloxetine 60 mg daily; Gabapentin 300 mg three times daily; Oxycodone 5 mg and Percocet 10-325 mg as prescribed; Metformin; Lisinopril; Metoprolol; Furosemide; various others listed for chronic conditions",
-      "allergies": "None documented in ED record",
-      "personalityNotes": "Appears agitated and verbally combative at times, but cooperative when engaged; required de-escalation and security involvement during the admission; telepsychiatry involvement anticipated"
+      "age": "58-year-old",
+      "sex": "female",
+      "arrivalMode": "arrived by EMS after family called 911 due to altered behavior at home; became increasingly agitated in triage",
+      "historyOfPresentIllness": "I've had this deep aching pain in my right lower belly for about three years now, ever since my hysterectomy. It flares up and nothing really touches it. Today it got so bad I took extra clonazepam \u2014 maybe ten or twelve of them \u2014 because I just couldn't cope anymore and I wanted someone to finally listen. My daughter called the ambulance. When I got here I started yelling because they made me wait and I could tell nobody was taking me seriously. I know I shouldn't have taken all those pills but I wasn't trying to hurt myself, I just wanted the pain to stop. I've had my mitral valve replaced and I'm on blood thinners, so I know things can get complicated. I don't have any chest pain or fever right now. I just want someone to fix this pain once and for all. After I calmed down a bit they put me on a monitor but then I got upset again when they said I had to wait for psych. I pulled out my IV and tried to leave, so they had to restrain me. I feel bad about that now. I know I need help but I'm frustrated.",
+      "socialHistory": "Never smoked; occasional wine drinker in the past, now abstinent; divorced; lives with adult daughter; former administrative assistant; limited mobility due to chronic pain and obesity",
+      "medications": "Clonazepam 1 mg TID; Gabapentin 600 mg TID; Warfarin 5 mg daily; Metformin 1000 mg BID; Lisinopril 20 mg daily; Albuterol inhaler PRN; Omeprazole 40 mg daily",
+      "allergies": "Sulfa drugs \u2014 rash; Morphine \u2014 nausea",
+      "personalityNotes": "Alternates between tearful cooperation and hostile outbursts; responds well to female staff; requires firm but empathetic communication; calms significantly when she feels heard"
     },
     "physicalExam": {
-      "general": "Cooperative at times but irritable and combative at others; appears his stated age but overall frail with multiple chronic illnesses",
-      "heent": "Oropharynx moist; mucous membranes not dry; no acute trauma noted",
-      "cardiovascular": "Regular rhythm with variable rate due to atrial fibrillation; no acute murmurs or rubs observed",
-      "respiratory": "Breath sounds clear bilaterally; no wheezes or crackles; normal work of breathing",
-      "abdomen": "LUQ abdominal wall pain described; abdomen soft, nondistended, nondistinct tenderness per patient report; no peritoneal signs noted on exam",
-      "neurological": "Oriented to person, place, and date; no focal neuro deficits noted during stable periods; otherwise fluctuating mental state due to agitation and medical treatments",
-      "musculoskeletal": "No acute deformities observed; patient mainly restless and attempting to move",
-      "skin": "Skin warm and dry; no rashes or ulcers noted"
+      "general": "Overweight female appearing older than stated age; tearful at times, intermittently combative; resting comfortably when undisturbed",
+      "heent": "Oropharynx clear; mucous membranes moist; no facial trauma",
+      "cardiovascular": "Mechanical click heard consistent with prosthetic mitral valve; regular rate; no gallops or rubs",
+      "respiratory": "Scattered expiratory wheezes bilaterally; no crackles; mildly increased work of breathing during agitation episodes",
+      "abdomen": "RLQ tenderness to deep palpation over surgical scar; abdomen obese, soft, no rebound or guarding; no palpable masses; normoactive bowel sounds",
+      "neurological": "Alert and oriented x3 when calm; mildly sedated after benzodiazepine ingestion but arousable; no focal deficits; pupils equal and reactive",
+      "musculoskeletal": "Bilateral lower extremity edema 1+; no acute joint swelling or deformity",
+      "skin": "Warm; well-healed midline abdominal scar; no rashes or breakdown"
     },
     "results": {
       "labs": [
         {
           "name": "CBC with differential",
-          "result": "WBC 5.8, Hgb not listed, Hct 41.0, RDW 14.8",
+          "result": "WBC 7.2, Hgb 11.8, Hct 36.1, Platelets 198, RDW 15.2",
           "flag": "normal"
         },
         {
           "name": "Metabolic panel, comprehensive",
-          "result": "Glucose 164 (elevated); all other components within normal limits",
+          "result": "Glucose 189 (elevated); BUN 22; Creatinine 1.1; all other components within normal limits",
           "flag": "abnormal"
         },
         {
           "name": "Lipase",
-          "result": "13 (normal)",
+          "result": "22 (normal)",
           "flag": "normal"
         },
         {
           "name": "Acetaminophen, serum",
-          "result": "Normal",
+          "result": "Undetectable",
           "flag": "normal"
         },
         {
@@ -61,847 +61,213 @@
         },
         {
           "name": "Ethanol, blood",
-          "result": "Not elevated (noted in panel, not clinically significant)",
+          "result": "Negative",
           "flag": "normal"
         },
         {
-          "name": "Rapid influenza A/B, RSV, and COVID-19 panel",
-          "result": "Not acutely infectious at time of testing",
-          "flag": "normal"
+          "name": "Benzodiazepine, urine",
+          "result": "Positive",
+          "flag": "abnormal"
+        },
+        {
+          "name": "INR/PT",
+          "result": "INR 2.8; PT 31.2 s",
+          "flag": "therapeutic range for mechanical valve"
         }
       ],
       "imaging": [
         {
-          "name": "CT chest/abdomen/pelvis",
-          "result": "No acute intra-thoracic or intra-abdominal acute process. Left thoracotomy changes with chronic left ribs fractures; soft tissue changes on the left anterolateral chest wall consistent with prior surgery/granulation tissue; no focal fluid collection; pulmonary artery enlargement suggesting pulmonary hypertension; indeterminate left subcarinal lymph node; stable left para-aortic lesion; hepatic steatosis.",
+          "name": "CT abdomen/pelvis with contrast",
+          "result": "Post-hysterectomy surgical changes in the pelvis with mild pelvic adhesive disease. No acute appendicitis, bowel obstruction, or free fluid. Small right inguinal hernia containing fat only. Hepatic steatosis. Mild bilateral renal cysts. No lymphadenopathy or mass lesion identified. Scattered colonic diverticula without inflammation.",
           "flag": "abnormal"
         }
       ]
     },
     "goldStandard": {
-      "presentation": "A 72-year-old man with a long-standing history of left upper quadrant neuralgia/pain, likely related to prior thoracic surgery and intercostal nerve irritation, presents with acute agitation and an opioid overdose episode after self-administering a large amount of his prescribed analgesics. He has a background of chronic heart disease including atrial fibrillation with previous thoracotomy and postoperative rib fractures. On arrival, he reported that his LUQ pain had been persistent for years and not adequately controlled by his pain management plan, and he sought escalation of analgesia. During the ED course, he became acutely disruptive with unsafe behaviors, resulting in psychiatric holds and later active restraints, with ongoing telepsychiatry evaluation planned. He denied convincing evidence of acute cardiac ischemia on ECG and CT, with mild hemodynamic stability between agitation episodes.",
-      "diagnosis": "Acute on chronic left upper quadrant pain likely due to intercostal neuralgia; opioid intoxication/overdose with agitation and psychiatric hold in the ED; comorbid chronic heart disease with atrial fibrillation; no acute cardiopulmonary catastrophe identified on imaging at this time",
-      "disposition": "Discharged from ED with follow-up recommendations for pain management with his treating pain specialist; instructions to return immediately for new or worsening symptoms; arranged telepsychiatry evaluation and outpatient psychiatric/pain follow-up; discharged with plan to coordinate with his pain management team for adjusted regimen",
-      "mdm": "The patient presented with a chronic pain syndrome complicated by an acute opioid overdose and behavioral instability. Given his long history of opioid use and reported nonadherence to pain management, the team weighed the risks of additional narcotics against potential benefits. CT findings did not show acute pathology explaining the pain and overdose, but revealed chronic postsurgical changes and chronic rib fractures. Cardiac rhythm was intermittently abnormal due to known atrial fibrillation but without acute ischemia on ECG and imaging. After therapeutic de-escalation, monitoring, and discussion with pain management and psychiatry, a discharge plan emphasizing continuity of care with his pain physician and outpatient telepsychiatry was pursued to avoid recurrence of unsafe behaviors and to optimize pain control. The patient was informed of risks, provided discharge instructions, and consented to outpatient follow-up; the care team documented milestones and safety checks throughout the stay."
+      "presentation": "A 58-year-old woman with chronic right lower quadrant pain attributed to post-hysterectomy adhesive disease presents after intentionally ingesting a large quantity of her prescribed clonazepam out of frustration with inadequate pain control. She has a complex medical history including a mechanical mitral valve on anticoagulation, COPD, and type 2 diabetes. In the ED she exhibited escalating agitation requiring physical restraints after removing her IV and attempting to leave. She denies suicidal intent, framing the overdose as a cry for help regarding her pain. Vitals are stable with mild tachycardia and hypertension. CT imaging shows no acute abdominal pathology. INR is therapeutic. Psychiatry consultation was initiated for risk assessment.",
+      "diagnosis": "Chronic right lower quadrant pain likely secondary to post-surgical adhesive disease; benzodiazepine overdose with behavioral crisis; comorbid rheumatic heart disease status post mechanical mitral valve replacement on therapeutic anticoagulation; no acute surgical abdomen on imaging",
+      "disposition": "Held in ED for observation and psychiatric clearance; discharged with outpatient pain management referral and psychiatric follow-up; warfarin management unchanged; instructed to return for worsening pain, bleeding, altered mental status, or suicidal ideation; safety plan documented with patient and daughter",
+      "mdm": "The patient presented with a chronic pain exacerbation complicated by intentional benzodiazepine overdose and behavioral escalation. CT abdomen/pelvis showed no acute surgical pathology, consistent with her known post-hysterectomy adhesive disease. INR remained in therapeutic range for her mechanical valve, and no bleeding complications were identified. Toxicology confirmed benzodiazepine exposure without co-ingestants. After de-escalation, the patient was evaluated by psychiatry and determined to be low acute risk for self-harm, with the overdose characterized as impulsive and pain-driven rather than a true suicide attempt. The care team coordinated with her outpatient pain specialist for regimen adjustment and arranged psychiatric follow-up. She was discharged with a documented safety plan, return precautions, and family involvement in aftercare."
     },
     "id": "case_1"
   },
   {
-    "title": "Dehydration with Syncope in a 67-Year-Old Female",
-    "doorChart": "Female, 60s — vomiting, diarrhea, and fainting episodes — ESI 3",
-    "chiefComplaint": "nausea with vomiting and diarrhea with fainting spells",
-    "demographics": "Female in her late 60s",
-    "pmh": "Hypopituitarism on hormone replacement (thyroid and steroids), hypertension, hyperlipidemia, GERD; remote pituitary tumor history; smoker (former).",
+    "title": "Volume Depletion with Near-Syncope in a 74-Year-Old Male",
+    "doorChart": "Male, 70s \u2014 persistent vomiting, loose stools, and lightheadedness \u2014 ESI 3",
+    "chiefComplaint": "vomiting and diarrhea with near-syncopal episodes",
+    "demographics": "Male in his mid-70s",
+    "pmh": "Adrenal insufficiency on chronic glucocorticoid replacement; atrial flutter status post ablation; type 2 diabetes; benign prostatic hypertrophy; osteoarthritis; remote history of colon polyps",
     "vitals": {
-      "hr": 71,
-      "bp": "120/70",
-      "rr": 16,
-      "spo2": "96%",
-      "temp": "36.8C"
+      "hr": 82,
+      "bp": "108/64",
+      "rr": 14,
+      "spo2": "95%",
+      "temp": "36.5C"
     },
     "patientProfile": {
-      "age": "late 60s",
-      "sex": "female",
-      "arrivalMode": "brought by family",
-      "historyOfPresentIllness": "I started feeling unwell Friday evening with nausea and multiple bouts of vomiting. By Saturday I developed watery diarrhea and abdominal discomfort that has been constant but varying in intensity. I also had two fainting episodes, one yesterday and one today, each lasting only seconds and followed by quick recovery. I haven’t been able to keep anything down or drink much fluids. I had Huevos Rancheros on Friday before symptoms began. I’ve been taking my usual thyroid and steroid meds but missed a couple doses due to the vomiting. No fever or chest pain. No blood in stool or urine.",
-      "socialHistory": "Former smoker; drinks alcohol occasionally; widowed; lives with family; retired.",
-      "medications": "Levothyroxine 75 mcg daily; hydrocortisone 15 mg daily; amlodipine 5 mg daily; calcium/vitamin D; statin; fish oil",
-      "allergies": "None known",
-      "personalityNotes": "Cooperative, anxious about symptoms, wants to stay hydrated and understand plan"
+      "age": "mid-70s",
+      "sex": "male",
+      "arrivalMode": "driven by wife",
+      "historyOfPresentIllness": "I woke up Thursday morning feeling queasy and by the afternoon I was vomiting every couple of hours. By Friday morning the diarrhea started \u2014 loose and watery, no blood. I nearly passed out twice getting up from a chair, both times I caught myself on the armrest and sat back down. My wife says I looked pale and was barely drinking anything. I ate leftover shrimp stir-fry Wednesday night and I'm wondering if that's what set this off. I've been trying to keep up with my medications but I threw up my morning pills both days. I take hydrocortisone for my adrenals and I know missing doses can be dangerous. No chest pain, no headache, no belly pain really \u2014 just waves of nausea. I feel weak and washed out.",
+      "socialHistory": "Never smoked; social drinker, maybe one beer a week; married 48 years; lives with wife in single-story home; retired electrician; walks 20 minutes daily when feeling well",
+      "medications": "Hydrocortisone 20 mg morning / 10 mg evening; Metformin 500 mg BID; Tamsulosin 0.4 mg daily; Flecainide 100 mg BID; Aspirin 81 mg daily; Vitamin D 2000 IU daily",
+      "allergies": "Codeine \u2014 GI upset",
+      "personalityNotes": "Quiet and stoic; minimizes symptoms; wife provides most of the history; cooperative and appreciative of care"
     },
     "physicalExam": {
-      "general": "Alert, oriented, lying comfortably, not in acute distress",
-      "heent": "oropharynx moist, mucous membranes slightly dry",
-      "cardiovascular": "regular rate and rhythm; no murmurs; distal pulses intact",
-      "respiratory": "clear to auscultation; no distress",
-      "abdomen": "soft, mild diffuse tenderness without rebound or guarding",
-      "neurological": "GCS 15, cranial nerves II-XII intact, no focal deficits",
-      "musculoskeletal": "no edema or focal tenderness",
-      "skin": "warm and dry"
+      "general": "Alert, oriented, reclining in bed, appears fatigued but not acutely distressed",
+      "heent": "Oropharynx dry; mucous membranes tacky; sunken eyes; no oral lesions",
+      "cardiovascular": "Regular rate and rhythm; no murmurs; capillary refill 3 seconds peripherally",
+      "respiratory": "Clear bilaterally; no adventitious sounds; comfortable on room air",
+      "abdomen": "Soft, nontender, nondistended; hyperactive bowel sounds; no guarding or rebound",
+      "neurological": "GCS 15; cranial nerves intact; no focal weakness; mildly slow to respond but appropriate",
+      "musculoskeletal": "No peripheral edema; mild bilateral knee crepitus; no focal tenderness",
+      "skin": "Tenting over dorsum of hands; warm; no rash or bruising"
     },
     "results": {
       "labs": [
         {
           "name": "CBC with diff",
-          "result": "WBC 6.9; Hgb 13.9; Hct 42.4; Platelets 230; neutrophils 82.7%",
-          "flag": "normal"
+          "result": "WBC 8.1; Hgb 15.2; Hct 47.8; Platelets 195; neutrophils 74.3%",
+          "flag": "mildly hemoconcentrated"
         },
         {
           "name": "CMP, comprehensive",
-          "result": "Sodium 131; Potassium 3.5; Chloride 96; CO2 23; BUN 28; Creatinine 1.3; Glucose 93; Calcium 8.0; Albumin 3.9",
-          "flag": "borderline abnormal sodium; mild renal insufficiency"
+          "result": "Sodium 128; Potassium 3.2; Chloride 91; CO2 21; BUN 38; Creatinine 1.7 (baseline 1.0); Glucose 78; Calcium 8.4; Albumin 3.7",
+          "flag": "hyponatremia; hypokalemia; prerenal azotemia"
         },
         {
           "name": "Lipase",
-          "result": "144 U/L",
+          "result": "38 U/L",
           "flag": "normal"
         },
         {
-          "name": "Lipase",
-          "result": "144 U/L",
-          "flag": "normal"
+          "name": "Magnesium",
+          "result": "1.6 mg/dL",
+          "flag": "low"
         },
         {
           "name": "INR/PT",
-          "result": "PT 14.1 s; INR 1.2",
+          "result": "PT 12.8 s; INR 1.0",
           "flag": "normal"
         },
         {
           "name": "Lactate",
-          "result": "1.29 mmol/L",
+          "result": "2.1 mmol/L",
+          "flag": "mildly elevated"
+        },
+        {
+          "name": "Troponin I (high sensitivity)",
+          "result": "<0.01 ng/mL",
           "flag": "normal"
         },
         {
-          "name": "Troponin I (POCT)",
-          "result": "0.04 ng/mL",
+          "name": "Cortisol, random",
+          "result": "2.4 ug/dL",
+          "flag": "low \u2014 consistent with adrenal insufficiency and missed replacement doses"
+        }
+      ],
+      "imaging": [
+        {
+          "name": "ECG 12-lead",
+          "result": "Sinus rhythm at 80 bpm; no ST changes; no Q waves; normal intervals",
+          "flag": "normal"
+        }
+      ]
+    },
+    "goldStandard": {
+      "presentation": "A 74-year-old man with known adrenal insufficiency on chronic glucocorticoid replacement presents with two days of vomiting and watery diarrhea with two near-syncopal episodes upon standing. He reports inability to keep oral medications down, including his hydrocortisone. Exam reveals signs of moderate dehydration with dry mucous membranes, delayed capillary refill, and skin tenting. Labs demonstrate hyponatremia, hypokalemia, hypomagnesemia, prerenal azotemia, and a critically low random cortisol level consistent with impending adrenal crisis precipitated by GI losses and missed steroid doses. Cardiac evaluation was reassuring with normal troponin and ECG. He improved significantly after IV stress-dose hydrocortisone and aggressive fluid resuscitation.",
+      "diagnosis": "Severe dehydration with electrolyte derangements and near-syncope; impending adrenal crisis secondary to missed glucocorticoid doses in the setting of acute gastroenteritis; prerenal acute kidney injury; probable viral or foodborne gastroenteritis",
+      "disposition": "Admitted to observation unit for continued IV hydration, electrolyte repletion, and stress-dose steroids; transitioned to oral hydrocortisone once tolerating PO; discharged after 18 hours with sick-day steroid dosing instructions, electrolyte recheck in 48 hours, and follow-up with endocrinology and primary care within one week",
+      "mdm": "This patient's presentation was driven by volume depletion from gastroenteritis compounded by an impending adrenal crisis from missed hydrocortisone doses. The critically low random cortisol of 2.4 confirmed inadequate adrenal reserve. Stress-dose IV hydrocortisone (100 mg bolus then 50 mg q8h) was administered alongside normal saline and potassium/magnesium repletion. Near-syncope was attributed to orthostatic hypotension from dehydration and cortisol deficiency rather than cardiac etiology, supported by negative troponins and a normal ECG. Lactate was mildly elevated but normalized with fluids. He was monitored for hemodynamic stability and adrenal response. Once tolerating oral intake and medications, he was stepped down to double his usual hydrocortisone dose with detailed written sick-day rules. Endocrinology was consulted by phone and agreed with the discharge plan. Family was educated on emergency intramuscular hydrocortisone injection for future GI illness."
+    },
+    "id": "case_2"
+  },
+  {
+    "title": "History of Breast Cancer with New Axillary Mass, Productive Cough, and Fever in a Middle-Aged Woman",
+    "doorChart": "Female, 40s \u2014 cough, fever, and painful axillary lump \u2014 ED CDU observation",
+    "chiefComplaint": "productive cough with fever and new left axillary mass",
+    "demographics": "Female in her mid-40s",
+    "pmh": "History of triple-negative breast cancer with prior lumpectomy, chemotherapy, and radiation; Crohn's disease on biologic therapy; asthma; migraines; history of recurrent urinary tract infections",
+    "vitals": {
+      "hr": 112,
+      "bp": "94/58 mmHg",
+      "rr": 22,
+      "spo2": "94% on room air",
+      "temp": "101.3F"
+    },
+    "patientProfile": {
+      "age": "mid-40s",
+      "sex": "female",
+      "arrivalMode": "self-presented to ED; triaged to CDU for observation",
+      "historyOfPresentIllness": "I've had this cough going on about ten days now, started dry but now I'm bringing up yellowish stuff. Three days ago I noticed a lump under my left arm \u2014 it's sore and getting bigger. Last night I spiked a fever to 101 and I've been having chills and night sweats. My kids had a cold a couple weeks ago and I figured I caught it, but the lump scared me because of my breast cancer. I finished chemo about fourteen months ago and my last scan was clean, but I know things can come back. I'm on Humira for my Crohn's and I know that lowers my immune system. I don't have trouble swallowing or breathing when I'm sitting still, but I get winded going up stairs. No chest pain. I've had some loose stools but that's pretty normal for me with the Crohn's.",
+      "socialHistory": "Never smoked; does not drink alcohol; divorced; lives with two school-age children; works as a middle school teacher; exercises when energy permits",
+      "medications": "Adalimumab 40 mg every other week; Mesalamine 1.2 g TID; Montelukast 10 mg daily; Fluticasone/salmeterol 250/50 inhaler BID; Sumatriptan 50 mg PRN; Daily multivitamin",
+      "allergies": "Penicillin \u2014 anaphylaxis; Latex \u2014 contact dermatitis",
+      "personalityNotes": "Articulate and well-informed about her conditions; visibly anxious about cancer recurrence; asks detailed questions; cooperative with all interventions; tearful when discussing possibility of relapse"
+    },
+    "physicalExam": {
+      "general": "Alert, thin-appearing woman in mild distress; appears flushed and diaphoretic",
+      "heent": "Oropharynx mildly erythematous with posterior pharyngeal cobblestoning; no exudates; nares with clear rhinorrhea; no cervical lymphadenopathy",
+      "cardiovascular": "Tachycardic, regular rhythm; no murmurs or gallops; peripheral pulses thready but present",
+      "respiratory": "Coarse breath sounds left base with dullness to percussion; scattered rhonchi bilaterally; mild intercostal retractions; speaking in full sentences",
+      "abdomen": "Soft, mild RLQ tenderness (chronic per patient); normoactive bowel sounds; no hepatosplenomegaly",
+      "neurological": "A&O x3; cranial nerves intact; normal gait",
+      "musculoskeletal": "Left axillary mass approximately 3x4 cm, firm, tender, with overlying erythema and warmth; no fluctuance; full ROM of left shoulder with discomfort",
+      "skin": "Flushed; radiation-associated skin changes left breast; no open wounds; no petechiae"
+    },
+    "results": {
+      "labs": [
+        {
+          "name": "CBC with differential",
+          "result": "WBC 13.8 (4.0-11.0) | RBC 3.6 (3.8-5.1) | Hgb 10.4 (12.0-16.0) | Hct 32.1 (36-46) | MCV 89.2 (82-98) | Platelets 342 (150-400) | Neutrophils 81.4%",
+          "flag": "abnormal"
+        },
+        {
+          "name": "Metabolic panel",
+          "result": "Sodium 136 (135-145) | Potassium 3.4 (3.5-5.5) | Chloride 101 | CO2 22 | Glucose 104 (70-100) | BUN 18 | Creatinine 0.7 | Calcium 8.8 (8.5-10.5) | Albumin 3.0 (3.5-5.0) | Alk Phos 112 (<130)",
+          "flag": "mild hypokalemia; low albumin"
+        },
+        {
+          "name": "Procalcitonin",
+          "result": "0.88 ng/mL",
+          "flag": "elevated \u2014 suggestive of bacterial infection"
+        },
+        {
+          "name": "Blood cultures x2",
+          "result": "Pending at time of disposition",
+          "flag": "pending"
+        },
+        {
+          "name": "Lactate",
+          "result": "1.8 mmol/L",
           "flag": "normal"
         },
         {
-          "name": "Cortisol, serum",
-          "result": "30.9 ug/dL",
+          "name": "CRP",
+          "result": "14.2 mg/dL",
           "flag": "elevated"
         }
       ],
       "imaging": [
         {
-          "name": "ECG 12-lead",
-          "result": "Normal sinus rhythm, no acute ischemic changes",
-          "flag": "normal"
-        }
-      ]
-    },
-    "goldStandard": {
-      "presentation": "A 67-year-old woman with a history of hypopituitarism on chronic steroids and thyroid replacement presented with several days of nonbloody vomiting, ongoing diarrhea, diffuse abdominal discomfort, and two brief syncope events. Initial evaluation showed mild dehydration with laboratory evidence of prerenal azotemia and hyponatremia. Cardiac monitoring and serial vitals were performed given syncope history; troponins were repeatedly negative and no arrhythmia was detected. Abdominal symptoms were attributed to gastroenteritis with good response to IV fluids. She was clinically improving and was discharged home with outpatient follow-up and hydration plan.",
-      "diagnosis": "Dehydration with hyponatremia, syncope likely dehydration-related; transient mild renal impairment; viral gastroenteritis",
-      "disposition": "Discharged home from observation after clinical improvement with IV hydration and antiemetics; instructions given on hydration, electrolyte management, and return precautions; outpatient follow-up with primary care and endocrinology arranged",
-      "mdm": "The patient arrived with symptoms consistent with volume depletion and possible dehydration-induced syncope. Given several hours of hydration and lack of fever, leukocytosis, or signs of systemic infection, the working diagnosis favored viral gastroenteritis with dehydration and electrolyte abnormalities (mild hyponatremia, prerenal azotemia). Cardiac causes of syncope were considered but serial troponins remained negative and ECGs showed no ischemia or arrhythmia. Cortisol was elevated, but there was no evidence of an adrenal crisis. The plan included continued observation if symptoms persisted, hydration with normal saline, antiemetics for nausea, and re-evaluation to determine need for admission. Ultimately, the patient stabilized, tolerating PO intake, and discharged with return precautions and outpatient follow-up."
-    },
-    "id": "case_2"
-  },
-  {
-    "title": "Lymphoma History with Cough, Neck Swelling, and Wheezing in a Older Adult",
-    "doorChart": "Male, 50s—cough, neck lump, and wheezing—ED CDU observation",
-    "chiefComplaint": "cough with neck swelling and wheezing",
-    "demographics": "Male in his mid-50s",
-    "pmh": "History of diffuse large B-cell lymphoma with prior treatments and transplant; ulcerative colitis status post colectomy; chronic medical issues including asthma, hypertension, kidney stones",
-    "vitals": {
-      "hr": 106,
-      "bp": "99/62 mmHg",
-      "rr": 18,
-      "spo2": "97% on room air",
-      "temp": "37.6F"
-    },
-    "patientProfile": {
-      "age": "mid-50s",
-      "sex": "male",
-      "arrivalMode": "transported by ambulance to the ED and placed in CDU for observation",
-      "historyOfPresentIllness": "I’ve been dealing with a two-week cough and a sore throat kind of felt like a cold family members were sick too. Early today I noticed a lump on the right side of my neck that started hurting last night and this morning the left side looked bigger as well. I don’t have fever or trouble breathing at rest, no chest pain, and I don’t have trouble swallowing. This is similar to a prior lymphoma episode but I’m told this neck swelling could be infection around a gland or a swollen lymph node. I’ve been in a clinical trial for chemotherapy in the past but not recently treated for months. My family has been sick, so I was worried this could be an infection plus concern for my cancer history.",
-      "socialHistory": "Former smoker, occasional alcohol use, married, lives with spouse",
-      "medications": "OC- listed in med rec: antibiotics for sinus symptoms, prior steroids, inhaled therapies; current home meds not fully listed here",
-      "allergies": "No known drug allergies",
-      "personalityNotes": "Tolerant but anxious about his current symptoms, cooperative with care, consistently documenting that neck swelling is tender but not severely alarming"
-    },
-    "physicalExam": {
-      "general": "Alert, appears well-nourished, in no acute distress",
-      "heent": "Right neck mass tender and firm, left neck mildly swollen; no trismus; oropharynx clear; nares without erythema; no exudates",
-      "cardiovascular": "Regular rhythm, normal heart sounds, peripheral pulses intact",
-      "respiratory": "Lungs with diffuse wheezes but good air movement; no crackles; no signs of respiratory distress",
-      "abdomen": "Soft, non-tender, no masses, normal bowel sounds",
-      "neurological": "A&O x3, normal strength",
-      "musculoskeletal": "Non-tender, normal ROM",
-      "skin": "Warm and dry, no rashes or edema"
-    },
-    "results": {
-      "labs": [
-        {
-          "name": "CBC with differential",
-          "result": "WBC 6.1 (4.0-11.0) | RBC 3.9 (4.4-5.9) | Hgb 8.9 (13.5-17.7) | Hct 28.0 (40-52) | MCV 71.2 (82-98) | Platelets 225 (150-400)",
-          "flag": "abnormal"
-        },
-        {
-          "name": "Metabolic panel",
-          "result": "Sodium 133 (135-145) | Potassium 3.1 (3.5-5.5) | Chloride 102 | CO2 24 | Glucose 119 (70-100) | BUN 14 | Creatinine 0.9 | Calcium 8.3 (8.5-10.5) | Albumin 2.9 (3.5-5.0) | Alk Phos 149 ( <130)",
-          "flag": "abnormal"
-        },
-        {
-          "name": "Rapid strep screen",
-          "result": "Negative",
-          "flag": "normal"
-        },
-        {
-          "name": "EKG",
-          "result": "Sinus rhythm, rate ~90-100 bpm, no acute ischemic changes",
-          "flag": "normal"
-        }
-      ],
-      "imaging": [
-        {
           "name": "Chest X-ray 2 views",
-          "result": "Cardiac size normal; mediport in right chest with tip in the upper atrium; left hilar fullness possibly lymphadenopathy; lungs clear; no focal consolidation or effusion",
-          "flag": "normal"
+          "result": "Left lower lobe consolidation with small associated pleural effusion; no pneumothorax; cardiac silhouette normal; mediport in left chest with tip at cavoatrial junction in satisfactory position",
+          "flag": "abnormal"
         },
         {
-          "name": "CT neck with contrast",
-          "result": "Soft tissue swelling around the right neck, with surrounding fat stranding; no definite abscess; scattered subcentimeter nodes; sinusitis on imaging; CT supports possible cellulitis vs gland infection; plan for serial exams and antibiotics",
+          "name": "Ultrasound left axilla",
+          "result": "Heterogeneous solid mass 3.2 x 3.8 cm in left axilla with surrounding soft tissue edema and hypervascularity on Doppler; no drainable fluid collection; morphology indeterminate \u2014 could represent reactive lymphadenopathy, infection, or recurrent malignancy; tissue sampling recommended",
           "flag": "abnormal"
         }
       ]
     },
     "goldStandard": {
-      "presentation": "A middle-aged man with a history of diffuse large B-cell lymphoma presents with a two-week history of nonproductive cough and with acute development of palpable neck swelling on the right that spread to the left by morning. He reports no fever or dyspnea at rest. Exam shows a tender, indurated neck mass on the right with milder edema on the left, wheezing on lung exam, and otherwise stable vitals. CT neck shows no abscess but soft tissue swelling consistent with cellulitis or sialoadenitis; chest imaging is largely without acute findings aside from hilar prominence. Given cancer history and neck findings, oncology was consulted for potential evaluation, while airway and infection risk are monitored in CDU. Treatments include inhaled bronchodilators, a short course of steroids, and broad antibiotics for neck swelling; plan includes serial neck exams and observation in CDU, with discharge planning if improving.",
-      "diagnosis": "Wheezing/asthma exacerbation; neck swelling likely cellulitis or sialadenitis in the setting of lymphoma history; sinusitis; hyponatremia and hypokalemia noted on CMP; baseline anemia from prior disease",
-      "disposition": "Observation in the CDU with serial exams, bronchodilator therapy, steroids, and antibiotics; pending oncology input for lymphoma-related considerations; discharge home if stable after overnight observation with return precautions",
-      "mdm": "This patient presents with wheezing and neck swelling in a background of treated lymphoma, making the differential broad but anchored by imaging suggesting cellulitis vs gland infection rather than abscess. He demonstrates no respiratory compromise, normal oxygenation after initial therapy, and improvement with nebulized therapy and steroids. Labs reveal mild hyponatremia and hypokalemia, anemia consistent with known history. The team elected CDU observation with ongoing bronchodilator therapy, IV/PO antibiotics for neck swelling, steroids, and oncology follow-up. Risk stratification favored outpatient disposition if symptoms stabilize, with clear instructions for red flags (fever, increasing neck pain, swelling, fever, or respiratory distress)."
+      "presentation": "A woman in her mid-40s with a history of triple-negative breast cancer in remission and Crohn's disease on immunosuppressive therapy presents with ten days of progressive productive cough, three days of a painful enlarging left axillary mass, and fever with night sweats. Exam reveals left basilar consolidation, tachycardia, borderline hypotension, and a firm tender axillary mass with overlying erythema. Labs show leukocytosis with neutrophilia, elevated procalcitonin and CRP, mild anemia, and hypoalbuminemia. Chest X-ray confirms left lower lobe pneumonia with a small effusion. Axillary ultrasound shows an indeterminate solid mass requiring tissue sampling to differentiate reactive adenopathy, abscess, or cancer recurrence. Given her immunocompromised state, IV antibiotics were started promptly with oncology notified for urgent outpatient biopsy.",
+      "diagnosis": "Community-acquired pneumonia with left lower lobe consolidation and small parapneumonic effusion; left axillary mass of indeterminate etiology \u2014 differential includes reactive lymphadenopathy, soft tissue infection, or recurrent breast malignancy; immunocompromised state secondary to biologic therapy; baseline mild anemia of chronic disease",
+      "disposition": "Observed overnight in CDU with IV antibiotics (azithromycin and ceftriaxone given penicillin allergy), IV fluids, and bronchodilator therapy; fever defervesced overnight; transitioned to oral antibiotics; discharged with urgent oncology appointment within 5 days for axillary mass biopsy; Humira held pending infectious disease and oncology guidance; return precautions for worsening dyspnea, hemoptysis, or increasing mass size",
+      "mdm": "This immunocompromised patient presented with community-acquired pneumonia confirmed on imaging and supported by elevated inflammatory markers and procalcitonin. The concomitant axillary mass raised concern for malignancy recurrence versus infectious lymphadenitis in the setting of active pulmonary infection and biologic immunosuppression. Ultrasound was indeterminate, and the team recommended tissue sampling as an outpatient given hemodynamic improvement with fluids and absence of drainable collection. Oncology was contacted and agreed with urgent outpatient biopsy within the week. Adalimumab was held pending resolution of acute infection per infectious disease phone consultation. Blood cultures were pending at discharge but the patient was afebrile and clinically improving. She was transitioned to oral levofloxacin given penicillin allergy and discharged with detailed return precautions. The care team discussed the differential openly with the patient, who expressed understanding and preference for outpatient workup rather than inpatient admission."
     },
     "id": "case_3"
-  },
-  {
-    "title": "Geriatric Mechanical Fall with Chest/Hip Pain, Normal Acute Injury Workup",
-    "doorChart": "Female, 80s — fall with left chest and hip pain — ESI 3",
-    "chiefComplaint": "I tripped and fell, landed on my left side and hurt my chest and hip",
-    "demographics": "83-year-old female",
-    "pmh": "History notable for diabetes mellitus, chronic kidney disease, prior falls, hypothyroidism, depression, and myasthenia gravis (previously treated; no current crisis).",
-    "vitals": {
-      "hr": 72,
-      "bp": "146/60",
-      "rr": 16,
-      "spo2": "96% on room air",
-      "temp": "98.1F"
-    },
-    "patientProfile": {
-      "age": "early 80s",
-      "sex": "female",
-      "arrivalMode": "brought to ED CDU for observation after initial evaluation",
-      "historyOfPresentIllness": "I live in an assisted living facility. I fell while trying to stand up from a chair a short while ago. I landed on my left side and felt pain in my chest area and my hip. There was a scrape on my left elbow and a cut on my right shin. I don’t remember losing consciousness. I recall the whole event but I was worried because my chest hurt and I’m sore around my hip and pelvis. I’ve had problems with falls before and I wear an emergency alert necklace. They gave me some pain medicine and did imaging to see if there was a broken bone or something inside, and I’ve been monitored since.",
-      "socialHistory": "Widowed, lives with assistance at home; prior smoking history, now non-smoker; limited mobility; relies on family with arrange transport when needed",
-      "medications": "Metformin, levothyroxine, prednisone, imuran (azathioprine), mestinon, simvastatin, aspirin, lidocaine patch, albuterol inhaler",
-      "allergies": "No known drug allergies",
-      "personalityNotes": "Cooperative, but clearly uncomfortable with pain; softly spoken, frequently checking on staff and asking questions about recovery"
-    },
-    "physicalExam": {
-      "general": "An elderly woman in mild distress due to pain, alert and oriented, appears well-nourished for age",
-      "heent": "Head atraumatic, pupils equal and reactive",
-      "cardiovascular": "Regular rhythm, no murmurs heard",
-      "respiratory": "Breathing even and non-labored; lungs clear on auscultation; tenderness noted over left chest wall",
-      "abdomen": "Soft, nondistended, mild tenderness to palp over left flank/hip region",
-      "neurological": "MAE, cranial nerves grossly intact, no focal deficits",
-      "musculoskeletal": "Left rib/chest wall tenderness; tenderness to palpation over left hip region; able to move joints with limited pain; no gross deformity; range of motion preserved",
-      "skin": "Skin warm and dry; abrasion over left elbow; skin tear on left chest area and right shin noted"
-    },
-    "results": {
-      "labs": [
-        {
-          "name": "BMP/chemistry",
-          "result": "Awaiting results",
-          "flag": "pending"
-        },
-        {
-          "name": "CBC",
-          "result": "WBC normal range; no acute infection",
-          "flag": "normal"
-        }
-      ],
-      "imaging": [
-        {
-          "name": "CT abdomen/pelvis",
-          "result": "No acute traumatic injury identified; no pancreatic or intra-abdominal pathology",
-          "flag": "normal"
-        },
-        {
-          "name": "Chest X-ray",
-          "result": "No acute cardiopulmonary abnormality; no pneumothorax or consolidation",
-          "flag": "normal"
-        },
-        {
-          "name": "Pelvis/hip and left chest CT X-ray",
-          "result": "No acute fracture demonstrated; localized hematoma/soft tissue injury suspected",
-          "flag": "normal"
-        },
-        {
-          "name": "Lower extremity ultrasound",
-          "result": "Not indicated by imaging performed; no DVT identified",
-          "flag": "normal"
-        },
-        {
-          "name": "Urinalysis",
-          "result": "No signs of acute infection; ketones mildly present (context of limited intake)",
-          "flag": "normal"
-        },
-        {
-          "name": "EKG",
-          "result": "No acute ischemic changes",
-          "flag": "normal"
-        }
-      ]
-    },
-    "goldStandard": {
-      "presentation": "An 83-year-old woman presents after a mechanical fall onto her left side with localized pain in the left chest wall and left hip. She denies loss of consciousness and head injury but has minor abrasions on the left elbow and right shin. Initial assessment shows stable vitals and the patient is alert and oriented. She is placed on observation with pain control and a plan for serial examinations, imaging to evaluate for fracture or organ injury, and early physical therapy evaluation. Imaging studies return without evidence of acute traumatic injury; there is a focal hematoma/soft tissue injury of the chest/hip region but no fracture or internal organ damage detected. The patient remains hemodynamically stable with adequate pain control and is discharged with outpatient physical therapy and return precautions, to be followed up with her primary team and caretaker.\n\ndiagnosis: Falls in the elderly with trauma limited to soft tissue injuries; no radiographic acute injuries identified.\n\ndisposition: Observation CDU with plan for routine pain management, PT evaluation, and eventual discharge home with a caregiver; patient discharged home with instructions and follow-up arrangements.\n\nmdm: The patient is elderly and at high risk for recurrent falls. Given the absence of acute injuries on CT and radiographs, the management focused on analgesia, functional assessment, and PT planning. Serial examinations ensure there is no delayed injury. Disposition reflects safe discharge with supports in place for home safety and gait assistance.",
-      "diagnosis": "Soft tissue injury with contusion/hematoma at left chest wall and left hip; no acute fracture or internal organ injury identified on imaging",
-      "disposition": "Discharged home with caregiver support; prescriptions provided for analgesia; referrals for outpatient PT/OT; return precautions explained; arrange follow-up with PCP and neurology as indicated",
-      "mdm": "Assessment favored nonoperative management of soft tissue injury after fall in an elderly patient. Continued monitoring for evolving symptoms was discussed. Pain control optimized with nonopioid and/or short-acting analgesics; PT evaluation arranged for functional mobilization; imaging reviewed to rule out fracture or organ injury; discharge planned with safety measures and caregiver involvement."
-    },
-    "id": "case_4"
-  },
-  {
-    "title": "Headache with dizziness in a middle-aged man under neurology workup",
-    "doorChart": "Male, 50s — ongoing headaches with lightheadedness and diplopia — ESI 3",
-    "chiefComplaint": "ongoing headaches with lightheadedness, dizziness, and double vision",
-    "demographics": "Male in his mid-50s (shifted to 57)",
-    "pmh": "Diabetes mellitus, hypertension, sixth cranial nerve palsy; under neurology evaluation for possible CNS demyelination vs sarcoidosis",
-    "vitals": {
-      "hr": 91,
-      "bp": "104/76",
-      "rr": 14,
-      "spo2": "99%",
-      "temp": "36.6F"
-    },
-    "patientProfile": {
-      "age": "57-year-old",
-      "sex": "male",
-      "arrivalMode": "ED arrival via EMS/transfer from ambulatory care",
-      "historyOfPresentIllness": "I’ve been dealing with headaches for several months — they’re intermittent, throbbing, and now worse, making it hard to tolerate. I’ve had episodes of lightheadedness and dizziness that come with standing, sometimes with a droopy, off-balance feeling. I’ve also noticed some double vision and blurry vision at times. Neurology has been following me for possible demyelinating disease or sarcoidosis. Recently I had a neurology visit, and they wanted an MRI of brain and spine and an outpatient neuro-ophthalmology ref. In the ED I was given some IV fluids, Tylenol, and Prochlorperazine which helped a bit. I’ve had no fever, neck stiffness, or weakness, and I’ve had a few falls but no loss of consciousness. I’m here to figure out what’s going on and what to do next.",
-      "socialHistory": "Never smoker; no alcohol or illicit drug use documented; lives with family",
-      "medications": "Multiple chronic meds listed in prior records (diabetes, HTN, seizure related risk not noted)",
-      "allergies": "None documented",
-      "personalityNotes": "Cooperative but visibly uncomfortable, explaining symptoms in a straightforward manner"
-    },
-    "physicalExam": {
-      "general": "Appears non-toxic and alert, not in acute distress",
-      "heent": "Normocephalic, atraumatic. Eyes with extraocular movements intact, mild diplopia not observed on exam; ears/nose/throat without discharge or swelling",
-      "cardiovascular": "Regular rate and rhythm, no murmurs or rubs",
-      "respiratory": "Clear lungs with normal effort",
-      "abdomen": "Soft, non-tender, nondistended",
-      "neurological": "A&Ox4, cranial nerves intact on exam; strength 5/5 in all extremities; gait steady with assistance as needed; no focal deficits detected",
-      "musculoskeletal": "No acute deformities; RLE/LLE strength 5/5",
-      "skin": "Warm, dry, without rash"
-    },
-    "results": {
-      "labs": [
-        {
-          "name": "CBC with differential",
-          "result": "WBC 7.7 (normal); Hgb 14.1 (slightly high normal); Hct 41.0%",
-          "flag": "normal"
-        },
-        {
-          "name": "Basic metabolic panel",
-          "result": "Creatinine 1.60 (elevated); BUN 28; Na 139; K 4.0; Cl 102; CO2 24",
-          "flag": "abnormal"
-        },
-        {
-          "name": "Glucose",
-          "result": "178 mg/dL",
-          "flag": "abnormal"
-        }
-      ],
-      "imaging": [
-        {
-          "name": "ECG 12-Lead",
-          "result": "Sinus rhythm, rate 97 bpm; no ST elevations or acute changes",
-          "flag": "normal"
-        },
-        {
-          "name": "MRI brain w/wo contrast and MRI spine w/wo contrast",
-          "result": "Results pending at CDU; neurologic imaging planned to evaluate for demyelinating vs inflammatory process; prior neurology plan recommended MRI follow-up and neuro-ophthalmology referral",
-          "flag": "pending"
-        }
-      ]
-    },
-    "goldStandard": {
-      "presentation": "A 57-year-old man with a history of diabetes and hypertension, who is under neurology evaluation for possible CNS demyelinating disease versus sarcoidosis, presents with several months of headaches accompanied by lightheadedness, dizziness, and diplopia. He reports orthostatic-type symptoms, no fevers or infectious symptoms, and no focal neurologic deterioration at ED exam. Prior neurology notes advised MRI of brain and spine, neuro-ophthalmology referral, and vestibular rehab as part of multidisciplinary management. In the ED he is given IV fluids, acetaminophen, and antiemetic therapy with partial relief. Vital signs are stable, though creatinine is modestly elevated suggesting possible CKD/AKI in context of diabetes. Imaging studies are ordered; MRI studies are pending. The care plan involves neurology consultation, MRI studies, serial examinations, hydration, and symptom-directed therapy; admission to CDU for observation with MRI scheduling and outpatient follow-up planned.",
-      "diagnosis": "Headache with lightheadedness/dizziness and diplopia in the setting of chronic neurologic disease workup; suspected neurosarcoidosis or demyelinating process; mild AKI on CKD background",
-      "disposition": "Observation CDU with plan for MRI and neurology follow-up; patient eloped from CDU against advice",
-      "mdm": "This patient presents with a chronic, evolving neurologic symptom complex (headache, dizziness, diplopia) in the setting of known CNS inflammatory disorders. The ED evaluation focuses on ruling out emergent etiologies (intracranial hemorrhage, infection, stroke) while pursuing MRI to assess for demyelinating disease or neurosarcoidosis. The mild creatinine elevation is monitored but not thought to be the primary driver of symptoms. Neurology has been engaged; neuroradiology imaging is prioritized. The patient tolerated IV fluids and antiemetic therapy; plan to observe in CDU and reassess after MRI results. Disposition was initially observation, but patient left against medical advice; no definitive inpatient admission completed."
-    },
-    "id": "case_5"
-  },
-  {
-    "title": "Traumatic Abdominal Pain in a Renal Transplant Recipient After Motor Vehicle Collision",
-    "doorChart": "“Male, mid-40s — lower abdominal pain after a car crash — ESI 3”",
-    "chiefComplaint": "lower belly pain after a car crash",
-    "demographics": "Male in his mid-40s",
-    "pmh": "History notable for renal transplant, otherwise no chronic illnesses mentioned",
-    "vitals": {
-      "hr": 82,
-      "bp": "128/76",
-      "rr": 16,
-      "spo2": "98%",
-      "temp": "98.4F"
-    },
-    "patientProfile": {
-      "age": "mid-40s",
-      "sex": "male",
-      "arrivalMode": "brought in by EMS after motor vehicle crash",
-      "historyOfPresentIllness": "I was the front-seat passenger in a crash traveling at highway speeds. My abdomen started hurting after the impact, mainly in the lower right quadrant. I was conscious and the pain was persistent but not exploding in intensity. I was wearing a seat belt and did not lose consciousness. I’ve got a kidney transplant in the right lower quadrant, and I’ve had some back and neck pain, too. After initial evaluation in triage, imaging was pursued to check for injuries around my transplant and other organs. I’ve been told I could go home if I improve.",
-      "socialHistory": "Non-smoker, no alcohol or illicit drug use documented; lives with family",
-      "medications": "Immunosuppression therapy for renal transplant (specifically not detailed here)",
-      "allergies": "No known drug allergies",
-      "personalityNotes": "Cooperative but anxious about the transplant and potential injuries"
-    },
-    "physicalExam": {
-      "general": "Apparent relief of distress after initial care, awake and oriented",
-      "heent": "Head atraumatic, pupils equal and reactive",
-      "cardiovascular": "Regular rate and rhythm, normal heart sounds, distal pulses palpable",
-      "respiratory": "Clear lungs, no wheezes, no respiratory distress",
-      "abdomen": "Tenderness to palpation in the right lower quadrant with guarding; no rebound; abdomen soft elsewhere",
-      "neurological": "Alert and oriented; no focal deficits",
-      "musculoskeletal": "Midline cervical tenderness noted; back and neck pain reported; no gross deformity on exam",
-      "skin": "Warm, dry, no sweating or diaphoretic state"
-    },
-    "results": {
-      "labs": [
-        {
-          "name": "CBC",
-          "result": "Hgb 12.9 g/dL, WBC 14.8 x10^9/L, platelets 238 x10^9/L",
-          "flag": "abnormal"
-        },
-        {
-          "name": "CMP",
-          "result": "Creatinine 0.9 mg/dL, BUN 14 mg/dL, electrolytes within normal limits",
-          "flag": "normal"
-        },
-        {
-          "name": "Lipase",
-          "result": "207 U/L",
-          "flag": "abnormal"
-        },
-        {
-          "name": "Urinalysis",
-          "result": "0-2 WBCs, 0-3 RBCs",
-          "flag": "normal"
-        },
-        {
-          "name": "ABO/Rh",
-          "result": "O positive",
-          "flag": "normal"
-        },
-        {
-          "name": "Type and screen",
-          "result": "Antibody screen negative",
-          "flag": "normal"
-        }
-      ],
-      "imaging": [
-        {
-          "name": "XR Chest",
-          "result": "No acute cardiopulmonary disease; no focal consolidation; normal cardiomediastinal silhouette",
-          "flag": "normal"
-        },
-        {
-          "name": "CTA Chest/abdomen/pelvis",
-          "result": "No acute traumatic injuries identified; stable transplant kidney with patent vasculature; no free intraperitoneal fluid or organ rupture; uncomplicated by vascular injury or perinephric bleed",
-          "flag": "normal"
-        },
-        {
-          "name": "Renal transplant ultrasound (RU)",
-          "result": "Normal vascular flow to transplanted kidney; no hydronephrosis; patent renal artery and vein; cortex and medulla normal for allograft",
-          "flag": "normal"
-        },
-        {
-          "name": "CT Abdomen/Pelvis with contrast",
-          "result": "No acute traumatic injury detected in chest/abdomen/pelvis; right lower quadrant renal transplant appears normal; no free intraperitoneal fluid; no solid-organ injury",
-          "flag": "normal"
-        },
-        {
-          "name": "CT Angio Chest/Abdomen/Pelvis",
-          "result": "No evidence of vascular injury or PE; kidneys/ureters appear without acute obstruction; stomach distension and hiatal hernia noted but not clinically limiting",
-          "flag": "normal"
-        }
-      ]
-    },
-    "goldStandard": {
-      "presentation": "A 45-year-old man with a history of renal transplant sustained a high-speed motor vehicle collision as a restrained passenger. He reported persistent tenderness in the lower right quadrant of the abdomen. Initial evaluation included a trauma consult and a FAST ultrasound which showed no intraperitoneal free fluid. He underwent comprehensive imaging (CT abdomen/pelvis with contrast, CT angio chest/abdomen/pelvis, and renal transplant ultrasound) demonstrating no acute abdominal injury, no hydronephrosis of the transplanted kidney, and no evidence of intra-abdominal bleeding. He remained clinically stable with pain controlled by IV analgesia and antiemetics, tolerated PO intake, and no signs of deterioration.",
-      "diagnosis": "Acute abdominal pain after motor vehicle crash in a patient with a renal transplant; no acute traumatic injury identified on imaging",
-      "disposition": "Discharged home with instructions for hydration, return precautions for worsening abdominal pain, fever, vomiting, or hemodynamic instability; outpatient follow-up with primary care in 1–2 weeks; provided with oral analgesics as needed",
-      "mdm": "The patient was hemodynamically stable throughout observation, with persistent but non-worsening abdominal tenderness. Serial abdominal examinations remained benign. Imaging ruled out solid organ injury, vascular injury, and hydronephrosis of the renal transplant. Given stability, he was observed briefly with reassessment and then discharged with analgesia and return precautions. The plan included ensuring adequate oral intake, hydration, and instructions to seek care if symptoms progressed."
-    },
-    "id": "case_6"
-  },
-  {
-    "title": "Elderly Woman with Left Lower Quadrant Pain and Transaminitis on Dialysis",
-    "doorChart": "Female, 70s- to- 80s? — abdominal pain in left lower quadrant with elevated liver enzymes — ESI 3",
-    "chiefComplaint": "LLQ abdominal pain with new liver test abnormalities",
-    "demographics": "Female in her early 70s",
-    "pmh": "Longstanding diabetes mellitus type 2, coronary artery disease status post multiple bypass grafts, heart failure with preserved/diastolic function, hypertension, hyperlipidemia, end-stage renal disease on thrice-weekly dialysis, prior vascular access complications, prior pancreatitis, history of anemia",
-    "vitals": {
-      "hr": 84,
-      "bp": "125/70",
-      "rr": 16,
-      "spo2": "100%",
-      "temp": "37.0°C"
-    },
-    "patientProfile": {
-      "age": "early 70s",
-      "sex": "female",
-      "arrivalMode": "brought to ED and admitted to CDU for observation",
-      "historyOfPresentIllness": "I’ve had left lower belly pain that’s been nagging me for a couple of days. It’s a steady ache in the lower left quadrant, sometimes sharp with movement. I’ve also felt nauseated at times and had two episodes of diarrhea. I’m on dialysis three times a week and have a lot of vascular problems—my doctors worry about my heart and liver because of my kidney disease and prior heart disease. They did a CT and I was told there’s some fluid near the liver and changes in the liver that might be related to heart problems, not an infection. My abdomen hurts and it’s not getting much better, even with pain medicine. I’ve had similar visits before for this risk stuff, and they’re watching me closely with serial exams.",
-      "socialHistory": "Married, has three children. Never smoker, no alcohol or illicit drug use. Lives with family. Retired professional; attends regular dialysis.",
-      "medications": "Insulin regular, warfarin (coumadin) with recent INR elevation, midodrine, acetaminophen for pain, aspirin daily, various meds for CKD and CV disease",
-      "allergies": "Risperdal causing altered mental status; latex allergy; thombocytopenia risk with transfusions",
-      "personalityNotes": "Cooperative but appears fatigued and anxious due to persistent abdominal pain and multiple ongoing medical issues"
-    },
-    "physicalExam": {
-      "general": "A generally well-appearing woman, alert, not in acute distress at the moment.",
-      "heent": "Oropharynx moist and clear.",
-      "cardiovascular": "Regular rhythm with a soft heart murmur acknowledged; distal pulses palpable.",
-      "respiratory": "Lungs clear to auscultation; no wheezes or crackles; comfortable breathing.",
-      "abdomen": "Left lower quadrant tenderness to palpation without rebound or guarding; no distention or palpable masses noted.",
-      "neurological": "Oriented to person and place; not oriented to date due to hospitalization context.",
-      "musculoskeletal": "No noted edema or focal deficits in extremities.",
-      "skin": "Shunt site shows a small amount of serosanguinous drainage; thrill present but diminished; no signs of infection."
-    },
-    "results": {
-      "labs": [
-        {
-          "name": "CBC with differential",
-          "result": "WBC 5.6 K/µL (normal); Hgb 10.5 g/dL (mild anemia); Hct 32.2% (low); MCV 102.3 fL (slightly high); Platelets 150-400 K/µL range; neutrophils 62%; lymphocytes 24%",
-          "flag": "abnormal for anemia"
-        },
-        {
-          "name": "BMP/Metabolic panel",
-          "result": "Na 133 mmol/L (mild hyponatremia); K 3.5; Cl 93; CO2 29; BUN 18; Cr 4.76 mg/dL (elevated); eGFR 9 mL/min/1.73m2 (low); Glucose 119 mg/dL; Ca 8.5; Mg 1.9",
-          "flag": "abnormal for renal function and electrolytes"
-        },
-        {
-          "name": "Liver function tests",
-          "result": "AST 641 U/L; ALT 999 U/L; Alk Phos 215 U/L; Total bilirubin 1.2 mg/dL; GGT not provided",
-          "flag": "abnormal transaminases"
-        },
-        {
-          "name": "Coagulation studies",
-          "result": "INR 3.0; PT 31.0 s; aPTT 37.9 s",
-          "flag": "abnormal coagulation with elevated INR"
-        },
-        {
-          "name": "Lipase",
-          "result": "97 U/L",
-          "flag": "normal"
-        },
-        {
-          "name": "Troponin I",
-          "result": "Just above upper limit of normal initially; repeated later低",
-          "flag": "slightly elevated"
-        }
-      ],
-      "imaging": [
-        {
-          "name": "CT abdomen/pelvis with IV contrast",
-          "result": "No acute diverticulitis; mild mesenteric fat stranding and perihepatic free fluid; subtle decreased enhancement of the ascending colon of unclear significance; suboptimal for mesenteric ischemia due to single-phase technique; hepatic “nutmeg” appearance suggesting congestive hepatopathy; comparison with prior CTs noted; left hepatic vein not clearly seen",
-          "flag": "abnormal findings consistent with congestion; limited mesenteric ischemia evaluation"
-        },
-        {
-          "name": "Abdominal ultrasound with Doppler",
-          "result": "Patent hepatic vasculature; hepatic veins with pulsatile, high-resistance flow; small portal flow disturbance on left portal vein; trace perihepatic ascites; gallbladder absent; kidneys atrophic with ESRD changes; no biliary dilation",
-          "flag": "abnormal flow pattern suggesting congestive hepatopathy vs Budd-Chiari considerations"
-        },
-        {
-          "name": "ECG 12-lead",
-          "result": "Sinus rhythm, no acute ischemic changes",
-          "flag": "normal"
-        }
-      ]
-    },
-    "goldStandard": {
-      "presentation": "A 72-year-old woman with long-standing vascular disease and ESRD on hemodialysis presents with two days of left lower quadrant abdominal pain, described as constant and variable in intensity, accompanied by intermittent nausea and two episodes of diarrhea. She has a complex cardiac history including prior CAD with bypass, heart failure risk, and chronic anticoagulation. Initial imaging shows no acute diverticulitis but demonstrates perihepatic fluid and a pattern of hepatic parenchymal heterogeneity (nutmeg liver) compatible with congestive hepatopathy. Serial exams and labs were planned due to concern for mesenteric ischemia given her chronic vascular disease, though the CT was limited by single-phase contrast. Elevated bilirubin and transaminases are noted, with INR elevation and mild hyponatremia; troponin is minimally uptrending, possibly CKD-related. The patient was admitted to the CDU for observation, serial abdominal exams, pain control, and hepatobiliary/cardiac evaluation, with GI consult requested and dialysis to continue with attention to electrolyte management and potential Budd-Chiari considerations. Disposition: admission to CDU for monitoring with planned repeat LFTs, lactate, troponin, and ongoing evaluation by GI and medicine services.",
-      "diagnosis": "1) Acute abdominal pain of left lower quadrant origin, 2) Acute hepatitis with marked transaminase elevation likely related to congestive hepatopathy in the setting of CKD and chronic liver/vascular disease, 3) ESRD on hemodialysis with complex vascular access",
-      "disposition": "Admitted to Clinical Decision Unit for serial abdominal exams, pain control, and multidisciplinary evaluation (GI and medicine) with plans for repeat labs, hepatic ultrasound as indicated, and dialysis coordination",
-      "mdm": "The patient’s abdominal pain in the setting of his long-standing vascular disease and ESRD raises concern for mesenteric ischemia; however, imaging did not reveal acute diverticulitis or clear bowel ischemia, and the study is limited by single-phase contrast. The prominent transaminase elevation and nutmeg liver pattern point toward congestive hepatopathy rather than infectious or obstructive etiologies. Given elevated INR and ongoing pain, the team pursued serial exams, repeat LFTs, lactate, and troponin, and initiated GI consultation to assess for Budd-Chiari syndrome and other hepatobiliary causes. Dialysis logistics were addressed, and the patient remained hemodynamically stable with no signs of acute abdomen requiring emergent surgical intervention. The plan emphasizes careful observation, interdisciplinary input, and reassessment for evolving mesenteric ischemia or hepatobiliary pathology."
-    },
-    "id": "case_7"
-  },
-  {
-    "title": "Pulmonary Embolism in a Chronic GI and Autonomic Disorder Patient after Nerve Block",
-    "doorChart": "Female, 30s — shortness of breath and chest/back pain — ESI 2",
-    "chiefComplaint": "shortness of breath and chest/back pain after a nerve block",
-    "demographics": "Female in her late 30s",
-    "pmh": "Autoimmune autonomic dysfunction (POTS) with gastroparesis status post gastric pacemaker, Ehlers-Danlos syndrome, adrenal insufficiency; history of prior pulmonary embolism; chronic abdominal pain with GI interventions",
-    "vitals": {
-      "hr": null,
-      "bp": null,
-      "rr": null,
-      "spo2": null,
-      "temp": null
-    },
-    "patientProfile": {
-      "age": "late 30s (38)",
-      "sex": "female",
-      "arrivalMode": "walked into the ED",
-      "historyOfPresentIllness": "I’m a 38-year-old woman with long-standing autonomic problems who recently had a nerve block for abdominal pain. Since the procedure I’ve been short of breath and have a headache that’s worse when I sit up and improves when I lie down. I’ve had a history of pneumothoraces after blocks. I normally use supplemental oxygen at home, and I’m not currently taking Lovenox. I’ve had LUQ abdominal pain radiating to my back and chest, and today I’ve felt chest pressure on and off, with back pain that’s been persistent for about a day and a half. I’ve been unable to ambulate well without discomfort. I’m worried about a blood clot given my prior PE and my vascular history, and the team is evaluating for PE, pneumothorax, or other causes of SOB.",
-      "socialHistory": "Non-smoker; alcohol use infrequent; lives with family; takes multiple daily meds for chronic conditions; prior central venous access and multiple hospitalizations for GI/autonomic issues",
-      "medications": "Home regimen includes partial gastric pacemaker therapy, ususal GI meds, BP/support medications; currently not taking Lovenox as previously used; listed PRN and chronic meds in chart",
-      "allergies": "Betadine (topical) may cause hives; marinol can cause reactions in high doses per family history",
-      "personalityNotes": "Calm but visibly anxious about breathing and chest discomfort; cooperative with clinicians; willing to undergo testing and management to rule out PE and other causes of SOB"
-    },
-    "physicalExam": {
-      "general": "Obese female, not in acute distress but anxious and short of breath",
-      "heent": "Normocephalic, atraumatic; oropharynx moist",
-      "cardiovascular": "Regular rhythm, normal heart sounds, no murmurs or friction rub",
-      "respiratory": "Clear to auscultation bilaterally; no wheeze or rhonchi; breathing shallow but nonlabored at rest",
-      "abdomen": "Soft, non-distended; LUQ tenderness noted on exam but without peritoneal signs",
-      "neurological": "Alert, oriented; no focal deficits",
-      "musculoskeletal": "No focal deficits; gait steady while ambulating",
-      "skin": "Warm, dry; no rashes observed"
-    },
-    "results": {
-      "labs": [
-        {
-          "name": "CBC with differential",
-          "result": "WBC 8.9 (N), Hgb 13.2 (N), Hct 43.5 (N), MCHC 31.1, RDW 16.3",
-          "flag": "normal"
-        },
-        {
-          "name": "Metabolic panel, comprehensive",
-          "result": "CO2 21, BUN 23, Cr 0.81, K 5.3, Alk Phos 118, AST 37, ALT 19, GLC 100",
-          "flag": "abnormal"
-        },
-        {
-          "name": "Trop I",
-          "result": "<0.017 ng/mL",
-          "flag": "normal"
-        },
-        {
-          "name": "NT-proBNP",
-          "result": "54 pg/mL",
-          "flag": "normal"
-        },
-        {
-          "name": "SARS-CoV-2 RT-PCR",
-          "result": "Not Detected",
-          "flag": "normal"
-        },
-        {
-          "name": "HCG (iSTAT and qualitative)",
-          "result": "Non-pregnant; negative",
-          "flag": "normal"
-        }
-      ],
-      "imaging": [
-        {
-          "name": "XR Abdomen",
-          "result": "Moderate fecal retention extending to near the ascending colon",
-          "flag": "abnormal"
-        },
-        {
-          "name": "CT Abdomen/Pelvis w IV contrast",
-          "result": "No acute abdominal abnormality; large stool burden suggesting constipation; borderline splenomegaly unchanged; cholelithiasis present",
-          "flag": "abnormal"
-        },
-        {
-          "name": "US Upper Extremity Veins (PICC area)",
-          "result": "No flow in right mid basilic vein around the PICC, likely superficial thrombosis; chronic occlusion of right internal jugular vein",
-          "flag": "abnormal"
-        },
-        {
-          "name": "CT Chest Angiography w IV contrast - Pulmonary Embolism",
-          "result": "Acute segmental pulmonary emboli in the right lower lobe lateral/posterior segments and the right upper lobe anterior segment; no evidence of right heart strain",
-          "flag": "abnormal"
-        },
-        {
-          "name": "XR Chest 2 Views",
-          "result": "No significant interval change; no significant pneumothorax; low volumes with vascular markings possibly congestion or artifact",
-          "flag": "abnormal"
-        }
-      ]
-    },
-    "goldStandard": {
-      "presentation": "A 38-year-old woman with a complex history of autonomic dysfunction (POTS), Ehlers-Danlos syndrome, gastroparesis with gastric pacemaker, and prior pulmonary embolism presents after a recent left thoracic/transdiaphragmatic nerve block for abdominal pain. She reports progressive shortness of breath since the procedure, chest/back pain, and a headaches that worsen when upright. She has been off anticoagulation for weeks, uses home O2 at 2 L, and has a prior history of spontaneous pneumothorax. Initial assessment focused on ruling out PE, pneumothorax, ACS, and infectious etiologies. A CT pulmonary angiogram ultimately confirms acute segmental pulmonary emboli without signs of right heart strain. She also has chronic GI and splenic abnormalities and a measurable stool burden on CT consistent with constipation. Pain control is an important consideration given analgesic needs and cardiopulmonary safety.",
-      "diagnosis": "Acute pulmonary embolism; constipation with stool burden; chronic splenomegaly; chronic abdominal pain with autonomic dysfunction; nonacute headache",
-      "disposition": "Admit to medicine service for management of PE with anticoagulation planning and analgesia optimization; plan to continue heparin or other anticoagulation per protocol, monitor for bleeding, reassess tolerance of PO meds, and coordinate GI/pain management",
-      "mdm": "This patient carries a high baseline thrombotic risk (prior PE, autonomic dysregulation, vascular abnormalities with EDS) and recently interrupted anticoagulation, elevating PE risk after a nerve block. The CT PE confirms segmental emboli in both lower and upper lobes without evidence of hemodynamic compromise. Given chronic GI complaints and potential for GI bleed, bleeding risk with anticoagulation is balanced against thrombosis risk. An initial heparin-based anticoagulation strategy with careful transition to an oral or longer-acting agent will be considered, with close monitoring, serial imaging or labs as indicated, and multidisciplinary input from medicine, GI, and anesthesia as the patient’s pain and respiratory status evolve. The patient’s prior pneumothorax history keeps pneumothorax high on the differential; imaging exclusions have been pursued. The immediate goals are stabilization, adequate pain control, and safe anticoagulation initiation while evaluating the need for further imaging in the setting of potential small pneumothorax or ongoing embolic risk."
-    },
-    "id": "case_8"
-  },
-  {
-    "title": "Vertebrobasilar Vertigo with Transient Symptoms in a High-Risk Patient with End-Stage Renal Disease",
-    "doorChart": "Female, 30s–40s — dizziness/vertigo episode with transient neurologic concerns — ESI 3",
-    "chiefComplaint": "I woke up with dizziness that lasted about a minute and then went away",
-    "demographics": "Female in her early 30s (shifted age to mid-30s)",
-    "pmh": "Anemia; end-stage renal disease on dialysis; prior strokes; multiple vascular and oncologic history including prior liver lesions and metastatic risk; prior bone marrow transplant; on anticoagulation",
-    "vitals": {
-      "hr": 90,
-      "bp": "138/72",
-      "rr": 18,
-      "spo2": "97%",
-      "temp": "98.8F"
-    },
-    "patientProfile": {
-      "age": "mid-30s",
-      "sex": "female",
-      "arrivalMode": "brought by EMS or walked into CDU for evaluation",
-      "historyOfPresentIllness": "I was resting in bed when I suddenly felt off-balance and dizzy for about 60 seconds this afternoon. It felt like previous strokes I’ve had with vertigo and nausea, though I stopped noticing any weakness or numbness as soon as it happened. By the time I reached the ED I was back to baseline and had no persistent dizziness or blurred vision. I did notice some mild shortness of breath, which could be from a shorter dialysis session yesterday. This is very similar to scenes from my past strokes, so I’m worried but hopeful it’s not another stroke.",
-      "socialHistory": "Non-smoker; uses cannabis products recreationally; relies on caregiver for daily activities; lives with family",
-      "medications": "Multiple chronic meds including anticoagulation; details provided in chart",
-      "allergies": "Azithromycin — anaphylaxis; several drug allergies noted historically",
-      "personalityNotes": "Cooperative but visibly anxious; concerned about recurrence of neurologic symptoms"
-    },
-    "physicalExam": {
-      "general": "Alert, oriented, in no acute distress during exam",
-      "heent": "Pupils equal and reactive; otherwise nonfocal exam",
-      "cardiovascular": "Regular rhythm, normal heart sounds",
-      "respiratory": "Clear lungs, no distress, occasional mild crackles at bases likely related to fluid balance",
-      "abdomen": "Soft, non-tender, nondistended",
-      "neurological": "Baseline cranial nerves intact, no focal deficits on exam, gait not assessed due to baseline mobility limitations",
-      "musculoskeletal": "Evidence of prior amputations and vascular changes noted in extremities",
-      "skin": "Warm and dry"
-    },
-    "results": {
-      "labs": [
-        {
-          "name": "CBC",
-          "result": "WBC 11.0 (slightly high), Hgb 10.4 (low), Hct 32.8, Platelets 360 (normal)",
-          "flag": "abnormal"
-        },
-        {
-          "name": "CMP",
-          "result": "Na 138, K 4.1, Cl 96, CO2 29, BUN 14, Cr 2.9 (elevated), eGFR 22",
-          "flag": "abnormal"
-        },
-        {
-          "name": "Lipid Panel",
-          "result": "Triglycerides 178, HDL 18, LDL 58",
-          "flag": "abnormal"
-        },
-        {
-          "name": "Liver Enzymes",
-          "result": "AST 95, ALT 58, Alk Phos 490",
-          "flag": "abnormal"
-        },
-        {
-          "name": "TSH",
-          "result": "TSH 5.5 (elevated)",
-          "flag": "abnormal"
-        },
-        {
-          "name": "Troponin I",
-          "result": "0.02 ng/mL",
-          "flag": "normal"
-        },
-        {
-          "name": "COVID-19 PCR",
-          "result": "Not Detected",
-          "flag": "normal"
-        },
-        {
-          "name": "ABG/Glucose",
-          "result": "Glucose 86 mg/dL",
-          "flag": "normal"
-        }
-      ],
-      "imaging": [
-        {
-          "name": "CT Head (non-contrast)",
-          "result": "No acute intracranial process identified",
-          "flag": "normal"
-        },
-        {
-          "name": "CTA head/neck",
-          "result": "No large vessel occlusion; no flow-limiting stenosis",
-          "flag": "normal"
-        },
-        {
-          "name": "MRI Brain (stroke protocol)",
-          "result": "Scattered remote infarcts, most notable in left cerebellar hemisphere; no acute infarct identified; no new ischemia",
-          "flag": "abnormal"
-        }
-      ]
-    },
-    "goldStandard": {
-      "presentation": "A 33-year-old female with a long and complex medical history including end-stage renal disease on dialysis and prior cerebrovascular events presented for evaluation after a brief episode of vertigo and dizziness that began while at rest. The symptom resolved by ED arrival and exam was non-focal with no current neurologic deficits. Initial imaging with CT head was negative for acute injury, CTA showed no large vessel occlusion, and MRI brain demonstrated remote infarcts without an acute ischemic stroke. She remained hemodynamically stable and without ongoing neuro complaints, with plan for observation and outpatient neurology follow-up. The differential included TIA/stroke, syncope with CNS hypoperfusion, or vertebrobasilar insufficiency, but the majority of objective testing did not support an acute stroke. Disposition: discharged home with neuro follow-up and tiếp to resume baseline dialysis schedule; stroke precautions provided.",
-      "diagnosis": "Transient ischemic attack/stroke evaluation with remote infarcts on MRI but no acute infarct and no large-vessel occlusion; vertigo/dizziness etiology likely non-acute cerebrovascular event in setting of complex chronic disease.",
-      "disposition": "Observation CDU with MRI brain; discharge home with outpatient neurology and PCP follow-up; plan to continue dialysis as scheduled; no acute inpatient interventions required",
-      "mdm": "The patient has a high-risk chronic illness burden (ESRD on dialysis, prior strokes, complex vascular disease) increasing her baseline risk for cerebrovascular events. Given an isolated brief dizziness/vertigo with full resolution and a normal neuro exam, the team pursued rapid imaging to exclude acute stroke. Non-contrast CT head was unrevealing, CTA showed no large vessel occlusion, and MRI revealed remote infarcts without acute ischemia. The NIHSS remained 0, and there were no focal deficits, supporting a low likelihood of evolving stroke. Neuro was consulted and recommended discharge with MRI follow-up and PCP/neuro coordination. The patient tolerated observation with stable vitals and no recurrent symptoms. Pain management needs were reassessed later in admission, and the patient expressed desire to go home with plan for continued outpatient care."
-    },
-    "id": "case_9"
-  },
-  {
-    "title": "Severe polytrauma with open-book pelvic fracture and thoracic injuries after high-speed crash",
-    "doorChart": "Male, 60s — blunt trauma after vehicle crash with ejected passenger — ESI 1",
-    "chiefComplaint": "blunt trauma after a rollover crash with severe injuries",
-    "demographics": "Shifted age to mid-60s (63 years old)",
-    "pmh": "None reported",
-    "vitals": {
-      "hr": 78,
-      "bp": "96/68",
-      "rr": 34,
-      "spo2": "86% on arrival",
-      "temp": "99.7 F"
-    },
-    "patientProfile": {
-      "age": "63 years",
-      "sex": "male",
-      "arrivalMode": "brought by EMS",
-      "historyOfPresentIllness": "I was the driver in a high-speed crash. I was ejected from the vehicle and saw significant damage to the car. I initially was alert but became progressively less responsive during transport. I developed trouble breathing with a drop in oxygen saturation and underwent needle decompression before I reached the ED. I remember being intubated in the field due to poor airway status and hypotension. In the ED they placed a chest tube on the left side and started resuscitation. I have had imaging showing an open book pelvic fracture, fractures of my right humerus, and suspected brain injury with intraventricular hemorrhage. I remain critically ill, with ongoing need for ventilatory and hemodynamic support.",
-      "socialHistory": "Unknown",
-      "medications": "None available",
-      "allergies": "None known",
-      "personalityNotes": "Very shaken, minimally responsive at arrival, intubated and heavily monitored"
-    },
-    "physicalExam": {
-      "general": "Sedated, intubated patient in the ED, critical condition",
-      "heent": "Pupils equally reactive, left chest wall injury suspected",
-      "cardiovascular": "Tachycardic initially, now intermittently hypotensive requiring vasopressors",
-      "respiratory": "Endotracheal tube in place, left chest tube in situ, right chest tube placed later; ongoing pulmonary contusions suspected; hypoxic with low oxygen saturations",
-      "abdomen": "Soft to palpation? nondiagnostic due to intubation; abdomen soft, nondistended",
-      "neurological": "GCS 3 per prehospital and ED notes; intracranial hemorrhage suspected with need for neurosurgical consult",
-      "musculoskeletal": "Open-book pelvic fracture with diastasis; comminuted right humeral fracture; various focal limb injuries",
-      "skin": "No obvious external bleeding besides chest/pelvic injuries"
-    },
-    "results": {
-      "labs": [
-        {
-          "name": "CBC",
-          "result": "WBC 5.7 (N) ; Hgb 12.9 (N); Hct 25.5 (N)",
-          "flag": "normal"
-        },
-        {
-          "name": "CMP",
-          "result": "Na 140, K 3.9, CO2 19, BUN 34, Cr 3.7",
-          "flag": "abnormal"
-        },
-        {
-          "name": "Coag",
-          "result": "INR 1.7, PT 20.1, PTT 40.5",
-          "flag": "abnormal"
-        },
-        {
-          "name": "Lactate",
-          "result": "2.8 mmol/L",
-          "flag": "abnormal"
-        },
-        {
-          "name": "ABG",
-          "result": "pH 7.28, pCO2 48, HCO3 18, O2 sat 82% on ventilation",
-          "flag": "abnormal"
-        }
-      ],
-      "imaging": [
-        {
-          "name": "XR Chest",
-          "result": "Left chest tube with tip near left apex; left pneumothorax decreasing but persistent basilar component; right pneumothorax minimal; contusions suspected",
-          "flag": "abnormal"
-        },
-        {
-          "name": "XR Pelvis",
-          "result": "Open-book pelvic diastasis with pubic symphysis widening; SI joints widened; no definite displaced pelvic fracture seen on plain film",
-          "flag": "abnormal"
-        },
-        {
-          "name": "XR Humerus",
-          "result": "Right humeral shaft fracture, comminuted",
-          "flag": "abnormal"
-        },
-        {
-          "name": "CT Chest/Abd/Pelvis w IV contrast",
-          "result": "New pulmonary embolism extending from right pulmonary artery to lobar arteries with right heart strain suspected; bilateral contusions with left greater than right pneumothorax; sternal fracture with retrosternal hematoma; extraperitoneal Retzius-space hematoma; left iliac fracture with diastasis; multiple spine injuries including acute fractures from T12-L5; right humeral fracture; left orbital trauma with adnexal involvement; diffuse soft tissue injuries; left chest tube in place; bilateral chest tubes with differential position changes over time",
-          "flag": "abnormal"
-        }
-      ]
-    },
-    "goldStandard": {
-      "presentation": "63-year-old male involved in a high-speed motor vehicle crash, unrestrained driver, ejected from the vehicle. Initial field management included needle thoracostomy due to suspected tension physiology and airway compromise. He arrives intubated with GCS 3, hypotensive and profoundly hypoxic. Imaging reveals an open-book pelvic ring injury with pubic diastasis and bilateral sacroiliac joint widening, a comminuted fracture of the right humerus, and multiple craniovertebral/spinal injuries with intraventricular hemorrhage and probable cervical spine ligamentous disruption. The patient develops bilateral thoracic injuries with contusions and pneumothoraces, and a pulmonary embolism is later identified. He remains critically ill in the ICU, requiring ongoing ventilatory and hemodynamic support, transfusions, and invasive monitoring. Final diagnoses include traumatic intracranial hemorrhage with loss of consciousness, acute traumatic injuries to the spine and pelvis, rib and sternum fractures with contusions, acute kidney injury/ATN in the context of hypovolemia, and vasopressor-dependent shock.",
-      "diagnosis": "Traumatic injuries with open-book pelvic fracture; bilateral thoracic injuries with contusions and pneumothoraces; right humeral fracture; intraventricular hemorrhage with suspected spinal injury; acute kidney injury/ATN; pulmonary embolism; neurogenic/hypovolemic shock; need for emergent airway management and massive transfusion protocol.",
-      "disposition": "Admitted to the ICU for continued aggressive resuscitation, airway management, surgical and neurosurgical consultations, and ongoing hemodynamic and ventilatory support. Plan includes repeat imaging, definitive management of pelvic and spinal injuries, chest tube management, and consideration of ECMO in refractory hypoxemia if available.",
-      "mdm": "This is a classic polytrauma scenario with life-threatening injuries requiring immediate prehospital and in-hospital interventions. The patient presented with airway compromise and profound shock; immediate airway control (RSI), chest decompression and chest tube placement, and rapid massive transfusion were critical. Given open-book pelvic fracture with diastasis and sacroiliac joint widening, there was concern for ongoing pelvic bleeding, prompting interventional radiology involvement for embolization after stabilization. Chest imaging showed contusions and resolving pneumothoraces, but a new PE was identified, complicating management due to intracranial/spinal injuries restricting anticoagulation. The patient remained unstable in the ICU with neuro and respiratory failure, necessitating escalating support, invasive monitoring, and multidisciplinary coordination with trauma, neurosurgery, orthopedics, and critical care. The aggressive resuscitation and surgical interventions aimed to prevent further decompensation while planning definitive stabilization and rehab. "
-    },
-    "id": "case_10"
   }
 ]
