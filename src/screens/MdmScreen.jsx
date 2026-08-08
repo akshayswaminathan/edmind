@@ -5,8 +5,18 @@ import {
   COMMON_PMH, INTERP_STUDIES, IMAGING_SIMPLE, IMAGING_GROUPS,
 } from '../data/mdmFeatures';
 import { generateMdm, buildOneLiner } from '../data/mdmGenerate';
+import { TermsModal } from '../components/TermsModal';
+import { TERMS_META } from '../data/terms';
 
 const STEPS = ['Diagnoses', 'Patient', 'Findings', 'Plan', 'MDM'];
+
+// Persisted acceptance of the Terms of Use (keyed by version so a substantive
+// terms change re-prompts previously accepted users).
+const TERMS_KEY = 'emtools.mdm.termsAcceptedVersion';
+function hasAcceptedTerms() {
+  try { return localStorage.getItem(TERMS_KEY) === TERMS_META.version; }
+  catch { return false; }
+}
 
 // A fresh, empty plan keyed by every current plan category.
 const emptyPlan = () => Object.fromEntries(PLAN_ORDER.map(c => [c, []]));
@@ -128,6 +138,12 @@ function NotePreview({ text }) {
 
 export function MdmScreen({ onExit }) {
   const [step, setStep] = useState(0);
+  const [termsAccepted, setTermsAccepted] = useState(hasAcceptedTerms);
+
+  function acceptTerms() {
+    try { localStorage.setItem(TERMS_KEY, TERMS_META.version); } catch { /* storage unavailable */ }
+    setTermsAccepted(true);
+  }
 
   // Step 1 — diagnoses
   const [complaintSearch, setComplaintSearch] = useState('');
@@ -328,6 +344,16 @@ export function MdmScreen({ onExit }) {
       )}
     </div>
   );
+
+  // Consent gate — the MDM Writer is unavailable until the Terms of Use and the
+  // licensed-provider / no-PHI acknowledgments are accepted.
+  if (!termsAccepted) {
+    return (
+      <div className="min-h-screen bg-[#fafafa]">
+        <TermsModal onAgree={acceptTerms} onDecline={onExit} />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#fafafa]">

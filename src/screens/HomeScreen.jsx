@@ -44,8 +44,7 @@ export function HomeScreen({ settings, session, onUpdateSettings, onStartDrill, 
                 <circle cx="8" cy="8" r="2" fill="white"/>
               </svg>
             </div>
-            <h1 className="text-2xl font-bold text-gray-900 tracking-tight mb-1">EM Tools</h1>
-            <p className="text-sm text-gray-400">Emergency medicine tools</p>
+            <h1 className="text-2xl font-bold text-gray-900 tracking-tight">EM Tools</h1>
           </div>
 
           {/* Module cards */}
