@@ -156,7 +156,6 @@ function buildPlan(plan = {}) {
 // ── Assemble ─────────────────────────────────────────────────────────────────
 export function generateMdm(input = {}) {
   const {
-    oneLiner = {},
     diagnoses = [],
     interpretations = [],
     deferred = [],
@@ -171,10 +170,7 @@ export function generateMdm(input = {}) {
 
   const sections = [];
 
-  // 1) One-liner
-  sections.push(buildOneLiner(oneLiner));
-
-  // 2) Differential summary + per-diagnosis reasoning (ordered by tier)
+  // 1) Differential summary + per-diagnosis reasoning (ordered by tier)
   if (diagnoses.length) {
     const names = diagnoses.map(d => d.name);
     const mostLikely = diagnoses.find(d => d.tier === 'likely');

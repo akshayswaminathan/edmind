@@ -489,40 +489,38 @@ export function featuresWithIds(groups) {
 }
 
 // ── Plan / order menus (Epic quick-order style) ────────────────────────────
+// Deliberately broad — categories over specific orders, no doses. The MDM
+// records the class of intervention; the actual order lives in Epic.
 export const PLAN_MENU = {
   Medications: [
-    'Aspirin 324 mg PO', 'Nitroglycerin 0.4 mg SL', 'Heparin gtt', 'Ondansetron 4 mg IV',
-    'Ketorolac 15 mg IV', 'Morphine 4 mg IV', 'Acetaminophen 1 g PO',
-    'IV fluids — NS/LR bolus', 'Ceftriaxone 1 g IV', 'Azithromycin 500 mg IV',
-    'Piperacillin-tazobactam IV', 'Vancomycin IV', 'Albuterol/ipratropium neb',
-    'Methylprednisolone 125 mg IV', 'Epinephrine 0.3 mg IM', 'Insulin gtt',
-    'Pantoprazole 40 mg IV', 'Labetalol 20 mg IV',
+    'Non-opioid analgesia', 'Opioid-based pain management', 'IV fluids',
+    'Antiemetics', 'Aspirin', 'Nitroglycerin', 'Anticoagulation',
+    'Antibiotics', 'Bronchodilators', 'Corticosteroids', 'Antihypertensives',
+    'Insulin / glucose management', 'GI cocktail / acid suppression',
+    'Anxiolytic / sedation', 'Anticoagulation reversal',
   ],
   Labs: [
-    'CBC', 'BMP', 'CMP', 'Troponin', 'BNP', 'D-dimer', 'Lipase', 'LFTs',
-    'Coags (PT/INR/PTT)', 'VBG', 'Lactate', 'Blood cultures x2', 'Urinalysis',
-    'Urine hCG', 'Serum hCG', 'Type & screen', 'Procalcitonin', 'Ammonia',
+    'CBC', 'BMP / CMP', 'Troponin', 'BNP', 'D-dimer', 'Coags', 'LFTs',
+    'Lipase', 'VBG / lactate', 'Blood cultures', 'Urinalysis', 'hCG',
+    'Type & screen', 'Procalcitonin',
   ],
   Imaging: [
-    'ECG', 'Chest X-ray', 'CT head non-contrast', 'CTA chest (PE protocol)',
-    'CTA chest/abdomen (dissection)', 'CT abdomen/pelvis with contrast',
-    'US — RUQ', 'US — FAST', 'US — pelvic/transvaginal', 'US — aorta',
-    'US — DVT', 'MRI brain', 'CT angiography head/neck',
+    'ECG', 'X-ray (chest)', 'X-ray (extremity)', 'X-ray (abdomen)',
+    'CT (head)', 'CT (chest)', 'CT (abdomen/pelvis)', 'CT angiography',
+    'Ultrasound (bedside)', 'Ultrasound (formal)', 'MRI',
   ],
   Procedures: [
     'Procedural sedation', 'Laceration repair', 'Incision & drainage',
-    'Fracture/dislocation reduction', 'Splinting/immobilization', 'Lumbar puncture',
-    'Central line', 'Arterial line', 'Chest tube / thoracostomy', 'Paracentesis',
-    'Foley catheter', 'Cardioversion',
+    'Fracture/dislocation reduction', 'Splinting', 'Lumbar puncture',
+    'Central line', 'Chest tube', 'Cardioversion',
   ],
   Consults: [
-    'Cardiology', 'Cardiothoracic surgery', 'Vascular surgery', 'General surgery',
-    'OB/GYN', 'Neurology', 'Gastroenterology', 'Nephrology', 'Psychiatry',
-    'Critical care', 'Interventional radiology',
+    'Cardiology', 'Surgery', 'Vascular surgery', 'OB/GYN', 'Neurology',
+    'Gastroenterology', 'Nephrology', 'Psychiatry', 'Critical care',
   ],
   Disposition: [
-    'Admit to floor', 'Admit to telemetry', 'Admit to ICU', 'ED observation',
-    'Discharge home', 'Transfer to higher level of care', 'Awaiting workup',
+    'Admit', 'Admit to telemetry', 'Admit to ICU', 'ED observation',
+    'Discharge home', 'Transfer', 'Awaiting workup',
   ],
 };
 
