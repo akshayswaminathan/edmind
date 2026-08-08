@@ -18,12 +18,20 @@
 //     state:    { [featureId]: 'present' | 'absent' | 'pending' },
 //   }],
 //   interpretations: [{ study, read }],
+//   deferred:        [{ item, rationale }],
+//   calculators:     [{ name, impact }],
 //   consult:         { who, what },
+//   reassessment:    { on, text },
+//   sdm:             { on, text },
+//   uncertainty:     { on, text },
 //   plan: {
 //     Analgesia:[], 'IV Fluids':[], Antiemetics:[], Sedation:[], Antimicrobials:[],
 //     Labs:[], Imaging:[], Procedures:[], Consults:[], Disposition:[],
 //   },
+//   handoffLine: string,
 // }
+
+export const DEFAULT_HANDOFF = 'See the ED course for further workup and disposition.';
 
 // Grammatical list join with an Oxford comma.
 function joinList(items) {
@@ -62,6 +70,15 @@ export function buildOneLiner({ age, sex, pmh = [], chiefComplaint, concern } = 
     return `${ageSex}${pmhStr ? ` with a history of ${pmhStr}` : ''} presenting with ${cc}${tail}.`;
   }
   return `The patient${pmhStr ? ` has a history of ${pmhStr} and` : ''} presents with ${cc}${tail}.`;
+}
+
+// True when the clinician has entered any part of the one-liner. Keeps the live
+// note from opening with an all-placeholder HPI before anything is set.
+export function hasOneLiner({ age, sex, pmh = [], chiefComplaint, concern } = {}) {
+  return Boolean(
+    (age && String(age).trim()) || (sex && sex.trim()) || pmh.filter(Boolean).length ||
+    (chiefComplaint && chiefComplaint.trim()) || (concern && concern.trim())
+  );
 }
 
 // ── Per-diagnosis reasoning ─────────────────────────────────────────────────
@@ -133,7 +150,8 @@ const TIER_RANK = { likely: 0, cantmiss: 1, less: 2, null: 3 };
 
 // ── Plan ─────────────────────────────────────────────────────────────────────
 // Returns { lines, disposition }: `lines` are the bulleted plan entries and
-// `disposition` is pulled out so it can be bolded on its own line.
+// `disposition` is pulled out so it can be surfaced on its own line. Medications
+// are reported by their clinician-facing groups (analgesia, fluids, …).
 function buildPlan(plan = {}) {
   const lines = [];
   const seg = (label, items) => {
@@ -146,6 +164,8 @@ function buildPlan(plan = {}) {
   seg('Antiemetics', plan.Antiemetics);
   seg('Sedation', plan.Sedation);
   seg('Antimicrobials', plan.Antimicrobials);
+  // A single "Medications" bucket is still honored for backward compatibility.
+  seg('Medications', plan.Medications);
 
   const workup = [...(plan.Labs || []), ...(plan.Imaging || [])].filter(Boolean);
   if (workup.length) lines.push(`Workup ordered: ${joinList(workup)}.`);
@@ -165,14 +185,22 @@ export function generateMdm(input = {}) {
     oneLiner = {},
     diagnoses = [],
     interpretations = [],
+    deferred = [],
+    calculators = [],
     consult = {},
+    reassessment = {},
+    sdm = {},
+    uncertainty = {},
     plan = {},
+    handoffLine,
   } = input;
 
   const sections = [];
 
-  // 1) One-liner / HPI
-  sections.push(`**HPI:** ${buildOneLiner(oneLiner)}`);
+  // 1) One-liner / HPI — only once the clinician has entered part of it.
+  if (hasOneLiner(oneLiner)) {
+    sections.push(`**HPI:** ${buildOneLiner(oneLiner)}`);
+  }
 
   // 2) Assessment — differential summary + per-diagnosis reasoning (by tier)
   if (diagnoses.length) {
@@ -207,8 +235,47 @@ export function generateMdm(input = {}) {
     sections.push(`**Consultant discussion:** Case discussed with ${consult.who.trim()}${what ? `, ${what}` : ''}.`);
   }
 
-  // 6) Disposition
+  // 6) Clinical reasoning — considered-but-deferred, decision instruments,
+  //    reassessment, shared decision-making, and diagnostic uncertainty. Each is
+  //    creditable cognitive work that a plain note rarely captures.
+  const reasoningLines = [];
+
+  const defItems = deferred.filter(d => (d.item || '').trim());
+  for (const d of defItems) {
+    const r = (d.rationale || '').trim();
+    reasoningLines.push(`${cap(d.item.trim())} was considered but deferred${r ? ` given ${r}` : ''}.`);
+  }
+
+  const calcLines = calculators.filter(c => (c.name || '').trim()).map(c => {
+    const impact = (c.impact || '').trim();
+    return `${c.name.trim()}${impact ? ` (${impact})` : ''}`;
+  });
+  if (calcLines.length) reasoningLines.push(`Risk stratification: ${joinList(calcLines)}.`);
+
+  if (reassessment.on) {
+    const t = (reassessment.text || '').trim();
+    reasoningLines.push(`The patient will be serially reassessed${t ? ` for ${t}` : ''}.`);
+  }
+  if (sdm.on) {
+    const t = (sdm.text || '').trim();
+    reasoningLines.push(`Shared decision-making was performed with the patient${t ? ` regarding ${t}` : ''}.`);
+  }
+  if (uncertainty.on) {
+    const t = (uncertainty.text || '').trim();
+    reasoningLines.push(`Diagnostic uncertainty and return precautions were discussed with the patient${t ? `, including ${t}` : ''}.`);
+  }
+
+  if (reasoningLines.length) {
+    sections.push(`**Clinical reasoning:**\n${reasoningLines.map(l => `• ${l}`).join('\n')}`);
+  }
+
+  // 7) Disposition
   if (disposition) sections.push(`**Disposition:** ${cap(disposition)}.`);
+
+  // 8) Handoff line — closes the note. The ED course lives in the EHR; this tool
+  //    writes the initial reasoning and stops here.
+  const handoff = (handoffLine || '').trim() || DEFAULT_HANDOFF;
+  sections.push(`**Handoff:** ${handoff}`);
 
   return sections.join('\n\n');
 }

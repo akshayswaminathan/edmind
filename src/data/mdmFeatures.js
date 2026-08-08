@@ -581,6 +581,14 @@ export const IMAGING_GROUPS = [
   },
 ];
 
+// Validated decision instruments; documenting their use is creditable cognitive
+// work that is almost never captured in a note.
+export const RISK_CALCULATORS = [
+  'HEART score', 'PERC rule', 'Wells (PE)', 'Wells (DVT)', 'PECARN',
+  'Canadian CT Head', 'NEXUS', 'Canadian C-spine', 'Ottawa ankle',
+  'Ottawa knee', 'PSI/PORT', 'NIHSS', 'Alvarado', 'Centor/McIsaac',
+];
+
 // Study types offered for an independent-interpretation "my read" (Data Cat 2).
 export const INTERP_STUDIES = ['ECG', 'Chest X-ray', 'CT', 'Ultrasound', 'X-ray', 'Rhythm strip'];
 
