@@ -37,16 +37,40 @@ function Section({ title, count, open, onToggle, children }) {
   );
 }
 
-// present / absent / pending
-function FeatureToggle({ state, onSet }) {
-  const base = 'w-6 h-6 rounded-md flex items-center justify-center text-sm font-bold transition-all';
+// Epic-style split "phrase button": the label is the button, with a + side
+// (present) on the left and a − side (absent) on the right. Tapping the phrase
+// itself toggles the third state, pending. Clicking an active side clears it.
+function FeatureButton({ label, state, onSet }) {
+  const rowBg = state === 'present' ? 'bg-emerald-50 border-emerald-200'
+    : state === 'absent' ? 'bg-red-50 border-red-200'
+    : state === 'pending' ? 'bg-amber-50 border-amber-200'
+    : 'bg-white border-gray-200';
+  const labelColor = state === 'present' ? 'text-emerald-800'
+    : state === 'absent' ? 'text-red-800'
+    : state === 'pending' ? 'text-amber-800'
+    : 'text-gray-600';
   return (
-    <div className="flex gap-1 shrink-0">
-      <button type="button" aria-label="Present" onClick={() => onSet(state === 'present' ? null : 'present')} className={`${base} ${state === 'present' ? 'bg-emerald-500 text-white shadow-soft' : 'bg-gray-100 text-gray-400 hover:bg-emerald-50 hover:text-emerald-500'}`}>+</button>
-      <button type="button" aria-label="Absent" onClick={() => onSet(state === 'absent' ? null : 'absent')} className={`${base} ${state === 'absent' ? 'bg-red-500 text-white shadow-soft' : 'bg-gray-100 text-gray-400 hover:bg-red-50 hover:text-red-500'}`}>−</button>
-      <button type="button" aria-label="Pending" onClick={() => onSet(state === 'pending' ? null : 'pending')} className={`${base} ${state === 'pending' ? 'bg-amber-500 text-white shadow-soft' : 'bg-gray-100 text-gray-400 hover:bg-amber-50 hover:text-amber-500'}`}>
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><circle cx="12" cy="12" r="9" /><path strokeLinecap="round" d="M12 8v4l2.5 2.5" /></svg>
+    <div className={`flex items-stretch rounded-md border overflow-hidden ${rowBg}`}>
+      <button
+        type="button" aria-label={`Mark ${label} present`}
+        onClick={() => onSet(state === 'present' ? null : 'present')}
+        className={`w-7 shrink-0 flex items-center justify-center text-base font-bold transition-colors ${state === 'present' ? 'bg-emerald-500 text-white' : 'text-emerald-500/60 hover:bg-emerald-100'}`}
+      >+</button>
+      <button
+        type="button" aria-label={`${label} — mark pending`}
+        onClick={() => onSet(state === 'pending' ? null : 'pending')}
+        className={`flex-1 flex items-center gap-1.5 text-left px-2 py-1 text-[13px] leading-snug transition-colors ${labelColor} hover:bg-black/[0.02]`}
+      >
+        {state === 'pending' && (
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" className="shrink-0"><circle cx="12" cy="12" r="9" /><path strokeLinecap="round" d="M12 8v4l2.5 2.5" /></svg>
+        )}
+        {label}
       </button>
+      <button
+        type="button" aria-label={`Mark ${label} absent`}
+        onClick={() => onSet(state === 'absent' ? null : 'absent')}
+        className={`w-7 shrink-0 flex items-center justify-center text-base font-bold transition-colors ${state === 'absent' ? 'bg-red-500 text-white' : 'text-red-400/60 hover:bg-red-100'}`}
+      >−</button>
     </div>
   );
 }
@@ -309,18 +333,16 @@ export function MdmScreen({ onExit }) {
                       ))}
                     </div>
                     {!matched && <p className="text-[10px] text-gray-400 mb-2">Generic template — no curated finding set for this diagnosis.</p>}
+                    <p className="text-[10px] text-gray-400 mb-2"><span className="text-emerald-600 font-bold">+</span> present · <span className="text-red-500 font-bold">−</span> absent · tap the phrase for pending</p>
                     <div className="space-y-3">
                       {GROUP_ORDER.filter(g => (groups[g] || []).length > 0).map(group => (
                         <div key={group}>
                           <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1">{group}</p>
-                          <div className="space-y-0.5">
+                          <div className="space-y-1">
                             {groups[group].map(f => {
                               const s = featureState[dx.name]?.[f.id];
                               return (
-                                <div key={f.id} className={`flex items-center justify-between gap-2 rounded-md px-2 py-1 transition-colors ${s === 'present' ? 'bg-emerald-50' : s === 'absent' ? 'bg-red-50' : s === 'pending' ? 'bg-amber-50' : 'hover:bg-gray-50'}`}>
-                                  <span className="text-[13px] text-gray-600 leading-snug">{f.label}</span>
-                                  <FeatureToggle state={s} onSet={v => setFeat(dx.name, f.id, v)} />
-                                </div>
+                                <FeatureButton key={f.id} label={f.label} state={s} onSet={v => setFeat(dx.name, f.id, v)} />
                               );
                             })}
                           </div>
