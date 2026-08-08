@@ -1,14 +1,19 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { MDM_COMPLAINTS, getComplaintDiagnoses, searchDiagnoses } from '../data/mdmDiagnoses';
 import {
   getFeatureSet, featuresWithIds, GROUP_ORDER, PLAN_MENU, PLAN_ORDER,
-  COMMON_PMH, INTERP_STUDIES, IMAGING_SIMPLE, IMAGING_GROUPS,
+  RISK_CALCULATORS, INTERP_STUDIES, COMMON_PMH, IMAGING_SIMPLE, IMAGING_GROUPS,
 } from '../data/mdmFeatures';
-import { generateMdm, buildOneLiner } from '../data/mdmGenerate';
+import { generateMdm, buildOneLiner, hasOneLiner, DEFAULT_HANDOFF } from '../data/mdmGenerate';
 import { TermsModal } from '../components/TermsModal';
 import { TERMS_META } from '../data/terms';
 
-const STEPS = ['Diagnoses', 'Patient', 'Findings', 'Plan', 'MDM'];
+const TIER_DOT = { red: 'bg-red-400', common: 'bg-amber-400', rare: 'bg-gray-300' };
+const DX_TIERS = [
+  { key: 'likely', label: 'Most likely' },
+  { key: 'cantmiss', label: "Can't-miss" },
+  { key: 'less', label: 'Less likely' },
+];
 
 // Persisted acceptance of the Terms of Use (keyed by version so a substantive
 // terms change re-prompts previously accepted users).
@@ -21,96 +26,8 @@ function hasAcceptedTerms() {
 // A fresh, empty plan keyed by every current plan category.
 const emptyPlan = () => Object.fromEntries(PLAN_ORDER.map(c => [c, []]));
 
-const TIER_DOT = { red: 'bg-red-400', common: 'bg-amber-400', rare: 'bg-gray-300' };
-
-const DX_TIERS = [
-  { key: 'likely', label: 'Most likely' },
-  { key: 'cantmiss', label: "Can't-miss" },
-  { key: 'less', label: 'Less likely' },
-];
-
-// ── No-PHI banner ────────────────────────────────────────────────────────────
-function PhiBanner({ compact }) {
-  if (compact) {
-    return (
-      <div className="flex items-center gap-2 text-[11px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-1.5 mb-4">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="shrink-0">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v4m0 4h.01M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L14.7 3.9a2 2 0 00-3.4 0z" />
-        </svg>
-        <span>Do not enter PHI. This is not a HIPAA-covered system and not for patient information.</span>
-      </div>
-    );
-  }
-  return (
-    <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mb-6">
-      <div className="flex items-start gap-3">
-        <div className="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center shrink-0">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#b45309" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v4m0 4h.01M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L14.7 3.9a2 2 0 00-3.4 0z" />
-          </svg>
-        </div>
-        <div>
-          <p className="text-sm font-semibold text-amber-900">Do not enter protected health information (PHI)</p>
-          <p className="text-xs text-amber-700 leading-relaxed mt-0.5">
-            This is a documentation helper — not a HIPAA-covered system, not a medical device, and not for storing
-            patient information. Never enter names, dates of birth, or MRNs. Use only de-identified clinical shorthand.
-            Everything runs in your browser; nothing is saved. You review and paste the note into the EHR, and you
-            attest to its content — not this tool.
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ── Present / absent / pending toggle ────────────────────────────────────────
-function FeatureToggle({ state, onSet }) {
-  const base = 'w-7 h-7 rounded-md flex items-center justify-center text-sm font-bold transition-all';
-  return (
-    <div className="flex gap-1 shrink-0">
-      <button
-        type="button" aria-label="Present"
-        onClick={() => onSet(state === 'present' ? null : 'present')}
-        className={`${base} ${state === 'present' ? 'bg-emerald-500 text-white shadow-soft' : 'bg-gray-100 text-gray-400 hover:bg-emerald-50 hover:text-emerald-500'}`}
-      >+</button>
-      <button
-        type="button" aria-label="Absent"
-        onClick={() => onSet(state === 'absent' ? null : 'absent')}
-        className={`${base} ${state === 'absent' ? 'bg-red-500 text-white shadow-soft' : 'bg-gray-100 text-gray-400 hover:bg-red-50 hover:text-red-500'}`}
-      >−</button>
-      <button
-        type="button" aria-label="Pending"
-        onClick={() => onSet(state === 'pending' ? null : 'pending')}
-        className={`${base} ${state === 'pending' ? 'bg-amber-500 text-white shadow-soft' : 'bg-gray-100 text-gray-400 hover:bg-amber-50 hover:text-amber-500'}`}
-      >
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-          <circle cx="12" cy="12" r="9" /><path strokeLinecap="round" d="M12 8v4l2.5 2.5" />
-        </svg>
-      </button>
-    </div>
-  );
-}
-
-// ── Multi-select chip ────────────────────────────────────────────────────────
-function Chip({ active, onClick, children, dot }) {
-  return (
-    <button
-      type="button" onClick={onClick}
-      className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium border transition-all ${
-        active ? 'bg-blue-600 text-white border-blue-600 shadow-soft' : 'bg-white text-gray-600 border-gray-200 hover:border-blue-300 hover:text-blue-600'
-      }`}
-    >
-      {dot && <span className={`w-1.5 h-1.5 rounded-full ${active ? 'bg-white/70' : dot}`} />}
-      {children}
-    </button>
-  );
-}
-
-// ── Rendered note preview ────────────────────────────────────────────────────
-// Shows the generated note with its markdown bold (**...**) and bullet spacing
-// actually rendered, so the clinician sees the formatting that will paste in.
+// Renders inline **bold** spans (from the generated note) without innerHTML.
 function renderInline(line) {
-  // Split on **bold**; odd-indexed parts are the bolded segments.
   return line.split(/\*\*(.+?)\*\*/g).map((part, i) =>
     i % 2 === 1
       ? <strong key={i} className="font-semibold text-gray-900">{part}</strong>
@@ -118,26 +35,101 @@ function renderInline(line) {
   );
 }
 
-function NotePreview({ text }) {
-  const blocks = (text || '').split('\n\n').filter(b => b.trim());
-  if (!blocks.length) {
-    return <div className="bg-white border border-gray-200 rounded-xl p-4 text-sm text-gray-300">Nothing to preview yet.</div>;
-  }
+// ── Small building blocks ────────────────────────────────────────────────────
+function Chevron({ open }) {
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-4 text-sm text-gray-700 leading-relaxed space-y-3">
-      {blocks.map((block, bi) => (
-        <div key={bi}>
-          {block.split('\n').map((line, li) => (
-            <p key={li} className={line.startsWith('•') ? 'pl-3' : ''}>{renderInline(line)}</p>
-          ))}
-        </div>
-      ))}
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" className={`transition-transform ${open ? 'rotate-90' : ''}`}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+    </svg>
+  );
+}
+
+function Section({ title, count, open, onToggle, children }) {
+  return (
+    <div className="bg-white border border-gray-200 rounded-xl mb-3 overflow-hidden">
+      <button onClick={onToggle} className="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors">
+        <span className="flex items-center gap-2 text-sm font-semibold text-gray-800">
+          <span className="text-gray-400"><Chevron open={open} /></span>
+          {title}
+        </span>
+        {count > 0 && <span className="text-[11px] font-medium text-blue-600 bg-blue-50 rounded-full px-2 py-0.5 tabular-nums">{count}</span>}
+      </button>
+      {open && <div className="px-4 pb-4">{children}</div>}
     </div>
   );
 }
 
+// Epic-style split "phrase button": the label is the button, with a + side
+// (present) on the left and a − side (absent) on the right. Tapping the phrase
+// itself toggles the third state, pending. Clicking an active side clears it.
+function FeatureButton({ label, state, onSet }) {
+  const rowBg = state === 'present' ? 'bg-emerald-50 border-emerald-200'
+    : state === 'absent' ? 'bg-red-50 border-red-200'
+    : state === 'pending' ? 'bg-amber-50 border-amber-200'
+    : 'bg-white border-gray-200';
+  const labelColor = state === 'present' ? 'text-emerald-800'
+    : state === 'absent' ? 'text-red-800'
+    : state === 'pending' ? 'text-amber-800'
+    : 'text-gray-600';
+  return (
+    <div className={`flex items-stretch rounded-md border overflow-hidden ${rowBg}`}>
+      <button
+        type="button" aria-label={`Mark ${label} present`}
+        onClick={() => onSet(state === 'present' ? null : 'present')}
+        className={`w-7 shrink-0 flex items-center justify-center text-base font-bold transition-colors ${state === 'present' ? 'bg-emerald-500 text-white' : 'text-emerald-500/60 hover:bg-emerald-100'}`}
+      >+</button>
+      <button
+        type="button" aria-label={`${label} — mark pending`}
+        onClick={() => onSet(state === 'pending' ? null : 'pending')}
+        className={`flex-1 flex items-center gap-1.5 text-left px-2 py-1 text-[13px] leading-snug transition-colors ${labelColor} hover:bg-black/[0.02]`}
+      >
+        {state === 'pending' && (
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" className="shrink-0"><circle cx="12" cy="12" r="9" /><path strokeLinecap="round" d="M12 8v4l2.5 2.5" /></svg>
+        )}
+        {label}
+      </button>
+      <button
+        type="button" aria-label={`Mark ${label} absent`}
+        onClick={() => onSet(state === 'absent' ? null : 'absent')}
+        className={`w-7 shrink-0 flex items-center justify-center text-base font-bold transition-colors ${state === 'absent' ? 'bg-red-500 text-white' : 'text-red-400/60 hover:bg-red-100'}`}
+      >−</button>
+    </div>
+  );
+}
+
+function PlanChip({ active, onClick, children }) {
+  return (
+    <button type="button" onClick={onClick} className={`inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium border transition-all ${active ? 'bg-blue-600 text-white border-blue-600 shadow-soft' : 'bg-white text-gray-600 border-gray-200 hover:border-blue-300 hover:text-blue-600'}`}>
+      <span className={`text-sm leading-none ${active ? 'text-white' : 'text-gray-300'}`}>{active ? '−' : '+'}</span>
+      {children}
+    </button>
+  );
+}
+
+// A plain multi-select chip (no ±) for the one-liner history picker.
+function Chip({ active, onClick, children }) {
+  return (
+    <button type="button" onClick={onClick} className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium border transition-all ${active ? 'bg-blue-600 text-white border-blue-600 shadow-soft' : 'bg-white text-gray-600 border-gray-200 hover:border-blue-300 hover:text-blue-600'}`}>
+      {children}
+    </button>
+  );
+}
+
+function ToggleRow({ label, hint, on, onToggle }) {
+  return (
+    <button type="button" onClick={onToggle} className={`w-full flex items-center gap-2.5 text-left rounded-lg px-3 py-2 border transition-all ${on ? 'bg-blue-50 border-blue-200' : 'bg-white border-gray-200 hover:border-gray-300'}`}>
+      <span className={`w-4 h-4 rounded flex items-center justify-center shrink-0 ${on ? 'bg-blue-600 text-white' : 'bg-gray-100 text-transparent'}`}>
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+      </span>
+      <span>
+        <span className="text-sm font-medium text-gray-700 block leading-tight">{label}</span>
+        {hint && <span className="text-[11px] text-gray-400">{hint}</span>}
+      </span>
+    </button>
+  );
+}
+
 export function MdmScreen({ onExit }) {
-  const [step, setStep] = useState(0);
   const [termsAccepted, setTermsAccepted] = useState(hasAcceptedTerms);
 
   function acceptTerms() {
@@ -145,15 +137,28 @@ export function MdmScreen({ onExit }) {
     setTermsAccepted(true);
   }
 
-  // Step 1 — diagnoses
-  const [complaintSearch, setComplaintSearch] = useState('');
-  const [activeComplaint, setActiveComplaint] = useState(null);
-  const [dxSearch, setDxSearch] = useState('');
-  const [freeText, setFreeText] = useState('');
-  const [selected, setSelected] = useState([]);        // [{ name, tier }]
-  const [dxTier, setDxTier] = useState({});            // { dxName: 'likely'|'cantmiss'|'less' }
+  // Clinical selections
+  const [selected, setSelected] = useState([]);          // [{ name, tier }]
+  const [dxTier, setDxTier] = useState({});
+  const [featureState, setFeatureState] = useState({});
+  const [plan, setPlan] = useState(emptyPlan);
+  const [planCustom, setPlanCustom] = useState({});
+  const [openImg, setOpenImg] = useState(null);          // which imaging modality menu is open
+  const [interpretations, setInterpretations] = useState([]);
+  const [interpStudy, setInterpStudy] = useState('ECG');
+  const [interpRead, setInterpRead] = useState('');
+  const [consult, setConsult] = useState({ who: '', what: '' });
+  const [deferred, setDeferred] = useState([]);
+  const [defItem, setDefItem] = useState('');
+  const [defRationale, setDefRationale] = useState('');
+  const [calcSel, setCalcSel] = useState([]);
+  const [calcImpact, setCalcImpact] = useState({});
+  const [reassess, setReassess] = useState({ on: false, text: '' });
+  const [sdm, setSdm] = useState({ on: false, text: '' });
+  const [uncertainty, setUncertainty] = useState({ on: false, text: '' });
+  const [handoff, setHandoff] = useState(DEFAULT_HANDOFF);
 
-  // Step 2 — patient one-liner
+  // Patient one-liner
   const [chiefComplaint, setChiefComplaint] = useState('');
   const [ccTouched, setCcTouched] = useState(false);
   const [concern, setConcern] = useState('');
@@ -163,20 +168,12 @@ export function MdmScreen({ onExit }) {
   const [pmh, setPmh] = useState([]);
   const [pmhInput, setPmhInput] = useState('');
 
-  // Step 3 — findings
-  const [featureState, setFeatureState] = useState({}); // { dxName: { featureId: 'present'|'absent'|'pending' } }
-
-  // Step 4 — plan
-  const [plan, setPlan] = useState(emptyPlan);
-  const [planCustom, setPlanCustom] = useState({});
-  const [openImg, setOpenImg] = useState(null);         // which imaging modality menu is open
-  const [interpretations, setInterpretations] = useState([]); // [{ study, read }]
-  const [interpStudy, setInterpStudy] = useState('ECG');
-  const [interpRead, setInterpRead] = useState('');
-  const [consult, setConsult] = useState({ who: '', what: '' });
-
-  // Step 5 — output
-  const [mdmText, setMdmText] = useState('');
+  // UI state
+  const [dxQuery, setDxQuery] = useState('');
+  const [activeComplaint, setActiveComplaint] = useState(null);
+  const [open, setOpen] = useState({ dx: true, patient: false, plan: true, interp: false, safety: false, handoff: false });
+  const [dxOpen, setDxOpen] = useState({});
+  const [mobileView, setMobileView] = useState('menu'); // 'menu' | 'note'
   const [copied, setCopied] = useState(false);
 
   const featureSets = useMemo(() => {
@@ -185,62 +182,84 @@ export function MdmScreen({ onExit }) {
     return map;
   }, [selected]);
 
-  const filteredComplaints = useMemo(() => {
-    const q = complaintSearch.trim().toLowerCase();
-    return q ? MDM_COMPLAINTS.filter(c => c.name.toLowerCase().includes(q)) : MDM_COMPLAINTS;
-  }, [complaintSearch]);
-
-  const dxResults = useMemo(() => searchDiagnoses(dxSearch), [dxSearch]);
   const isSelected = name => selected.some(d => d.name.toLowerCase() === name.toLowerCase());
 
-  function toggleDx(name, tier = 'custom') {
-    setSelected(prev => {
-      const exists = prev.find(d => d.name.toLowerCase() === name.toLowerCase());
-      if (exists) {
-        setDxTier(t => { const c = { ...t }; delete c[name]; return c; });
-        return prev.filter(d => d.name.toLowerCase() !== name.toLowerCase());
-      }
-      return [...prev, { name: name.trim(), tier }];
+  const complaintMatches = useMemo(() => {
+    const q = dxQuery.trim().toLowerCase();
+    return q ? MDM_COMPLAINTS.filter(c => c.name.toLowerCase().includes(q)).slice(0, 5) : [];
+  }, [dxQuery]);
+
+  const dxMatches = useMemo(() => {
+    const q = dxQuery.trim();
+    return q ? searchDiagnoses(q, 8).filter(d => !isSelected(d.name)) : [];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dxQuery, selected]);
+
+  const exactMatch = dxMatches.some(d => d.name.toLowerCase() === dxQuery.trim().toLowerCase());
+
+  // ── Live note ──────────────────────────────────────────────────────────────
+  const oneLiner = { age, sex, pmh, chiefComplaint, concern };
+  const mdmText = useMemo(() => {
+    const diagnoses = selected.map(dx => ({
+      name: dx.name,
+      tier: dxTier[dx.name] || null,
+      features: featureSets[dx.name] || {},
+      state: featureState[dx.name] || {},
+    }));
+    const calculators = calcSel.map(name => ({ name, impact: calcImpact[name] || '' }));
+    return generateMdm({
+      oneLiner: { age, sex, pmh, chiefComplaint, concern },
+      diagnoses, interpretations, deferred, calculators, consult,
+      reassessment: reassess, sdm, uncertainty, plan, handoffLine: handoff,
     });
-  }
+  }, [selected, dxTier, featureSets, featureState, age, sex, pmh, chiefComplaint, concern, interpretations, deferred, calcSel, calcImpact, consult, reassess, sdm, uncertainty, plan, handoff]);
 
-  function addFreeText() {
-    const val = freeText.trim();
-    if (!val || isSelected(val)) { setFreeText(''); return; }
-    setSelected(prev => [...prev, { name: val, tier: 'custom' }]);
-    setFreeText('');
-  }
+  const hasContent = selected.length > 0 || hasOneLiner(oneLiner) || PLAN_ORDER.some(c => plan[c].length) || interpretations.length || deferred.length || calcSel.length || consult.who || reassess.on || sdm.on || uncertainty.on;
 
+  // ── Mutators ─────────────────────────────────────────────────────────────────
+  function addDx(name, tier = 'custom') {
+    if (!name.trim() || isSelected(name)) return;
+    setSelected(prev => [...prev, { name: name.trim(), tier }]);
+    setDxOpen(prev => ({ ...prev, [name.trim()]: true }));
+    setOpen(prev => ({ ...prev, dx: true }));
+  }
+  function removeDx(name) {
+    setSelected(prev => prev.filter(d => d.name.toLowerCase() !== name.toLowerCase()));
+    setDxTier(t => { const c = { ...t }; delete c[name]; return c; });
+  }
+  function commitQuery() {
+    const q = dxQuery.trim();
+    if (!q) return;
+    if (dxMatches.length && !exactMatch) addDx(dxMatches[0].name, dxMatches[0].tier);
+    else addDx(q);
+    setDxQuery('');
+  }
+  // Selecting a chief complaint seeds the one-liner's CC (until hand-edited).
   function pickComplaint(slug) {
     setActiveComplaint(prev => (prev === slug ? null : slug));
     const c = MDM_COMPLAINTS.find(x => x.slug === slug);
     if (c && (!ccTouched || !chiefComplaint)) setChiefComplaint(c.name.toLowerCase());
   }
-
   function setTier(dxName, tierKey) {
     setDxTier(prev => {
-      const current = prev[dxName];
       const next = { ...prev };
-      if (current === tierKey) { delete next[dxName]; return next; }
-      // Only one diagnosis can be "most likely".
+      if (next[dxName] === tierKey) { delete next[dxName]; return next; }
       if (tierKey === 'likely') {
         for (const k of Object.keys(next)) if (next[k] === 'likely') delete next[k];
+        // The most-likely diagnosis seeds the one-liner's concern (until edited).
         if (!concernTouched) setConcern(dxName);
       }
       next[dxName] = tierKey;
       return next;
     });
   }
-
   function setFeat(dxName, featureId, value) {
     setFeatureState(prev => {
       const dxState = { ...(prev[dxName] || {}) };
-      if (value === null) delete dxState[featureId];
-      else dxState[featureId] = value;
+      if (value === null) delete dxState[featureId]; else dxState[featureId] = value;
       return { ...prev, [dxName]: dxState };
     });
   }
-
   function togglePlan(category, item) {
     setPlan(prev => {
       const list = prev[category] || [];
@@ -258,6 +277,14 @@ export function MdmScreen({ onExit }) {
     setInterpretations(prev => [...prev, { study: interpStudy, read: interpRead.trim() }]);
     setInterpRead('');
   }
+  function addDeferred() {
+    if (!defItem.trim()) return;
+    setDeferred(prev => [...prev, { item: defItem.trim(), rationale: defRationale.trim() }]);
+    setDefItem(''); setDefRationale('');
+  }
+  function toggleCalc(name) {
+    setCalcSel(prev => prev.includes(name) ? prev.filter(x => x !== name) : [...prev, name]);
+  }
   function addPmh(val) {
     const v = val.trim();
     if (!v || pmh.includes(v)) return;
@@ -266,82 +293,376 @@ export function MdmScreen({ onExit }) {
   }
   function clearAll() {
     if (!window.confirm('Clear all entries and start over?')) return;
-    setStep(0);
     setSelected([]); setDxTier({}); setFeatureState({});
-    setComplaintSearch(''); setActiveComplaint(null); setDxSearch(''); setFreeText('');
-    setChiefComplaint(''); setCcTouched(false); setConcern(''); setConcernTouched(false);
-    setAge(''); setSex(''); setPmh([]); setPmhInput('');
     setPlan(emptyPlan()); setPlanCustom({}); setOpenImg(null);
     setInterpretations([]); setInterpRead(''); setConsult({ who: '', what: '' });
-    setMdmText('');
+    setDeferred([]); setDefItem(''); setDefRationale(''); setCalcSel([]); setCalcImpact({});
+    setReassess({ on: false, text: '' }); setSdm({ on: false, text: '' }); setUncertainty({ on: false, text: '' });
+    setHandoff(DEFAULT_HANDOFF); setDxQuery(''); setActiveComplaint(null);
+    setChiefComplaint(''); setCcTouched(false); setConcern(''); setConcernTouched(false);
+    setAge(''); setSex(''); setPmh([]); setPmhInput('');
   }
-
-  function generate() {
-    const diagnoses = selected.map(dx => ({
-      name: dx.name,
-      tier: dxTier[dx.name] || null,
-      features: featureSets[dx.name] || {},
-      state: featureState[dx.name] || {},
-    }));
-    const text = generateMdm({
-      oneLiner: { age, sex, pmh, chiefComplaint, concern },
-      diagnoses, interpretations, consult, plan,
-    });
-    setMdmText(text);
-    setCopied(false);
-  }
-
-  useEffect(() => {
-    if (step === STEPS.length - 1) generate();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [step]);
-
   async function copyMdm() {
-    try { await navigator.clipboard.writeText(mdmText); setCopied(true); setTimeout(() => setCopied(false), 1800); }
-    catch { setCopied(false); }
+    try {
+      if (navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(mdmText);
+      else {
+        const ta = document.createElement('textarea');
+        ta.value = mdmText; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.focus(); ta.select();
+        document.execCommand('copy'); document.body.removeChild(ta);
+      }
+      setCopied(true); setTimeout(() => setCopied(false), 1800);
+    } catch { setCopied(false); }
   }
 
-  const canAdvance = step === 0 ? selected.length > 0 : true;
+  const totalPlan = PLAN_ORDER.reduce((n, c) => n + plan[c].length, 0);
+  const patientCount = (chiefComplaint ? 1 : 0) + (age ? 1 : 0) + (sex ? 1 : 0) + pmh.length + (concern ? 1 : 0);
+  const safetyCount = deferred.length + calcSel.length + (reassess.on ? 1 : 0) + (sdm.on ? 1 : 0) + (uncertainty.on ? 1 : 0);
+  const interpCount = interpretations.length + (consult.who ? 1 : 0);
 
-  const Header = (
-    <div className="mb-6">
-      <div className="flex items-center justify-between mb-4">
-        <button onClick={onExit} className="text-xs text-gray-400 hover:text-gray-600 flex items-center gap-1 transition-colors">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" d="M15 19l-7-7 7-7" /></svg>
-          Home
-        </button>
-        <div className="flex items-center gap-3">
-          <button onClick={clearAll} className="text-[11px] text-gray-400 hover:text-red-500 transition-colors">Clear all</button>
-          <span className="text-xs text-gray-300 font-medium uppercase tracking-wider">MDM Writer</span>
+  // ── Left menu ────────────────────────────────────────────────────────────────
+  const Menu = (
+    <div>
+      {/* Diagnoses */}
+      <Section title="Differential" count={selected.length} open={open.dx} onToggle={() => setOpen(o => ({ ...o, dx: !o.dx }))}>
+        <div className="relative mb-2">
+          <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+          <input
+            value={dxQuery}
+            onChange={e => setDxQuery(e.target.value)}
+            onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); commitQuery(); } }}
+            placeholder="Search a chief complaint or diagnosis, or add your own…"
+            className="w-full bg-gray-50 border border-gray-200 rounded-lg pl-9 pr-3 py-2 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white"
+          />
         </div>
-      </div>
-      <div className="flex items-center gap-1.5">
-        {STEPS.map((s, i) => (
-          <button
-            key={s} onClick={() => i <= step && setStep(i)} disabled={i > step}
-            className={`flex-1 flex flex-col items-center gap-1 ${i <= step ? 'cursor-pointer' : 'cursor-default'}`}
-          >
-            <div className={`w-full h-1 rounded-full transition-all ${i <= step ? 'bg-blue-600' : 'bg-gray-200'}`} />
-            <span className={`text-[10px] font-medium tracking-wide ${i === step ? 'text-blue-600' : i < step ? 'text-gray-500' : 'text-gray-300'}`}>{s}</span>
-          </button>
-        ))}
-      </div>
+
+        {/* Search results dropdown */}
+        {dxQuery.trim() && (
+          <div className="border border-gray-200 rounded-lg overflow-hidden mb-3 divide-y divide-gray-50">
+            {complaintMatches.map(c => (
+              <button key={c.slug} onClick={() => pickComplaint(c.slug)} className="w-full flex items-center justify-between px-3 py-2 text-left hover:bg-blue-50 transition-colors">
+                <span className="text-sm text-gray-700">{c.name}</span>
+                <span className="text-[10px] text-gray-400 uppercase tracking-wide">chief complaint · {c.diagnoses.length} dx</span>
+              </button>
+            ))}
+            {dxMatches.map(d => (
+              <button key={d.name} onClick={() => { addDx(d.name, d.tier); setDxQuery(''); }} className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-blue-50 transition-colors">
+                <span className={`w-1.5 h-1.5 rounded-full ${TIER_DOT[d.tier] || 'bg-gray-300'}`} />
+                <span className="text-sm text-gray-700">{d.name}</span>
+              </button>
+            ))}
+            {!exactMatch && (
+              <button onClick={commitQuery} className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-blue-50 transition-colors">
+                <span className="text-blue-500 font-bold">+</span>
+                <span className="text-sm text-gray-600">Add “<span className="font-medium text-gray-800">{dxQuery.trim()}</span>”</span>
+              </button>
+            )}
+          </div>
+        )}
+
+        {/* Diagnoses for an expanded chief complaint */}
+        {activeComplaint && (
+          <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 mb-3">
+            <p className="text-[11px] text-gray-400 mb-2">{MDM_COMPLAINTS.find(c => c.slug === activeComplaint)?.name} — tap to add</p>
+            <div className="flex flex-wrap gap-1.5">
+              {getComplaintDiagnoses(activeComplaint).map(dx => (
+                <button key={dx.name} onClick={() => addDx(dx.name, dx.tier)} disabled={isSelected(dx.name)} className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium border transition-all ${isSelected(dx.name) ? 'bg-blue-600 text-white border-blue-600 opacity-60' : 'bg-white text-gray-600 border-gray-200 hover:border-blue-300 hover:text-blue-600'}`}>
+                  <span className={`w-1.5 h-1.5 rounded-full ${isSelected(dx.name) ? 'bg-white/70' : TIER_DOT[dx.tier]}`} />
+                  {dx.name}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Selected diagnoses — each a collapsible finding panel */}
+        {selected.length === 0 && <p className="text-xs text-gray-300 py-2">No diagnoses yet. Search above to build your differential.</p>}
+        <div className="space-y-2">
+          {selected.map(dx => {
+            const groups = featureSets[dx.name] || {};
+            const matched = getFeatureSet(dx.name).matched;
+            const tier = dxTier[dx.name];
+            const isOpen = dxOpen[dx.name];
+            const marks = Object.keys(featureState[dx.name] || {}).length;
+            return (
+              <div key={dx.name} className={`border rounded-lg overflow-hidden ${tier === 'likely' ? 'border-blue-300' : 'border-gray-200'}`}>
+                <div className="flex items-center gap-2 px-3 py-2 bg-gray-50/70">
+                  <button onClick={() => setDxOpen(o => ({ ...o, [dx.name]: !o[dx.name] }))} className="text-gray-400 shrink-0"><Chevron open={isOpen} /></button>
+                  <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${TIER_DOT[dx.tier] || 'bg-blue-300'}`} />
+                  <span className="text-sm font-semibold text-gray-800 flex-1 truncate">{dx.name}</span>
+                  {marks > 0 && <span className="text-[10px] text-blue-600 bg-blue-50 rounded-full px-1.5 py-0.5">{marks}</span>}
+                  <button onClick={() => removeDx(dx.name)} className="text-gray-300 hover:text-red-400 shrink-0">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" d="M18 6L6 18M6 6l12 12" /></svg>
+                  </button>
+                </div>
+                {isOpen && (
+                  <div className="p-3">
+                    <div className="flex gap-1.5 mb-3">
+                      {DX_TIERS.map(t => (
+                        <button key={t.key} onClick={() => setTier(dx.name, t.key)} className={`flex-1 rounded-md px-2 py-1 text-[11px] font-medium border transition-all ${tier === t.key ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-500 border-gray-200 hover:border-blue-300 hover:text-blue-600'}`}>{t.label}</button>
+                      ))}
+                    </div>
+                    {!matched && <p className="text-[10px] text-gray-400 mb-2">Generic template — no curated finding set for this diagnosis.</p>}
+                    <p className="text-[10px] text-gray-400 mb-2"><span className="text-emerald-600 font-bold">+</span> present · <span className="text-red-500 font-bold">−</span> absent · tap the phrase for pending</p>
+                    <div className="space-y-3">
+                      {GROUP_ORDER.filter(g => (groups[g] || []).length > 0).map(group => (
+                        <div key={group}>
+                          <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1">{group}</p>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-1">
+                            {groups[group].map(f => {
+                              const s = featureState[dx.name]?.[f.id];
+                              return (
+                                <FeatureButton key={f.id} label={f.label} state={s} onSet={v => setFeat(dx.name, f.id, v)} />
+                              );
+                            })}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </Section>
+
+      {/* Patient one-liner */}
+      <Section title="Patient one-liner" count={patientCount} open={open.patient} onToggle={() => setOpen(o => ({ ...o, patient: !o.patient }))}>
+        <p className="text-[11px] text-gray-400 mb-3">De-identified only. A good one-liner risk-stratifies — it names the concern, not just the symptom.</p>
+        <div className="space-y-3">
+          <div>
+            <label className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1 block">Chief complaint</label>
+            <input value={chiefComplaint} onChange={e => { setChiefComplaint(e.target.value); setCcTouched(true); }} placeholder="e.g. chest pain" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
+          </div>
+          <div className="flex gap-2">
+            <div className="w-20">
+              <label className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1 block">Age</label>
+              <input value={age} onChange={e => setAge(e.target.value.replace(/[^0-9]/g, '').slice(0, 3))} inputMode="numeric" placeholder="58" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
+            </div>
+            <div className="flex-1">
+              <label className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1 block">Sex</label>
+              <div className="flex gap-1.5">
+                {['male', 'female', 'other'].map(s => (
+                  <button key={s} onClick={() => setSex(sex === s ? '' : s)} className={`flex-1 rounded-lg px-2 py-1.5 text-xs font-medium border transition-all ${sex === s ? 'bg-gray-900 text-white border-gray-900' : 'bg-gray-50 text-gray-500 border-gray-200 hover:bg-gray-100'}`}>{s}</button>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div>
+            <label className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1 block">Relevant history</label>
+            <div className="flex flex-wrap gap-1.5 mb-1.5">
+              {COMMON_PMH.map(p => (
+                <Chip key={p} active={pmh.includes(p)} onClick={() => pmh.includes(p) ? setPmh(pmh.filter(x => x !== p)) : addPmh(p)}>{p}</Chip>
+              ))}
+            </div>
+            <div className="flex gap-1.5">
+              <input value={pmhInput} onChange={e => setPmhInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addPmh(pmhInput); } }} placeholder="+ add comorbidity" className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
+            </div>
+            {pmh.filter(p => !COMMON_PMH.includes(p)).length > 0 && (
+              <div className="flex flex-wrap gap-1.5 mt-1.5">
+                {pmh.filter(p => !COMMON_PMH.includes(p)).map(p => (
+                  <span key={p} className="inline-flex items-center gap-1 rounded-full bg-blue-50 text-blue-600 px-2.5 py-1 text-xs">{p}<button onClick={() => setPmh(pmh.filter(x => x !== p))} className="hover:text-blue-800">×</button></span>
+                ))}
+              </div>
+            )}
+          </div>
+          <div>
+            <label className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1 block">Concerning for</label>
+            <input value={concern} onChange={e => { setConcern(e.target.value); setConcernTouched(true); }} placeholder="e.g. acute coronary syndrome" list="concern-options" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
+            <datalist id="concern-options">{selected.map(d => <option key={d.name} value={d.name} />)}</datalist>
+          </div>
+          <div className="bg-blue-50/50 border border-blue-100 rounded-lg px-3 py-2">
+            <p className="text-[10px] text-blue-400 font-semibold uppercase tracking-wider mb-0.5">Preview</p>
+            <p className="text-[13px] text-gray-700 leading-relaxed">{buildOneLiner(oneLiner)}</p>
+          </div>
+        </div>
+      </Section>
+
+      {/* Plan */}
+      <Section title="Plan" count={totalPlan} open={open.plan} onToggle={() => setOpen(o => ({ ...o, plan: !o.plan }))}>
+        <div className="space-y-3">
+          {PLAN_ORDER.map(category => (
+            <div key={category}>
+              <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1.5">{category}</p>
+
+              {category === 'Imaging' ? (
+                <div className="mb-1.5">
+                  {/* Selected studies stay visible even when the modality menus are closed */}
+                  {plan.Imaging.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 mb-1.5">
+                      {plan.Imaging.map(item => (
+                        <PlanChip key={item} active onClick={() => togglePlan('Imaging', item)}>{item}</PlanChip>
+                      ))}
+                    </div>
+                  )}
+                  {/* One-click studies + expandable modality menus */}
+                  <div className="flex flex-wrap gap-1.5">
+                    {IMAGING_SIMPLE.map(item => (
+                      <PlanChip key={item} active={plan.Imaging.includes(item)} onClick={() => togglePlan('Imaging', item)}>{item}</PlanChip>
+                    ))}
+                    {IMAGING_GROUPS.map(g => {
+                      const count = g.options.filter(o => plan.Imaging.includes(g.format(o))).length;
+                      const isOpen = openImg === g.label;
+                      return (
+                        <button
+                          key={g.label} type="button"
+                          onClick={() => setOpenImg(isOpen ? null : g.label)}
+                          className={`inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium border transition-all ${isOpen || count ? 'bg-blue-600 text-white border-blue-600 shadow-soft' : 'bg-white text-gray-600 border-gray-200 hover:border-blue-300 hover:text-blue-600'}`}
+                        >
+                          {g.label}
+                          {count > 0 && <span className={`text-[10px] rounded-full px-1.5 ${isOpen ? 'bg-white/20' : 'bg-blue-100 text-blue-700'}`}>{count}</span>}
+                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={`transition-transform ${isOpen ? 'rotate-180' : ''}`}><path strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6" /></svg>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  {/* Popover panel for the open modality */}
+                  {openImg && (() => {
+                    const g = IMAGING_GROUPS.find(x => x.label === openImg);
+                    return (
+                      <div className="mt-1.5 bg-gray-50 border border-gray-200 rounded-lg p-2.5">
+                        <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1.5">{g.label} — tap to add</p>
+                        <div className="flex flex-wrap gap-1.5">
+                          {g.options.map(o => {
+                            const order = g.format(o);
+                            return (
+                              <PlanChip key={o} active={plan.Imaging.includes(order)} onClick={() => togglePlan('Imaging', order)}>{o}</PlanChip>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </div>
+              ) : (
+                <div className="flex flex-wrap gap-1.5 mb-1.5">
+                  {PLAN_MENU[category].map(item => (
+                    <PlanChip key={item} active={plan[category].includes(item)} onClick={() => togglePlan(category, item)}>{item}</PlanChip>
+                  ))}
+                  {plan[category].filter(x => !PLAN_MENU[category].includes(x)).map(item => (
+                    <PlanChip key={item} active onClick={() => togglePlan(category, item)}>{item}</PlanChip>
+                  ))}
+                </div>
+              )}
+
+              <div className="flex gap-1.5">
+                <input value={planCustom[category] || ''} onChange={e => setPlanCustom(prev => ({ ...prev, [category]: e.target.value }))} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addPlanCustom(category); } }} placeholder={`+ add ${category.toLowerCase()}`} className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* Interpretations & discussion */}
+      <Section title="Interpretations & discussion" count={interpCount} open={open.interp} onToggle={() => setOpen(o => ({ ...o, interp: !o.interp }))}>
+        <p className="text-[11px] text-gray-400 mb-2">Your independent read of an ECG or study — attributed “on my interpretation.”</p>
+        <div className="flex gap-1.5 mb-2">
+          <select value={interpStudy} onChange={e => setInterpStudy(e.target.value)} className="bg-gray-50 border border-gray-200 rounded-lg px-2 py-1.5 text-xs text-gray-700 focus:border-blue-500">
+            {INTERP_STUDIES.map(s => <option key={s}>{s}</option>)}
+          </select>
+          <input value={interpRead} onChange={e => setInterpRead(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addInterp(); } }} placeholder="e.g. no acute ST changes, NSR at 78" className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
+          <button onClick={addInterp} disabled={!interpRead.trim()} className="bg-gray-900 hover:bg-gray-800 disabled:opacity-30 text-white rounded-lg px-2.5 py-1.5 text-xs font-medium">Add</button>
+        </div>
+        {interpretations.length > 0 && (
+          <ul className="space-y-1 mb-3">
+            {interpretations.map((it, i) => (
+              <li key={i} className="flex items-center justify-between text-xs text-gray-600 bg-gray-50 rounded-lg px-2.5 py-1.5">
+                <span><span className="font-medium text-gray-700">{it.study}:</span> {it.read}</span>
+                <button onClick={() => setInterpretations(interpretations.filter((_, x) => x !== i))} className="text-gray-300 hover:text-red-400">×</button>
+              </li>
+            ))}
+          </ul>
+        )}
+        <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1.5">Consultant discussion</p>
+        <div className="flex gap-1.5">
+          <input value={consult.who} onChange={e => setConsult({ ...consult, who: e.target.value })} placeholder="Discussed with…" className="w-1/2 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
+          <input value={consult.what} onChange={e => setConsult({ ...consult, what: e.target.value })} placeholder="who recommended…" className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
+        </div>
+      </Section>
+
+      {/* Safety net */}
+      <Section title="Safety net & reasoning" count={safetyCount} open={open.safety} onToggle={() => setOpen(o => ({ ...o, safety: !o.safety }))}>
+        <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1.5">Considered but deferred</p>
+        <div className="flex gap-1.5 mb-2">
+          <input value={defItem} onChange={e => setDefItem(e.target.value)} placeholder="test / treatment" className="w-1/2 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
+          <input value={defRationale} onChange={e => setDefRationale(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addDeferred(); } }} placeholder="rationale (e.g. PERC negative)" className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
+          <button onClick={addDeferred} disabled={!defItem.trim()} className="bg-gray-900 hover:bg-gray-800 disabled:opacity-30 text-white rounded-lg px-2.5 py-1.5 text-xs font-medium">Add</button>
+        </div>
+        {deferred.length > 0 && (
+          <ul className="space-y-1 mb-3">
+            {deferred.map((d, i) => (
+              <li key={i} className="flex items-center justify-between text-xs text-gray-600 bg-gray-50 rounded-lg px-2.5 py-1.5">
+                <span><span className="font-medium text-gray-700">{d.item}</span>{d.rationale ? ` — ${d.rationale}` : ''}</span>
+                <button onClick={() => setDeferred(deferred.filter((_, x) => x !== i))} className="text-gray-300 hover:text-red-400">×</button>
+              </li>
+            ))}
+          </ul>
+        )}
+        <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1.5">Decision instruments</p>
+        <div className="flex flex-wrap gap-1.5 mb-2">
+          {RISK_CALCULATORS.map(c => (
+            <PlanChip key={c} active={calcSel.includes(c)} onClick={() => toggleCalc(c)}>{c}</PlanChip>
+          ))}
+        </div>
+        {calcSel.length > 0 && (
+          <div className="space-y-1.5 mb-3">
+            {calcSel.map(c => (
+              <div key={c} className="flex items-center gap-2">
+                <span className="text-[11px] text-gray-500 w-28 shrink-0 truncate">{c}</span>
+                <input value={calcImpact[c] || ''} onChange={e => setCalcImpact(prev => ({ ...prev, [c]: e.target.value }))} placeholder="result & what it changed" className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
+              </div>
+            ))}
+          </div>
+        )}
+        <div className="space-y-1.5">
+          <ToggleRow label="Serial reassessment" on={reassess.on} onToggle={() => setReassess({ ...reassess, on: !reassess.on })} />
+          {reassess.on && <input value={reassess.text} onChange={e => setReassess({ ...reassess, text: e.target.value })} placeholder="for… (e.g. repeat troponin, response to therapy)" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />}
+          <ToggleRow label="Shared decision-making" on={sdm.on} onToggle={() => setSdm({ ...sdm, on: !sdm.on })} />
+          {sdm.on && <input value={sdm.text} onChange={e => setSdm({ ...sdm, text: e.target.value })} placeholder="regarding… (e.g. testing options, admission vs discharge)" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />}
+          <ToggleRow label="Diagnostic uncertainty & return precautions" on={uncertainty.on} onToggle={() => setUncertainty({ ...uncertainty, on: !uncertainty.on })} />
+          {uncertainty.on && <input value={uncertainty.text} onChange={e => setUncertainty({ ...uncertainty, text: e.target.value })} placeholder="including… (specific return precautions)" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />}
+        </div>
+      </Section>
+
+      {/* Handoff */}
+      <Section title="Handoff line" open={open.handoff} onToggle={() => setOpen(o => ({ ...o, handoff: !o.handoff }))}>
+        <p className="text-[11px] text-gray-400 mb-2">Closes the note. The ED course lives in the EHR — this tool writes the initial reasoning and stops.</p>
+        <input value={handoff} onChange={e => setHandoff(e.target.value)} className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-sm text-gray-700 focus:border-blue-500 focus:bg-white" />
+      </Section>
     </div>
   );
 
-  const Footer = (
-    <div className="flex gap-2 mt-8">
-      {step > 0 && (
-        <button onClick={() => setStep(step - 1)} className="rounded-xl px-5 py-3 text-sm font-medium text-gray-600 bg-white border border-gray-200 hover:bg-gray-50 transition-all">Back</button>
-      )}
-      {step < STEPS.length - 1 && (
-        <button
-          onClick={() => canAdvance && setStep(step + 1)} disabled={!canAdvance}
-          className="flex-1 rounded-xl px-5 py-3 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 active:bg-blue-800 disabled:opacity-40 shadow-soft transition-all"
-        >
-          {step === 0 && selected.length === 0 ? 'Select at least one diagnosis' : 'Continue'}
+  // ── Right note pane ──────────────────────────────────────────────────────────
+  const Note = (
+    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden flex flex-col lg:h-[calc(100vh-7rem)]">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+        <span className="text-sm font-semibold text-gray-800">MDM note</span>
+        <button onClick={copyMdm} className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${copied ? 'bg-emerald-600 text-white' : 'bg-blue-600 hover:bg-blue-700 text-white'}`}>
+          {copied ? '✓ Copied' : 'Copy note'}
         </button>
-      )}
+      </div>
+      <div className="flex-1 overflow-y-auto p-4">
+        {hasContent ? (
+          <div className="space-y-3">
+            {mdmText.split('\n\n').map((block, bi) => (
+              <div key={bi} className="text-[13px] text-gray-700 leading-relaxed">
+                {block.split('\n').map((line, li) => (
+                  <p key={li} className={line.startsWith('•') ? 'pl-3' : ''}>{renderInline(line)}</p>
+                ))}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="h-full flex items-center justify-center text-center px-6">
+            <p className="text-sm text-gray-300">Select diagnoses and click findings on the left.<br />Your note builds here, live.</p>
+          </div>
+        )}
+      </div>
+      <div className="px-4 py-2 border-t border-gray-100 flex items-center gap-2 text-[11px] text-amber-700 bg-amber-50">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="shrink-0"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v4m0 4h.01M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L14.7 3.9a2 2 0 00-3.4 0z" /></svg>
+        <span>No PHI. Review before pasting — you attest to this note.</span>
+      </div>
     </div>
   );
 
@@ -357,334 +678,30 @@ export function MdmScreen({ onExit }) {
 
   return (
     <div className="min-h-screen bg-[#fafafa]">
-      <div className="max-w-2xl mx-auto px-5 py-6">
-        {Header}
-
-        {/* ── Step 1: Diagnoses ── */}
-        {step === 0 && (
-          <div>
-            <PhiBanner />
-            <h1 className="text-xl font-bold text-gray-900 tracking-tight mb-1">Pick your diagnoses</h1>
-            <p className="text-sm text-gray-400 mb-6">Start from a chief complaint, search all diagnoses, or add your own.</p>
-
-            <p className="text-xs text-gray-400 font-medium uppercase tracking-wider mb-2 ml-1">From a chief complaint</p>
-            <div className="relative mb-3">
-              <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-              <input value={complaintSearch} onChange={e => setComplaintSearch(e.target.value)} placeholder={`Search ${MDM_COMPLAINTS.length} chief complaints...`} className="w-full bg-white border border-gray-200 rounded-lg pl-9 pr-3 py-2 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500" />
+      {/* Top bar */}
+      <div className="sticky top-0 z-10 bg-[#fafafa]/90 backdrop-blur border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+          <button onClick={onExit} className="text-xs text-gray-400 hover:text-gray-600 flex items-center gap-1 transition-colors">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" d="M15 19l-7-7 7-7" /></svg>
+            Home
+          </button>
+          <span className="text-sm font-bold text-gray-800 tracking-tight">MDM Writer</span>
+          <div className="flex items-center gap-3">
+            {/* mobile pane toggle */}
+            <div className="flex lg:hidden bg-gray-100 rounded-lg p-0.5">
+              <button onClick={() => setMobileView('menu')} className={`px-2.5 py-1 text-xs font-medium rounded-md ${mobileView === 'menu' ? 'bg-white text-gray-800 shadow-soft' : 'text-gray-400'}`}>Menu</button>
+              <button onClick={() => setMobileView('note')} className={`px-2.5 py-1 text-xs font-medium rounded-md ${mobileView === 'note' ? 'bg-white text-gray-800 shadow-soft' : 'text-gray-400'}`}>Note</button>
             </div>
-            <div className="flex flex-wrap gap-1.5 mb-3">
-              {filteredComplaints.slice(0, 12).map(c => (
-                <Chip key={c.slug} active={activeComplaint === c.slug} onClick={() => pickComplaint(c.slug)}>{c.name}</Chip>
-              ))}
-            </div>
-
-            {activeComplaint && (
-              <div className="bg-white border border-gray-200 rounded-xl p-4 mb-6">
-                <p className="text-xs text-gray-400 mb-3">
-                  Tap to add. <span className="inline-flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-red-400" /> must-not-miss</span>
-                  <span className="inline-flex items-center gap-1 ml-2"><span className="w-1.5 h-1.5 rounded-full bg-amber-400" /> common</span>
-                  <span className="inline-flex items-center gap-1 ml-2"><span className="w-1.5 h-1.5 rounded-full bg-gray-300" /> rare</span>
-                </p>
-                <div className="flex flex-wrap gap-1.5">
-                  {getComplaintDiagnoses(activeComplaint).map(dx => (
-                    <Chip key={dx.name} active={isSelected(dx.name)} onClick={() => toggleDx(dx.name, dx.tier)} dot={TIER_DOT[dx.tier]}>{dx.name}</Chip>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            <p className="text-xs text-gray-400 font-medium uppercase tracking-wider mb-2 ml-1">Search all diagnoses</p>
-            <input value={dxSearch} onChange={e => setDxSearch(e.target.value)} placeholder="e.g. pulmonary embolism" className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500 mb-2" />
-            {dxResults.length > 0 && (
-              <div className="flex flex-wrap gap-1.5 mb-4">
-                {dxResults.map(dx => (
-                  <Chip key={dx.name} active={isSelected(dx.name)} onClick={() => toggleDx(dx.name, dx.tier)} dot={TIER_DOT[dx.tier]}>{dx.name}</Chip>
-                ))}
-              </div>
-            )}
-
-            <p className="text-xs text-gray-400 font-medium uppercase tracking-wider mb-2 ml-1 mt-4">Add your own</p>
-            <div className="flex gap-2 mb-6">
-              <input value={freeText} onChange={e => setFreeText(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addFreeText(); } }} placeholder="Type any diagnosis and press Enter" className="flex-1 bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500" />
-              <button onClick={addFreeText} disabled={!freeText.trim()} className="bg-gray-900 hover:bg-gray-800 disabled:opacity-30 text-white rounded-lg px-4 py-2 text-sm font-medium transition-all">Add</button>
-            </div>
-
-            {selected.length > 0 && (
-              <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-                <div className="px-4 py-2.5 border-b border-gray-100"><span className="text-xs text-gray-400 font-medium">Selected diagnoses ({selected.length})</span></div>
-                <ul>
-                  {selected.map((dx, i) => (
-                    <li key={dx.name} className={`flex items-center justify-between px-4 py-2.5 ${i < selected.length - 1 ? 'border-b border-gray-50' : ''}`}>
-                      <div className="flex items-center gap-2.5">
-                        <span className={`w-1.5 h-1.5 rounded-full ${TIER_DOT[dx.tier] || 'bg-blue-300'}`} />
-                        <span className="text-sm text-gray-700">{dx.name}</span>
-                      </div>
-                      <button onClick={() => toggleDx(dx.name, dx.tier)} className="text-gray-300 hover:text-red-400 transition-colors">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" d="M18 6L6 18M6 6l12 12" /></svg>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+            <button onClick={clearAll} className="text-[11px] text-gray-400 hover:text-red-500 transition-colors">Clear all</button>
           </div>
-        )}
+        </div>
+      </div>
 
-        {/* ── Step 2: Patient one-liner ── */}
-        {step === 1 && (
-          <div>
-            <PhiBanner compact />
-            <h1 className="text-xl font-bold text-gray-900 tracking-tight mb-1">Patient one-liner</h1>
-            <p className="text-sm text-gray-400 mb-6">De-identified only. A good one-liner risk-stratifies — it names the concern, not just the symptom.</p>
-
-            <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-4">
-              <div>
-                <label className="text-xs text-gray-400 font-medium uppercase tracking-wider mb-1.5 block">Chief complaint</label>
-                <input value={chiefComplaint} onChange={e => { setChiefComplaint(e.target.value); setCcTouched(true); }} placeholder="e.g. chest pain" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-              </div>
-              <div className="flex gap-3">
-                <div className="w-24">
-                  <label className="text-xs text-gray-400 font-medium uppercase tracking-wider mb-1.5 block">Age</label>
-                  <input value={age} onChange={e => setAge(e.target.value.replace(/[^0-9]/g, '').slice(0, 3))} inputMode="numeric" placeholder="58" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-                </div>
-                <div className="flex-1">
-                  <label className="text-xs text-gray-400 font-medium uppercase tracking-wider mb-1.5 block">Sex</label>
-                  <div className="flex gap-1.5">
-                    {['male', 'female', 'other'].map(s => (
-                      <button key={s} onClick={() => setSex(sex === s ? '' : s)} className={`flex-1 rounded-lg px-3 py-2 text-sm font-medium border transition-all ${sex === s ? 'bg-gray-900 text-white border-gray-900' : 'bg-gray-50 text-gray-500 border-gray-200 hover:bg-gray-100'}`}>{s}</button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <div>
-                <label className="text-xs text-gray-400 font-medium uppercase tracking-wider mb-1.5 block">Relevant history</label>
-                <div className="flex flex-wrap gap-1.5 mb-2">
-                  {COMMON_PMH.map(p => (
-                    <Chip key={p} active={pmh.includes(p)} onClick={() => pmh.includes(p) ? setPmh(pmh.filter(x => x !== p)) : addPmh(p)}>{p}</Chip>
-                  ))}
-                </div>
-                <div className="flex gap-2">
-                  <input value={pmhInput} onChange={e => setPmhInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addPmh(pmhInput); } }} placeholder="Add other comorbidity" className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-                  <button onClick={() => addPmh(pmhInput)} disabled={!pmhInput.trim()} className="bg-gray-900 hover:bg-gray-800 disabled:opacity-30 text-white rounded-lg px-4 py-2 text-sm font-medium transition-all">Add</button>
-                </div>
-                {pmh.filter(p => !COMMON_PMH.includes(p)).length > 0 && (
-                  <div className="flex flex-wrap gap-1.5 mt-2">
-                    {pmh.filter(p => !COMMON_PMH.includes(p)).map(p => (
-                      <span key={p} className="inline-flex items-center gap-1 rounded-full bg-blue-50 text-blue-600 px-2.5 py-1 text-xs">{p}<button onClick={() => setPmh(pmh.filter(x => x !== p))} className="hover:text-blue-800">×</button></span>
-                    ))}
-                  </div>
-                )}
-              </div>
-              <div>
-                <label className="text-xs text-gray-400 font-medium uppercase tracking-wider mb-1.5 block">Concerning for <span className="text-gray-300 normal-case">(risk-stratifies the one-liner)</span></label>
-                <input value={concern} onChange={e => { setConcern(e.target.value); setConcernTouched(true); }} placeholder="e.g. acute coronary syndrome" list="concern-options" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-                <datalist id="concern-options">{selected.map(d => <option key={d.name} value={d.name} />)}</datalist>
-              </div>
-            </div>
-
-            <div className="mt-4 bg-blue-50/50 border border-blue-100 rounded-xl px-4 py-3">
-              <p className="text-[10px] text-blue-400 font-medium uppercase tracking-wider mb-1">Preview</p>
-              <p className="text-sm text-gray-700 leading-relaxed">{buildOneLiner({ age, sex, pmh, chiefComplaint, concern })}</p>
-            </div>
-          </div>
-        )}
-
-        {/* ── Step 3: Findings ── */}
-        {step === 2 && (
-          <div>
-            <PhiBanner compact />
-            <h1 className="text-xl font-bold text-gray-900 tracking-tight mb-1">Findings by diagnosis</h1>
-            <p className="text-sm text-gray-400 mb-1">
-              <span className="text-emerald-600 font-medium">+</span> present · <span className="text-red-500 font-medium">−</span> absent · <span className="text-amber-500 font-medium">◷</span> pending · untouched = not assessed.
-            </p>
-            <p className="text-xs text-gray-400 mb-5">Untouched findings never appear in the note. Assign a tier to each diagnosis.</p>
-
-            <div className="space-y-4">
-              {selected.map(dx => {
-                const groups = featureSets[dx.name] || {};
-                const matched = getFeatureSet(dx.name).matched;
-                const tier = dxTier[dx.name];
-                return (
-                  <div key={dx.name} className={`bg-white border rounded-xl overflow-hidden ${tier === 'likely' ? 'border-blue-300 shadow-soft' : 'border-gray-200'}`}>
-                    <div className="px-4 py-3 border-b border-gray-100 bg-gray-50/50">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className={`w-1.5 h-1.5 rounded-full ${TIER_DOT[dx.tier] || 'bg-blue-300'}`} />
-                        <span className="text-sm font-semibold text-gray-800">{dx.name}</span>
-                        {!matched && <span className="text-[10px] text-gray-400">(generic template)</span>}
-                      </div>
-                      <div className="flex gap-1.5">
-                        {DX_TIERS.map(t => (
-                          <button key={t.key} onClick={() => setTier(dx.name, t.key)} className={`flex-1 rounded-md px-2 py-1 text-[11px] font-medium border transition-all ${tier === t.key ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-500 border-gray-200 hover:border-blue-300 hover:text-blue-600'}`}>{t.label}</button>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="p-4 space-y-3">
-                      {GROUP_ORDER.filter(g => (groups[g] || []).length > 0).map(group => (
-                        <div key={group}>
-                          <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1.5">{group}</p>
-                          <div className="space-y-1">
-                            {groups[group].map(f => {
-                              const s = featureState[dx.name]?.[f.id];
-                              return (
-                                <div key={f.id} className={`flex items-center justify-between gap-3 rounded-lg px-2.5 py-1.5 transition-colors ${s === 'present' ? 'bg-emerald-50' : s === 'absent' ? 'bg-red-50' : s === 'pending' ? 'bg-amber-50' : 'hover:bg-gray-50'}`}>
-                                  <span className="text-sm text-gray-600 leading-snug">{f.label}</span>
-                                  <FeatureToggle state={s} onSet={v => setFeat(dx.name, f.id, v)} />
-                                </div>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {/* ── Step 4: Plan ── */}
-        {step === 3 && (
-          <div>
-            <PhiBanner compact />
-            <h1 className="text-xl font-bold text-gray-900 tracking-tight mb-1">Plan</h1>
-            <p className="text-sm text-gray-400 mb-5">Orders, your independent reads, and consultant discussion.</p>
-
-            <div className="space-y-4">
-              {PLAN_ORDER.map(category => (
-                <div key={category} className="bg-white border border-gray-200 rounded-xl p-4">
-                  <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-3">{category}</p>
-
-                  {category === 'Imaging' ? (
-                    <div className="mb-3">
-                      {/* Selected studies stay visible even when the modality menus are closed */}
-                      {plan.Imaging.length > 0 && (
-                        <div className="flex flex-wrap gap-1.5 mb-2.5">
-                          {plan.Imaging.map(item => (
-                            <Chip key={item} active onClick={() => togglePlan('Imaging', item)}>{item}</Chip>
-                          ))}
-                        </div>
-                      )}
-                      {/* One-click studies + expandable modality menus */}
-                      <div className="flex flex-wrap gap-1.5">
-                        {IMAGING_SIMPLE.map(item => (
-                          <Chip key={item} active={plan.Imaging.includes(item)} onClick={() => togglePlan('Imaging', item)}>{item}</Chip>
-                        ))}
-                        {IMAGING_GROUPS.map(g => {
-                          const count = g.options.filter(o => plan.Imaging.includes(g.format(o))).length;
-                          const open = openImg === g.label;
-                          return (
-                            <button
-                              key={g.label} type="button"
-                              onClick={() => setOpenImg(open ? null : g.label)}
-                              className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium border transition-all ${
-                                open || count ? 'bg-blue-600 text-white border-blue-600 shadow-soft' : 'bg-white text-gray-600 border-gray-200 hover:border-blue-300 hover:text-blue-600'
-                              }`}
-                            >
-                              {g.label}
-                              {count > 0 && <span className={`text-[10px] rounded-full px-1.5 ${open ? 'bg-white/20' : 'bg-blue-100 text-blue-700'}`}>{count}</span>}
-                              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={`transition-transform ${open ? 'rotate-180' : ''}`}><path strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6" /></svg>
-                            </button>
-                          );
-                        })}
-                      </div>
-                      {/* Popover panel for the open modality */}
-                      {openImg && (() => {
-                        const g = IMAGING_GROUPS.find(x => x.label === openImg);
-                        return (
-                          <div className="mt-2 bg-gray-50 border border-gray-200 rounded-lg p-3">
-                            <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-2">{g.label} — tap to add</p>
-                            <div className="flex flex-wrap gap-1.5">
-                              {g.options.map(o => {
-                                const order = g.format(o);
-                                return (
-                                  <Chip key={o} active={plan.Imaging.includes(order)} onClick={() => togglePlan('Imaging', order)}>{o}</Chip>
-                                );
-                              })}
-                            </div>
-                          </div>
-                        );
-                      })()}
-                    </div>
-                  ) : (
-                    <div className="flex flex-wrap gap-1.5 mb-3">
-                      {PLAN_MENU[category].map(item => (
-                        <Chip key={item} active={plan[category].includes(item)} onClick={() => togglePlan(category, item)}>{item}</Chip>
-                      ))}
-                      {plan[category].filter(x => !PLAN_MENU[category].includes(x)).map(item => (
-                        <Chip key={item} active onClick={() => togglePlan(category, item)}>{item}</Chip>
-                      ))}
-                    </div>
-                  )}
-
-                  <div className="flex gap-2">
-                    <input value={planCustom[category] || ''} onChange={e => setPlanCustom(prev => ({ ...prev, [category]: e.target.value }))} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addPlanCustom(category); } }} placeholder={`Add ${category.toLowerCase()}...`} className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-3 py-1.5 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-                    <button onClick={() => addPlanCustom(category)} disabled={!(planCustom[category] || '').trim()} className="bg-gray-900 hover:bg-gray-800 disabled:opacity-30 text-white rounded-lg px-3 py-1.5 text-sm font-medium transition-all">Add</button>
-                  </div>
-                </div>
-              ))}
-
-              {/* Independent interpretations */}
-              <div className="bg-white border border-gray-200 rounded-xl p-4">
-                <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-1">My independent read</p>
-                <p className="text-[11px] text-gray-400 mb-3">Attributed as "on my interpretation" — your own read of an ECG or imaging study.</p>
-                <div className="flex gap-2 mb-2">
-                  <select value={interpStudy} onChange={e => setInterpStudy(e.target.value)} className="bg-gray-50 border border-gray-200 rounded-lg px-2 py-1.5 text-sm text-gray-700 focus:border-blue-500">
-                    {INTERP_STUDIES.map(s => <option key={s}>{s}</option>)}
-                  </select>
-                  <input value={interpRead} onChange={e => setInterpRead(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addInterp(); } }} placeholder="e.g. no acute ST changes, NSR at 78" className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-3 py-1.5 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-                  <button onClick={addInterp} disabled={!interpRead.trim()} className="bg-gray-900 hover:bg-gray-800 disabled:opacity-30 text-white rounded-lg px-3 py-1.5 text-sm font-medium transition-all">Add</button>
-                </div>
-                {interpretations.length > 0 && (
-                  <ul className="space-y-1">
-                    {interpretations.map((it, i) => (
-                      <li key={i} className="flex items-center justify-between text-sm text-gray-600 bg-gray-50 rounded-lg px-3 py-1.5">
-                        <span><span className="font-medium text-gray-700">{it.study}:</span> {it.read}</span>
-                        <button onClick={() => setInterpretations(interpretations.filter((_, x) => x !== i))} className="text-gray-300 hover:text-red-400">×</button>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-
-              {/* Consultant discussion */}
-              <div className="bg-white border border-gray-200 rounded-xl p-4">
-                <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-3">Consultant discussion</p>
-                <div className="flex gap-2">
-                  <input value={consult.who} onChange={e => setConsult({ ...consult, who: e.target.value })} placeholder="Discussed with (service/role)" className="w-1/2 bg-gray-50 border border-gray-200 rounded-lg px-3 py-1.5 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-                  <input value={consult.what} onChange={e => setConsult({ ...consult, what: e.target.value })} placeholder="who recommended..." className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-3 py-1.5 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ── Step 5: MDM output ── */}
-        {step === 4 && (
-          <div>
-            <div className="flex items-center justify-between mb-1">
-              <h1 className="text-xl font-bold text-gray-900 tracking-tight">Your MDM draft</h1>
-              <button onClick={generate} className="text-xs text-gray-400 hover:text-blue-600 flex items-center gap-1 transition-colors">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h5M20 20v-5h-5M4 9a8 8 0 0114-3M20 15a8 8 0 01-14 3" /></svg>
-                Regenerate
-              </button>
-            </div>
-            <p className="text-sm text-gray-400 mb-4">A draft to review, edit, and paste. You are attesting to this note — read it before it goes in the chart, and confirm there is no PHI.</p>
-
-            <p className="text-[10px] text-gray-400 font-medium uppercase tracking-wider mb-1.5">Preview</p>
-            <NotePreview text={mdmText} />
-
-            <p className="text-[10px] text-gray-400 font-medium uppercase tracking-wider mt-4 mb-1.5">Edit</p>
-            <textarea value={mdmText} onChange={e => setMdmText(e.target.value)} rows={18} className="w-full bg-white border border-gray-200 rounded-xl p-4 text-sm text-gray-700 leading-relaxed focus:border-blue-500 resize-y" />
-
-            <button onClick={copyMdm} className={`w-full mt-3 rounded-xl px-5 py-3 font-semibold text-sm shadow-soft transition-all ${copied ? 'bg-emerald-600 text-white' : 'bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white'}`}>
-              {copied ? '✓ Copied — review before pasting' : 'Copy draft'}
-            </button>
-            <PhiBanner compact />
-          </div>
-        )}
-
-        {Footer}
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <div className="lg:grid lg:grid-cols-[1fr_minmax(340px,420px)] lg:gap-5 lg:items-start">
+          <div className={mobileView === 'note' ? 'hidden lg:block' : ''}>{Menu}</div>
+          <div className={`${mobileView === 'menu' ? 'hidden lg:block' : ''} lg:sticky lg:top-[4.5rem]`}>{Note}</div>
+        </div>
       </div>
     </div>
   );
