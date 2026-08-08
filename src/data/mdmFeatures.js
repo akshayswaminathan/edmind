@@ -489,26 +489,35 @@ export function featuresWithIds(groups) {
 }
 
 // ── Plan / order menus (Epic quick-order style) ────────────────────────────
+// Medications are grouped the way an EM clinician reasons about treatment:
+// analgesia, fluids, antiemetics, sedation, and antimicrobials each get their
+// own quick-order group, then labs, imaging, procedures, consults, and dispo.
 export const PLAN_MENU = {
-  Medications: [
-    'Aspirin 324 mg PO', 'Nitroglycerin 0.4 mg SL', 'Heparin gtt', 'Ondansetron 4 mg IV',
-    'Ketorolac 15 mg IV', 'Morphine 4 mg IV', 'Acetaminophen 1 g PO',
-    'IV fluids — NS/LR bolus', 'Ceftriaxone 1 g IV', 'Azithromycin 500 mg IV',
-    'Piperacillin-tazobactam IV', 'Vancomycin IV', 'Albuterol/ipratropium neb',
-    'Methylprednisolone 125 mg IV', 'Epinephrine 0.3 mg IM', 'Insulin gtt',
-    'Pantoprazole 40 mg IV', 'Labetalol 20 mg IV',
+  Analgesia: [
+    'Acetaminophen (Tylenol)', 'NSAIDs', 'Opioid analgesia', 'Nerve block',
+    'Dental pain cocktail', 'Headache cocktail', 'Abdominal pain cocktail',
+    'Neuropathic pain cocktail', 'MSK/axial back pain cocktail',
+  ],
+  'IV Fluids': [
+    'NS bolus', 'LR bolus', 'Maintenance IV fluids',
+  ],
+  Antiemetics: [
+    'Ondansetron', 'Metoclopramide', 'Prochlorperazine', 'Promethazine',
+  ],
+  Sedation: [
+    'Lorazepam', 'Midazolam', 'Ketamine', 'Haloperidol', 'Droperidol',
+  ],
+  Antimicrobials: [
+    'Trimethoprim-sulfamethoxazole (Bactrim)', 'Amoxicillin-clavulanate',
+    'Azithromycin', 'Cephalexin', 'Doxycycline', 'Metronidazole',
+    'Cephalosporin', 'Ceftriaxone', 'Vancomycin',
   ],
   Labs: [
     'CBC', 'BMP', 'CMP', 'Troponin', 'BNP', 'D-dimer', 'Lipase', 'LFTs',
     'Coags (PT/INR/PTT)', 'VBG', 'Lactate', 'Blood cultures x2', 'Urinalysis',
     'Urine hCG', 'Serum hCG', 'Type & screen', 'Procalcitonin', 'Ammonia',
   ],
-  Imaging: [
-    'ECG', 'Chest X-ray', 'CT head non-contrast', 'CTA chest (PE protocol)',
-    'CTA chest/abdomen (dissection)', 'CT abdomen/pelvis with contrast',
-    'US — RUQ', 'US — FAST', 'US — pelvic/transvaginal', 'US — aorta',
-    'US — DVT', 'MRI brain', 'CT angiography head/neck',
-  ],
+  Imaging: [],   // entered via the modality menus below (IMAGING_SIMPLE / IMAGING_GROUPS)
   Procedures: [
     'Procedural sedation', 'Laceration repair', 'Incision & drainage',
     'Fracture/dislocation reduction', 'Splinting/immobilization', 'Lumbar puncture',
@@ -517,23 +526,59 @@ export const PLAN_MENU = {
   ],
   Consults: [
     'Cardiology', 'Cardiothoracic surgery', 'Vascular surgery', 'General surgery',
-    'OB/GYN', 'Neurology', 'Gastroenterology', 'Nephrology', 'Psychiatry',
-    'Critical care', 'Interventional radiology',
+    'Trauma surgery', 'Orthopedics', 'Neurology', 'Neurosurgery', 'OB/GYN',
+    'Gastroenterology', 'Nephrology', 'Urology', 'ENT', 'Ophthalmology',
+    'Pulmonology', 'Infectious disease', 'Hematology/Oncology', 'Psychiatry',
+    'Toxicology', 'Critical care', 'Interventional radiology',
   ],
   Disposition: [
-    'Admit to floor', 'Admit to telemetry', 'Admit to ICU', 'ED observation',
-    'Discharge home', 'Transfer to higher level of care', 'Awaiting workup',
+    'Plan to admit to floor', 'Plan to admit to telemetry', 'Plan to admit to ICU',
+    'Plan for ED observation', 'Plan to discharge home',
+    'Plan to transfer to higher level of care', 'Disposition pending workup',
   ],
 };
 
-export const PLAN_ORDER = ['Medications', 'Labs', 'Imaging', 'Procedures', 'Consults', 'Disposition'];
+export const PLAN_ORDER = [
+  'Analgesia', 'IV Fluids', 'Antiemetics', 'Sedation', 'Antimicrobials',
+  'Labs', 'Imaging', 'Procedures', 'Consults', 'Disposition',
+];
 
-// Validated decision instruments; documenting their use is creditable and
-// almost never captured (design brief P5 / FAQ #12).
-export const RISK_CALCULATORS = [
-  'HEART score', 'PERC rule', 'Wells (PE)', 'Wells (DVT)', 'PECARN',
-  'Canadian CT Head', 'NEXUS', 'Canadian C-spine', 'Ottawa ankle',
-  'Ottawa knee', 'PSI/PORT', 'NIHSS', 'Alvarado', 'Centor/McIsaac',
+// Imaging is entered through expandable modality menus rather than one long
+// chip list: a few one-click studies, plus X-ray / CT / Ultrasound groups whose
+// sub-options each add a specific order string (e.g. "X-ray wrist") to
+// plan.Imaging. `format` maps a sub-option to the order text stored on the plan.
+export const IMAGING_SIMPLE = ['ECG', 'MRI brain', 'CTA head/neck'];
+
+export const IMAGING_GROUPS = [
+  {
+    label: 'X-ray',
+    format: part => `X-ray ${part}`,
+    options: [
+      'clavicle', 'shoulder', 'humerus', 'elbow', 'forearm', 'wrist', 'hand',
+      'fingers', 'pelvis', 'hip', 'femur', 'knee', 'tibia/fibula', 'ankle',
+      'foot', 'toes', 'cervical spine', 'soft-tissue neck', 'chest',
+      'abdomen (KUB)', 'thoracic spine', 'lumbar spine',
+    ],
+  },
+  {
+    label: 'CT',
+    format: order => order,
+    options: [
+      'CT head without contrast', 'CT head with contrast',
+      'CT chest without contrast', 'CT chest with contrast',
+      'CT abdomen without contrast', 'CT abdomen with contrast',
+      'CT pelvis without contrast', 'CT pelvis with contrast',
+      'CT abdomen/pelvis with contrast', 'CTA chest (PE protocol)', 'CTA aorta',
+    ],
+  },
+  {
+    label: 'Ultrasound',
+    format: type => `US — ${type}`,
+    options: [
+      'cardiac echo (POCUS)', 'lung (POCUS)', 'IVC', 'kidney', 'retroperitoneum',
+      'pelvis (transabdominal)', 'RUQ', 'FAST', 'aorta', 'DVT',
+    ],
+  },
 ];
 
 // Study types offered for an independent-interpretation "my read" (Data Cat 2).
