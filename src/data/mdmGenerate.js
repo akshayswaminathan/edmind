@@ -1,7 +1,7 @@
 // Pure MDM text generator. Turns the clinician's structured, de-identified
 // selections into the templated medical-decision-making paragraph.
 //
-// Grounded in the EDMind MDM design brief:
+// Grounded in the EM Tools MDM design brief:
 //   - Nothing is emitted that the user did not affirmatively click (P1/P2).
 //   - Length scales with clicks; a short input yields a short note (§6).
 //   - Language avoids "rules out"/"normal"; prefers "less likely" (§7).

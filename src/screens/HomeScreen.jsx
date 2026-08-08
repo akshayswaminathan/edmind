@@ -44,12 +44,36 @@ export function HomeScreen({ settings, session, onUpdateSettings, onStartDrill, 
                 <circle cx="8" cy="8" r="2" fill="white"/>
               </svg>
             </div>
-            <h1 className="text-2xl font-bold text-gray-900 tracking-tight mb-1">EDMind</h1>
-            <p className="text-sm text-gray-400">Emergency medicine trainer</p>
+            <h1 className="text-2xl font-bold text-gray-900 tracking-tight mb-1">EM Tools</h1>
+            <p className="text-sm text-gray-400">Emergency medicine tools</p>
           </div>
 
           {/* Module cards */}
           <div className="space-y-4">
+            {onStartMdm && (
+              <button
+                onClick={onStartMdm}
+                className="w-full bg-white border border-gray-200 rounded-2xl p-6 text-left hover:border-violet-300 hover:shadow-md transition-all group"
+              >
+                <div className="flex items-start justify-between">
+                  <div>
+                    <h2 className="text-lg font-bold text-gray-900 mb-1 group-hover:text-violet-600 transition-colors">MDM Writer</h2>
+                    <p className="text-sm text-gray-400 leading-relaxed">
+                      Build a templated medical decision-making note. Pick diagnoses, click findings present or absent, add your plan. No PHI.
+                    </p>
+                  </div>
+                  <div className="shrink-0 ml-4 mt-1">
+                    <div className="w-10 h-10 rounded-xl bg-violet-50 flex items-center justify-center group-hover:bg-violet-100 transition-colors">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </button>
+            )}
+
             <button
               onClick={() => setMode('drills')}
               className="w-full bg-white border border-gray-200 rounded-2xl p-6 text-left hover:border-blue-300 hover:shadow-md transition-all group"
@@ -106,30 +130,6 @@ export function HomeScreen({ settings, session, onUpdateSettings, onStartDrill, 
                 </div>
                 <div className="mt-4 pt-3 border-t border-gray-100">
                   <span className="text-xs text-gray-400"><span className="font-bold text-gray-700">{CASE_LIST.length}</span> cases available</span>
-                </div>
-              </button>
-            )}
-
-            {onStartMdm && (
-              <button
-                onClick={onStartMdm}
-                className="w-full bg-white border border-gray-200 rounded-2xl p-6 text-left hover:border-violet-300 hover:shadow-md transition-all group"
-              >
-                <div className="flex items-start justify-between">
-                  <div>
-                    <h2 className="text-lg font-bold text-gray-900 mb-1 group-hover:text-violet-600 transition-colors">MDM Writer</h2>
-                    <p className="text-sm text-gray-400 leading-relaxed">
-                      Build a templated medical decision-making note. Pick diagnoses, click findings present or absent, add your plan. No PHI.
-                    </p>
-                  </div>
-                  <div className="shrink-0 ml-4 mt-1">
-                    <div className="w-10 h-10 rounded-xl bg-violet-50 flex items-center justify-center group-hover:bg-violet-100 transition-colors">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" strokeWidth="2">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
-                      </svg>
-                    </div>
-                  </div>
                 </div>
               </button>
             )}
