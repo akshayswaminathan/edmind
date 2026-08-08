@@ -2,11 +2,14 @@ import { useState, useMemo, useEffect } from 'react';
 import { MDM_COMPLAINTS, getComplaintDiagnoses, searchDiagnoses } from '../data/mdmDiagnoses';
 import {
   getFeatureSet, featuresWithIds, GROUP_ORDER, PLAN_MENU, PLAN_ORDER,
-  COMMON_PMH, RISK_CALCULATORS, INTERP_STUDIES,
+  COMMON_PMH, INTERP_STUDIES, IMAGING_SIMPLE, IMAGING_GROUPS,
 } from '../data/mdmFeatures';
-import { generateMdm, buildOneLiner, DEFAULT_HANDOFF } from '../data/mdmGenerate';
+import { generateMdm, buildOneLiner } from '../data/mdmGenerate';
 
-const STEPS = ['Diagnoses', 'Patient', 'Findings', 'Plan', 'Safety', 'MDM'];
+const STEPS = ['Diagnoses', 'Patient', 'Findings', 'Plan', 'MDM'];
+
+// A fresh, empty plan keyed by every current plan category.
+const emptyPlan = () => Object.fromEntries(PLAN_ORDER.map(c => [c, []]));
 
 const TIER_DOT = { red: 'bg-red-400', common: 'bg-amber-400', rare: 'bg-gray-300' };
 
@@ -93,22 +96,33 @@ function Chip({ active, onClick, children, dot }) {
   );
 }
 
-function ToggleRow({ label, hint, on, onToggle }) {
+// ── Rendered note preview ────────────────────────────────────────────────────
+// Shows the generated note with its markdown bold (**...**) and bullet spacing
+// actually rendered, so the clinician sees the formatting that will paste in.
+function renderInline(line) {
+  // Split on **bold**; odd-indexed parts are the bolded segments.
+  return line.split(/\*\*(.+?)\*\*/g).map((part, i) =>
+    i % 2 === 1
+      ? <strong key={i} className="font-semibold text-gray-900">{part}</strong>
+      : <span key={i}>{part}</span>
+  );
+}
+
+function NotePreview({ text }) {
+  const blocks = (text || '').split('\n\n').filter(b => b.trim());
+  if (!blocks.length) {
+    return <div className="bg-white border border-gray-200 rounded-xl p-4 text-sm text-gray-300">Nothing to preview yet.</div>;
+  }
   return (
-    <button
-      type="button" onClick={onToggle}
-      className={`w-full flex items-center gap-3 text-left rounded-lg px-3 py-2.5 border transition-all ${
-        on ? 'bg-blue-50 border-blue-200' : 'bg-white border-gray-200 hover:border-gray-300'
-      }`}
-    >
-      <span className={`w-5 h-5 rounded-md flex items-center justify-center shrink-0 ${on ? 'bg-blue-600 text-white' : 'bg-gray-100 text-transparent'}`}>
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-      </span>
-      <span>
-        <span className="text-sm font-medium text-gray-700 block">{label}</span>
-        {hint && <span className="text-xs text-gray-400">{hint}</span>}
-      </span>
-    </button>
+    <div className="bg-white border border-gray-200 rounded-xl p-4 text-sm text-gray-700 leading-relaxed space-y-3">
+      {blocks.map((block, bi) => (
+        <div key={bi}>
+          {block.split('\n').map((line, li) => (
+            <p key={li} className={line.startsWith('•') ? 'pl-3' : ''}>{renderInline(line)}</p>
+          ))}
+        </div>
+      ))}
+    </div>
   );
 }
 
@@ -137,25 +151,15 @@ export function MdmScreen({ onExit }) {
   const [featureState, setFeatureState] = useState({}); // { dxName: { featureId: 'present'|'absent'|'pending' } }
 
   // Step 4 — plan
-  const [plan, setPlan] = useState({ Medications: [], Labs: [], Imaging: [], Procedures: [], Consults: [], Disposition: [] });
+  const [plan, setPlan] = useState(emptyPlan);
   const [planCustom, setPlanCustom] = useState({});
+  const [openImg, setOpenImg] = useState(null);         // which imaging modality menu is open
   const [interpretations, setInterpretations] = useState([]); // [{ study, read }]
   const [interpStudy, setInterpStudy] = useState('ECG');
   const [interpRead, setInterpRead] = useState('');
   const [consult, setConsult] = useState({ who: '', what: '' });
 
-  // Step 5 — safety net
-  const [deferred, setDeferred] = useState([]);         // [{ item, rationale }]
-  const [defItem, setDefItem] = useState('');
-  const [defRationale, setDefRationale] = useState('');
-  const [calcSel, setCalcSel] = useState([]);           // [name]
-  const [calcImpact, setCalcImpact] = useState({});     // { name: text }
-  const [reassess, setReassess] = useState({ on: false, text: '' });
-  const [sdm, setSdm] = useState({ on: false, text: '' });
-  const [uncertainty, setUncertainty] = useState({ on: false, text: '' });
-  const [handoff, setHandoff] = useState(DEFAULT_HANDOFF);
-
-  // Step 6 — output
+  // Step 5 — output
   const [mdmText, setMdmText] = useState('');
   const [copied, setCopied] = useState(false);
 
@@ -244,15 +248,6 @@ export function MdmScreen({ onExit }) {
     setPmh(prev => [...prev, v]);
     setPmhInput('');
   }
-  function addDeferred() {
-    if (!defItem.trim()) return;
-    setDeferred(prev => [...prev, { item: defItem.trim(), rationale: defRationale.trim() }]);
-    setDefItem(''); setDefRationale('');
-  }
-  function toggleCalc(name) {
-    setCalcSel(prev => prev.includes(name) ? prev.filter(x => x !== name) : [...prev, name]);
-  }
-
   function clearAll() {
     if (!window.confirm('Clear all entries and start over?')) return;
     setStep(0);
@@ -260,11 +255,9 @@ export function MdmScreen({ onExit }) {
     setComplaintSearch(''); setActiveComplaint(null); setDxSearch(''); setFreeText('');
     setChiefComplaint(''); setCcTouched(false); setConcern(''); setConcernTouched(false);
     setAge(''); setSex(''); setPmh([]); setPmhInput('');
-    setPlan({ Medications: [], Labs: [], Imaging: [], Procedures: [], Consults: [], Disposition: [] });
-    setPlanCustom({}); setInterpretations([]); setInterpRead(''); setConsult({ who: '', what: '' });
-    setDeferred([]); setDefItem(''); setDefRationale(''); setCalcSel([]); setCalcImpact({});
-    setReassess({ on: false, text: '' }); setSdm({ on: false, text: '' });
-    setUncertainty({ on: false, text: '' }); setHandoff(DEFAULT_HANDOFF); setMdmText('');
+    setPlan(emptyPlan()); setPlanCustom({}); setOpenImg(null);
+    setInterpretations([]); setInterpRead(''); setConsult({ who: '', what: '' });
+    setMdmText('');
   }
 
   function generate() {
@@ -274,18 +267,16 @@ export function MdmScreen({ onExit }) {
       features: featureSets[dx.name] || {},
       state: featureState[dx.name] || {},
     }));
-    const calculators = calcSel.map(name => ({ name, impact: calcImpact[name] || '' }));
     const text = generateMdm({
       oneLiner: { age, sex, pmh, chiefComplaint, concern },
-      diagnoses, interpretations, deferred, calculators, consult,
-      reassessment: reassess, sdm, uncertainty, plan, handoffLine: handoff,
+      diagnoses, interpretations, consult, plan,
     });
     setMdmText(text);
     setCopied(false);
   }
 
   useEffect(() => {
-    if (step === 5) generate();
+    if (step === STEPS.length - 1) generate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step]);
 
@@ -537,14 +528,69 @@ export function MdmScreen({ onExit }) {
               {PLAN_ORDER.map(category => (
                 <div key={category} className="bg-white border border-gray-200 rounded-xl p-4">
                   <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-3">{category}</p>
-                  <div className="flex flex-wrap gap-1.5 mb-3">
-                    {PLAN_MENU[category].map(item => (
-                      <Chip key={item} active={plan[category].includes(item)} onClick={() => togglePlan(category, item)}>{item}</Chip>
-                    ))}
-                    {plan[category].filter(x => !PLAN_MENU[category].includes(x)).map(item => (
-                      <Chip key={item} active onClick={() => togglePlan(category, item)}>{item}</Chip>
-                    ))}
-                  </div>
+
+                  {category === 'Imaging' ? (
+                    <div className="mb-3">
+                      {/* Selected studies stay visible even when the modality menus are closed */}
+                      {plan.Imaging.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5 mb-2.5">
+                          {plan.Imaging.map(item => (
+                            <Chip key={item} active onClick={() => togglePlan('Imaging', item)}>{item}</Chip>
+                          ))}
+                        </div>
+                      )}
+                      {/* One-click studies + expandable modality menus */}
+                      <div className="flex flex-wrap gap-1.5">
+                        {IMAGING_SIMPLE.map(item => (
+                          <Chip key={item} active={plan.Imaging.includes(item)} onClick={() => togglePlan('Imaging', item)}>{item}</Chip>
+                        ))}
+                        {IMAGING_GROUPS.map(g => {
+                          const count = g.options.filter(o => plan.Imaging.includes(g.format(o))).length;
+                          const open = openImg === g.label;
+                          return (
+                            <button
+                              key={g.label} type="button"
+                              onClick={() => setOpenImg(open ? null : g.label)}
+                              className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium border transition-all ${
+                                open || count ? 'bg-blue-600 text-white border-blue-600 shadow-soft' : 'bg-white text-gray-600 border-gray-200 hover:border-blue-300 hover:text-blue-600'
+                              }`}
+                            >
+                              {g.label}
+                              {count > 0 && <span className={`text-[10px] rounded-full px-1.5 ${open ? 'bg-white/20' : 'bg-blue-100 text-blue-700'}`}>{count}</span>}
+                              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={`transition-transform ${open ? 'rotate-180' : ''}`}><path strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6" /></svg>
+                            </button>
+                          );
+                        })}
+                      </div>
+                      {/* Popover panel for the open modality */}
+                      {openImg && (() => {
+                        const g = IMAGING_GROUPS.find(x => x.label === openImg);
+                        return (
+                          <div className="mt-2 bg-gray-50 border border-gray-200 rounded-lg p-3">
+                            <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-2">{g.label} — tap to add</p>
+                            <div className="flex flex-wrap gap-1.5">
+                              {g.options.map(o => {
+                                const order = g.format(o);
+                                return (
+                                  <Chip key={o} active={plan.Imaging.includes(order)} onClick={() => togglePlan('Imaging', order)}>{o}</Chip>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        );
+                      })()}
+                    </div>
+                  ) : (
+                    <div className="flex flex-wrap gap-1.5 mb-3">
+                      {PLAN_MENU[category].map(item => (
+                        <Chip key={item} active={plan[category].includes(item)} onClick={() => togglePlan(category, item)}>{item}</Chip>
+                      ))}
+                      {plan[category].filter(x => !PLAN_MENU[category].includes(x)).map(item => (
+                        <Chip key={item} active onClick={() => togglePlan(category, item)}>{item}</Chip>
+                      ))}
+                    </div>
+                  )}
+
                   <div className="flex gap-2">
                     <input value={planCustom[category] || ''} onChange={e => setPlanCustom(prev => ({ ...prev, [category]: e.target.value }))} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addPlanCustom(category); } }} placeholder={`Add ${category.toLowerCase()}...`} className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-3 py-1.5 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
                     <button onClick={() => addPlanCustom(category)} disabled={!(planCustom[category] || '').trim()} className="bg-gray-900 hover:bg-gray-800 disabled:opacity-30 text-white rounded-lg px-3 py-1.5 text-sm font-medium transition-all">Add</button>
@@ -587,84 +633,8 @@ export function MdmScreen({ onExit }) {
           </div>
         )}
 
-        {/* ── Step 5: Safety net ── */}
+        {/* ── Step 5: MDM output ── */}
         {step === 4 && (
-          <div>
-            <PhiBanner compact />
-            <h1 className="text-xl font-bold text-gray-900 tracking-tight mb-1">Safety net & reasoning</h1>
-            <p className="text-sm text-gray-400 mb-5">The cognitive work that's most often missed — and most creditable.</p>
-
-            <div className="space-y-4">
-              {/* Considered but deferred */}
-              <div className="bg-white border border-gray-200 rounded-xl p-4">
-                <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-1">Considered but deferred</p>
-                <p className="text-[11px] text-gray-400 mb-3">Tests or treatments you thought about and chose not to do — with the reason.</p>
-                <div className="flex gap-2 mb-2">
-                  <input value={defItem} onChange={e => setDefItem(e.target.value)} placeholder="e.g. CT pulmonary angiogram" className="w-1/2 bg-gray-50 border border-gray-200 rounded-lg px-3 py-1.5 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-                  <input value={defRationale} onChange={e => setDefRationale(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addDeferred(); } }} placeholder="rationale (e.g. PERC negative)" className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-3 py-1.5 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-                  <button onClick={addDeferred} disabled={!defItem.trim()} className="bg-gray-900 hover:bg-gray-800 disabled:opacity-30 text-white rounded-lg px-3 py-1.5 text-sm font-medium transition-all">Add</button>
-                </div>
-                {deferred.length > 0 && (
-                  <ul className="space-y-1">
-                    {deferred.map((d, i) => (
-                      <li key={i} className="flex items-center justify-between text-sm text-gray-600 bg-gray-50 rounded-lg px-3 py-1.5">
-                        <span><span className="font-medium text-gray-700">{d.item}</span>{d.rationale ? ` — ${d.rationale}` : ''}</span>
-                        <button onClick={() => setDeferred(deferred.filter((_, x) => x !== i))} className="text-gray-300 hover:text-red-400">×</button>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-
-              {/* Risk calculators */}
-              <div className="bg-white border border-gray-200 rounded-xl p-4">
-                <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-3">Decision instruments</p>
-                <div className="flex flex-wrap gap-1.5 mb-3">
-                  {RISK_CALCULATORS.map(c => (
-                    <Chip key={c} active={calcSel.includes(c)} onClick={() => toggleCalc(c)}>{c}</Chip>
-                  ))}
-                </div>
-                {calcSel.length > 0 && (
-                  <div className="space-y-1.5">
-                    {calcSel.map(c => (
-                      <div key={c} className="flex items-center gap-2">
-                        <span className="text-xs text-gray-500 w-32 shrink-0 truncate">{c}</span>
-                        <input value={calcImpact[c] || ''} onChange={e => setCalcImpact(prev => ({ ...prev, [c]: e.target.value }))} placeholder="result & what it changed" className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-3 py-1.5 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Reassessment / SDM / uncertainty */}
-              <div className="bg-white border border-gray-200 rounded-xl p-4 space-y-3">
-                <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider">Communication & safety</p>
-                <div>
-                  <ToggleRow label="Serial reassessment" hint="Documented reassessment is high-yield and often missed" on={reassess.on} onToggle={() => setReassess({ ...reassess, on: !reassess.on })} />
-                  {reassess.on && <input value={reassess.text} onChange={e => setReassess({ ...reassess, text: e.target.value })} placeholder="for... (e.g. response to therapy, repeat troponin)" className="w-full mt-1.5 bg-gray-50 border border-gray-200 rounded-lg px-3 py-1.5 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />}
-                </div>
-                <div>
-                  <ToggleRow label="Shared decision-making" hint="Documented in only ~2% of notes — creditable toward risk" on={sdm.on} onToggle={() => setSdm({ ...sdm, on: !sdm.on })} />
-                  {sdm.on && <input value={sdm.text} onChange={e => setSdm({ ...sdm, text: e.target.value })} placeholder="regarding... (e.g. testing options, admission vs discharge)" className="w-full mt-1.5 bg-gray-50 border border-gray-200 rounded-lg px-3 py-1.5 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />}
-                </div>
-                <div>
-                  <ToggleRow label="Diagnostic uncertainty & return precautions" hint="Discussed at discharge < 30% of the time" on={uncertainty.on} onToggle={() => setUncertainty({ ...uncertainty, on: !uncertainty.on })} />
-                  {uncertainty.on && <input value={uncertainty.text} onChange={e => setUncertainty({ ...uncertainty, text: e.target.value })} placeholder="including... (e.g. specific return precautions)" className="w-full mt-1.5 bg-gray-50 border border-gray-200 rounded-lg px-3 py-1.5 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />}
-                </div>
-              </div>
-
-              {/* Handoff line */}
-              <div className="bg-white border border-gray-200 rounded-xl p-4">
-                <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-1">Handoff line</p>
-                <p className="text-[11px] text-gray-400 mb-2">Closes the note. The ED course lives in the EHR — this tool writes the initial reasoning and stops.</p>
-                <input value={handoff} onChange={e => setHandoff(e.target.value)} className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-1.5 text-sm text-gray-700 focus:border-blue-500 focus:bg-white" />
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ── Step 6: MDM output ── */}
-        {step === 5 && (
           <div>
             <div className="flex items-center justify-between mb-1">
               <h1 className="text-xl font-bold text-gray-900 tracking-tight">Your MDM draft</h1>
@@ -675,6 +645,10 @@ export function MdmScreen({ onExit }) {
             </div>
             <p className="text-sm text-gray-400 mb-4">A draft to review, edit, and paste. You are attesting to this note — read it before it goes in the chart, and confirm there is no PHI.</p>
 
+            <p className="text-[10px] text-gray-400 font-medium uppercase tracking-wider mb-1.5">Preview</p>
+            <NotePreview text={mdmText} />
+
+            <p className="text-[10px] text-gray-400 font-medium uppercase tracking-wider mt-4 mb-1.5">Edit</p>
             <textarea value={mdmText} onChange={e => setMdmText(e.target.value)} rows={18} className="w-full bg-white border border-gray-200 rounded-xl p-4 text-sm text-gray-700 leading-relaxed focus:border-blue-500 resize-y" />
 
             <button onClick={copyMdm} className={`w-full mt-3 rounded-xl px-5 py-3 font-semibold text-sm shadow-soft transition-all ${copied ? 'bg-emerald-600 text-white' : 'bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white'}`}>

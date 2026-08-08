@@ -18,17 +18,12 @@
 //     state:    { [featureId]: 'present' | 'absent' | 'pending' },
 //   }],
 //   interpretations: [{ study, read }],
-//   deferred:        [{ item, rationale }],
-//   calculators:     [{ name, impact }],
 //   consult:         { who, what },
-//   reassessment:    { on, text },
-//   sdm:             { on, text },
-//   uncertainty:     { on, text },
-//   plan: { Medications:[], Labs:[], Imaging:[], Consults:[], Procedures:[], Disposition:[] },
-//   handoffLine: string,
+//   plan: {
+//     Analgesia:[], 'IV Fluids':[], Antiemetics:[], Sedation:[], Antimicrobials:[],
+//     Labs:[], Imaging:[], Procedures:[], Consults:[], Disposition:[],
+//   },
 // }
-
-export const DEFAULT_HANDOFF = 'See the ED course for further workup and disposition.';
 
 // Grammatical list join with an Oxford comma.
 function joinList(items) {
@@ -137,111 +132,83 @@ function reasonForDiagnosis(dx) {
 const TIER_RANK = { likely: 0, cantmiss: 1, less: 2, null: 3 };
 
 // ── Plan ─────────────────────────────────────────────────────────────────────
+// Returns { lines, disposition }: `lines` are the bulleted plan entries and
+// `disposition` is pulled out so it can be bolded on its own line.
 function buildPlan(plan = {}) {
   const lines = [];
-  const meds = (plan.Medications || []).filter(Boolean);
-  const workup = [...(plan.Labs || []), ...(plan.Imaging || [])].filter(Boolean);
-  const procedures = (plan.Procedures || []).filter(Boolean);
-  const consults = (plan.Consults || []).filter(Boolean);
-  const dispo = (plan.Disposition || []).filter(Boolean);
+  const seg = (label, items) => {
+    const arr = (items || []).filter(Boolean);
+    if (arr.length) lines.push(`${label}: ${joinList(arr)}.`);
+  };
 
+  seg('Analgesia', plan.Analgesia);
+  seg('IV fluids', plan['IV Fluids']);
+  seg('Antiemetics', plan.Antiemetics);
+  seg('Sedation', plan.Sedation);
+  seg('Antimicrobials', plan.Antimicrobials);
+
+  const workup = [...(plan.Labs || []), ...(plan.Imaging || [])].filter(Boolean);
   if (workup.length) lines.push(`Workup ordered: ${joinList(workup)}.`);
-  if (meds.length) lines.push(`Treatment: ${joinList(meds)}.`);
-  if (procedures.length) lines.push(`Procedures: ${joinList(procedures)}.`);
-  if (consults.length) lines.push(`Consults: ${joinList(consults)}.`);
-  if (dispo.length) lines.push(`Disposition: ${joinList(dispo)}.`);
-  return lines;
+
+  seg('Procedures', plan.Procedures);
+  seg('Consults', plan.Consults);
+
+  const disposition = joinList((plan.Disposition || []).filter(Boolean));
+  return { lines, disposition };
 }
 
 // ── Assemble ─────────────────────────────────────────────────────────────────
+// Sections are separated by a blank line, and each carries a bold markdown
+// header so the pasted note reads as a structured HPI / Assessment / Plan.
 export function generateMdm(input = {}) {
   const {
     oneLiner = {},
     diagnoses = [],
     interpretations = [],
-    deferred = [],
-    calculators = [],
     consult = {},
-    reassessment = {},
-    sdm = {},
-    uncertainty = {},
     plan = {},
-    handoffLine,
   } = input;
 
   const sections = [];
 
-  // 1) One-liner
-  sections.push(buildOneLiner(oneLiner));
+  // 1) One-liner / HPI
+  sections.push(`**HPI:** ${buildOneLiner(oneLiner)}`);
 
-  // 2) Differential summary + per-diagnosis reasoning (ordered by tier)
+  // 2) Assessment — differential summary + per-diagnosis reasoning (by tier)
   if (diagnoses.length) {
     const names = diagnoses.map(d => d.name);
     const mostLikely = diagnoses.find(d => d.tier === 'likely');
     let summary = `The differential diagnosis includes ${joinList(names)}.`;
     if (mostLikely) summary += ` ${mostLikely.name} is felt to be most likely.`;
-    sections.push(summary);
 
     const ordered = [...diagnoses].sort(
       (a, b) => (TIER_RANK[a.tier] ?? 3) - (TIER_RANK[b.tier] ?? 3)
     );
-    const reasoning = ordered.map(reasonForDiagnosis).join(' ');
-    if (reasoning) sections.push(reasoning);
+    const reasoning = ordered.map(reasonForDiagnosis).filter(Boolean).join('\n');
+    sections.push(`**Assessment:** ${summary}${reasoning ? `\n${reasoning}` : ''}`);
   }
 
-  // 3) Independent interpretations (attributed) — Data Category 2
+  // 3) Data reviewed — independent interpretations (attributed), Data Cat 2
   const reads = interpretations.filter(i => (i.study || '').trim() && (i.read || '').trim());
   if (reads.length) {
     const parts = reads.map(i => `${i.study.trim()}, ${phrase(i.read.trim())}`);
-    sections.push(`On my independent interpretation: ${parts.join('; ')}.`);
+    sections.push(`**Data reviewed:** On my independent interpretation: ${parts.join('; ')}.`);
   }
 
-  // 4) Plan
-  const planLines = buildPlan(plan);
-  if (planLines.length) sections.push(`Plan: ${planLines.join(' ')}`);
+  // 4) Plan — one bullet per category
+  const { lines: planLines, disposition } = buildPlan(plan);
+  if (planLines.length) {
+    sections.push(`**Plan:**\n${planLines.map(l => `• ${l}`).join('\n')}`);
+  }
 
   // 5) Consultant discussion — Data Category 3
   if ((consult.who || '').trim()) {
     const what = (consult.what || '').trim();
-    sections.push(`Case discussed with ${consult.who.trim()}${what ? `, ${what}` : ''}.`);
+    sections.push(`**Consultant discussion:** Case discussed with ${consult.who.trim()}${what ? `, ${what}` : ''}.`);
   }
 
-  // 6) Considered but deferred (+ risk calculators) — creditable cognitive work
-  const defLines = [];
-  const defItems = deferred.filter(d => (d.item || '').trim());
-  for (const d of defItems) {
-    const r = (d.rationale || '').trim();
-    defLines.push(`${d.item.trim()} was considered but deferred${r ? ` given ${r}` : ''}`);
-  }
-  if (defLines.length) sections.push(`${cap(defLines.join('; '))}.`);
-
-  const calcLines = calculators.filter(c => (c.name || '').trim()).map(c => {
-    const impact = (c.impact || '').trim();
-    return `${c.name.trim()}${impact ? ` (${impact})` : ''}`;
-  });
-  if (calcLines.length) sections.push(`Risk stratification: ${joinList(calcLines)}.`);
-
-  // 7) Reassessment
-  if (reassessment.on) {
-    const t = (reassessment.text || '').trim();
-    sections.push(`The patient will be serially reassessed${t ? ` for ${t}` : ''}.`);
-  }
-
-  // 8) Shared decision-making
-  if (sdm.on) {
-    const t = (sdm.text || '').trim();
-    sections.push(`Shared decision-making was performed with the patient${t ? ` regarding ${t}` : ''}.`);
-  }
-
-  // 9) Diagnostic uncertainty
-  if (uncertainty.on) {
-    const t = (uncertainty.text || '').trim();
-    sections.push(`Diagnostic uncertainty and return precautions were discussed with the patient${t ? `, including ${t}` : ''}.`);
-  }
-
-  // 10) Handoff line
-  const handoff = (handoffLine || '').trim() || DEFAULT_HANDOFF;
-  sections.push(handoff);
+  // 6) Disposition
+  if (disposition) sections.push(`**Disposition:** ${cap(disposition)}.`);
 
   return sections.join('\n\n');
 }
