@@ -290,8 +290,25 @@ export function MdmScreen({ onExit }) {
   }, [step]);
 
   async function copyMdm() {
-    try { await navigator.clipboard.writeText(mdmText); setCopied(true); setTimeout(() => setCopied(false), 1800); }
-    catch { setCopied(false); }
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(mdmText);
+      } else {
+        // Fallback for sandboxed/insecure contexts where the async clipboard
+        // API is unavailable.
+        const ta = document.createElement('textarea');
+        ta.value = mdmText;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch { setCopied(false); }
   }
 
   const canAdvance = step === 0 ? selected.length > 0 : true;
