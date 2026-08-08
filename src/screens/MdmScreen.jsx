@@ -338,7 +338,7 @@ export function MdmScreen({ onExit }) {
                       {GROUP_ORDER.filter(g => (groups[g] || []).length > 0).map(group => (
                         <div key={group}>
                           <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1">{group}</p>
-                          <div className="space-y-1">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-1">
                             {groups[group].map(f => {
                               const s = featureState[dx.name]?.[f.id];
                               return (
