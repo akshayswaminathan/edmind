@@ -4,6 +4,7 @@ import { ComplaintScreen } from './screens/ComplaintScreen';
 import { ResultScreen } from './screens/ResultScreen';
 import { SummaryScreen } from './screens/SummaryScreen';
 import { CaseSimScreen } from './screens/CaseSimScreen';
+import { MdmScreen } from './screens/MdmScreen';
 import { complaints, COMPLAINT_SLUGS } from './data/complaints';
 
 const SUMMARY_AFTER = 5;
@@ -86,6 +87,10 @@ function App() {
     setScreen('caseSim');
   }
 
+  function handleStartMdm() {
+    setScreen('mdm');
+  }
+
   function handleDrillAgain() {
     const slug = COMPLAINT_SLUGS[Math.floor(Math.random() * COMPLAINT_SLUGS.length)];
     handleStartDrill(slug);
@@ -100,6 +105,7 @@ function App() {
           onUpdateSettings={handleUpdateSettings}
           onStartDrill={handleStartDrill}
           onStartCase={handleStartCase}
+          onStartMdm={handleStartMdm}
         />
       );
     case 'drill':
@@ -129,6 +135,8 @@ function App() {
           onHome={handleHome}
         />
       );
+    case 'mdm':
+      return <MdmScreen onExit={handleHome} />;
     case 'summary':
       return (
         <SummaryScreen
