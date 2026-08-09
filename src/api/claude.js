@@ -64,6 +64,25 @@ export async function suggestFindings(diagnosis) {
   return response.json();
 }
 
+// Reason over the library to propose a differential from a free-text phrase
+// (chief complaint, leading diagnosis, or short vignette). `catalog` is the list
+// of diagnosis names the tool knows, so suggestions map back to library entries.
+// Returns { phrase, suggestions: [{ name, tier, reason }] }.
+export async function suggestDifferential(phrase, catalog) {
+  const response = await fetch('/api/suggest-differential', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ phrase, catalog }),
+  });
+
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({ error: 'Network error' }));
+    throw new Error(err.error || 'Could not suggest a differential');
+  }
+
+  return response.json();
+}
+
 // Get AI feedback on trainee performance
 export async function getCaseFeedback(caseId, differential, presentationAndMdm) {
   const response = await fetch('/api/case-feedback', {

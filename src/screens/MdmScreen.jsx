@@ -1,11 +1,12 @@
 import { useState, useMemo } from 'react';
-import { MDM_COMPLAINTS, getComplaintDiagnoses, searchDiagnoses } from '../data/mdmDiagnoses';
+import { MDM_COMPLAINTS, getComplaintDiagnoses, searchDiagnoses, ALL_DIAGNOSES } from '../data/mdmDiagnoses';
 import {
   getFeatureSet, featuresWithIds, GROUP_ORDER, PLAN_MENU, PLAN_ORDER,
   RISK_CALCULATORS, INTERP_STUDIES, COMMON_PMH, IMAGING_SIMPLE, IMAGING_GROUPS,
+  getEditableLibrary,
 } from '../data/mdmFeatures';
 import { generateMdm, buildOneLiner, hasOneLiner, DEFAULT_HANDOFF } from '../data/mdmGenerate';
-import { suggestFindings } from '../api/claude';
+import { suggestFindings, suggestDifferential } from '../api/claude';
 import { TermsModal } from '../components/TermsModal';
 import { TERMS_META } from '../data/terms';
 
@@ -15,6 +16,13 @@ const DX_TIERS = [
   { key: 'cantmiss', label: "Can't-miss" },
   { key: 'less', label: 'Less likely' },
 ];
+
+// Display styling for AI-suggested differential tiers.
+const DDX_TIER_META = {
+  likely: { label: 'Likely', chip: 'bg-emerald-100 text-emerald-700' },
+  cantmiss: { label: "Can't-miss", chip: 'bg-red-100 text-red-700' },
+  less: { label: 'Less likely', chip: 'bg-gray-100 text-gray-500' },
+};
 
 // Persisted acceptance of the Terms of Use (keyed by version so a substantive
 // terms change re-prompts previously accepted users).
@@ -144,6 +152,7 @@ export function MdmScreen({ onExit, onAdmin }) {
   const [featureState, setFeatureState] = useState({});
   const [aiFeatures, setAiFeatures] = useState({});      // dxName -> AI-drafted groups
   const [aiStatus, setAiStatus] = useState({});          // dxName -> 'loading' | 'error'
+  const [ddx, setDdx] = useState({ status: 'idle', phrase: '', items: [], error: '' });
   const [plan, setPlan] = useState(emptyPlan);
   const [planCustom, setPlanCustom] = useState({});
   const [openImg, setOpenImg] = useState(null);          // which imaging modality menu is open
@@ -203,6 +212,21 @@ export function MdmScreen({ onExit, onAdmin }) {
   }, [dxQuery, selected]);
 
   const exactMatch = dxMatches.some(d => d.name.toLowerCase() === dxQuery.trim().toLowerCase());
+
+  // Catalog of every diagnosis the tool knows (differential DB + curated library,
+  // including admin edits) — sent to the model so it reasons over our library.
+  const catalog = useMemo(() => {
+    const names = new Set();
+    for (const d of ALL_DIAGNOSES) names.add(d.name);
+    for (const e of getEditableLibrary()) names.add(e.name);
+    return [...names];
+  }, []);
+  // DB tier (red/common/rare) by name, for the persistent dot on added dx.
+  const dbTierByName = useMemo(() => {
+    const m = new Map();
+    for (const d of ALL_DIAGNOSES) m.set(d.name.toLowerCase(), d.tier);
+    return m;
+  }, []);
 
   // ── Live note ──────────────────────────────────────────────────────────────
   const oneLiner = { age, sex, pmh, chiefComplaint, concern };
@@ -272,6 +296,28 @@ export function MdmScreen({ onExit, onAdmin }) {
       setAiStatus(prev => ({ ...prev, [dxName]: 'error' }));
     }
   }
+  // Reason over the library to propose a differential from the search phrase.
+  async function runSuggestDifferential() {
+    const phrase = dxQuery.trim();
+    if (!phrase || ddx.status === 'loading') return;
+    setDdx({ status: 'loading', phrase, items: [], error: '' });
+    try {
+      const { suggestions } = await suggestDifferential(phrase, catalog);
+      setDdx({ status: 'done', phrase, items: suggestions || [], error: '' });
+    } catch (e) {
+      setDdx({ status: 'error', phrase, items: [], error: e.message });
+    }
+  }
+  // Add a suggested diagnosis, pre-setting its reasoning tier (user can change it).
+  function addSuggestion(s) {
+    if (isSelected(s.name)) return;
+    const dot = s.tier === 'cantmiss' ? 'red' : (dbTierByName.get(s.name.toLowerCase()) || 'custom');
+    addDx(s.name, dot);
+    setTier(s.name, s.tier);
+  }
+  function addAllSuggestions() {
+    for (const s of ddx.items) if (!isSelected(s.name)) addSuggestion(s);
+  }
   function setFeat(dxName, featureId, value) {
     setFeatureState(prev => {
       const dxState = { ...(prev[dxName] || {}) };
@@ -313,6 +359,7 @@ export function MdmScreen({ onExit, onAdmin }) {
   function clearAll() {
     if (!window.confirm('Clear all entries and start over?')) return;
     setSelected([]); setDxTier({}); setFeatureState({}); setAiFeatures({}); setAiStatus({});
+    setDdx({ status: 'idle', phrase: '', items: [], error: '' });
     setPlan(emptyPlan()); setPlanCustom({}); setOpenImg(null);
     setInterpretations([]); setInterpRead(''); setConsult({ who: '', what: '' });
     setDeferred([]); setDefItem(''); setDefRationale(''); setCalcSel([]); setCalcImpact({});
@@ -344,15 +391,31 @@ export function MdmScreen({ onExit, onAdmin }) {
     <div>
       {/* Diagnoses */}
       <Section title="Differential" count={selected.length} open={open.dx} onToggle={() => setOpen(o => ({ ...o, dx: !o.dx }))}>
-        <div className="relative mb-2">
-          <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-          <input
-            value={dxQuery}
-            onChange={e => setDxQuery(e.target.value)}
-            onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); commitQuery(); } }}
-            placeholder="Search a chief complaint or diagnosis, or add your own…"
-            className="w-full bg-gray-50 border border-gray-200 rounded-lg pl-9 pr-3 py-2 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white"
-          />
+        <div className="mb-2">
+          <div className="relative">
+            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+            <input
+              value={dxQuery}
+              onChange={e => setDxQuery(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); commitQuery(); } }}
+              placeholder="Search, add, or describe the presentation…"
+              className="w-full bg-gray-50 border border-gray-200 rounded-lg pl-9 pr-3 py-2 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white"
+            />
+          </div>
+          <div className="flex justify-end mt-1.5">
+            <button
+              onClick={runSuggestDifferential}
+              disabled={!dxQuery.trim() || ddx.status === 'loading'}
+              title="Reason over the library to suggest a differential for this phrase"
+              className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium border transition-all bg-white text-violet-600 border-violet-200 hover:border-violet-400 disabled:opacity-40"
+            >
+              {ddx.status === 'loading' ? (
+                <><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" className="animate-spin"><path strokeLinecap="round" d="M12 3a9 9 0 1 0 9 9" /></svg>Reasoning…</>
+              ) : (
+                <><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="m13 4-2.3 5.7L5 12l5.7 2.3L13 20l2.3-5.7L21 12l-5.7-2.3L13 4Z" /></svg>Suggest differential</>
+              )}
+            </button>
+          </div>
         </div>
 
         {/* Search results dropdown */}
@@ -375,6 +438,48 @@ export function MdmScreen({ onExit, onAdmin }) {
                 <span className="text-blue-500 font-bold">+</span>
                 <span className="text-sm text-gray-600">Add “<span className="font-medium text-gray-800">{dxQuery.trim()}</span>”</span>
               </button>
+            )}
+          </div>
+        )}
+
+        {/* AI-suggested differential (reasoned over the library) */}
+        {(ddx.status === 'done' || ddx.status === 'error') && (
+          <div className="border border-violet-200 bg-violet-50/40 rounded-lg p-3 mb-3">
+            <div className="flex items-center justify-between mb-1.5">
+              <p className="text-[11px] text-violet-500 font-semibold uppercase tracking-wider">Suggested differential</p>
+              <button onClick={() => setDdx({ status: 'idle', phrase: '', items: [], error: '' })} className="text-gray-300 hover:text-gray-500" title="Dismiss">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" d="M18 6L6 18M6 6l12 12" /></svg>
+              </button>
+            </div>
+            {ddx.status === 'error' && <p className="text-xs text-red-500">Couldn’t generate — {ddx.error || 'try again'}.</p>}
+            {ddx.status === 'done' && ddx.items.length === 0 && <p className="text-xs text-gray-400">No suggestions returned.</p>}
+            {ddx.status === 'done' && ddx.items.length > 0 && (
+              <>
+                <p className="text-[11px] text-gray-400 mb-2">For “{ddx.phrase}” — tap to add. Reasoning tier is pre-set and editable.</p>
+                <div className="space-y-1.5 mb-2">
+                  {ddx.items.map(s => {
+                    const added = isSelected(s.name);
+                    const meta = DDX_TIER_META[s.tier] || DDX_TIER_META.less;
+                    return (
+                      <div key={s.name} className="flex items-start gap-2 bg-white border border-gray-200 rounded-lg px-2.5 py-1.5">
+                        <button onClick={() => addSuggestion(s)} disabled={added} title={added ? 'Added' : 'Add to differential'} className={`shrink-0 mt-0.5 w-5 h-5 rounded flex items-center justify-center text-sm font-bold transition-colors ${added ? 'bg-emerald-500 text-white' : 'bg-violet-100 text-violet-600 hover:bg-violet-200'}`}>
+                          {added ? '✓' : '+'}
+                        </button>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            <span className="text-[13px] font-medium text-gray-800">{s.name}</span>
+                            <span className={`text-[9px] font-semibold uppercase tracking-wide rounded px-1.5 py-0.5 ${meta.chip}`}>{meta.label}</span>
+                          </div>
+                          {s.reason && <p className="text-[11px] text-gray-400 leading-snug">{s.reason}</p>}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                {ddx.items.some(s => !isSelected(s.name)) && (
+                  <button onClick={addAllSuggestions} className="text-[11px] text-violet-600 hover:text-violet-700 font-medium">+ Add all</button>
+                )}
+              </>
             )}
           </div>
         )}

@@ -643,6 +643,103 @@ app.post('/api/suggest-findings', async (req, res) => {
   }
 });
 
+// POST /api/suggest-differential — Reason over the library to propose a focused
+// emergency differential from a free-text phrase: a chief complaint, a leading
+// diagnosis, or a short de-identified vignette. The client passes `catalog` —
+// the diagnosis names the tool knows (differential DB + curated library, incl.
+// admin edits) — and the model is asked to choose primarily from it so every
+// suggestion is one the tool can actually flesh out.
+const DX_TIERS = ['likely', 'cantmiss', 'less'];
+
+app.post('/api/suggest-differential', async (req, res) => {
+  try {
+    const phrase = (req.body?.phrase || '').toString().trim();
+    if (!phrase) return res.status(400).json({ error: 'phrase is required' });
+    if (phrase.length > 400) return res.status(400).json({ error: 'phrase too long' });
+
+    // Sanitize the catalog: array of short strings, de-duplicated, capped.
+    const rawCatalog = Array.isArray(req.body?.catalog) ? req.body.catalog : [];
+    const seen = new Set();
+    const catalog = [];
+    for (const c of rawCatalog) {
+      const name = (typeof c === 'string' ? c : '').trim();
+      const key = name.toLowerCase();
+      if (name && name.length <= 80 && !seen.has(key)) { seen.add(key); catalog.push(name); }
+      if (catalog.length >= 600) break;
+    }
+
+    const systemPrompt = [
+      'You are an emergency-medicine attending helping a clinician build a',
+      'differential. Given a chief complaint, a leading diagnosis, or a short',
+      'de-identified vignette, propose a focused emergency differential.',
+      '',
+      'Return ONLY a JSON object of this shape:',
+      '{ "suggestions": [ { "name": string, "tier": "likely"|"cantmiss"|"less",',
+      '  "reason": string }, ... ] }',
+      '',
+      'Rules:',
+      '- Choose diagnoses PRIMARILY from the provided library list, and when you',
+      '  do, copy the name EXACTLY as it appears there.',
+      '- Always include the must-not-miss diagnoses for the presentation even if',
+      '  they are not in the list; mark those tier "cantmiss".',
+      '- tier: "likely" = best fit for the presentation (use for at most one or',
+      '  two); "cantmiss" = dangerous and must be excluded; "less" = worth listing',
+      '  but lower probability.',
+      '- reason: a terse clinical justification, <= 12 words, no restatement of PHI.',
+      '- Return 6–12 suggestions, most important first. No prose outside the JSON.',
+    ].join('\n');
+
+    const userPrompt = [
+      `Presentation: ${phrase}`,
+      '',
+      catalog.length ? `Library list (choose from these when possible):\n${catalog.join(', ')}` : '(No library list provided.)',
+    ].join('\n');
+
+    const raw = await aiClient.chat.completions.create({
+      model: aiModel,
+      max_tokens: 900,
+      temperature: 0.3,
+      response_format: { type: 'json_object' },
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt },
+      ],
+    });
+
+    let parsed;
+    try { parsed = JSON.parse(raw.choices[0].message.content); }
+    catch { return res.status(502).json({ error: 'Could not parse suggestions' }); }
+
+    // Snap names to the catalog (case-insensitive) so the client maps cleanly.
+    const catalogByLower = new Map(catalog.map(n => [n.toLowerCase(), n]));
+    const outSeen = new Set();
+    const suggestions = (Array.isArray(parsed.suggestions) ? parsed.suggestions : [])
+      .map(s => {
+        let name = (typeof s?.name === 'string' ? s.name : '').trim();
+        if (!name) return null;
+        name = catalogByLower.get(name.toLowerCase()) || name;
+        const tier = DX_TIERS.includes(s?.tier) ? s.tier : 'less';
+        const reason = (typeof s?.reason === 'string' ? s.reason : '').trim().slice(0, 160);
+        return { name, tier, reason };
+      })
+      .filter(s => {
+        if (!s) return false;
+        const key = s.name.toLowerCase();
+        if (outSeen.has(key)) return false;
+        outSeen.add(key);
+        return true;
+      })
+      .slice(0, 14);
+
+    if (!suggestions.length) return res.status(502).json({ error: 'No differential generated' });
+
+    res.json({ phrase, suggestions });
+  } catch (e) {
+    console.error('Suggest-differential error:', e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
+
 // Export for Vercel serverless
 module.exports = app;
 
