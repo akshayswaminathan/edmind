@@ -1954,19 +1954,42 @@ function cleanEntry(entry = {}) {
   return { name: String(entry.name || '').trim(), aliases, groups };
 }
 
-// The effective library = built-ins (with edits applied, tombstones removed)
-// followed by any custom conditions. Each row carries id/builtin/edited flags.
+// Shared overrides published to the database and loaded for every user. Applied
+// beneath the local (personal) layer so a clinician's own edits always win.
+let remoteOverrides = {};
+export function applyRemoteOverrides(map) {
+  remoteOverrides = (map && typeof map === 'object') ? map : {};
+  notify();
+}
+
+// The effective library merges three layers by id, with precedence
+// local (personal) > remote (shared) > built-in. Each row carries flags:
+//   builtin — a shipped diagnosis   edited — has a LOCAL override
+//   shared  — shown from the shared library (no local override)
 function effectiveLibrary() {
   const out = [];
-  for (const entry of LIBRARY) {
-    const id = builtinId(entry.name);
-    const ov = overrides[id];
-    if (ov?.deleted) continue;
-    out.push({ id, builtin: true, edited: Boolean(ov), ...(ov ? cleanEntry(ov) : entry) });
-  }
-  for (const [id, ov] of Object.entries(overrides)) {
-    if (BUILTIN_IDS.has(id) || ov?.deleted) continue;
-    out.push({ id, builtin: false, edited: true, ...cleanEntry(ov) });
+  const builtinById = new Map(LIBRARY.map(e => [builtinId(e.name), e]));
+  const ids = new Set([
+    ...builtinById.keys(),
+    ...Object.keys(remoteOverrides),
+    ...Object.keys(overrides),
+  ]);
+  for (const id of ids) {
+    const isBuiltin = builtinById.has(id);
+    const local = overrides[id];
+    const remote = remoteOverrides[id];
+    const chosen = local !== undefined ? local : remote;   // local personal edit wins
+    if (chosen?.deleted) continue;
+    let entry;
+    if (chosen) entry = cleanEntry(chosen);
+    else if (isBuiltin) entry = builtinById.get(id);
+    else continue;
+    out.push({
+      id, builtin: isBuiltin,
+      edited: local !== undefined,
+      shared: local === undefined && remote !== undefined,
+      ...entry,
+    });
   }
   return out;
 }

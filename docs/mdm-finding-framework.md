@@ -157,12 +157,31 @@ Three supported paths:
 Until a set exists, an uncurated diagnosis falls back to a generic scaffold so
 the tool always works.
 
+### Shared library (database)
+Admin edits and new conditions can be **published to a shared library that every
+user loads**, so a good finding set curated once is available to everyone.
+
+- **Publish** (admin view → "Publish to shared") sends the saved entry to
+  `POST /api/library`, which runs an **AI curation pass** (rewrites labels to
+  clean positive noun phrases, removes duplicate / logical-opposite findings)
+  and stores it in the database. On success the local copy is dropped so the
+  curated shared version becomes what you see.
+- **Everyone loads** the shared library at startup (`GET /api/library`) and it is
+  merged into the effective library.
+- **Auth:** publishing requires an `ADMIN_TOKEN` (server env). The admin enters
+  it in the browser once; it is never in the client bundle. Reads are public.
+- **Storage:** a Vercel KV / Upstash-compatible key-value store
+  (`KV_REST_API_URL`, `KV_REST_API_TOKEN`) holding one JSON document. When these
+  are unset, publishing is disabled and the app runs from built-in + local only.
+  See `.env.example`.
+
 ### How overrides resolve
-`getFeatureSet(name)` matches against the **effective library** = built-in
-`LIBRARY` with admin edits applied (edited entries replace their built-in;
-hidden built-ins are removed) followed by any new conditions. Overrides are keyed
-by a stable id (a built-in's normalized name, or `custom:<slug>` for new
-conditions), so editing a built-in and adding a new condition never collide.
+`getFeatureSet(name)` matches against the **effective library**, merged by a
+stable id (a built-in's normalized name, or `custom:<slug>` for new conditions)
+with precedence **local (personal, this browser) > shared (database) >
+built-in**. Edited entries replace their built-in; hidden built-ins are removed;
+reverting a local edit falls back to the shared entry if one exists, otherwise
+the built-in.
 
 ---
 

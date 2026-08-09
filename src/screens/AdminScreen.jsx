@@ -2,8 +2,9 @@ import { useState, useEffect, useMemo, useRef, useSyncExternalStore } from 'reac
 import {
   GROUP_ORDER, getEditableLibrary, saveDiagnosis, deleteDiagnosis, resetDiagnosis,
   resetAllOverrides, hasOverrides, exportOverrides, importOverrides, exportChangedAsCode,
-  emptyGroups, subscribeLibrary,
+  emptyGroups, subscribeLibrary, applyRemoteOverrides,
 } from '../data/mdmFeatures';
+import { publishSharedDiagnosis } from '../api/claude';
 
 // Live view of the effective library — re-reads whenever the store changes.
 function useLibrary() {
@@ -29,6 +30,7 @@ function Badge({ tone, children }) {
     builtin: 'bg-gray-100 text-gray-500',
     edited: 'bg-amber-100 text-amber-700',
     custom: 'bg-violet-100 text-violet-700',
+    shared: 'bg-blue-100 text-blue-700',
   }[tone];
   return <span className={`text-[9px] font-semibold uppercase tracking-wide rounded px-1.5 py-0.5 ${cls}`}>{children}</span>;
 }
@@ -67,7 +69,9 @@ export function AdminScreen({ onExit }) {
   const [search, setSearch] = useState('');
   const [mobileView, setMobileView] = useState('list'); // 'list' | 'editor'
   const [toast, setToast] = useState('');
+  const [publishing, setPublishing] = useState(false);
   const fileRef = useRef(null);
+  const PUBLISH_TOKEN_KEY = 'emtools.admin.publishToken';
 
   // ── Passcode gate (Option A: obscurity, not real security) ──────────────────
   // The editor only affects this browser's localStorage, so this gate just keeps
@@ -199,6 +203,43 @@ export function AdminScreen({ onExit }) {
     flash('Reverted');
   }
 
+  // Publish the selected (saved) condition to the shared library — curated
+  // server-side, then visible to every user. The publish token is held locally,
+  // never in the bundle. After publishing, the local edit is dropped so the
+  // curated shared version becomes the source of truth on screen.
+  async function handlePublish() {
+    if (!selectedId || selectedId === '__new__') { flash('Save before publishing'); return; }
+    if (dirty) { flash('Save your changes first'); return; }
+    const row = library.find(r => r.id === selectedId);
+    if (!row) { flash('Nothing to publish'); return; }
+    let token = '';
+    try { token = localStorage.getItem(PUBLISH_TOKEN_KEY) || ''; } catch { /* ignore */ }
+    if (!token) {
+      token = (window.prompt('Admin publish token') || '').trim();
+      if (!token) return;
+      try { localStorage.setItem(PUBLISH_TOKEN_KEY, token); } catch { /* ignore */ }
+    }
+    setPublishing(true);
+    try {
+      const { overrides } = await publishSharedDiagnosis(
+        { id: row.id, entry: { name: row.name, aliases: row.aliases, groups: row.groups } },
+        token,
+      );
+      applyRemoteOverrides(overrides);
+      resetDiagnosis(row.id);   // drop local copy; show the curated shared entry
+      flash('Published to shared library');
+    } catch (e) {
+      if (/unauthorized/i.test(e.message)) {
+        try { localStorage.removeItem(PUBLISH_TOKEN_KEY); } catch { /* ignore */ }
+        flash('Wrong publish token — try again');
+      } else {
+        flash(`Publish failed: ${e.message}`);
+      }
+    } finally {
+      setPublishing(false);
+    }
+  }
+
   // ── Import / export ───────────────────────────────────────────────────────────
   function download(name, text, type = 'application/json') {
     const blob = new Blob([text], { type });
@@ -284,8 +325,9 @@ export function AdminScreen({ onExit }) {
             <button key={row.id} onClick={() => selectRow(row)} className={`w-full text-left px-3 py-2.5 transition-colors ${active ? 'bg-blue-50' : 'hover:bg-gray-50'}`}>
               <div className="flex items-center gap-2">
                 <span className="text-sm text-gray-800 flex-1 truncate">{row.name}</span>
-                {!row.builtin && <Badge tone="custom">new</Badge>}
-                {row.builtin && row.edited && <Badge tone="edited">edited</Badge>}
+                {row.shared && <Badge tone="shared">shared</Badge>}
+                {!row.builtin && !row.shared && <Badge tone="custom">new</Badge>}
+                {row.edited && <Badge tone="edited">edited</Badge>}
               </div>
               <span className="text-[11px] text-gray-400">{findingCount} findings</span>
             </button>
@@ -351,9 +393,14 @@ export function AdminScreen({ onExit }) {
         ))}
       </div>
 
-      <div className="px-4 py-2.5 border-t border-gray-100 flex items-center gap-2">
+      <div className="px-4 py-2.5 border-t border-gray-100 flex items-center gap-3">
         {draft.id && draft.builtin && draft.edited && (
           <button onClick={handleReset} className="text-[11px] text-gray-500 hover:text-gray-700">Revert to default</button>
+        )}
+        {draft.id && selectedId !== '__new__' && (
+          <button onClick={handlePublish} disabled={publishing || dirty} title={dirty ? 'Save your changes first' : 'Curate and publish to the shared library'} className="text-[11px] text-blue-600 hover:text-blue-700 disabled:opacity-40 font-medium">
+            {publishing ? 'Publishing…' : 'Publish to shared'}
+          </button>
         )}
         <div className="flex-1" />
         {draft.id && (

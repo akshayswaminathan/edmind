@@ -751,6 +751,143 @@ app.post('/api/suggest-differential', async (req, res) => {
   }
 });
 
+// ── Shared finding library (database-backed) ─────────────────────────────────
+// Generated / edited diagnoses can be published to a shared library that every
+// user loads, after an AI curation pass (clean labels + dedup). Storage is a
+// Vercel KV / Upstash-compatible key-value store over REST (a single JSON doc),
+// so it works on the read-only serverless filesystem with no extra dependency.
+//
+// Env: KV_REST_API_URL, KV_REST_API_TOKEN (store), ADMIN_TOKEN (publish gate).
+// When the store env is absent the endpoints degrade gracefully and the app
+// keeps working from its built-in + local library.
+const KV_URL = process.env.KV_REST_API_URL;
+const KV_TOKEN = process.env.KV_REST_API_TOKEN;
+const LIBRARY_KEY = 'mdm:libraryOverrides';
+const kvConfigured = () => Boolean(KV_URL && KV_TOKEN);
+
+async function kvGet(key) {
+  const r = await fetch(`${KV_URL}/get/${encodeURIComponent(key)}`, {
+    headers: { Authorization: `Bearer ${KV_TOKEN}` },
+  });
+  if (!r.ok) throw new Error(`store read failed (${r.status})`);
+  const { result } = await r.json();
+  if (!result) return null;
+  try { return JSON.parse(result); } catch { return null; }
+}
+async function kvSet(key, value) {
+  const r = await fetch(`${KV_URL}/set/${encodeURIComponent(key)}`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${KV_TOKEN}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(value),
+  });
+  if (!r.ok) throw new Error(`store write failed (${r.status})`);
+  return true;
+}
+
+// Sanitize a { name, aliases, groups } entry to the strict schema.
+function cleanLibraryEntry(entry = {}) {
+  const groups = {};
+  for (const g of FINDING_GROUPS) {
+    const list = Array.isArray(entry.groups?.[g]) ? entry.groups[g] : [];
+    groups[g] = list
+      .map(f => ({ label: String(f?.label || '').trim(), dir: f?.dir === 'against' ? 'against' : 'for' }))
+      .filter(f => f.label)
+      .slice(0, 10);
+  }
+  const aliases = Array.isArray(entry.aliases)
+    ? [...new Set(entry.aliases.map(a => String(a || '').trim()).filter(Boolean))].slice(0, 30)
+    : [];
+  return { name: String(entry.name || '').trim().slice(0, 120), aliases, groups };
+}
+
+// AI curation pass: rewrite labels to clean positive noun phrases and drop
+// logical-opposite / duplicate findings. Falls back to the input on any error.
+async function curateEntry(entry) {
+  const clean = cleanLibraryEntry(entry);
+  const total = FINDING_GROUPS.reduce((n, g) => n + clean.groups[g].length, 0);
+  if (!clean.name || total === 0) return clean;
+
+  const systemPrompt = [
+    'You are an emergency-medicine attending curating a finding set for a shared',
+    'reference library. Return ONLY JSON of the same shape you receive:',
+    '{ "name": string, "aliases": string[], "groups": { "History":[{"label","dir"}],',
+    '  "Symptoms":[...], "Exam":[...], "Labs":[...], "Imaging":[...] } }',
+    'Rules:',
+    '- Rewrite every label as a short positive NOUN PHRASE, never a sentence',
+    '  (e.g. "Cystic lesion on ultrasound", not "Ultrasound shows a cystic lesion").',
+    '- Do not phrase labels negatively (no leading absent/no/normal/negative); use',
+    '  dir "against" to express findings that argue against when present.',
+    '- Remove duplicates and any two findings that are logical opposites; keep the',
+    '  clearer one. Keep true acronyms (ECG, RLQ, JVD) capitalized.',
+    '- Keep the clinical meaning and the group assignments. Do not invent findings.',
+  ].join('\n');
+
+  try {
+    const raw = await aiClient.chat.completions.create({
+      model: aiModel,
+      max_tokens: 1200,
+      temperature: 0.1,
+      response_format: { type: 'json_object' },
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: JSON.stringify(clean) },
+      ],
+    });
+    const parsed = JSON.parse(raw.choices[0].message.content);
+    const curated = cleanLibraryEntry({ name: parsed.name || clean.name, aliases: parsed.aliases || clean.aliases, groups: parsed.groups || clean.groups });
+    const curatedTotal = FINDING_GROUPS.reduce((n, g) => n + curated.groups[g].length, 0);
+    return curatedTotal > 0 ? curated : clean;   // never curate a set down to empty
+  } catch (e) {
+    console.error('Curation fell back to input:', e.message);
+    return clean;
+  }
+}
+
+// GET /api/library — the shared overrides document (public read).
+app.get('/api/library', async (req, res) => {
+  if (!kvConfigured()) return res.json({ overrides: {}, configured: false });
+  try {
+    const overrides = await kvGet(LIBRARY_KEY);
+    res.json({ overrides: overrides || {}, configured: true });
+  } catch (e) {
+    console.error('Library read error:', e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// POST /api/library — curate + publish one entry to the shared library.
+// Auth: x-admin-token header must match ADMIN_TOKEN. Body: { id, entry } to
+// upsert, or { id, delete: true } to remove.
+app.post('/api/library', async (req, res) => {
+  if (!kvConfigured()) return res.status(503).json({ error: 'Shared library store not configured' });
+  if (!process.env.ADMIN_TOKEN) return res.status(503).json({ error: 'Publishing not configured (ADMIN_TOKEN unset)' });
+  if ((req.get('x-admin-token') || '') !== process.env.ADMIN_TOKEN) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  const id = (req.body?.id || '').toString().trim();
+  if (!id) return res.status(400).json({ error: 'id is required' });
+
+  try {
+    const overrides = (await kvGet(LIBRARY_KEY)) || {};
+
+    if (req.body?.delete) {
+      overrides[id] = { deleted: true };
+      await kvSet(LIBRARY_KEY, overrides);
+      return res.json({ overrides, id, deleted: true });
+    }
+
+    const curated = await curateEntry(req.body?.entry || {});
+    if (!curated.name) return res.status(400).json({ error: 'entry.name is required' });
+    overrides[id] = curated;
+    await kvSet(LIBRARY_KEY, overrides);
+    res.json({ overrides, id, entry: curated });
+  } catch (e) {
+    console.error('Library publish error:', e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
+
 // Export for Vercel serverless
 module.exports = app;
 

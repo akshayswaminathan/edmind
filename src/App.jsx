@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { applyRemoteOverrides } from './data/mdmFeatures';
+import { fetchSharedLibrary } from './api/claude';
 import { HomeScreen } from './screens/HomeScreen';
 import { ComplaintScreen } from './screens/ComplaintScreen';
 import { ResultScreen } from './screens/ResultScreen';
@@ -30,6 +32,15 @@ function App() {
   });
   const [currentCaseId, setCurrentCaseId] = useState(null);
   const [adminReturn, setAdminReturn] = useState('home');
+
+  // Load the shared finding library once, so every screen sees published edits.
+  useEffect(() => {
+    let cancelled = false;
+    fetchSharedLibrary().then(({ overrides }) => {
+      if (!cancelled && overrides) applyRemoteOverrides(overrides);
+    });
+    return () => { cancelled = true; };
+  }, []);
 
   function handleUpdateSettings(updates) {
     setSettings(prev => ({ ...prev, ...updates }));

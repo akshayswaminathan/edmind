@@ -83,6 +83,35 @@ export async function suggestDifferential(phrase, catalog) {
   return response.json();
 }
 
+// Load the shared finding-library overrides (published by admins, seen by all).
+// Returns { overrides, configured }. Never throws for the common "not
+// configured" / offline cases — the app falls back to its built-in + local set.
+export async function fetchSharedLibrary() {
+  try {
+    const response = await fetch('/api/library');
+    if (!response.ok) return { overrides: {}, configured: false };
+    return await response.json();
+  } catch {
+    return { overrides: {}, configured: false };
+  }
+}
+
+// Publish one diagnosis entry to the shared library (curated server-side).
+// `token` is checked against ADMIN_TOKEN on the server. Returns the refreshed
+// { overrides } document (and the curated entry).
+export async function publishSharedDiagnosis({ id, entry, del = false }, token) {
+  const response = await fetch('/api/library', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-admin-token': token || '' },
+    body: JSON.stringify({ id, entry, delete: del }),
+  });
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({ error: 'Network error' }));
+    throw new Error(err.error || 'Publish failed');
+  }
+  return response.json();
+}
+
 // Get AI feedback on trainee performance
 export async function getCaseFeedback(caseId, differential, presentationAndMdm) {
   const response = await fetch('/api/case-feedback', {
