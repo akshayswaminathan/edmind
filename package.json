@@ -10,7 +10,8 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "process-cases": "node scripts/process-cases.cjs",
-    "augment-dx": "node scripts/augment-differentials.cjs"
+    "augment-dx": "node scripts/augment-differentials.cjs",
+    "audit:features": "node scripts/audit-feature-coverage.mjs"
   },
   "dependencies": {
     "cors": "^2.8.6",

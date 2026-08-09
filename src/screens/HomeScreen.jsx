@@ -9,7 +9,7 @@ const TIMER_OPTIONS = [
   { label: 'Untimed', value: null },
 ];
 
-export function HomeScreen({ settings, session, onUpdateSettings, onStartDrill, onStartCase, onStartMdm }) {
+export function HomeScreen({ settings, session, onUpdateSettings, onStartDrill, onStartCase, onStartMdm, onStartAdmin }) {
   const [mode, setMode] = useState(null); // null | 'drills' | 'cases'
   const [search, setSearch] = useState('');
 
@@ -133,6 +133,15 @@ export function HomeScreen({ settings, session, onUpdateSettings, onStartDrill, 
               </button>
             )}
           </div>
+
+          {onStartAdmin && (
+            <div className="text-center mt-8">
+              <button onClick={onStartAdmin} className="text-xs text-gray-400 hover:text-gray-600 inline-flex items-center gap-1.5 transition-colors">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 15a3 3 0 100-6 3 3 0 000 6z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" /></svg>
+                Manage finding library
+              </button>
+            </div>
+          )}
         </div>
       </div>
     );

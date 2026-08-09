@@ -46,6 +46,24 @@ export async function orderTest(caseId, orderType, orderName) {
   return response.json();
 }
 
+// Draft a finding-button set for a diagnosis with no curated set in the library.
+// Returns { diagnosis, groups: { History:[{label,dir}], ... }, generated:true }.
+// The clinician curates the draft on screen — see docs/mdm-finding-framework.md.
+export async function suggestFindings(diagnosis) {
+  const response = await fetch('/api/suggest-findings', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ diagnosis }),
+  });
+
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({ error: 'Network error' }));
+    throw new Error(err.error || 'Could not suggest findings');
+  }
+
+  return response.json();
+}
+
 // Get AI feedback on trainee performance
 export async function getCaseFeedback(caseId, differential, presentationAndMdm) {
   const response = await fetch('/api/case-feedback', {
