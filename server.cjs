@@ -564,6 +564,85 @@ app.post('/api/transcribe', async (req, res) => {
   }
 });
 
+// POST /api/suggest-findings — Draft a finding-button set for a diagnosis that
+// has no curated set in the library. Returns findings in the MDM Writer schema
+// (see docs/mdm-finding-framework.md). This is a *draft the clinician curates on
+// screen* — nothing here reaches the note unless the clinician clicks it.
+const FINDING_GROUPS = ['History', 'Symptoms', 'Exam', 'Labs', 'Imaging'];
+
+app.post('/api/suggest-findings', async (req, res) => {
+  try {
+    const diagnosis = (req.body?.diagnosis || '').toString().trim();
+    if (!diagnosis) return res.status(400).json({ error: 'diagnosis is required' });
+    if (diagnosis.length > 120) return res.status(400).json({ error: 'diagnosis too long' });
+
+    const systemPrompt = [
+      'You are an emergency-medicine attending building a structured reference of',
+      'the clinical findings that make a diagnosis MORE or LESS likely, for a tool',
+      'that helps clinicians document their medical decision-making.',
+      '',
+      'Return ONLY a JSON object of this exact shape:',
+      '{ "groups": { "History": [{"label": string, "dir": "for"|"against"}, ...],',
+      '  "Symptoms": [...], "Exam": [...], "Labs": [...], "Imaging": [...] } }',
+      '',
+      'Rules:',
+      '- dir "for": presence supports the diagnosis. dir "against": presence argues',
+      '  against it (its absence supports it). Default to "for".',
+      '- History = risk factors, epidemiology, exposures, time course.',
+      '  Symptoms = patient-reported. Exam = objective bedside findings.',
+      '  Labs = laboratory results. Imaging = includes ECG and POCUS.',
+      '- Aim for 3–5 History, 4–7 Symptoms, 2–5 Exam, 0–5 Labs, 0–5 Imaging.',
+      '- Include at least one "against" finding so the diagnosis can be argued down.',
+      '- For paired confirmatory tests include both poles (e.g. "Elevated D-dimer"',
+      '  and {"label":"Negative D-dimer","dir":"against"}).',
+      '- Labels are short chartable phrases (e.g. "Elevated troponin", "RLQ',
+      '  tenderness"). Keep true acronyms (ECG, RLQ, JVD) capitalized.',
+      '- This is a menu of findings worth documenting, never a statement about any',
+      '  real patient. No patient data. No prose outside the JSON.',
+    ].join('\n');
+
+    const raw = await aiClient.chat.completions.create({
+      model: aiModel,
+      max_tokens: 1200,
+      temperature: 0.2,
+      response_format: { type: 'json_object' },
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: `Diagnosis: ${diagnosis}` },
+      ],
+    });
+
+    let parsed;
+    try {
+      parsed = JSON.parse(raw.choices[0].message.content);
+    } catch {
+      return res.status(502).json({ error: 'Could not parse suggested findings' });
+    }
+
+    // Sanitize into the strict schema so the client can trust the shape.
+    const src = parsed.groups || parsed;
+    const groups = {};
+    for (const group of FINDING_GROUPS) {
+      const list = Array.isArray(src?.[group]) ? src[group] : [];
+      groups[group] = list
+        .map(f => ({
+          label: (typeof f?.label === 'string' ? f.label : '').trim(),
+          dir: f?.dir === 'against' ? 'against' : 'for',
+        }))
+        .filter(f => f.label)
+        .slice(0, 8);
+    }
+
+    const total = FINDING_GROUPS.reduce((n, g) => n + groups[g].length, 0);
+    if (total === 0) return res.status(502).json({ error: 'No findings generated' });
+
+    res.json({ diagnosis, groups, generated: true });
+  } catch (e) {
+    console.error('Suggest-findings error:', e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
+
 // Export for Vercel serverless
 module.exports = app;
 

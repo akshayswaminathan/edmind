@@ -5,6 +5,7 @@ import {
   RISK_CALCULATORS, INTERP_STUDIES, COMMON_PMH, IMAGING_SIMPLE, IMAGING_GROUPS,
 } from '../data/mdmFeatures';
 import { generateMdm, buildOneLiner, hasOneLiner, DEFAULT_HANDOFF } from '../data/mdmGenerate';
+import { suggestFindings } from '../api/claude';
 import { TermsModal } from '../components/TermsModal';
 import { TERMS_META } from '../data/terms';
 
@@ -141,6 +142,8 @@ export function MdmScreen({ onExit }) {
   const [selected, setSelected] = useState([]);          // [{ name, tier }]
   const [dxTier, setDxTier] = useState({});
   const [featureState, setFeatureState] = useState({});
+  const [aiFeatures, setAiFeatures] = useState({});      // dxName -> AI-drafted groups
+  const [aiStatus, setAiStatus] = useState({});          // dxName -> 'loading' | 'error'
   const [plan, setPlan] = useState(emptyPlan);
   const [planCustom, setPlanCustom] = useState({});
   const [openImg, setOpenImg] = useState(null);          // which imaging modality menu is open
@@ -176,11 +179,15 @@ export function MdmScreen({ onExit }) {
   const [mobileView, setMobileView] = useState('menu'); // 'menu' | 'note'
   const [copied, setCopied] = useState(false);
 
+  // Curated library first; fall back to any AI-drafted set the clinician generated.
   const featureSets = useMemo(() => {
     const map = {};
-    for (const dx of selected) map[dx.name] = featuresWithIds(getFeatureSet(dx.name).groups);
+    for (const dx of selected) {
+      const groups = aiFeatures[dx.name] || getFeatureSet(dx.name).groups;
+      map[dx.name] = featuresWithIds(groups);
+    }
     return map;
-  }, [selected]);
+  }, [selected, aiFeatures]);
 
   const isSelected = name => selected.some(d => d.name.toLowerCase() === name.toLowerCase());
 
@@ -253,6 +260,18 @@ export function MdmScreen({ onExit }) {
       return next;
     });
   }
+  // Draft a finding set (via the backend) for a diagnosis with no curated set.
+  // The clinician then curates it on screen exactly like a curated set.
+  async function generateFindings(dxName) {
+    setAiStatus(prev => ({ ...prev, [dxName]: 'loading' }));
+    try {
+      const { groups } = await suggestFindings(dxName);
+      setAiFeatures(prev => ({ ...prev, [dxName]: groups }));
+      setAiStatus(prev => { const n = { ...prev }; delete n[dxName]; return n; });
+    } catch {
+      setAiStatus(prev => ({ ...prev, [dxName]: 'error' }));
+    }
+  }
   function setFeat(dxName, featureId, value) {
     setFeatureState(prev => {
       const dxState = { ...(prev[dxName] || {}) };
@@ -293,7 +312,7 @@ export function MdmScreen({ onExit }) {
   }
   function clearAll() {
     if (!window.confirm('Clear all entries and start over?')) return;
-    setSelected([]); setDxTier({}); setFeatureState({});
+    setSelected([]); setDxTier({}); setFeatureState({}); setAiFeatures({}); setAiStatus({});
     setPlan(emptyPlan()); setPlanCustom({}); setOpenImg(null);
     setInterpretations([]); setInterpRead(''); setConsult({ who: '', what: '' });
     setDeferred([]); setDefItem(''); setDefRationale(''); setCalcSel([]); setCalcImpact({});
@@ -381,6 +400,8 @@ export function MdmScreen({ onExit }) {
           {selected.map(dx => {
             const groups = featureSets[dx.name] || {};
             const matched = getFeatureSet(dx.name).matched;
+            const hasAi = Boolean(aiFeatures[dx.name]);
+            const aiState = aiStatus[dx.name];
             const tier = dxTier[dx.name];
             const isOpen = dxOpen[dx.name];
             const marks = Object.keys(featureState[dx.name] || {}).length;
@@ -402,7 +423,24 @@ export function MdmScreen({ onExit }) {
                         <button key={t.key} onClick={() => setTier(dx.name, t.key)} className={`flex-1 rounded-md px-2 py-1 text-[11px] font-medium border transition-all ${tier === t.key ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-500 border-gray-200 hover:border-blue-300 hover:text-blue-600'}`}>{t.label}</button>
                       ))}
                     </div>
-                    {!matched && <p className="text-[10px] text-gray-400 mb-2">Generic template — no curated finding set for this diagnosis.</p>}
+                    {!matched && !hasAi && (
+                      <div className="mb-2 rounded-lg bg-gray-50 border border-gray-200 p-2.5">
+                        <p className="text-[10px] text-gray-400 mb-1.5">No curated finding set for this diagnosis — a generic template is shown.</p>
+                        <button
+                          onClick={() => generateFindings(dx.name)}
+                          disabled={aiState === 'loading'}
+                          className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium border transition-all bg-white text-blue-600 border-blue-200 hover:border-blue-400 disabled:opacity-50"
+                        >
+                          {aiState === 'loading' ? (
+                            <><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" className="animate-spin"><path strokeLinecap="round" d="M12 3a9 9 0 1 0 9 9" /></svg>Drafting findings…</>
+                          ) : (
+                            <><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16 2.3 5.7L21 12l-5.7 2.3L13 20l-2.3-5.7L5 12l5.7-2.3L13 4Z" /></svg>Suggest findings</>
+                          )}
+                        </button>
+                        {aiState === 'error' && <span className="ml-2 text-[10px] text-red-500">Couldn’t generate — try again.</span>}
+                      </div>
+                    )}
+                    {hasAi && <p className="text-[10px] text-blue-500 mb-2">AI-suggested draft — review and curate before relying on it.</p>}
                     <p className="text-[10px] text-gray-400 mb-2"><span className="text-emerald-600 font-bold">+</span> present · <span className="text-red-500 font-bold">−</span> absent · tap the phrase for pending</p>
                     <div className="space-y-3">
                       {GROUP_ORDER.filter(g => (groups[g] || []).length > 0).map(group => (
