@@ -136,6 +136,12 @@ Three supported paths:
    - **Export** downloads the edits as JSON; **Import** restores them.
    - **Copy code** emits your edited/new conditions as `mdmFeatures.js` source so
      they can be promoted into the committed library (see path 2).
+   - **Access:** the screen is gated by an optional passcode
+     (`VITE_ADMIN_PASSCODE` — see `.env.example`). This is obscurity, not real
+     security: edits are per-browser, so the passcode only keeps casual users out
+     of the config screen. Leave it unset to keep the view open (e.g. local dev).
+     If admin edits ever become shared/authoritative, replace this with a
+     server-checked token.
 
 2. **Curated in code (source of truth, version-controlled).** Add or edit an
    entry in the `LIBRARY` array in `mdmFeatures.js` following §3, then run

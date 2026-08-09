@@ -69,6 +69,33 @@ export function AdminScreen({ onExit }) {
   const [toast, setToast] = useState('');
   const fileRef = useRef(null);
 
+  // ── Passcode gate (Option A: obscurity, not real security) ──────────────────
+  // The editor only affects this browser's localStorage, so this gate just keeps
+  // casual users out of the config screen. It is active only when a passcode is
+  // configured via the VITE_ADMIN_PASSCODE env var; unset ⇒ open (e.g. local dev).
+  const ADMIN_PASSCODE = import.meta.env.VITE_ADMIN_PASSCODE || '';
+  const UNLOCK_KEY = 'emtools.admin.unlock';
+  const [unlocked, setUnlocked] = useState(() => {
+    if (!ADMIN_PASSCODE) return true;
+    try { return localStorage.getItem(UNLOCK_KEY) === ADMIN_PASSCODE; } catch { return false; }
+  });
+  const [passInput, setPassInput] = useState('');
+  const [passError, setPassError] = useState(false);
+
+  function tryUnlock(e) {
+    e?.preventDefault();
+    if (passInput === ADMIN_PASSCODE) {
+      try { localStorage.setItem(UNLOCK_KEY, ADMIN_PASSCODE); } catch { /* storage unavailable */ }
+      setUnlocked(true); setPassError(false); setPassInput('');
+    } else {
+      setPassError(true);
+    }
+  }
+  function lock() {
+    try { localStorage.removeItem(UNLOCK_KEY); } catch { /* storage unavailable */ }
+    setUnlocked(false);
+  }
+
   function flash(msg) { setToast(msg); setTimeout(() => setToast(''), 2200); }
 
   // Load a condition into the editor.
@@ -203,6 +230,39 @@ export function AdminScreen({ onExit }) {
     flash('All edits cleared');
   }
 
+  // ── Passcode gate ────────────────────────────────────────────────────────────
+  if (!unlocked) {
+    return (
+      <div className="min-h-screen bg-[#fafafa] flex flex-col">
+        <div className="sticky top-0 bg-[#fafafa]/90 backdrop-blur border-b border-gray-100">
+          <div className="max-w-7xl mx-auto px-4 py-3">
+            <button onClick={onExit} className="text-xs text-gray-400 hover:text-gray-600 flex items-center gap-1 transition-colors">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" d="M15 19l-7-7 7-7" /></svg>
+              Back
+            </button>
+          </div>
+        </div>
+        <div className="flex-1 flex items-center justify-center px-5">
+          <form onSubmit={tryUnlock} className="w-full max-w-xs bg-white border border-gray-200 rounded-2xl p-6 text-center shadow-soft">
+            <div className="inline-flex items-center justify-center w-11 h-11 bg-gray-900 rounded-xl mb-3">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><rect x="4" y="11" width="16" height="9" rx="2" /><path strokeLinecap="round" d="M8 11V7a4 4 0 118 0v4" /></svg>
+            </div>
+            <h2 className="text-base font-bold text-gray-900">Finding Library — Admin</h2>
+            <p className="text-xs text-gray-400 mt-1 mb-4">Enter the admin passcode to edit the finding library.</p>
+            <input
+              type="password" autoFocus value={passInput}
+              onChange={e => { setPassInput(e.target.value); setPassError(false); }}
+              placeholder="Passcode"
+              className={`w-full bg-gray-50 border rounded-lg px-3 py-2 text-sm text-gray-800 placeholder-gray-300 focus:bg-white ${passError ? 'border-red-300 focus:border-red-500' : 'border-gray-200 focus:border-blue-500'}`}
+            />
+            {passError && <p className="text-[11px] text-red-500 mt-1.5">Incorrect passcode.</p>}
+            <button type="submit" className="w-full mt-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-3 py-2 text-sm font-semibold">Unlock</button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
   // ── List pane ──────────────────────────────────────────────────────────────
   const List = (
     <div className="bg-white border border-gray-200 rounded-xl overflow-hidden flex flex-col lg:h-[calc(100vh-8.5rem)]">
@@ -324,6 +384,7 @@ export function AdminScreen({ onExit }) {
             <button onClick={handleExport} title="Download edits as JSON" className="text-[11px] text-gray-500 hover:text-blue-600 px-1.5">Export</button>
             <button onClick={() => fileRef.current?.click()} title="Import edits from JSON" className="text-[11px] text-gray-500 hover:text-blue-600 px-1.5">Import</button>
             {hasOverrides() && <button onClick={handleResetAll} title="Discard all local edits" className="text-[11px] text-gray-400 hover:text-red-500 px-1.5">Reset all</button>}
+            {ADMIN_PASSCODE && <button onClick={lock} title="Lock the admin view" className="text-[11px] text-gray-400 hover:text-gray-700 px-1.5">Lock</button>}
           </div>
         </div>
       </div>
