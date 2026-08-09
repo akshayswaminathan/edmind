@@ -82,22 +82,37 @@ export function hasOneLiner({ age, sex, pmh = [], chiefComplaint, concern } = {}
 }
 
 // ── Per-diagnosis reasoning ─────────────────────────────────────────────────
+// Grammatical "absence of X" that avoids double negatives when a label is itself
+// phrased negatively (e.g. "Absence of cremasteric reflex" -> "the absence of
+// cremasteric reflex", not "the absence of absence of cremasteric reflex").
+function absenceOf(label) {
+  let p = phrase(label);
+  const m = p.match(/^(?:absence of|absent|no|lack of|negative(?: for)?)\s+([a-z].*)$/i);
+  if (m && !/^(?:or|and)\b/i.test(m[1])) p = m[1];
+  return `the absence of ${p}`;
+}
+
 function collectFindings(dx) {
   const supporting = [];
   const against = [];
   const pending = [];
+  const seen = new Set();               // dedup identical phrases across buckets
+  const push = (arr, text) => {
+    const key = text.toLowerCase();
+    if (seen.has(key)) return;
+    seen.add(key);
+    arr.push(text);
+  };
 
   for (const group of Object.keys(dx.features || {})) {
     for (const f of dx.features[group]) {
       const s = dx.state?.[f.id];
       if (!s) continue;
-      if (s === 'pending') { pending.push(phrase(f.label)); continue; }
+      if (s === 'pending') { push(pending, phrase(f.label)); continue; }
       if (s === 'present') {
-        if (f.dir === 'against') against.push(phrase(f.label));
-        else supporting.push(phrase(f.label));
+        push(f.dir === 'against' ? against : supporting, phrase(f.label));
       } else if (s === 'absent') {
-        if (f.dir === 'against') supporting.push(`the absence of ${phrase(f.label)}`);
-        else against.push(`the absence of ${phrase(f.label)}`);
+        push(f.dir === 'against' ? supporting : against, absenceOf(f.label));
       }
     }
   }
@@ -108,15 +123,27 @@ function collectFindings(dx) {
   };
 }
 
+// Decision instruments attached to this diagnosis, as a trailing sentence.
+function calcSentence(calculators = []) {
+  const items = calculators
+    .filter(c => (c?.name || '').trim())
+    .map(c => {
+      const impact = (c.impact || '').trim();
+      return impact ? `${c.name.trim()} (${impact})` : c.name.trim();
+    });
+  return items.length ? ` Risk stratified with ${joinList(items)}.` : '';
+}
+
 function reasonForDiagnosis(dx) {
   const { support, against, pending } = collectFindings(dx);
   const pendingClause = pending ? ` Workup pending: ${pending}.` : '';
+  const calcClause = calcSentence(dx.calculators);
 
   if (dx.tier === 'likely') {
     let s = `${dx.name} is felt to be the most likely diagnosis`;
     s += support ? `, supported by ${support}.` : '.';
     if (against) s += ` Arguing against this diagnosis: ${against}.`;
-    return s + pendingClause;
+    return s + pendingClause + calcClause;
   }
 
   if (dx.tier === 'cantmiss') {
@@ -124,7 +151,7 @@ function reasonForDiagnosis(dx) {
     if (against) s += `; it is made less likely by ${against}`;
     s += '.';
     if (support) s += ` Features that raise concern include ${support}.`;
-    return s + pendingClause;
+    return s + pendingClause + calcClause;
   }
 
   if (dx.tier === 'less') {
@@ -132,17 +159,18 @@ function reasonForDiagnosis(dx) {
       ? `${dx.name} is felt to be less likely given ${against}.`
       : `${dx.name} is felt to be less likely.`;
     if (support) s += ` Features that could support it include ${support}.`;
-    return s + pendingClause;
+    return s + pendingClause + calcClause;
   }
 
   // Untiered — still summarize whatever was marked.
   if (against) {
     let s = `${dx.name} is felt to be less likely given ${against}.`;
     if (support) s += ` Features that could support it include ${support}.`;
-    return s + pendingClause;
+    return s + pendingClause + calcClause;
   }
-  if (support) return `${dx.name} remains under consideration given ${support}.${pendingClause}`;
-  if (pending) return `${dx.name} was considered.${pendingClause}`;
+  if (support) return `${dx.name} remains under consideration given ${support}.${pendingClause}${calcClause}`;
+  if (pending) return `${dx.name} was considered.${pendingClause}${calcClause}`;
+  if (calcClause) return `${dx.name} was considered.${calcClause}`;
   return `${dx.name} was considered.`;
 }
 
@@ -178,16 +206,12 @@ function buildPlan(plan = {}) {
 }
 
 // ── Assemble ─────────────────────────────────────────────────────────────────
-// Sections are separated by a blank line, and each carries a bold markdown
-// header so the pasted note reads as a structured HPI / Assessment / Plan.
+// Sections are separated by a blank line and use plain-text headers (no markdown
+// bold), so the pasted note carries no formatting artifacts. The note opens with
+// the Assessment (no HPI), and closes with a plain handoff line (no heading).
 export function generateMdm(input = {}) {
   const {
-    oneLiner = {},
     diagnoses = [],
-    interpretations = [],
-    deferred = [],
-    calculators = [],
-    consult = {},
     reassessment = {},
     sdm = {},
     uncertainty = {},
@@ -197,85 +221,40 @@ export function generateMdm(input = {}) {
 
   const sections = [];
 
-  // 1) One-liner / HPI — only once the clinician has entered part of it.
-  if (hasOneLiner(oneLiner)) {
-    sections.push(`**HPI:** ${buildOneLiner(oneLiner)}`);
-  }
-
-  // 2) Assessment — differential summary + per-diagnosis reasoning (by tier)
+  // 1) Assessment — per-diagnosis reasoning, ordered by tier. No opening summary.
   if (diagnoses.length) {
-    const names = diagnoses.map(d => d.name);
-    const mostLikely = diagnoses.find(d => d.tier === 'likely');
-    let summary = `The differential diagnosis includes ${joinList(names)}.`;
-    if (mostLikely) summary += ` ${mostLikely.name} is felt to be most likely.`;
-
     const ordered = [...diagnoses].sort(
       (a, b) => (TIER_RANK[a.tier] ?? 3) - (TIER_RANK[b.tier] ?? 3)
     );
     const reasoning = ordered.map(reasonForDiagnosis).filter(Boolean).join('\n');
-    sections.push(`**Assessment:** ${summary}${reasoning ? `\n${reasoning}` : ''}`);
+    if (reasoning) sections.push(`Assessment:\n${reasoning}`);
   }
 
-  // 3) Data reviewed — independent interpretations (attributed), Data Cat 2
-  const reads = interpretations.filter(i => (i.study || '').trim() && (i.read || '').trim());
-  if (reads.length) {
-    const parts = reads.map(i => `${i.study.trim()}, ${phrase(i.read.trim())}`);
-    sections.push(`**Data reviewed:** On my independent interpretation: ${parts.join('; ')}.`);
-  }
-
-  // 4) Plan — one bullet per category
+  // 2) Plan — ordered categories, then serial reassessment / shared
+  //    decision-making / diagnostic uncertainty, each as its own bullet.
   const { lines: planLines, disposition } = buildPlan(plan);
-  if (planLines.length) {
-    sections.push(`**Plan:**\n${planLines.map(l => `• ${l}`).join('\n')}`);
-  }
-
-  // 5) Consultant discussion — Data Category 3
-  if ((consult.who || '').trim()) {
-    const what = (consult.what || '').trim();
-    sections.push(`**Consultant discussion:** Case discussed with ${consult.who.trim()}${what ? `, ${what}` : ''}.`);
-  }
-
-  // 6) Clinical reasoning — considered-but-deferred, decision instruments,
-  //    reassessment, shared decision-making, and diagnostic uncertainty. Each is
-  //    creditable cognitive work that a plain note rarely captures.
-  const reasoningLines = [];
-
-  const defItems = deferred.filter(d => (d.item || '').trim());
-  for (const d of defItems) {
-    const r = (d.rationale || '').trim();
-    reasoningLines.push(`${cap(d.item.trim())} was considered but deferred${r ? ` given ${r}` : ''}.`);
-  }
-
-  const calcLines = calculators.filter(c => (c.name || '').trim()).map(c => {
-    const impact = (c.impact || '').trim();
-    return `${c.name.trim()}${impact ? ` (${impact})` : ''}`;
-  });
-  if (calcLines.length) reasoningLines.push(`Risk stratification: ${joinList(calcLines)}.`);
-
   if (reassessment.on) {
     const t = (reassessment.text || '').trim();
-    reasoningLines.push(`The patient will be serially reassessed${t ? ` for ${t}` : ''}.`);
+    planLines.push(`The patient will be serially reassessed${t ? ` for ${t}` : ''}.`);
   }
   if (sdm.on) {
     const t = (sdm.text || '').trim();
-    reasoningLines.push(`Shared decision-making was performed with the patient${t ? ` regarding ${t}` : ''}.`);
+    planLines.push(`Shared decision-making was performed with the patient${t ? ` regarding ${t}` : ''}.`);
   }
   if (uncertainty.on) {
     const t = (uncertainty.text || '').trim();
-    reasoningLines.push(`Diagnostic uncertainty and return precautions were discussed with the patient${t ? `, including ${t}` : ''}.`);
+    planLines.push(`Diagnostic uncertainty and return precautions were discussed with the patient${t ? `, including ${t}` : ''}.`);
+  }
+  if (planLines.length) {
+    sections.push(`Plan:\n${planLines.map(l => `• ${l}`).join('\n')}`);
   }
 
-  if (reasoningLines.length) {
-    sections.push(`**Clinical reasoning:**\n${reasoningLines.map(l => `• ${l}`).join('\n')}`);
-  }
+  // 3) Disposition
+  if (disposition) sections.push(`Disposition: ${cap(disposition)}.`);
 
-  // 7) Disposition
-  if (disposition) sections.push(`**Disposition:** ${cap(disposition)}.`);
-
-  // 8) Handoff line — closes the note. The ED course lives in the EHR; this tool
-  //    writes the initial reasoning and stops here.
+  // 4) Handoff — a plain closing line, no heading.
   const handoff = (handoffLine || '').trim() || DEFAULT_HANDOFF;
-  sections.push(`**Handoff:** ${handoff}`);
+  sections.push(handoff);
 
   return sections.join('\n\n');
 }

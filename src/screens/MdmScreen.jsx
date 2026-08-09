@@ -2,15 +2,14 @@ import { useState, useMemo } from 'react';
 import { MDM_COMPLAINTS, getComplaintDiagnoses, searchDiagnoses, ALL_DIAGNOSES } from '../data/mdmDiagnoses';
 import {
   getFeatureSet, featuresWithIds, GROUP_ORDER, PLAN_MENU, PLAN_ORDER,
-  RISK_CALCULATORS, INTERP_STUDIES, COMMON_PMH, IMAGING_SIMPLE, IMAGING_GROUPS,
+  RISK_CALCULATORS, IMAGING_SIMPLE, IMAGING_GROUPS,
   getEditableLibrary,
 } from '../data/mdmFeatures';
-import { generateMdm, buildOneLiner, hasOneLiner, DEFAULT_HANDOFF } from '../data/mdmGenerate';
+import { generateMdm, DEFAULT_HANDOFF } from '../data/mdmGenerate';
 import { suggestFindings, suggestDifferential } from '../api/claude';
 import { TermsModal } from '../components/TermsModal';
 import { TERMS_META } from '../data/terms';
 
-const TIER_DOT = { red: 'bg-red-400', common: 'bg-amber-400', rare: 'bg-gray-300' };
 const DX_TIERS = [
   { key: 'likely', label: 'Most likely' },
   { key: 'cantmiss', label: "Can't-miss" },
@@ -35,13 +34,14 @@ function hasAcceptedTerms() {
 // A fresh, empty plan keyed by every current plan category.
 const emptyPlan = () => Object.fromEntries(PLAN_ORDER.map(c => [c, []]));
 
-// Renders inline **bold** spans (from the generated note) without innerHTML.
-function renderInline(line) {
-  return line.split(/\*\*(.+?)\*\*/g).map((part, i) =>
-    i % 2 === 1
-      ? <strong key={i} className="font-semibold text-gray-900">{part}</strong>
-      : <span key={i}>{part}</span>
-  );
+// The generated note is plain text (no markdown). For the on-screen preview we
+// bold the leading section header ("Assessment:", "Plan:", "Disposition:") so it
+// reads as structured — the copied text stays header-marker-free.
+const NOTE_HEADER = /^(Assessment:|Plan:|Disposition:)(.*)$/;
+function renderNoteLine(line) {
+  const m = line.match(NOTE_HEADER);
+  if (!m) return <span>{line}</span>;
+  return <><strong className="font-semibold text-gray-900">{m[1]}</strong>{m[2]}</>;
 }
 
 // ── Small building blocks ────────────────────────────────────────────────────
@@ -156,34 +156,16 @@ export function MdmScreen({ onExit, onAdmin }) {
   const [plan, setPlan] = useState(emptyPlan);
   const [planCustom, setPlanCustom] = useState({});
   const [openImg, setOpenImg] = useState(null);          // which imaging modality menu is open
-  const [interpretations, setInterpretations] = useState([]);
-  const [interpStudy, setInterpStudy] = useState('ECG');
-  const [interpRead, setInterpRead] = useState('');
-  const [consult, setConsult] = useState({ who: '', what: '' });
-  const [deferred, setDeferred] = useState([]);
-  const [defItem, setDefItem] = useState('');
-  const [defRationale, setDefRationale] = useState('');
-  const [calcSel, setCalcSel] = useState([]);
-  const [calcImpact, setCalcImpact] = useState({});
+  const [dxCalc, setDxCalc] = useState({});              // dxName -> { sel: [names], impact: {name: text} }
   const [reassess, setReassess] = useState({ on: false, text: '' });
   const [sdm, setSdm] = useState({ on: false, text: '' });
   const [uncertainty, setUncertainty] = useState({ on: false, text: '' });
   const [handoff, setHandoff] = useState(DEFAULT_HANDOFF);
 
-  // Patient one-liner
-  const [chiefComplaint, setChiefComplaint] = useState('');
-  const [ccTouched, setCcTouched] = useState(false);
-  const [concern, setConcern] = useState('');
-  const [concernTouched, setConcernTouched] = useState(false);
-  const [age, setAge] = useState('');
-  const [sex, setSex] = useState('');
-  const [pmh, setPmh] = useState([]);
-  const [pmhInput, setPmhInput] = useState('');
-
   // UI state
   const [dxQuery, setDxQuery] = useState('');
   const [activeComplaint, setActiveComplaint] = useState(null);
-  const [open, setOpen] = useState({ dx: true, patient: false, plan: true, interp: false, safety: false, handoff: false });
+  const [open, setOpen] = useState({ dx: true, plan: true, handoff: false });
   const [dxOpen, setDxOpen] = useState({});
   const [mobileView, setMobileView] = useState('menu'); // 'menu' | 'note'
   const [copied, setCopied] = useState(false);
@@ -229,23 +211,25 @@ export function MdmScreen({ onExit, onAdmin }) {
   }, []);
 
   // ── Live note ──────────────────────────────────────────────────────────────
-  const oneLiner = { age, sex, pmh, chiefComplaint, concern };
   const mdmText = useMemo(() => {
-    const diagnoses = selected.map(dx => ({
-      name: dx.name,
-      tier: dxTier[dx.name] || null,
-      features: featureSets[dx.name] || {},
-      state: featureState[dx.name] || {},
-    }));
-    const calculators = calcSel.map(name => ({ name, impact: calcImpact[name] || '' }));
+    const diagnoses = selected.map(dx => {
+      const c = dxCalc[dx.name];
+      const calculators = (c?.sel || []).map(name => ({ name, impact: c.impact?.[name] || '' }));
+      return {
+        name: dx.name,
+        tier: dxTier[dx.name] || null,
+        features: featureSets[dx.name] || {},
+        state: featureState[dx.name] || {},
+        calculators,
+      };
+    });
     return generateMdm({
-      oneLiner: { age, sex, pmh, chiefComplaint, concern },
-      diagnoses, interpretations, deferred, calculators, consult,
+      diagnoses,
       reassessment: reassess, sdm, uncertainty, plan, handoffLine: handoff,
     });
-  }, [selected, dxTier, featureSets, featureState, age, sex, pmh, chiefComplaint, concern, interpretations, deferred, calcSel, calcImpact, consult, reassess, sdm, uncertainty, plan, handoff]);
+  }, [selected, dxTier, featureSets, featureState, dxCalc, reassess, sdm, uncertainty, plan, handoff]);
 
-  const hasContent = selected.length > 0 || hasOneLiner(oneLiner) || PLAN_ORDER.some(c => plan[c].length) || interpretations.length || deferred.length || calcSel.length || consult.who || reassess.on || sdm.on || uncertainty.on;
+  const hasContent = selected.length > 0 || PLAN_ORDER.some(c => plan[c].length) || reassess.on || sdm.on || uncertainty.on;
 
   // ── Mutators ─────────────────────────────────────────────────────────────────
   function addDx(name, tier = 'custom') {
@@ -257,6 +241,7 @@ export function MdmScreen({ onExit, onAdmin }) {
   function removeDx(name) {
     setSelected(prev => prev.filter(d => d.name.toLowerCase() !== name.toLowerCase()));
     setDxTier(t => { const c = { ...t }; delete c[name]; return c; });
+    setDxCalc(c => { const n = { ...c }; delete n[name]; return n; });
   }
   function commitQuery() {
     const q = dxQuery.trim();
@@ -265,11 +250,8 @@ export function MdmScreen({ onExit, onAdmin }) {
     else addDx(q);
     setDxQuery('');
   }
-  // Selecting a chief complaint seeds the one-liner's CC (until hand-edited).
   function pickComplaint(slug) {
     setActiveComplaint(prev => (prev === slug ? null : slug));
-    const c = MDM_COMPLAINTS.find(x => x.slug === slug);
-    if (c && (!ccTouched || !chiefComplaint)) setChiefComplaint(c.name.toLowerCase());
   }
   function setTier(dxName, tierKey) {
     setDxTier(prev => {
@@ -277,8 +259,6 @@ export function MdmScreen({ onExit, onAdmin }) {
       if (next[dxName] === tierKey) { delete next[dxName]; return next; }
       if (tierKey === 'likely') {
         for (const k of Object.keys(next)) if (next[k] === 'likely') delete next[k];
-        // The most-likely diagnosis seeds the one-liner's concern (until edited).
-        if (!concernTouched) setConcern(dxName);
       }
       next[dxName] = tierKey;
       return next;
@@ -337,36 +317,27 @@ export function MdmScreen({ onExit, onAdmin }) {
     setPlan(prev => ({ ...prev, [category]: prev[category].includes(val) ? prev[category] : [...prev[category], val] }));
     setPlanCustom(prev => ({ ...prev, [category]: '' }));
   }
-  function addInterp() {
-    if (!interpRead.trim()) return;
-    setInterpretations(prev => [...prev, { study: interpStudy, read: interpRead.trim() }]);
-    setInterpRead('');
+  // Decision instruments are scoped to a diagnosis.
+  function toggleDxCalc(dxName, name) {
+    setDxCalc(prev => {
+      const cur = prev[dxName] || { sel: [], impact: {} };
+      const sel = cur.sel.includes(name) ? cur.sel.filter(x => x !== name) : [...cur.sel, name];
+      return { ...prev, [dxName]: { ...cur, sel } };
+    });
   }
-  function addDeferred() {
-    if (!defItem.trim()) return;
-    setDeferred(prev => [...prev, { item: defItem.trim(), rationale: defRationale.trim() }]);
-    setDefItem(''); setDefRationale('');
-  }
-  function toggleCalc(name) {
-    setCalcSel(prev => prev.includes(name) ? prev.filter(x => x !== name) : [...prev, name]);
-  }
-  function addPmh(val) {
-    const v = val.trim();
-    if (!v || pmh.includes(v)) return;
-    setPmh(prev => [...prev, v]);
-    setPmhInput('');
+  function setDxCalcImpact(dxName, name, text) {
+    setDxCalc(prev => {
+      const cur = prev[dxName] || { sel: [], impact: {} };
+      return { ...prev, [dxName]: { ...cur, impact: { ...cur.impact, [name]: text } } };
+    });
   }
   function clearAll() {
     if (!window.confirm('Clear all entries and start over?')) return;
-    setSelected([]); setDxTier({}); setFeatureState({}); setAiFeatures({}); setAiStatus({});
+    setSelected([]); setDxTier({}); setFeatureState({}); setAiFeatures({}); setAiStatus({}); setDxCalc({});
     setDdx({ status: 'idle', phrase: '', items: [], error: '' });
     setPlan(emptyPlan()); setPlanCustom({}); setOpenImg(null);
-    setInterpretations([]); setInterpRead(''); setConsult({ who: '', what: '' });
-    setDeferred([]); setDefItem(''); setDefRationale(''); setCalcSel([]); setCalcImpact({});
     setReassess({ on: false, text: '' }); setSdm({ on: false, text: '' }); setUncertainty({ on: false, text: '' });
     setHandoff(DEFAULT_HANDOFF); setDxQuery(''); setActiveComplaint(null);
-    setChiefComplaint(''); setCcTouched(false); setConcern(''); setConcernTouched(false);
-    setAge(''); setSex(''); setPmh([]); setPmhInput('');
   }
   async function copyMdm() {
     try {
@@ -381,10 +352,8 @@ export function MdmScreen({ onExit, onAdmin }) {
     } catch { setCopied(false); }
   }
 
-  const totalPlan = PLAN_ORDER.reduce((n, c) => n + plan[c].length, 0);
-  const patientCount = (chiefComplaint ? 1 : 0) + (age ? 1 : 0) + (sex ? 1 : 0) + pmh.length + (concern ? 1 : 0);
-  const safetyCount = deferred.length + calcSel.length + (reassess.on ? 1 : 0) + (sdm.on ? 1 : 0) + (uncertainty.on ? 1 : 0);
-  const interpCount = interpretations.length + (consult.who ? 1 : 0);
+  const totalPlan = PLAN_ORDER.reduce((n, c) => n + plan[c].length, 0)
+    + (reassess.on ? 1 : 0) + (sdm.on ? 1 : 0) + (uncertainty.on ? 1 : 0);
 
   // ── Left menu ────────────────────────────────────────────────────────────────
   const Menu = (
@@ -429,7 +398,6 @@ export function MdmScreen({ onExit, onAdmin }) {
             ))}
             {dxMatches.map(d => (
               <button key={d.name} onClick={() => { addDx(d.name, d.tier); setDxQuery(''); }} className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-blue-50 transition-colors">
-                <span className={`w-1.5 h-1.5 rounded-full ${TIER_DOT[d.tier] || 'bg-gray-300'}`} />
                 <span className="text-sm text-gray-700">{d.name}</span>
               </button>
             ))}
@@ -491,7 +459,6 @@ export function MdmScreen({ onExit, onAdmin }) {
             <div className="flex flex-wrap gap-1.5">
               {getComplaintDiagnoses(activeComplaint).map(dx => (
                 <button key={dx.name} onClick={() => addDx(dx.name, dx.tier)} disabled={isSelected(dx.name)} className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium border transition-all ${isSelected(dx.name) ? 'bg-blue-600 text-white border-blue-600 opacity-60' : 'bg-white text-gray-600 border-gray-200 hover:border-blue-300 hover:text-blue-600'}`}>
-                  <span className={`w-1.5 h-1.5 rounded-full ${isSelected(dx.name) ? 'bg-white/70' : TIER_DOT[dx.tier]}`} />
                   {dx.name}
                 </button>
               ))}
@@ -514,7 +481,6 @@ export function MdmScreen({ onExit, onAdmin }) {
               <div key={dx.name} className={`border rounded-lg overflow-hidden ${tier === 'likely' ? 'border-blue-300' : 'border-gray-200'}`}>
                 <div className="flex items-center gap-2 px-3 py-2 bg-gray-50/70">
                   <button onClick={() => setDxOpen(o => ({ ...o, [dx.name]: !o[dx.name] }))} className="text-gray-400 shrink-0"><Chevron open={isOpen} /></button>
-                  <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${TIER_DOT[dx.tier] || 'bg-blue-300'}`} />
                   <span className="text-sm font-semibold text-gray-800 flex-1 truncate">{dx.name}</span>
                   {marks > 0 && <span className="text-[10px] text-blue-600 bg-blue-50 rounded-full px-1.5 py-0.5">{marks}</span>}
                   <button onClick={() => removeDx(dx.name)} className="text-gray-300 hover:text-red-400 shrink-0">
@@ -561,64 +527,32 @@ export function MdmScreen({ onExit, onAdmin }) {
                           </div>
                         </div>
                       ))}
+
+                      {/* Decision instruments — scoped to this diagnosis */}
+                      <div>
+                        <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1">Decision instruments</p>
+                        <div className="flex flex-wrap gap-1.5">
+                          {RISK_CALCULATORS.map(c => (
+                            <PlanChip key={c} active={(dxCalc[dx.name]?.sel || []).includes(c)} onClick={() => toggleDxCalc(dx.name, c)}>{c}</PlanChip>
+                          ))}
+                        </div>
+                        {(dxCalc[dx.name]?.sel || []).length > 0 && (
+                          <div className="space-y-1.5 mt-1.5">
+                            {dxCalc[dx.name].sel.map(c => (
+                              <div key={c} className="flex items-center gap-2">
+                                <span className="text-[11px] text-gray-500 w-24 shrink-0 truncate">{c}</span>
+                                <input value={dxCalc[dx.name].impact?.[c] || ''} onChange={e => setDxCalcImpact(dx.name, c, e.target.value)} placeholder="result & what it changed" className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 )}
               </div>
             );
           })}
-        </div>
-      </Section>
-
-      {/* Patient one-liner */}
-      <Section title="Patient one-liner" count={patientCount} open={open.patient} onToggle={() => setOpen(o => ({ ...o, patient: !o.patient }))}>
-        <p className="text-[11px] text-gray-400 mb-3">De-identified only. A good one-liner risk-stratifies — it names the concern, not just the symptom.</p>
-        <div className="space-y-3">
-          <div>
-            <label className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1 block">Chief complaint</label>
-            <input value={chiefComplaint} onChange={e => { setChiefComplaint(e.target.value); setCcTouched(true); }} placeholder="e.g. chest pain" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-          </div>
-          <div className="flex gap-2">
-            <div className="w-20">
-              <label className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1 block">Age</label>
-              <input value={age} onChange={e => setAge(e.target.value.replace(/[^0-9]/g, '').slice(0, 3))} inputMode="numeric" placeholder="58" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-            </div>
-            <div className="flex-1">
-              <label className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1 block">Sex</label>
-              <div className="flex gap-1.5">
-                {['male', 'female', 'other'].map(s => (
-                  <button key={s} onClick={() => setSex(sex === s ? '' : s)} className={`flex-1 rounded-lg px-2 py-1.5 text-xs font-medium border transition-all ${sex === s ? 'bg-gray-900 text-white border-gray-900' : 'bg-gray-50 text-gray-500 border-gray-200 hover:bg-gray-100'}`}>{s}</button>
-                ))}
-              </div>
-            </div>
-          </div>
-          <div>
-            <label className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1 block">Relevant history</label>
-            <div className="flex flex-wrap gap-1.5 mb-1.5">
-              {COMMON_PMH.map(p => (
-                <Chip key={p} active={pmh.includes(p)} onClick={() => pmh.includes(p) ? setPmh(pmh.filter(x => x !== p)) : addPmh(p)}>{p}</Chip>
-              ))}
-            </div>
-            <div className="flex gap-1.5">
-              <input value={pmhInput} onChange={e => setPmhInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addPmh(pmhInput); } }} placeholder="+ add comorbidity" className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-            </div>
-            {pmh.filter(p => !COMMON_PMH.includes(p)).length > 0 && (
-              <div className="flex flex-wrap gap-1.5 mt-1.5">
-                {pmh.filter(p => !COMMON_PMH.includes(p)).map(p => (
-                  <span key={p} className="inline-flex items-center gap-1 rounded-full bg-blue-50 text-blue-600 px-2.5 py-1 text-xs">{p}<button onClick={() => setPmh(pmh.filter(x => x !== p))} className="hover:text-blue-800">×</button></span>
-                ))}
-              </div>
-            )}
-          </div>
-          <div>
-            <label className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1 block">Concerning for</label>
-            <input value={concern} onChange={e => { setConcern(e.target.value); setConcernTouched(true); }} placeholder="e.g. acute coronary syndrome" list="concern-options" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-            <datalist id="concern-options">{selected.map(d => <option key={d.name} value={d.name} />)}</datalist>
-          </div>
-          <div className="bg-blue-50/50 border border-blue-100 rounded-lg px-3 py-2">
-            <p className="text-[10px] text-blue-400 font-semibold uppercase tracking-wider mb-0.5">Preview</p>
-            <p className="text-[13px] text-gray-700 leading-relaxed">{buildOneLiner(oneLiner)}</p>
-          </div>
         </div>
       </Section>
 
@@ -694,77 +628,16 @@ export function MdmScreen({ onExit, onAdmin }) {
               </div>
             </div>
           ))}
-        </div>
-      </Section>
 
-      {/* Interpretations & discussion */}
-      <Section title="Interpretations & discussion" count={interpCount} open={open.interp} onToggle={() => setOpen(o => ({ ...o, interp: !o.interp }))}>
-        <p className="text-[11px] text-gray-400 mb-2">Your independent read of an ECG or study — attributed “on my interpretation.”</p>
-        <div className="flex gap-1.5 mb-2">
-          <select value={interpStudy} onChange={e => setInterpStudy(e.target.value)} className="bg-gray-50 border border-gray-200 rounded-lg px-2 py-1.5 text-xs text-gray-700 focus:border-blue-500">
-            {INTERP_STUDIES.map(s => <option key={s}>{s}</option>)}
-          </select>
-          <input value={interpRead} onChange={e => setInterpRead(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addInterp(); } }} placeholder="e.g. no acute ST changes, NSR at 78" className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-          <button onClick={addInterp} disabled={!interpRead.trim()} className="bg-gray-900 hover:bg-gray-800 disabled:opacity-30 text-white rounded-lg px-2.5 py-1.5 text-xs font-medium">Add</button>
-        </div>
-        {interpretations.length > 0 && (
-          <ul className="space-y-1 mb-3">
-            {interpretations.map((it, i) => (
-              <li key={i} className="flex items-center justify-between text-xs text-gray-600 bg-gray-50 rounded-lg px-2.5 py-1.5">
-                <span><span className="font-medium text-gray-700">{it.study}:</span> {it.read}</span>
-                <button onClick={() => setInterpretations(interpretations.filter((_, x) => x !== i))} className="text-gray-300 hover:text-red-400">×</button>
-              </li>
-            ))}
-          </ul>
-        )}
-        <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1.5">Consultant discussion</p>
-        <div className="flex gap-1.5">
-          <input value={consult.who} onChange={e => setConsult({ ...consult, who: e.target.value })} placeholder="Discussed with…" className="w-1/2 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-          <input value={consult.what} onChange={e => setConsult({ ...consult, what: e.target.value })} placeholder="who recommended…" className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-        </div>
-      </Section>
-
-      {/* Safety net */}
-      <Section title="Safety net & reasoning" count={safetyCount} open={open.safety} onToggle={() => setOpen(o => ({ ...o, safety: !o.safety }))}>
-        <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1.5">Considered but deferred</p>
-        <div className="flex gap-1.5 mb-2">
-          <input value={defItem} onChange={e => setDefItem(e.target.value)} placeholder="test / treatment" className="w-1/2 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-          <input value={defRationale} onChange={e => setDefRationale(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addDeferred(); } }} placeholder="rationale (e.g. PERC negative)" className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-          <button onClick={addDeferred} disabled={!defItem.trim()} className="bg-gray-900 hover:bg-gray-800 disabled:opacity-30 text-white rounded-lg px-2.5 py-1.5 text-xs font-medium">Add</button>
-        </div>
-        {deferred.length > 0 && (
-          <ul className="space-y-1 mb-3">
-            {deferred.map((d, i) => (
-              <li key={i} className="flex items-center justify-between text-xs text-gray-600 bg-gray-50 rounded-lg px-2.5 py-1.5">
-                <span><span className="font-medium text-gray-700">{d.item}</span>{d.rationale ? ` — ${d.rationale}` : ''}</span>
-                <button onClick={() => setDeferred(deferred.filter((_, x) => x !== i))} className="text-gray-300 hover:text-red-400">×</button>
-              </li>
-            ))}
-          </ul>
-        )}
-        <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1.5">Decision instruments</p>
-        <div className="flex flex-wrap gap-1.5 mb-2">
-          {RISK_CALCULATORS.map(c => (
-            <PlanChip key={c} active={calcSel.includes(c)} onClick={() => toggleCalc(c)}>{c}</PlanChip>
-          ))}
-        </div>
-        {calcSel.length > 0 && (
-          <div className="space-y-1.5 mb-3">
-            {calcSel.map(c => (
-              <div key={c} className="flex items-center gap-2">
-                <span className="text-[11px] text-gray-500 w-28 shrink-0 truncate">{c}</span>
-                <input value={calcImpact[c] || ''} onChange={e => setCalcImpact(prev => ({ ...prev, [c]: e.target.value }))} placeholder="result & what it changed" className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-              </div>
-            ))}
+          {/* Serial reassessment / shared decision-making / diagnostic uncertainty */}
+          <div className="pt-1 border-t border-gray-100 space-y-1.5">
+            <ToggleRow label="Serial reassessment" on={reassess.on} onToggle={() => setReassess({ ...reassess, on: !reassess.on })} />
+            {reassess.on && <input value={reassess.text} onChange={e => setReassess({ ...reassess, text: e.target.value })} placeholder="for… (e.g. repeat troponin, response to therapy)" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />}
+            <ToggleRow label="Shared decision-making" on={sdm.on} onToggle={() => setSdm({ ...sdm, on: !sdm.on })} />
+            {sdm.on && <input value={sdm.text} onChange={e => setSdm({ ...sdm, text: e.target.value })} placeholder="regarding… (e.g. testing options, admission vs discharge)" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />}
+            <ToggleRow label="Diagnostic uncertainty & return precautions" on={uncertainty.on} onToggle={() => setUncertainty({ ...uncertainty, on: !uncertainty.on })} />
+            {uncertainty.on && <input value={uncertainty.text} onChange={e => setUncertainty({ ...uncertainty, text: e.target.value })} placeholder="including… (specific return precautions)" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />}
           </div>
-        )}
-        <div className="space-y-1.5">
-          <ToggleRow label="Serial reassessment" on={reassess.on} onToggle={() => setReassess({ ...reassess, on: !reassess.on })} />
-          {reassess.on && <input value={reassess.text} onChange={e => setReassess({ ...reassess, text: e.target.value })} placeholder="for… (e.g. repeat troponin, response to therapy)" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />}
-          <ToggleRow label="Shared decision-making" on={sdm.on} onToggle={() => setSdm({ ...sdm, on: !sdm.on })} />
-          {sdm.on && <input value={sdm.text} onChange={e => setSdm({ ...sdm, text: e.target.value })} placeholder="regarding… (e.g. testing options, admission vs discharge)" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />}
-          <ToggleRow label="Diagnostic uncertainty & return precautions" on={uncertainty.on} onToggle={() => setUncertainty({ ...uncertainty, on: !uncertainty.on })} />
-          {uncertainty.on && <input value={uncertainty.text} onChange={e => setUncertainty({ ...uncertainty, text: e.target.value })} placeholder="including… (specific return precautions)" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />}
         </div>
       </Section>
 
@@ -791,7 +664,7 @@ export function MdmScreen({ onExit, onAdmin }) {
             {mdmText.split('\n\n').map((block, bi) => (
               <div key={bi} className="text-[13px] text-gray-700 leading-relaxed">
                 {block.split('\n').map((line, li) => (
-                  <p key={li} className={line.startsWith('•') ? 'pl-3' : ''}>{renderInline(line)}</p>
+                  <p key={li} className={line.startsWith('•') ? 'pl-3' : ''}>{renderNoteLine(line)}</p>
                 ))}
               </div>
             ))}
