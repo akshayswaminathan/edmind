@@ -1901,16 +1901,89 @@ function normalize(s) {
     .trim();
 }
 
-// Precompute a normalized index: every canonical name + alias -> entry.
-const INDEX = [];
-for (const entry of LIBRARY) {
-  const keys = new Set([normalize(entry.name), ...entry.aliases.map(normalize)]);
-  for (const k of keys) {
-    if (k) INDEX.push({ key: k, entry });
-  }
+// ── Editable override layer (admin) ─────────────────────────────────────────
+// The LIBRARY above is the version-controlled source of truth. The admin view
+// edits an OVERRIDE layer stored in localStorage, which is merged on top of the
+// built-ins at runtime — so the running MDM Writer reflects edits immediately,
+// with no rebuild. Export from the admin view to promote edits into LIBRARY.
+//
+// Override shape (keyed by a stable id):
+//   built-in edit : overrides[builtinId] = { name, aliases, groups }
+//   hidden builtin: overrides[builtinId] = { deleted: true }
+//   new condition : overrides['custom:<slug>'] = { name, aliases, groups }
+const OVERRIDE_KEY = 'emtools.mdm.libraryOverrides.v1';
+
+// Stable id for a built-in entry (its normalized canonical name).
+const builtinId = name => normalize(name);
+const BUILTIN_IDS = new Set(LIBRARY.map(e => builtinId(e.name)));
+
+function loadOverrides() {
+  try {
+    const raw = localStorage.getItem(OVERRIDE_KEY);
+    const parsed = raw ? JSON.parse(raw) : {};
+    return parsed && typeof parsed === 'object' ? parsed : {};
+  } catch { return {}; }
 }
-// Longer keys first so "acute coronary syndrome" wins over "acs" on ties.
-INDEX.sort((a, b) => b.key.length - a.key.length);
+let overrides = loadOverrides();
+
+function persistOverrides() {
+  try { localStorage.setItem(OVERRIDE_KEY, JSON.stringify(overrides)); }
+  catch { /* storage unavailable */ }
+}
+
+// Subscribers (React components) are notified whenever the library changes.
+// `snapshotCache` keeps getEditableLibrary() referentially stable between
+// notifications, as useSyncExternalStore requires.
+const listeners = new Set();
+let snapshotCache = null;
+export function subscribeLibrary(fn) { listeners.add(fn); return () => listeners.delete(fn); }
+function notify() { snapshotCache = null; rebuildIndex(); for (const fn of listeners) fn(); }
+
+// Normalize an entry to the canonical { name, aliases, groups } shape.
+function cleanEntry(entry = {}) {
+  const groups = {};
+  for (const g of GROUP_ORDER) {
+    const list = Array.isArray(entry.groups?.[g]) ? entry.groups[g] : [];
+    groups[g] = list
+      .map(f => ({ label: String(f?.label || '').trim(), dir: f?.dir === 'against' ? 'against' : 'for' }))
+      .filter(f => f.label);
+  }
+  const aliases = Array.isArray(entry.aliases)
+    ? entry.aliases.map(a => String(a || '').trim()).filter(Boolean)
+    : [];
+  return { name: String(entry.name || '').trim(), aliases, groups };
+}
+
+// The effective library = built-ins (with edits applied, tombstones removed)
+// followed by any custom conditions. Each row carries id/builtin/edited flags.
+function effectiveLibrary() {
+  const out = [];
+  for (const entry of LIBRARY) {
+    const id = builtinId(entry.name);
+    const ov = overrides[id];
+    if (ov?.deleted) continue;
+    out.push({ id, builtin: true, edited: Boolean(ov), ...(ov ? cleanEntry(ov) : entry) });
+  }
+  for (const [id, ov] of Object.entries(overrides)) {
+    if (BUILTIN_IDS.has(id) || ov?.deleted) continue;
+    out.push({ id, builtin: false, edited: true, ...cleanEntry(ov) });
+  }
+  return out;
+}
+
+// Precompute a normalized index: every canonical name + alias -> entry.
+let INDEX = [];
+function rebuildIndex() {
+  const idx = [];
+  for (const entry of effectiveLibrary()) {
+    const keys = new Set([normalize(entry.name), ...entry.aliases.map(normalize)]);
+    for (const k of keys) if (k) idx.push({ key: k, entry });
+  }
+  // Longer keys first so "acute coronary syndrome" wins over "acs" on ties.
+  idx.sort((a, b) => b.key.length - a.key.length);
+  INDEX = idx;
+}
+rebuildIndex();
 
 // Return { matched, groups } for a diagnosis name. Never throws.
 export function getFeatureSet(diagnosisName) {
@@ -1931,6 +2004,92 @@ export function getFeatureSet(diagnosisName) {
   }
   // 3) fallback scaffold
   return { matched: false, groups: genericGroups(diagnosisName) };
+}
+
+// ── Admin CRUD ───────────────────────────────────────────────────────────────
+// The full effective library, sorted, for the admin editor. Cached so repeated
+// calls return the same reference until the library changes (notify() clears it).
+export function getEditableLibrary() {
+  if (!snapshotCache) snapshotCache = effectiveLibrary().sort((a, b) => a.name.localeCompare(b.name));
+  return snapshotCache;
+}
+
+// A blank condition scaffold (used by "add condition on the fly").
+export function blankDiagnosis() {
+  return { id: null, builtin: false, edited: false, name: '', aliases: [], groups: emptyGroups() };
+}
+export function emptyGroups() {
+  return Object.fromEntries(GROUP_ORDER.map(g => [g, []]));
+}
+
+// Insert or update a condition. Pass the existing id when editing; omit for a
+// new condition (an id is derived — matching a built-in name edits that
+// built-in). Returns the id written.
+export function saveDiagnosis(id, entry) {
+  const clean = cleanEntry(entry);
+  if (!clean.name) throw new Error('Diagnosis name is required');
+  let key = id;
+  if (!key) {
+    const bId = builtinId(clean.name);
+    key = BUILTIN_IDS.has(bId) ? bId : `custom:${bId || Date.now().toString(36)}`;
+  }
+  overrides[key] = clean;
+  persistOverrides();
+  notify();
+  return key;
+}
+
+// Remove a condition: tombstone a built-in (hide it) or drop a custom entry.
+export function deleteDiagnosis(id) {
+  if (!id) return;
+  if (BUILTIN_IDS.has(id)) overrides[id] = { deleted: true };
+  else delete overrides[id];
+  persistOverrides();
+  notify();
+}
+
+// Revert a condition to its built-in default (or remove a custom entry).
+export function resetDiagnosis(id) {
+  if (!id) return;
+  delete overrides[id];
+  persistOverrides();
+  notify();
+}
+
+// Drop all admin edits, restoring the shipped library.
+export function resetAllOverrides() {
+  overrides = {};
+  persistOverrides();
+  notify();
+}
+
+export function hasOverrides() {
+  return Object.keys(overrides).length > 0;
+}
+
+// Export / import the override layer as JSON (for backup or sharing).
+export function exportOverrides() {
+  return JSON.stringify(overrides, null, 2);
+}
+export function importOverrides(json, { merge = false } = {}) {
+  const parsed = typeof json === 'string' ? JSON.parse(json) : json;
+  if (!parsed || typeof parsed !== 'object') throw new Error('Invalid overrides file');
+  overrides = merge ? { ...overrides, ...parsed } : parsed;
+  persistOverrides();
+  notify();
+}
+
+// Emit the edited / new conditions as pasteable mdmFeatures.js source, so the
+// admin can promote local edits into the committed LIBRARY.
+export function exportChangedAsCode() {
+  const changed = effectiveLibrary().filter(e => e.edited);
+  if (!changed.length) return '// No local edits to export.';
+  const fmt = f => (f.dir === 'against' ? `F(${JSON.stringify(f.label)}, 'against')` : `F(${JSON.stringify(f.label)})`);
+  const entry = e => {
+    const groups = GROUP_ORDER.map(g => `      ${g}: [${(e.groups[g] || []).map(fmt).join(', ')}],`).join('\n');
+    return `  {\n    name: ${JSON.stringify(e.name)},\n    aliases: ${JSON.stringify(e.aliases)},\n    groups: {\n${groups}\n    },\n  },`;
+  };
+  return `// Edited/new conditions — paste into the LIBRARY array in src/data/mdmFeatures.js\n${changed.map(entry).join('\n')}`;
 }
 
 // Attach a stable id to each feature for state keys.

@@ -130,7 +130,7 @@ function ToggleRow({ label, hint, on, onToggle }) {
   );
 }
 
-export function MdmScreen({ onExit }) {
+export function MdmScreen({ onExit, onAdmin }) {
   const [termsAccepted, setTermsAccepted] = useState(hasAcceptedTerms);
 
   function acceptTerms() {
@@ -730,6 +730,7 @@ export function MdmScreen({ onExit }) {
               <button onClick={() => setMobileView('menu')} className={`px-2.5 py-1 text-xs font-medium rounded-md ${mobileView === 'menu' ? 'bg-white text-gray-800 shadow-soft' : 'text-gray-400'}`}>Menu</button>
               <button onClick={() => setMobileView('note')} className={`px-2.5 py-1 text-xs font-medium rounded-md ${mobileView === 'note' ? 'bg-white text-gray-800 shadow-soft' : 'text-gray-400'}`}>Note</button>
             </div>
+            {onAdmin && <button onClick={onAdmin} className="text-[11px] text-gray-400 hover:text-blue-600 transition-colors">Edit library</button>}
             <button onClick={clearAll} className="text-[11px] text-gray-400 hover:text-red-500 transition-colors">Clear all</button>
           </div>
         </div>

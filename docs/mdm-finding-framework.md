@@ -120,24 +120,43 @@ them as covered.
 
 ---
 
-## 6. Adding a new diagnosis
+## 6. Adding or editing a diagnosis
 
-Two supported paths:
+Three supported paths:
 
-1. **Curated (preferred, version-controlled).** Add an entry to `LIBRARY` in
-   `mdmFeatures.js` following §3, then run `npm run audit:features` to confirm it
-   is picked up. This is the source of truth and is human-reviewed.
+1. **Admin view (edit directly, no code).** From the home screen ("Manage
+   finding library") or the MDM Writer top bar ("Edit library"), the **Finding
+   Library — Admin** screen lets you edit every button (label + for/against),
+   add or remove findings in any group, edit aliases, rename, delete/hide a
+   built-in, and **add a new condition on the fly**. Edits are stored as an
+   override layer in the browser (`localStorage`) and are merged on top of the
+   built-in library at runtime, so the MDM Writer reflects them immediately.
+   - **Revert to default** undoes edits to a built-in; **Reset all** restores the
+     shipped library.
+   - **Export** downloads the edits as JSON; **Import** restores them.
+   - **Copy code** emits your edited/new conditions as `mdmFeatures.js` source so
+     they can be promoted into the committed library (see path 2).
 
-2. **AI-assisted draft (in-app).** When a clinician selects a diagnosis with no
+2. **Curated in code (source of truth, version-controlled).** Add or edit an
+   entry in the `LIBRARY` array in `mdmFeatures.js` following §3, then run
+   `npm run audit:features` to confirm it is picked up. This is the reviewed,
+   shared source of truth — admin-view edits should eventually land here.
+
+3. **AI-assisted draft (in-app).** When a clinician selects a diagnosis with no
    curated set, the MDM Writer offers **"Suggest findings"**, which calls the
    backend (`POST /api/suggest-findings`) to draft a set in this exact schema.
    The draft is a *starting point the clinician curates on screen* — it is never
-   emitted into the note unless the clinician clicks the individual findings. Use
-   it to fill the long tail; promote frequently-used drafts into the curated
-   library.
+   emitted into the note unless the clinician clicks the individual findings.
 
-Until either is done, an uncurated diagnosis falls back to a generic scaffold so
+Until a set exists, an uncurated diagnosis falls back to a generic scaffold so
 the tool always works.
+
+### How overrides resolve
+`getFeatureSet(name)` matches against the **effective library** = built-in
+`LIBRARY` with admin edits applied (edited entries replace their built-in;
+hidden built-ins are removed) followed by any new conditions. Overrides are keyed
+by a stable id (a built-in's normalized name, or `custom:<slug>` for new
+conditions), so editing a built-in and adding a new condition never collide.
 
 ---
 

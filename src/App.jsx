@@ -5,6 +5,7 @@ import { ResultScreen } from './screens/ResultScreen';
 import { SummaryScreen } from './screens/SummaryScreen';
 import { CaseSimScreen } from './screens/CaseSimScreen';
 import { MdmScreen } from './screens/MdmScreen';
+import { AdminScreen } from './screens/AdminScreen';
 import { complaints, COMPLAINT_SLUGS } from './data/complaints';
 
 const SUMMARY_AFTER = 5;
@@ -28,6 +29,7 @@ function App() {
     result: null,
   });
   const [currentCaseId, setCurrentCaseId] = useState(null);
+  const [adminReturn, setAdminReturn] = useState('home');
 
   function handleUpdateSettings(updates) {
     setSettings(prev => ({ ...prev, ...updates }));
@@ -91,6 +93,11 @@ function App() {
     setScreen('mdm');
   }
 
+  function handleStartAdmin(from = 'home') {
+    setAdminReturn(from);
+    setScreen('admin');
+  }
+
   function handleDrillAgain() {
     const slug = COMPLAINT_SLUGS[Math.floor(Math.random() * COMPLAINT_SLUGS.length)];
     handleStartDrill(slug);
@@ -106,6 +113,7 @@ function App() {
           onStartDrill={handleStartDrill}
           onStartCase={handleStartCase}
           onStartMdm={handleStartMdm}
+          onStartAdmin={() => handleStartAdmin('home')}
         />
       );
     case 'drill':
@@ -136,7 +144,9 @@ function App() {
         />
       );
     case 'mdm':
-      return <MdmScreen onExit={handleHome} />;
+      return <MdmScreen onExit={handleHome} onAdmin={() => handleStartAdmin('mdm')} />;
+    case 'admin':
+      return <AdminScreen onExit={() => setScreen(adminReturn)} />;
     case 'summary':
       return (
         <SummaryScreen
