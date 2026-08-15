@@ -12,8 +12,11 @@
 // Feature group order (also drives the UI layout).
 export const GROUP_ORDER = ['History', 'Symptoms', 'Exam', 'Labs', 'Imaging'];
 
-// Compact helper: F('label') or F('label', 'against')
-const F = (label, dir = 'for') => ({ label, dir });
+// Compact helper: F('label'), F('label', 'against'), or F('label', 'for', 'CT urogram')
+// The optional third argument is the short study/order name used when the finding
+// is marked pending, so the note reads "pending CT urogram" rather than repeating
+// the full descriptive label (e.g. "CT urogram showing a mass").
+const F = (label, dir = 'for', study) => (study ? { label, dir, study } : { label, dir });
 
 // ── Curated feature sets, keyed by a canonical diagnosis name ──────────────
 // `aliases` power fuzzy matching against the differential database and free
@@ -1945,7 +1948,12 @@ function cleanEntry(entry = {}) {
   for (const g of GROUP_ORDER) {
     const list = Array.isArray(entry.groups?.[g]) ? entry.groups[g] : [];
     groups[g] = list
-      .map(f => ({ label: String(f?.label || '').trim(), dir: f?.dir === 'against' ? 'against' : 'for' }))
+      .map(f => {
+        const cleaned = { label: String(f?.label || '').trim(), dir: f?.dir === 'against' ? 'against' : 'for' };
+        const study = String(f?.study || '').trim();
+        if (study) cleaned.study = study;
+        return cleaned;
+      })
       .filter(f => f.label);
   }
   const aliases = Array.isArray(entry.aliases)
@@ -2084,7 +2092,12 @@ export function importOverrides(json, { merge = false } = {}) {
 export function exportChangedAsCode() {
   const changed = effectiveLibrary().filter(e => e.edited);
   if (!changed.length) return '// No local edits to export.';
-  const fmt = f => (f.dir === 'against' ? `F(${JSON.stringify(f.label)}, 'against')` : `F(${JSON.stringify(f.label)})`);
+  const fmt = f => {
+    const args = [JSON.stringify(f.label)];
+    if (f.study || f.dir === 'against') args.push(`'${f.dir === 'against' ? 'against' : 'for'}'`);
+    if (f.study) args.push(JSON.stringify(f.study));
+    return `F(${args.join(', ')})`;
+  };
   const entry = e => {
     const groups = GROUP_ORDER.map(g => `      ${g}: [${(e.groups[g] || []).map(fmt).join(', ')}],`).join('\n');
     return `  {\n    name: ${JSON.stringify(e.name)},\n    aliases: ${JSON.stringify(e.aliases)},\n    groups: {\n${groups}\n    },\n  },`;
