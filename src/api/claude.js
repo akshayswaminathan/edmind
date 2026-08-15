@@ -64,6 +64,42 @@ export async function suggestFindings(diagnosis) {
   return response.json();
 }
 
+// Generate a candidate differential from a free-text chief complaint that isn't
+// an existing diagnosis in the database. Returns { complaint, diagnoses:[{name,tier}] }.
+// The clinician picks which to add — nothing is added automatically.
+export async function suggestDiagnoses(complaint) {
+  const response = await fetch('/api/suggest-diagnoses', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ complaint }),
+  });
+
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({ error: 'Network error' }));
+    throw new Error(err.error || 'Could not suggest diagnoses');
+  }
+
+  return response.json();
+}
+
+// AI fallback for plan suggestions when a diagnosis has no curated/learned
+// associations. Returns { plan: { Labs:[], Imaging:[], ... } } keyed by the
+// standard plan categories.
+export async function suggestPlan(diagnoses) {
+  const response = await fetch('/api/suggest-plan', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ diagnoses }),
+  });
+
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({ error: 'Network error' }));
+    throw new Error(err.error || 'Could not suggest a plan');
+  }
+
+  return response.json();
+}
+
 // Get AI feedback on trainee performance
 export async function getCaseFeedback(caseId, differential, presentationAndMdm) {
   const response = await fetch('/api/case-feedback', {

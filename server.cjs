@@ -643,6 +643,128 @@ app.post('/api/suggest-findings', async (req, res) => {
   }
 });
 
+// POST /api/suggest-diagnoses — Turn a free-text chief complaint (that isn't an
+// existing diagnosis in the database) into a candidate differential. The
+// clinician picks which to add; nothing here is a statement about a real patient.
+app.post('/api/suggest-diagnoses', async (req, res) => {
+  try {
+    const complaint = (req.body?.complaint || '').toString().trim();
+    if (!complaint) return res.status(400).json({ error: 'complaint is required' });
+    if (complaint.length > 160) return res.status(400).json({ error: 'complaint too long' });
+
+    const systemPrompt = [
+      'You are an emergency-medicine attending. Given a chief complaint or clinical',
+      'presentation, return the differential diagnosis an EM clinician would consider.',
+      '',
+      'Return ONLY a JSON object of this exact shape:',
+      '{ "diagnoses": [ {"name": string, "tier": "red"|"common"|"rare"}, ... ] }',
+      '',
+      'Rules:',
+      '- tier "red" = can\'t-miss / emergent. "common" = frequently the cause.',
+      '  "rare" = uncommon but worth considering.',
+      '- Order most-important first; lead with the can\'t-miss diagnoses.',
+      '- 6–12 diagnoses. Use concise standard diagnosis names (e.g. "Pulmonary',
+      '  embolism", "Acute coronary syndrome"), not sentences.',
+      '- No prose outside the JSON. No patient data.',
+    ].join('\n');
+
+    const raw = await aiClient.chat.completions.create({
+      model: aiModel,
+      max_tokens: 900,
+      temperature: 0.2,
+      response_format: { type: 'json_object' },
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: `Chief complaint: ${complaint}` },
+      ],
+    });
+
+    let parsed;
+    try { parsed = JSON.parse(raw.choices[0].message.content); }
+    catch { return res.status(502).json({ error: 'Could not parse suggested diagnoses' }); }
+
+    const list = Array.isArray(parsed.diagnoses) ? parsed.diagnoses : [];
+    const validTiers = new Set(['red', 'common', 'rare']);
+    const diagnoses = list
+      .map(d => ({
+        name: (typeof d?.name === 'string' ? d.name : '').trim(),
+        tier: validTiers.has(d?.tier) ? d.tier : 'common',
+      }))
+      .filter(d => d.name)
+      .slice(0, 14);
+
+    if (diagnoses.length === 0) return res.status(502).json({ error: 'No diagnoses generated' });
+    res.json({ complaint, diagnoses });
+  } catch (e) {
+    console.error('Suggest-diagnoses error:', e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// POST /api/suggest-plan — AI fallback plan suggestions for a differential with
+// no curated/learned associations. Returns items keyed by the standard plan
+// categories used by the MDM writer.
+const PLAN_CATEGORIES = [
+  'Analgesia', 'IV Fluids', 'Antiemetics', 'Sedation', 'Antimicrobials',
+  'Labs', 'Imaging', 'Procedures', 'Consults', 'Disposition',
+];
+
+app.post('/api/suggest-plan', async (req, res) => {
+  try {
+    const diagnoses = Array.isArray(req.body?.diagnoses)
+      ? req.body.diagnoses.map(d => String(d || '').trim()).filter(Boolean).slice(0, 12)
+      : [];
+    if (diagnoses.length === 0) return res.status(400).json({ error: 'diagnoses is required' });
+
+    const systemPrompt = [
+      'You are an emergency-medicine attending. Given a differential diagnosis,',
+      'return the workup and treatment an EM clinician would most commonly order.',
+      '',
+      'Return ONLY a JSON object of this exact shape (any category may be empty):',
+      '{ "plan": {',
+      '  "Analgesia": [string], "IV Fluids": [string], "Antiemetics": [string],',
+      '  "Sedation": [string], "Antimicrobials": [string], "Labs": [string],',
+      '  "Imaging": [string], "Procedures": [string], "Consults": [string],',
+      '  "Disposition": [string] } }',
+      '',
+      'Rules:',
+      '- Short chartable order names (e.g. "Troponin", "CT abdomen/pelvis with',
+      '  contrast", "Cardiology", "Plan to admit to floor").',
+      '- Only include items that are high-yield for this differential; do not pad.',
+      '- No prose outside the JSON. No patient data.',
+    ].join('\n');
+
+    const raw = await aiClient.chat.completions.create({
+      model: aiModel,
+      max_tokens: 1000,
+      temperature: 0.2,
+      response_format: { type: 'json_object' },
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: `Differential: ${diagnoses.join(', ')}` },
+      ],
+    });
+
+    let parsed;
+    try { parsed = JSON.parse(raw.choices[0].message.content); }
+    catch { return res.status(502).json({ error: 'Could not parse suggested plan' }); }
+
+    const src = parsed.plan || parsed;
+    const plan = {};
+    for (const category of PLAN_CATEGORIES) {
+      const list = Array.isArray(src?.[category]) ? src[category] : [];
+      plan[category] = list
+        .map(x => (typeof x === 'string' ? x.trim() : ''))
+        .filter(Boolean)
+        .slice(0, 8);
+    }
+    res.json({ plan });
+  } catch (e) {
+    console.error('Suggest-plan error:', e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
+
 // Export for Vercel serverless
 module.exports = app;
 

@@ -1,11 +1,12 @@
 import { useState, useMemo } from 'react';
 import { MDM_COMPLAINTS, getComplaintDiagnoses, searchDiagnoses } from '../data/mdmDiagnoses';
 import {
-  getFeatureSet, featuresWithIds, GROUP_ORDER, PLAN_MENU, PLAN_ORDER,
-  RISK_CALCULATORS, INTERP_STUDIES, COMMON_PMH, IMAGING_SIMPLE, IMAGING_GROUPS,
+  getFeatureSet, featuresWithIds, PLAN_MENU, PLAN_ORDER,
+  IMAGING_SIMPLE, IMAGING_GROUPS,
 } from '../data/mdmFeatures';
-import { generateMdm, buildOneLiner, hasOneLiner, DEFAULT_HANDOFF } from '../data/mdmGenerate';
-import { suggestFindings } from '../api/claude';
+import { generateMdm, DEFAULT_HANDOFF } from '../data/mdmGenerate';
+import { suggestFindings, suggestDiagnoses, suggestPlan } from '../api/claude';
+import { getPlanSuggestions, recordPlanSelection } from '../data/planSuggest';
 import { TermsModal } from '../components/TermsModal';
 import { TERMS_META } from '../data/terms';
 
@@ -14,7 +15,11 @@ const DX_TIERS = [
   { key: 'likely', label: 'Most likely' },
   { key: 'cantmiss', label: "Can't-miss" },
   { key: 'less', label: 'Less likely' },
+  { key: 'consideration', label: 'Under consideration' },
 ];
+
+// How many suggested items to surface per plan category.
+const SUGGEST_PER_CATEGORY = 5;
 
 // Persisted acceptance of the Terms of Use (keyed by version so a substantive
 // terms change re-prompts previously accepted users).
@@ -34,6 +39,26 @@ function renderInline(line) {
       ? <strong key={i} className="font-semibold text-gray-900">{part}</strong>
       : <span key={i}>{part}</span>
   );
+}
+
+// Flatten a diagnosis's feature groups into two directional buckets — findings
+// whose presence SUPPORTS the diagnosis and findings whose presence argues
+// AGAINST it — de-duplicated by label so a phrase repeated across the old
+// History/Symptoms/Exam groups now shows only once.
+function forAgainst(groups) {
+  const forList = [], againstList = [];
+  const seenFor = new Set(), seenAgainst = new Set();
+  for (const g of Object.keys(groups || {})) {
+    for (const f of groups[g] || []) {
+      const key = f.label.trim().toLowerCase();
+      if (f.dir === 'against') {
+        if (!seenAgainst.has(key)) { seenAgainst.add(key); againstList.push(f); }
+      } else if (!seenFor.has(key)) {
+        seenFor.add(key); forList.push(f);
+      }
+    }
+  }
+  return { forList, againstList };
 }
 
 // ── Small building blocks ────────────────────────────────────────────────────
@@ -60,72 +85,44 @@ function Section({ title, count, open, onToggle, children }) {
   );
 }
 
-// Epic-style split "phrase button": the label is the button, with a + side
-// (present) on the left and a − side (absent) on the right. Tapping the phrase
-// itself toggles the third state, pending. Clicking an active side clears it.
-function FeatureButton({ label, state, onSet }) {
-  const rowBg = state === 'present' ? 'bg-emerald-50 border-emerald-200'
-    : state === 'absent' ? 'bg-red-50 border-red-200'
-    : state === 'pending' ? 'bg-amber-50 border-amber-200'
-    : 'bg-white border-gray-200';
-  const labelColor = state === 'present' ? 'text-emerald-800'
-    : state === 'absent' ? 'text-red-800'
-    : state === 'pending' ? 'text-amber-800'
-    : 'text-gray-600';
+// A single finding button that cycles through the clinician's four intents on
+// each tap: unselected → positive → negative → pending → unselected.
+const CYCLE = { undefined: 'present', null: 'present', present: 'absent', absent: 'pending', pending: null };
+
+function FeatureButton({ label, state, onCycle }) {
+  const style = state === 'present' ? 'bg-emerald-50 border-emerald-300 text-emerald-800'
+    : state === 'absent' ? 'bg-red-50 border-red-300 text-red-800'
+    : state === 'pending' ? 'bg-amber-50 border-amber-300 text-amber-800'
+    : 'bg-white border-gray-200 text-gray-600 hover:border-blue-300 hover:text-blue-600';
+  const glyph = state === 'present' ? '+'
+    : state === 'absent' ? '−'
+    : state === 'pending' ? '⏱' : '';
+  const glyphColor = state === 'present' ? 'text-emerald-600'
+    : state === 'absent' ? 'text-red-500'
+    : state === 'pending' ? 'text-amber-600' : 'text-gray-300';
   return (
-    <div className={`flex items-stretch rounded-md border overflow-hidden ${rowBg}`}>
-      <button
-        type="button" aria-label={`Mark ${label} present`}
-        onClick={() => onSet(state === 'present' ? null : 'present')}
-        className={`w-7 shrink-0 flex items-center justify-center text-base font-bold transition-colors ${state === 'present' ? 'bg-emerald-500 text-white' : 'text-emerald-500/60 hover:bg-emerald-100'}`}
-      >+</button>
-      <button
-        type="button" aria-label={`${label} — mark pending`}
-        onClick={() => onSet(state === 'pending' ? null : 'pending')}
-        className={`flex-1 flex items-center gap-1.5 text-left px-2 py-1 text-[13px] leading-snug transition-colors ${labelColor} hover:bg-black/[0.02]`}
-      >
-        {state === 'pending' && (
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" className="shrink-0"><circle cx="12" cy="12" r="9" /><path strokeLinecap="round" d="M12 8v4l2.5 2.5" /></svg>
-        )}
-        {label}
-      </button>
-      <button
-        type="button" aria-label={`Mark ${label} absent`}
-        onClick={() => onSet(state === 'absent' ? null : 'absent')}
-        className={`w-7 shrink-0 flex items-center justify-center text-base font-bold transition-colors ${state === 'absent' ? 'bg-red-500 text-white' : 'text-red-400/60 hover:bg-red-100'}`}
-      >−</button>
-    </div>
+    <button
+      type="button"
+      onClick={() => onCycle(CYCLE[state ?? 'undefined'])}
+      aria-label={`${label} — ${state || 'not selected'}. Tap to cycle positive, negative, pending, off.`}
+      className={`w-full flex items-center gap-1.5 text-left rounded-md border px-2 py-1 text-[13px] leading-snug transition-colors ${style}`}
+    >
+      <span className={`w-3.5 shrink-0 text-center font-bold ${glyphColor}`}>{glyph || '·'}</span>
+      <span className="flex-1">{label}</span>
+    </button>
   );
 }
 
-function PlanChip({ active, onClick, children }) {
+function PlanChip({ active, suggested, onClick, children }) {
+  const base = active
+    ? 'bg-blue-600 text-white border-blue-600 shadow-soft'
+    : suggested
+      ? 'bg-blue-50 text-blue-700 border-blue-200 hover:border-blue-400'
+      : 'bg-white text-gray-600 border-gray-200 hover:border-blue-300 hover:text-blue-600';
   return (
-    <button type="button" onClick={onClick} className={`inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium border transition-all ${active ? 'bg-blue-600 text-white border-blue-600 shadow-soft' : 'bg-white text-gray-600 border-gray-200 hover:border-blue-300 hover:text-blue-600'}`}>
+    <button type="button" onClick={onClick} className={`inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium border transition-all ${base}`}>
       <span className={`text-sm leading-none ${active ? 'text-white' : 'text-gray-300'}`}>{active ? '−' : '+'}</span>
       {children}
-    </button>
-  );
-}
-
-// A plain multi-select chip (no ±) for the one-liner history picker.
-function Chip({ active, onClick, children }) {
-  return (
-    <button type="button" onClick={onClick} className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium border transition-all ${active ? 'bg-blue-600 text-white border-blue-600 shadow-soft' : 'bg-white text-gray-600 border-gray-200 hover:border-blue-300 hover:text-blue-600'}`}>
-      {children}
-    </button>
-  );
-}
-
-function ToggleRow({ label, hint, on, onToggle }) {
-  return (
-    <button type="button" onClick={onToggle} className={`w-full flex items-center gap-2.5 text-left rounded-lg px-3 py-2 border transition-all ${on ? 'bg-blue-50 border-blue-200' : 'bg-white border-gray-200 hover:border-gray-300'}`}>
-      <span className={`w-4 h-4 rounded flex items-center justify-center shrink-0 ${on ? 'bg-blue-600 text-white' : 'bg-gray-100 text-transparent'}`}>
-        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-      </span>
-      <span>
-        <span className="text-sm font-medium text-gray-700 block leading-tight">{label}</span>
-        {hint && <span className="text-[11px] text-gray-400">{hint}</span>}
-      </span>
     </button>
   );
 }
@@ -147,34 +144,20 @@ export function MdmScreen({ onExit, onAdmin }) {
   const [plan, setPlan] = useState(emptyPlan);
   const [planCustom, setPlanCustom] = useState({});
   const [openImg, setOpenImg] = useState(null);          // which imaging modality menu is open
-  const [interpretations, setInterpretations] = useState([]);
-  const [interpStudy, setInterpStudy] = useState('ECG');
-  const [interpRead, setInterpRead] = useState('');
-  const [consult, setConsult] = useState({ who: '', what: '' });
-  const [deferred, setDeferred] = useState([]);
-  const [defItem, setDefItem] = useState('');
-  const [defRationale, setDefRationale] = useState('');
-  const [calcSel, setCalcSel] = useState([]);
-  const [calcImpact, setCalcImpact] = useState({});
-  const [reassess, setReassess] = useState({ on: false, text: '' });
-  const [sdm, setSdm] = useState({ on: false, text: '' });
-  const [uncertainty, setUncertainty] = useState({ on: false, text: '' });
   const [handoff, setHandoff] = useState(DEFAULT_HANDOFF);
 
-  // Patient one-liner
-  const [chiefComplaint, setChiefComplaint] = useState('');
-  const [ccTouched, setCcTouched] = useState(false);
-  const [concern, setConcern] = useState('');
-  const [concernTouched, setConcernTouched] = useState(false);
-  const [age, setAge] = useState('');
-  const [sex, setSex] = useState('');
-  const [pmh, setPmh] = useState([]);
-  const [pmhInput, setPmhInput] = useState('');
+  // Plan suggestion state
+  const [learnTick, setLearnTick] = useState(0);         // bumps when learning is recorded
+  const [aiPlan, setAiPlan] = useState({});              // AI-drafted plan items (folded into suggestions)
+  const [aiPlanStatus, setAiPlanStatus] = useState(null);
+
+  // Chief-complaint → AI differential
+  const [aiDx, setAiDx] = useState({ query: '', status: null, results: [] });
 
   // UI state
   const [dxQuery, setDxQuery] = useState('');
   const [activeComplaint, setActiveComplaint] = useState(null);
-  const [open, setOpen] = useState({ dx: true, patient: false, plan: true, interp: false, safety: false, handoff: false });
+  const [open, setOpen] = useState({ dx: true, plan: true, handoff: false });
   const [dxOpen, setDxOpen] = useState({});
   const [mobileView, setMobileView] = useState('menu'); // 'menu' | 'note'
   const [copied, setCopied] = useState(false);
@@ -190,6 +173,7 @@ export function MdmScreen({ onExit, onAdmin }) {
   }, [selected, aiFeatures]);
 
   const isSelected = name => selected.some(d => d.name.toLowerCase() === name.toLowerCase());
+  const dxNames = selected.map(d => d.name);
 
   const complaintMatches = useMemo(() => {
     const q = dxQuery.trim().toLowerCase();
@@ -204,8 +188,14 @@ export function MdmScreen({ onExit, onAdmin }) {
 
   const exactMatch = dxMatches.some(d => d.name.toLowerCase() === dxQuery.trim().toLowerCase());
 
+  // Ranked plan suggestions for the current differential (curated + learned + AI).
+  const planSuggestions = useMemo(
+    () => getPlanSuggestions(dxNames, aiPlan),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [selected, aiPlan, learnTick]
+  );
+
   // ── Live note ──────────────────────────────────────────────────────────────
-  const oneLiner = { age, sex, pmh, chiefComplaint, concern };
   const mdmText = useMemo(() => {
     const diagnoses = selected.map(dx => ({
       name: dx.name,
@@ -213,15 +203,10 @@ export function MdmScreen({ onExit, onAdmin }) {
       features: featureSets[dx.name] || {},
       state: featureState[dx.name] || {},
     }));
-    const calculators = calcSel.map(name => ({ name, impact: calcImpact[name] || '' }));
-    return generateMdm({
-      oneLiner: { age, sex, pmh, chiefComplaint, concern },
-      diagnoses, interpretations, deferred, calculators, consult,
-      reassessment: reassess, sdm, uncertainty, plan, handoffLine: handoff,
-    });
-  }, [selected, dxTier, featureSets, featureState, age, sex, pmh, chiefComplaint, concern, interpretations, deferred, calcSel, calcImpact, consult, reassess, sdm, uncertainty, plan, handoff]);
+    return generateMdm({ diagnoses, plan, handoffLine: handoff });
+  }, [selected, dxTier, featureSets, featureState, plan, handoff]);
 
-  const hasContent = selected.length > 0 || hasOneLiner(oneLiner) || PLAN_ORDER.some(c => plan[c].length) || interpretations.length || deferred.length || calcSel.length || consult.who || reassess.on || sdm.on || uncertainty.on;
+  const hasContent = selected.length > 0 || PLAN_ORDER.some(c => plan[c].length);
 
   // ── Mutators ─────────────────────────────────────────────────────────────────
   function addDx(name, tier = 'custom') {
@@ -241,11 +226,8 @@ export function MdmScreen({ onExit, onAdmin }) {
     else addDx(q);
     setDxQuery('');
   }
-  // Selecting a chief complaint seeds the one-liner's CC (until hand-edited).
   function pickComplaint(slug) {
     setActiveComplaint(prev => (prev === slug ? null : slug));
-    const c = MDM_COMPLAINTS.find(x => x.slug === slug);
-    if (c && (!ccTouched || !chiefComplaint)) setChiefComplaint(c.name.toLowerCase());
   }
   function setTier(dxName, tierKey) {
     setDxTier(prev => {
@@ -253,15 +235,12 @@ export function MdmScreen({ onExit, onAdmin }) {
       if (next[dxName] === tierKey) { delete next[dxName]; return next; }
       if (tierKey === 'likely') {
         for (const k of Object.keys(next)) if (next[k] === 'likely') delete next[k];
-        // The most-likely diagnosis seeds the one-liner's concern (until edited).
-        if (!concernTouched) setConcern(dxName);
       }
       next[dxName] = tierKey;
       return next;
     });
   }
   // Draft a finding set (via the backend) for a diagnosis with no curated set.
-  // The clinician then curates it on screen exactly like a curated set.
   async function generateFindings(dxName) {
     setAiStatus(prev => ({ ...prev, [dxName]: 'loading' }));
     try {
@@ -272,54 +251,65 @@ export function MdmScreen({ onExit, onAdmin }) {
       setAiStatus(prev => ({ ...prev, [dxName]: 'error' }));
     }
   }
+  // Turn a free-text chief complaint into a candidate differential (AI).
+  async function generateDiagnoses() {
+    const q = dxQuery.trim();
+    if (!q) return;
+    setAiDx({ query: q, status: 'loading', results: [] });
+    try {
+      const { diagnoses } = await suggestDiagnoses(q);
+      setAiDx({ query: q, status: 'done', results: diagnoses });
+    } catch {
+      setAiDx({ query: q, status: 'error', results: [] });
+    }
+  }
   function setFeat(dxName, featureId, value) {
     setFeatureState(prev => {
       const dxState = { ...(prev[dxName] || {}) };
-      if (value === null) delete dxState[featureId]; else dxState[featureId] = value;
+      if (value === null || value === undefined) delete dxState[featureId];
+      else dxState[featureId] = value;
       return { ...prev, [dxName]: dxState };
     });
   }
   function togglePlan(category, item) {
+    const has = (plan[category] || []).includes(item);
     setPlan(prev => {
       const list = prev[category] || [];
       return { ...prev, [category]: list.includes(item) ? list.filter(x => x !== item) : [...list, item] };
     });
+    if (!has && dxNames.length) {
+      recordPlanSelection(dxNames, category, item);
+      setLearnTick(t => t + 1);
+    }
   }
   function addPlanCustom(category) {
     const val = (planCustom[category] || '').trim();
     if (!val) return;
-    setPlan(prev => ({ ...prev, [category]: prev[category].includes(val) ? prev[category] : [...prev[category], val] }));
+    if (!plan[category].includes(val)) {
+      setPlan(prev => ({ ...prev, [category]: [...prev[category], val] }));
+      if (dxNames.length) { recordPlanSelection(dxNames, category, val); setLearnTick(t => t + 1); }
+    }
     setPlanCustom(prev => ({ ...prev, [category]: '' }));
   }
-  function addInterp() {
-    if (!interpRead.trim()) return;
-    setInterpretations(prev => [...prev, { study: interpStudy, read: interpRead.trim() }]);
-    setInterpRead('');
-  }
-  function addDeferred() {
-    if (!defItem.trim()) return;
-    setDeferred(prev => [...prev, { item: defItem.trim(), rationale: defRationale.trim() }]);
-    setDefItem(''); setDefRationale('');
-  }
-  function toggleCalc(name) {
-    setCalcSel(prev => prev.includes(name) ? prev.filter(x => x !== name) : [...prev, name]);
-  }
-  function addPmh(val) {
-    const v = val.trim();
-    if (!v || pmh.includes(v)) return;
-    setPmh(prev => [...prev, v]);
-    setPmhInput('');
+  // AI fallback: draft plan items for the differential, folded into suggestions.
+  async function generatePlan() {
+    if (!dxNames.length) return;
+    setAiPlanStatus('loading');
+    try {
+      const { plan: drafted } = await suggestPlan(dxNames);
+      setAiPlan(drafted || {});
+      setAiPlanStatus('done');
+    } catch {
+      setAiPlanStatus('error');
+    }
   }
   function clearAll() {
     if (!window.confirm('Clear all entries and start over?')) return;
     setSelected([]); setDxTier({}); setFeatureState({}); setAiFeatures({}); setAiStatus({});
     setPlan(emptyPlan()); setPlanCustom({}); setOpenImg(null);
-    setInterpretations([]); setInterpRead(''); setConsult({ who: '', what: '' });
-    setDeferred([]); setDefItem(''); setDefRationale(''); setCalcSel([]); setCalcImpact({});
-    setReassess({ on: false, text: '' }); setSdm({ on: false, text: '' }); setUncertainty({ on: false, text: '' });
+    setAiPlan({}); setAiPlanStatus(null);
     setHandoff(DEFAULT_HANDOFF); setDxQuery(''); setActiveComplaint(null);
-    setChiefComplaint(''); setCcTouched(false); setConcern(''); setConcernTouched(false);
-    setAge(''); setSex(''); setPmh([]); setPmhInput('');
+    setAiDx({ query: '', status: null, results: [] });
   }
   async function copyMdm() {
     try {
@@ -335,9 +325,6 @@ export function MdmScreen({ onExit, onAdmin }) {
   }
 
   const totalPlan = PLAN_ORDER.reduce((n, c) => n + plan[c].length, 0);
-  const patientCount = (chiefComplaint ? 1 : 0) + (age ? 1 : 0) + (sex ? 1 : 0) + pmh.length + (concern ? 1 : 0);
-  const safetyCount = deferred.length + calcSel.length + (reassess.on ? 1 : 0) + (sdm.on ? 1 : 0) + (uncertainty.on ? 1 : 0);
-  const interpCount = interpretations.length + (consult.who ? 1 : 0);
 
   // ── Left menu ────────────────────────────────────────────────────────────────
   const Menu = (
@@ -350,7 +337,7 @@ export function MdmScreen({ onExit, onAdmin }) {
             value={dxQuery}
             onChange={e => setDxQuery(e.target.value)}
             onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); commitQuery(); } }}
-            placeholder="Search a chief complaint or diagnosis, or add your own…"
+            placeholder="Search a chief complaint or diagnosis…"
             className="w-full bg-gray-50 border border-gray-200 rounded-lg pl-9 pr-3 py-2 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white"
           />
         </div>
@@ -371,10 +358,43 @@ export function MdmScreen({ onExit, onAdmin }) {
               </button>
             ))}
             {!exactMatch && (
-              <button onClick={commitQuery} className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-blue-50 transition-colors">
-                <span className="text-blue-500 font-bold">+</span>
-                <span className="text-sm text-gray-600">Add “<span className="font-medium text-gray-800">{dxQuery.trim()}</span>”</span>
-              </button>
+              <>
+                <button onClick={generateDiagnoses} className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-blue-50 transition-colors">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-blue-500 shrink-0"><path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16 2.3 5.7L21 12l-5.7 2.3L13 20l-2.3-5.7L5 12l5.7-2.3L13 4Z" /></svg>
+                  <span className="text-sm text-gray-600">Generate a differential for “<span className="font-medium text-gray-800">{dxQuery.trim()}</span>” with AI</span>
+                </button>
+                <button onClick={commitQuery} className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-blue-50 transition-colors">
+                  <span className="text-gray-400 font-bold">+</span>
+                  <span className="text-sm text-gray-500">Add “<span className="font-medium text-gray-700">{dxQuery.trim()}</span>” as a diagnosis</span>
+                </button>
+              </>
+            )}
+          </div>
+        )}
+
+        {/* AI-generated differential from a chief complaint */}
+        {(aiDx.status === 'loading' || (aiDx.results.length > 0) || aiDx.status === 'error') && (
+          <div className="bg-blue-50/50 border border-blue-100 rounded-lg p-3 mb-3">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-[11px] text-blue-500 font-medium">AI differential for “{aiDx.query}” — tap to add, then curate</p>
+              <button onClick={() => setAiDx({ query: '', status: null, results: [] })} className="text-blue-300 hover:text-blue-600 text-xs">clear</button>
+            </div>
+            {aiDx.status === 'loading' && (
+              <p className="text-xs text-gray-500 flex items-center gap-1.5">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" className="animate-spin"><path strokeLinecap="round" d="M12 3a9 9 0 1 0 9 9" /></svg>
+                Generating possible diagnoses…
+              </p>
+            )}
+            {aiDx.status === 'error' && <p className="text-xs text-red-500">Couldn’t generate — try again.</p>}
+            {aiDx.results.length > 0 && (
+              <div className="flex flex-wrap gap-1.5">
+                {aiDx.results.map(dx => (
+                  <button key={dx.name} onClick={() => addDx(dx.name, dx.tier)} disabled={isSelected(dx.name)} className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium border transition-all ${isSelected(dx.name) ? 'bg-blue-600 text-white border-blue-600 opacity-60' : 'bg-white text-gray-600 border-gray-200 hover:border-blue-300 hover:text-blue-600'}`}>
+                    <span className={`w-1.5 h-1.5 rounded-full ${isSelected(dx.name) ? 'bg-white/70' : (TIER_DOT[dx.tier] || 'bg-gray-300')}`} />
+                    {dx.name}
+                  </button>
+                ))}
+              </div>
             )}
           </div>
         )}
@@ -399,6 +419,7 @@ export function MdmScreen({ onExit, onAdmin }) {
         <div className="space-y-2">
           {selected.map(dx => {
             const groups = featureSets[dx.name] || {};
+            const { forList, againstList } = forAgainst(groups);
             const matched = getFeatureSet(dx.name).matched;
             const hasAi = Boolean(aiFeatures[dx.name]);
             const aiState = aiStatus[dx.name];
@@ -418,9 +439,9 @@ export function MdmScreen({ onExit, onAdmin }) {
                 </div>
                 {isOpen && (
                   <div className="p-3">
-                    <div className="flex gap-1.5 mb-3">
+                    <div className="grid grid-cols-2 gap-1.5 mb-3">
                       {DX_TIERS.map(t => (
-                        <button key={t.key} onClick={() => setTier(dx.name, t.key)} className={`flex-1 rounded-md px-2 py-1 text-[11px] font-medium border transition-all ${tier === t.key ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-500 border-gray-200 hover:border-blue-300 hover:text-blue-600'}`}>{t.label}</button>
+                        <button key={t.key} onClick={() => setTier(dx.name, t.key)} className={`rounded-md px-2 py-1 text-[11px] font-medium border transition-all ${tier === t.key ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-500 border-gray-200 hover:border-blue-300 hover:text-blue-600'}`}>{t.label}</button>
                       ))}
                     </div>
                     {!matched && !hasAi && (
@@ -441,21 +462,26 @@ export function MdmScreen({ onExit, onAdmin }) {
                       </div>
                     )}
                     {hasAi && <p className="text-[10px] text-blue-500 mb-2">AI-suggested draft — review and curate before relying on it.</p>}
-                    <p className="text-[10px] text-gray-400 mb-2"><span className="text-emerald-600 font-bold">+</span> present · <span className="text-red-500 font-bold">−</span> absent · tap the phrase for pending</p>
-                    <div className="space-y-3">
-                      {GROUP_ORDER.filter(g => (groups[g] || []).length > 0).map(group => (
-                        <div key={group}>
-                          <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1">{group}</p>
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-1">
-                            {groups[group].map(f => {
-                              const s = featureState[dx.name]?.[f.id];
-                              return (
-                                <FeatureButton key={f.id} label={f.label} state={s} onSet={v => setFeat(dx.name, f.id, v)} />
-                              );
-                            })}
-                          </div>
+                    <p className="text-[10px] text-gray-400 mb-2">Tap a finding to cycle: <span className="text-emerald-600 font-semibold">positive</span> → <span className="text-red-500 font-semibold">negative</span> → <span className="text-amber-600 font-semibold">pending</span> → off.</p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3 gap-y-3">
+                      <div>
+                        <p className="text-[10px] text-emerald-600 font-semibold uppercase tracking-wider mb-1">Supports</p>
+                        <div className="space-y-1">
+                          {forList.length === 0 && <p className="text-[11px] text-gray-300">—</p>}
+                          {forList.map(f => (
+                            <FeatureButton key={f.id} label={f.label} state={featureState[dx.name]?.[f.id]} onCycle={v => setFeat(dx.name, f.id, v)} />
+                          ))}
                         </div>
-                      ))}
+                      </div>
+                      <div>
+                        <p className="text-[10px] text-red-500 font-semibold uppercase tracking-wider mb-1">Against</p>
+                        <div className="space-y-1">
+                          {againstList.length === 0 && <p className="text-[11px] text-gray-300">—</p>}
+                          {againstList.map(f => (
+                            <FeatureButton key={f.id} label={f.label} state={featureState[dx.name]?.[f.id]} onCycle={v => setFeat(dx.name, f.id, v)} />
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -465,60 +491,40 @@ export function MdmScreen({ onExit, onAdmin }) {
         </div>
       </Section>
 
-      {/* Patient one-liner */}
-      <Section title="Patient one-liner" count={patientCount} open={open.patient} onToggle={() => setOpen(o => ({ ...o, patient: !o.patient }))}>
-        <p className="text-[11px] text-gray-400 mb-3">De-identified only. A good one-liner risk-stratifies — it names the concern, not just the symptom.</p>
-        <div className="space-y-3">
-          <div>
-            <label className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1 block">Chief complaint</label>
-            <input value={chiefComplaint} onChange={e => { setChiefComplaint(e.target.value); setCcTouched(true); }} placeholder="e.g. chest pain" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-          </div>
-          <div className="flex gap-2">
-            <div className="w-20">
-              <label className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1 block">Age</label>
-              <input value={age} onChange={e => setAge(e.target.value.replace(/[^0-9]/g, '').slice(0, 3))} inputMode="numeric" placeholder="58" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-            </div>
-            <div className="flex-1">
-              <label className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1 block">Sex</label>
-              <div className="flex gap-1.5">
-                {['male', 'female', 'other'].map(s => (
-                  <button key={s} onClick={() => setSex(sex === s ? '' : s)} className={`flex-1 rounded-lg px-2 py-1.5 text-xs font-medium border transition-all ${sex === s ? 'bg-gray-900 text-white border-gray-900' : 'bg-gray-50 text-gray-500 border-gray-200 hover:bg-gray-100'}`}>{s}</button>
-                ))}
-              </div>
-            </div>
-          </div>
-          <div>
-            <label className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1 block">Relevant history</label>
-            <div className="flex flex-wrap gap-1.5 mb-1.5">
-              {COMMON_PMH.map(p => (
-                <Chip key={p} active={pmh.includes(p)} onClick={() => pmh.includes(p) ? setPmh(pmh.filter(x => x !== p)) : addPmh(p)}>{p}</Chip>
-              ))}
-            </div>
-            <div className="flex gap-1.5">
-              <input value={pmhInput} onChange={e => setPmhInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addPmh(pmhInput); } }} placeholder="+ add comorbidity" className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-            </div>
-            {pmh.filter(p => !COMMON_PMH.includes(p)).length > 0 && (
-              <div className="flex flex-wrap gap-1.5 mt-1.5">
-                {pmh.filter(p => !COMMON_PMH.includes(p)).map(p => (
-                  <span key={p} className="inline-flex items-center gap-1 rounded-full bg-blue-50 text-blue-600 px-2.5 py-1 text-xs">{p}<button onClick={() => setPmh(pmh.filter(x => x !== p))} className="hover:text-blue-800">×</button></span>
-                ))}
-              </div>
-            )}
-          </div>
-          <div>
-            <label className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1 block">Concerning for</label>
-            <input value={concern} onChange={e => { setConcern(e.target.value); setConcernTouched(true); }} placeholder="e.g. acute coronary syndrome" list="concern-options" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-sm text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-            <datalist id="concern-options">{selected.map(d => <option key={d.name} value={d.name} />)}</datalist>
-          </div>
-          <div className="bg-blue-50/50 border border-blue-100 rounded-lg px-3 py-2">
-            <p className="text-[10px] text-blue-400 font-semibold uppercase tracking-wider mb-0.5">Preview</p>
-            <p className="text-[13px] text-gray-700 leading-relaxed">{buildOneLiner(oneLiner)}</p>
-          </div>
-        </div>
-      </Section>
-
       {/* Plan */}
       <Section title="Plan" count={totalPlan} open={open.plan} onToggle={() => setOpen(o => ({ ...o, plan: !o.plan }))}>
+        {/* Suggested-for-your-differential strip */}
+        {selected.length > 0 && (
+          <div className="bg-blue-50/50 border border-blue-100 rounded-lg p-3 mb-3">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-[11px] text-blue-500 font-medium flex items-center gap-1">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16 2.3 5.7L21 12l-5.7 2.3L13 20l-2.3-5.7L5 12l5.7-2.3L13 4Z" /></svg>
+                Suggested for your differential
+              </p>
+              <button onClick={generatePlan} disabled={aiPlanStatus === 'loading'} className="text-[11px] text-blue-500 hover:text-blue-700 disabled:opacity-50">
+                {aiPlanStatus === 'loading' ? 'Thinking…' : 'Refine with AI'}
+              </button>
+            </div>
+            {aiPlanStatus === 'error' && <p className="text-[10px] text-red-500 mb-1.5">Couldn’t reach AI — showing curated suggestions.</p>}
+            {PLAN_ORDER.some(c => (planSuggestions[c] || []).length) ? (
+              <div className="space-y-2">
+                {PLAN_ORDER.filter(c => (planSuggestions[c] || []).length).map(category => (
+                  <div key={category}>
+                    <p className="text-[9px] text-gray-400 font-semibold uppercase tracking-wider mb-1">{category}</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {(planSuggestions[category] || []).slice(0, SUGGEST_PER_CATEGORY).map(({ item }) => (
+                        <PlanChip key={item} active={plan[category].includes(item)} suggested onClick={() => togglePlan(category, item)}>{item}</PlanChip>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-[11px] text-gray-400">No curated matches yet — tap “Refine with AI” or use the full menus below. Your picks are learned for next time.</p>
+            )}
+          </div>
+        )}
+
         <div className="space-y-3">
           {PLAN_ORDER.map(category => (
             <div key={category}>
@@ -589,77 +595,6 @@ export function MdmScreen({ onExit, onAdmin }) {
               </div>
             </div>
           ))}
-        </div>
-      </Section>
-
-      {/* Interpretations & discussion */}
-      <Section title="Interpretations & discussion" count={interpCount} open={open.interp} onToggle={() => setOpen(o => ({ ...o, interp: !o.interp }))}>
-        <p className="text-[11px] text-gray-400 mb-2">Your independent read of an ECG or study — attributed “on my interpretation.”</p>
-        <div className="flex gap-1.5 mb-2">
-          <select value={interpStudy} onChange={e => setInterpStudy(e.target.value)} className="bg-gray-50 border border-gray-200 rounded-lg px-2 py-1.5 text-xs text-gray-700 focus:border-blue-500">
-            {INTERP_STUDIES.map(s => <option key={s}>{s}</option>)}
-          </select>
-          <input value={interpRead} onChange={e => setInterpRead(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addInterp(); } }} placeholder="e.g. no acute ST changes, NSR at 78" className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-          <button onClick={addInterp} disabled={!interpRead.trim()} className="bg-gray-900 hover:bg-gray-800 disabled:opacity-30 text-white rounded-lg px-2.5 py-1.5 text-xs font-medium">Add</button>
-        </div>
-        {interpretations.length > 0 && (
-          <ul className="space-y-1 mb-3">
-            {interpretations.map((it, i) => (
-              <li key={i} className="flex items-center justify-between text-xs text-gray-600 bg-gray-50 rounded-lg px-2.5 py-1.5">
-                <span><span className="font-medium text-gray-700">{it.study}:</span> {it.read}</span>
-                <button onClick={() => setInterpretations(interpretations.filter((_, x) => x !== i))} className="text-gray-300 hover:text-red-400">×</button>
-              </li>
-            ))}
-          </ul>
-        )}
-        <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1.5">Consultant discussion</p>
-        <div className="flex gap-1.5">
-          <input value={consult.who} onChange={e => setConsult({ ...consult, who: e.target.value })} placeholder="Discussed with…" className="w-1/2 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-          <input value={consult.what} onChange={e => setConsult({ ...consult, what: e.target.value })} placeholder="who recommended…" className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-        </div>
-      </Section>
-
-      {/* Safety net */}
-      <Section title="Safety net & reasoning" count={safetyCount} open={open.safety} onToggle={() => setOpen(o => ({ ...o, safety: !o.safety }))}>
-        <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1.5">Considered but deferred</p>
-        <div className="flex gap-1.5 mb-2">
-          <input value={defItem} onChange={e => setDefItem(e.target.value)} placeholder="test / treatment" className="w-1/2 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-          <input value={defRationale} onChange={e => setDefRationale(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addDeferred(); } }} placeholder="rationale (e.g. PERC negative)" className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-          <button onClick={addDeferred} disabled={!defItem.trim()} className="bg-gray-900 hover:bg-gray-800 disabled:opacity-30 text-white rounded-lg px-2.5 py-1.5 text-xs font-medium">Add</button>
-        </div>
-        {deferred.length > 0 && (
-          <ul className="space-y-1 mb-3">
-            {deferred.map((d, i) => (
-              <li key={i} className="flex items-center justify-between text-xs text-gray-600 bg-gray-50 rounded-lg px-2.5 py-1.5">
-                <span><span className="font-medium text-gray-700">{d.item}</span>{d.rationale ? ` — ${d.rationale}` : ''}</span>
-                <button onClick={() => setDeferred(deferred.filter((_, x) => x !== i))} className="text-gray-300 hover:text-red-400">×</button>
-              </li>
-            ))}
-          </ul>
-        )}
-        <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1.5">Decision instruments</p>
-        <div className="flex flex-wrap gap-1.5 mb-2">
-          {RISK_CALCULATORS.map(c => (
-            <PlanChip key={c} active={calcSel.includes(c)} onClick={() => toggleCalc(c)}>{c}</PlanChip>
-          ))}
-        </div>
-        {calcSel.length > 0 && (
-          <div className="space-y-1.5 mb-3">
-            {calcSel.map(c => (
-              <div key={c} className="flex items-center gap-2">
-                <span className="text-[11px] text-gray-500 w-28 shrink-0 truncate">{c}</span>
-                <input value={calcImpact[c] || ''} onChange={e => setCalcImpact(prev => ({ ...prev, [c]: e.target.value }))} placeholder="result & what it changed" className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
-              </div>
-            ))}
-          </div>
-        )}
-        <div className="space-y-1.5">
-          <ToggleRow label="Serial reassessment" on={reassess.on} onToggle={() => setReassess({ ...reassess, on: !reassess.on })} />
-          {reassess.on && <input value={reassess.text} onChange={e => setReassess({ ...reassess, text: e.target.value })} placeholder="for… (e.g. repeat troponin, response to therapy)" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />}
-          <ToggleRow label="Shared decision-making" on={sdm.on} onToggle={() => setSdm({ ...sdm, on: !sdm.on })} />
-          {sdm.on && <input value={sdm.text} onChange={e => setSdm({ ...sdm, text: e.target.value })} placeholder="regarding… (e.g. testing options, admission vs discharge)" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />}
-          <ToggleRow label="Diagnostic uncertainty & return precautions" on={uncertainty.on} onToggle={() => setUncertainty({ ...uncertainty, on: !uncertainty.on })} />
-          {uncertainty.on && <input value={uncertainty.text} onChange={e => setUncertainty({ ...uncertainty, text: e.target.value })} placeholder="including… (specific return precautions)" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />}
         </div>
       </Section>
 
