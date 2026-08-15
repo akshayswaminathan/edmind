@@ -113,9 +113,11 @@ function Section({ title, count, open, onToggle, children }) {
 }
 
 // A double-sided finding control: tap the "+" cap to mark the finding present,
-// the "−" cap to mark it absent, and the middle (the label) to mark its result
-// pending. Tapping the active zone again clears it. The whole row is tinted to
-// the current state, so intent is self-evident without any instructions.
+// the "−" cap to mark it absent, and the middle (the label) to cycle through
+// present → absent → pending → off. Tapping a cap again clears it. The whole row
+// is tinted to the current state, so intent is self-evident without instructions.
+const MIDDLE_CYCLE = { undefined: 'present', null: 'present', present: 'absent', absent: 'pending', pending: null };
+
 function FeatureButton({ label, state, onSet }) {
   const rowTint = state === 'present' ? 'border-emerald-300 bg-emerald-50'
     : state === 'absent' ? 'border-red-300 bg-red-50'
@@ -131,8 +133,8 @@ function FeatureButton({ label, state, onSet }) {
         className={`w-8 shrink-0 flex items-center justify-center text-base font-bold border-r transition-colors ${plusOn ? 'bg-emerald-500 text-white border-emerald-500' : 'text-emerald-600 border-gray-200 hover:bg-emerald-100/60'}`}
       >+</button>
       <button
-        type="button" onClick={() => toggle('pending')} title="Result pending"
-        aria-label={`${label}${pendOn ? ' — pending' : ' — mark result pending'}`}
+        type="button" onClick={() => onSet(MIDDLE_CYCLE[state ?? 'undefined'])} title="Cycle: present → absent → pending → off"
+        aria-label={`${label}${pendOn ? ' — pending' : ''} — cycle present, absent, pending`}
         className="flex-1 text-left px-2 py-1 leading-snug flex items-center gap-1.5 min-w-0"
       >
         <span className="flex-1 min-w-0">{label}</span>
