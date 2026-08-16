@@ -604,7 +604,7 @@ export function MdmScreen({ onExit, onAdmin }) {
                         return (
                           <div key={section.title}>
                             <p className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider mb-1">{section.title}</p>
-                            <div className="space-y-1">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-1.5">
                               {feats.map(f => (
                                 <FeatureButton key={f.id} label={f.label} state={featureState[key]?.[f.id]} onSet={v => setFeat(key, f.id, v)} />
                               ))}
