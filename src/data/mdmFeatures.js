@@ -1904,6 +1904,32 @@ function normalize(s) {
     .trim();
 }
 
+// Light stemmer so plural / possessive / gerund variants of the same term
+// collapse to one token: "stones" -> "stone", "kidneys" -> "kidney". Deliberately
+// conservative — it only trims the handful of endings that show up in diagnosis
+// names, so retrieval matches "kidney stones" to the curated "kidney stone".
+function stem(word) {
+  let w = word;
+  if (w.length > 4 && w.endsWith('ies')) return `${w.slice(0, -3)}y`;   // emergencies -> emergency
+  if (w.length > 4 && /(?:s|x|z|ch|sh)es$/.test(w)) w = w.slice(0, -2);  // abscesses -> abscess, boxes -> box
+  else if (w.length > 3 && w.endsWith('s') && !w.endsWith('ss')) w = w.slice(0, -1); // stones -> stone
+  if (w.length > 4 && w.endsWith('ing')) w = w.slice(0, -3);            // bleeding -> bleed
+  return w;
+}
+
+// The set of stemmed content tokens in a (already normalized) phrase.
+function stemTokens(norm) {
+  return new Set(norm.split(' ').filter(Boolean).map(stem));
+}
+
+// True when every token of the (shorter) key phrase appears in the query — a
+// stem-aware "contains all the words" test that ignores order and plurality.
+function tokensSubset(keyStems, queryStems) {
+  if (!keyStems.size) return false;
+  for (const t of keyStems) if (!queryStems.has(t)) return false;
+  return true;
+}
+
 // ── Editable override layer (admin) ─────────────────────────────────────────
 // The LIBRARY above is the version-controlled source of truth. The admin view
 // edits an OVERRIDE layer stored in localStorage, which is merged on top of the
@@ -1985,7 +2011,7 @@ function rebuildIndex() {
   const idx = [];
   for (const entry of effectiveLibrary()) {
     const keys = new Set([normalize(entry.name), ...entry.aliases.map(normalize)]);
-    for (const k of keys) if (k) idx.push({ key: k, entry });
+    for (const k of keys) if (k) idx.push({ key: k, entry, stems: stemTokens(k) });
   }
   // Longer keys first so "acute coronary syndrome" wins over "acs" on ties.
   idx.sort((a, b) => b.key.length - a.key.length);
@@ -2010,7 +2036,21 @@ export function getFeatureSet(diagnosisName) {
       return { matched: true, name: entry.name, groups: entry.groups };
     }
   }
-  // 3) fallback scaffold
+  // 3) stem-aware token match — handles plural/singular and word-order variants
+  //    (e.g. "kidney stones" -> "kidney stone"). INDEX is sorted longest-key-
+  //    first, so the most specific alias wins. Two passes, reliable direction
+  //    first: (a) every word of a key appears in the query ("the query names this
+  //    diagnosis"), then (b) the query is a sub-phrase of a longer canonical name.
+  const queryStems = stemTokens(norm);
+  if (queryStems.size) {
+    for (const { entry, stems } of INDEX) {
+      if (tokensSubset(stems, queryStems)) return { matched: true, name: entry.name, groups: entry.groups };
+    }
+    for (const { entry, stems } of INDEX) {
+      if (tokensSubset(queryStems, stems)) return { matched: true, name: entry.name, groups: entry.groups };
+    }
+  }
+  // 4) fallback scaffold
   return { matched: false, groups: genericGroups(diagnosisName) };
 }
 

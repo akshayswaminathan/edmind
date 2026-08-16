@@ -7,9 +7,9 @@
 //   - Language avoids "rules out"/"normal"; prefers "less likely" (§7).
 //   - The note produces the INITIAL reasoning and stops at the handoff (P9).
 //
-// The note is intentionally header-free: no "HPI:"/"Assessment:"/"Plan:" labels.
-// Each diagnosis's tier (most likely / can't-miss / less likely / under
-// consideration) is stated inline, so no separate differential summary is needed.
+// The assessment is header-free: each diagnosis's tier (most likely / can't-miss
+// / less likely / under consideration) is stated inline, so no separate
+// differential summary is needed. The plan is written under a "Plan:" heading.
 //
 // Input shape:
 // {
@@ -134,7 +134,7 @@ function reasonForDiagnosis(dx) {
   }
 
   if (dx.tier === 'cantmiss') {
-    let s = `${dx.name} is a can't-miss diagnosis that was considered and addressed`;
+    let s = `${dx.name} is a can't-miss diagnosis under consideration`;
     if (against) s += `; it is made less likely by ${against}`;
     s += '.';
     if (support) s += ` Features that raise concern include ${support}.`;
@@ -167,9 +167,9 @@ function reasonForDiagnosis(dx) {
 const TIER_RANK = { likely: 0, cantmiss: 1, less: 2, consideration: 3, null: 4 };
 
 // ── Plan ─────────────────────────────────────────────────────────────────────
-// Returns { lines, disposition }: `lines` are the bulleted plan entries and
-// `disposition` is pulled out so it can be surfaced on its own line. Medications
-// are reported by their clinician-facing groups (analgesia, fluids, …).
+// Returns the bulleted plan entries. Medications are reported by their
+// clinician-facing groups (analgesia, fluids, …). Disposition is folded in as a
+// final bullet so the whole plan reads under one "Plan:" heading.
 function buildPlan(plan = {}) {
   const lines = [];
   const seg = (label, items) => {
@@ -192,21 +192,26 @@ function buildPlan(plan = {}) {
   seg('Consults', plan.Consults);
 
   const disposition = joinList((plan.Disposition || []).filter(Boolean));
-  return { lines, disposition };
+  if (disposition) lines.push(`Disposition: ${cap(disposition)}.`);
+
+  return lines;
 }
 
 // ── Assemble ─────────────────────────────────────────────────────────────────
-// Header-free note: each block is separated by a blank line. Assessment reasoning
-// comes first (one paragraph per diagnosis, ordered by tier), then the plan
-// bullets, disposition, and the handoff line — none of them labeled.
-export function generateMdm(input = {}) {
+// The note is built as an ordered list of BLOCKS — one assessment paragraph per
+// diagnosis (ordered by tier), then a labeled "Plan:" block of bullets, then the
+// handoff line. Each block carries a stable `id` so the UI can drag-reorder them.
+//
+// Returns [{ id, type: 'assessment' | 'plan' | 'handoff', text }]. `generateMdm`
+// joins the blocks (in this default order) into the plain-text note.
+export function generateMdmBlocks(input = {}) {
   const {
     diagnoses = [],
     plan = {},
     handoffLine,
   } = input;
 
-  const sections = [];
+  const blocks = [];
 
   // 1) Assessment — per-diagnosis reasoning, ordered by tier. No summary sentence
   //    and no header; each diagnosis states its own tier inline.
@@ -215,23 +220,28 @@ export function generateMdm(input = {}) {
       (a, b) => (TIER_RANK[a.tier] ?? 4) - (TIER_RANK[b.tier] ?? 4)
     );
     for (const dx of ordered) {
-      const line = reasonForDiagnosis(dx);
-      if (line) sections.push(line);
+      const text = reasonForDiagnosis(dx);
+      if (text) blocks.push({ id: `dx:${dx.name}`, type: 'assessment', text });
     }
   }
 
-  // 2) Plan — one bullet per category, no header.
-  const { lines: planLines, disposition } = buildPlan(plan);
+  // 2) Plan — a labeled "Plan:" heading followed by one bullet per category
+  //    (disposition folded in as the closing bullet).
+  const planLines = buildPlan(plan);
   if (planLines.length) {
-    sections.push(planLines.map(l => `• ${l}`).join('\n'));
+    const text = ['Plan:', ...planLines.map(l => `• ${l}`)].join('\n');
+    blocks.push({ id: 'plan', type: 'plan', text });
   }
 
-  // 3) Disposition
-  if (disposition) sections.push(`${cap(disposition)}.`);
-
-  // 4) Handoff line — closes the note, unlabeled.
+  // 3) Handoff line — closes the note, unlabeled.
   const handoff = (handoffLine || '').trim();
-  if (handoff) sections.push(handoff);
+  if (handoff) blocks.push({ id: 'handoff', type: 'handoff', text: handoff });
 
-  return sections.join('\n\n');
+  return blocks;
+}
+
+// Plain-text note in the default (tier-sorted) block order. The UI may reorder
+// the blocks from generateMdmBlocks() before joining for a custom arrangement.
+export function generateMdm(input = {}) {
+  return generateMdmBlocks(input).map(b => b.text).join('\n\n');
 }

@@ -1,10 +1,10 @@
 import { useState, useMemo } from 'react';
 import { MDM_COMPLAINTS, getComplaintDiagnoses, searchDiagnoses } from '../data/mdmDiagnoses';
 import {
-  getFeatureSet, featuresWithIds, PLAN_MENU, PLAN_ORDER,
+  getFeatureSet, featuresWithIds, GROUP_ORDER, PLAN_MENU, PLAN_ORDER,
   IMAGING_SIMPLE, IMAGING_GROUPS,
 } from '../data/mdmFeatures';
-import { generateMdm, DEFAULT_HANDOFF } from '../data/mdmGenerate';
+import { generateMdmBlocks, DEFAULT_HANDOFF } from '../data/mdmGenerate';
 import { suggestFindings, suggestDiagnoses, suggestPlan } from '../api/claude';
 import { getPlanSuggestions, recordPlanSelection } from '../data/planSuggest';
 import { TermsModal } from '../components/TermsModal';
@@ -16,6 +16,17 @@ const DX_TIERS = [
   { key: 'cantmiss', label: "Can't-miss" },
   { key: 'less', label: 'Less likely' },
   { key: 'consideration', label: 'Under consideration' },
+];
+
+// The four finding sections shown per diagnosis, each drawing from one or more of
+// the underlying feature groups. History folds in patient-reported symptoms;
+// Physical is the exam. (Findings still carry a for/against direction internally,
+// which drives the note — but the clinician just marks each finding + or −.)
+const SECTIONS = [
+  { title: 'History', groups: ['History', 'Symptoms'] },
+  { title: 'Physical', groups: ['Exam'] },
+  { title: 'Labs', groups: ['Labs'] },
+  { title: 'Imaging', groups: ['Imaging'] },
 ];
 
 // How many suggested items to surface per plan category.
@@ -32,6 +43,10 @@ function hasAcceptedTerms() {
 // A fresh, empty plan keyed by every current plan category.
 const emptyPlan = () => Object.fromEntries(PLAN_ORDER.map(c => [c, []]));
 
+// A selected entry may lump several diagnoses together (e.g. bladder + prostate
+// cancer); its stable key and display name is the members joined with " / ".
+const keyOf = item => item.names.join(' / ');
+
 // Renders inline **bold** spans (from the generated note) without innerHTML.
 function renderInline(line) {
   return line.split(/\*\*(.+?)\*\*/g).map((part, i) =>
@@ -41,24 +56,24 @@ function renderInline(line) {
   );
 }
 
-// Flatten a diagnosis's feature groups into two directional buckets — findings
-// whose presence SUPPORTS the diagnosis and findings whose presence argues
-// AGAINST it — de-duplicated by label so a phrase repeated across the old
-// History/Symptoms/Exam groups now shows only once.
-function forAgainst(groups) {
-  const forList = [], againstList = [];
-  const seenFor = new Set(), seenAgainst = new Set();
-  for (const g of Object.keys(groups || {})) {
-    for (const f of groups[g] || []) {
-      const key = f.label.trim().toLowerCase();
-      if (f.dir === 'against') {
-        if (!seenAgainst.has(key)) { seenAgainst.add(key); againstList.push(f); }
-      } else if (!seenFor.has(key)) {
-        seenFor.add(key); forList.push(f);
+// Merge the curated (or AI-drafted) feature groups for every member of a lumped
+// entry into one set, de-duplicating by label within each group so a phrase
+// shared by two diagnoses shows only once.
+function mergeGroups(names, aiFeatures) {
+  const merged = Object.fromEntries(GROUP_ORDER.map(g => [g, []]));
+  const seen = Object.fromEntries(GROUP_ORDER.map(g => [g, new Set()]));
+  for (const nm of names) {
+    const groups = aiFeatures[nm] || getFeatureSet(nm).groups;
+    for (const g of GROUP_ORDER) {
+      for (const f of groups[g] || []) {
+        const k = f.label.trim().toLowerCase();
+        if (seen[g].has(k)) continue;
+        seen[g].add(k);
+        merged[g].push(f);
       }
     }
   }
-  return { forList, againstList };
+  return merged;
 }
 
 // ── Small building blocks ────────────────────────────────────────────────────
@@ -68,6 +83,18 @@ function Chevron({ open }) {
       <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
     </svg>
   );
+}
+
+function Sparkle({ className = '' }) {
+  return (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16 2.3 5.7L21 12l-5.7 2.3L13 20l-2.3-5.7L5 12l5.7-2.3L13 4Z" />
+    </svg>
+  );
+}
+
+function Spinner() {
+  return <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" className="animate-spin"><path strokeLinecap="round" d="M12 3a9 9 0 1 0 9 9" /></svg>;
 }
 
 function Section({ title, count, open, onToggle, children }) {
@@ -85,31 +112,40 @@ function Section({ title, count, open, onToggle, children }) {
   );
 }
 
-// A single finding button that cycles through the clinician's four intents on
-// each tap: unselected → positive → negative → pending → unselected.
-const CYCLE = { undefined: 'present', null: 'present', present: 'absent', absent: 'pending', pending: null };
+// A double-sided finding control: tap the "+" cap to mark the finding present,
+// the "−" cap to mark it absent, and the middle (the label) to cycle through
+// present → absent → pending → off. Tapping a cap again clears it. The whole row
+// is tinted to the current state, so intent is self-evident without instructions.
+const MIDDLE_CYCLE = { undefined: 'present', null: 'present', present: 'absent', absent: 'pending', pending: null };
 
-function FeatureButton({ label, state, onCycle }) {
-  const style = state === 'present' ? 'bg-emerald-50 border-emerald-300 text-emerald-800'
-    : state === 'absent' ? 'bg-red-50 border-red-300 text-red-800'
-    : state === 'pending' ? 'bg-amber-50 border-amber-300 text-amber-800'
-    : 'bg-white border-gray-200 text-gray-600 hover:border-blue-300 hover:text-blue-600';
-  const glyph = state === 'present' ? '+'
-    : state === 'absent' ? '−'
-    : state === 'pending' ? '⏱' : '';
-  const glyphColor = state === 'present' ? 'text-emerald-600'
-    : state === 'absent' ? 'text-red-500'
-    : state === 'pending' ? 'text-amber-600' : 'text-gray-300';
+function FeatureButton({ label, state, onSet }) {
+  const rowTint = state === 'present' ? 'border-emerald-300 bg-emerald-50'
+    : state === 'absent' ? 'border-red-300 bg-red-50'
+    : state === 'pending' ? 'border-amber-300 bg-amber-50'
+    : 'border-gray-200 bg-white';
+  const toggle = v => onSet(state === v ? null : v);
+  const plusOn = state === 'present', minusOn = state === 'absent', pendOn = state === 'pending';
   return (
-    <button
-      type="button"
-      onClick={() => onCycle(CYCLE[state ?? 'undefined'])}
-      aria-label={`${label} — ${state || 'not selected'}. Tap to cycle positive, negative, pending, off.`}
-      className={`w-full flex items-center gap-1.5 text-left rounded-md border px-2 py-1 text-[13px] leading-snug transition-colors ${style}`}
-    >
-      <span className={`w-3.5 shrink-0 text-center font-bold ${glyphColor}`}>{glyph || '·'}</span>
-      <span className="flex-1">{label}</span>
-    </button>
+    <div className={`flex items-stretch rounded-md border overflow-hidden text-[13px] transition-colors ${rowTint}`}>
+      <button
+        type="button" onClick={() => toggle('present')} title="Present" aria-pressed={plusOn}
+        aria-label={`${label} — present`}
+        className={`w-8 shrink-0 flex items-center justify-center text-base font-bold border-r transition-colors ${plusOn ? 'bg-emerald-500 text-white border-emerald-500' : 'text-emerald-600 border-gray-200 hover:bg-emerald-100/60'}`}
+      >+</button>
+      <button
+        type="button" onClick={() => onSet(MIDDLE_CYCLE[state ?? 'undefined'])} title="Cycle: present → absent → pending → off"
+        aria-label={`${label}${pendOn ? ' — pending' : ''} — cycle present, absent, pending`}
+        className="flex-1 text-left px-2 py-1 leading-snug flex items-center gap-1.5 min-w-0"
+      >
+        <span className="flex-1 min-w-0">{label}</span>
+        {pendOn && <span className="text-[11px] text-amber-600 font-medium shrink-0">⏱ pending</span>}
+      </button>
+      <button
+        type="button" onClick={() => toggle('absent')} title="Absent" aria-pressed={minusOn}
+        aria-label={`${label} — absent`}
+        className={`w-8 shrink-0 flex items-center justify-center text-base font-bold border-l transition-colors ${minusOn ? 'bg-red-500 text-white border-red-500' : 'text-red-500 border-gray-200 hover:bg-red-100/60'}`}
+      >−</button>
+    </div>
   );
 }
 
@@ -135,12 +171,14 @@ export function MdmScreen({ onExit, onAdmin }) {
     setTermsAccepted(true);
   }
 
-  // Clinical selections
-  const [selected, setSelected] = useState([]);          // [{ name, tier }]
-  const [dxTier, setDxTier] = useState({});
-  const [featureState, setFeatureState] = useState({});
+  // Clinical selections. Each `selected` entry is { names:[...], tier } — a single
+  // diagnosis has one name; lumped diagnoses carry several.
+  const [selected, setSelected] = useState([]);
+  const [dxTier, setDxTier] = useState({});              // key -> MDM tier
+  const [featureState, setFeatureState] = useState({});  // key -> { featureId: state }
   const [aiFeatures, setAiFeatures] = useState({});      // dxName -> AI-drafted groups
   const [aiStatus, setAiStatus] = useState({});          // dxName -> 'loading' | 'error'
+  const [lumpSel, setLumpSel] = useState(new Set());     // keys checked for lumping
   const [plan, setPlan] = useState(emptyPlan);
   const [planCustom, setPlanCustom] = useState({});
   const [openImg, setOpenImg] = useState(null);          // which imaging modality menu is open
@@ -157,23 +195,28 @@ export function MdmScreen({ onExit, onAdmin }) {
   // UI state
   const [dxQuery, setDxQuery] = useState('');
   const [activeComplaint, setActiveComplaint] = useState(null);
-  const [open, setOpen] = useState({ dx: true, plan: true, handoff: false });
+  const [open, setOpen] = useState({ dx: true, plan: false, handoff: false });
   const [dxOpen, setDxOpen] = useState({});
   const [mobileView, setMobileView] = useState('menu'); // 'menu' | 'note'
   const [copied, setCopied] = useState(false);
 
-  // Curated library first; fall back to any AI-drafted set the clinician generated.
+  // Note-pane block ordering (drag-and-drop). Holds an explicit id order; blocks
+  // not listed here fall back to their natural (tier-sorted) position.
+  const [blockOrder, setBlockOrder] = useState([]);
+  const [dragId, setDragId] = useState(null);
+
+  // Curated library first; fall back to any AI-drafted set. For lumped entries the
+  // member sets are merged.
   const featureSets = useMemo(() => {
     const map = {};
-    for (const dx of selected) {
-      const groups = aiFeatures[dx.name] || getFeatureSet(dx.name).groups;
-      map[dx.name] = featuresWithIds(groups);
+    for (const item of selected) {
+      map[keyOf(item)] = featuresWithIds(mergeGroups(item.names, aiFeatures));
     }
     return map;
   }, [selected, aiFeatures]);
 
-  const isSelected = name => selected.some(d => d.name.toLowerCase() === name.toLowerCase());
-  const dxNames = selected.map(d => d.name);
+  const isSelected = name => selected.some(it => it.names.some(n => n.toLowerCase() === name.toLowerCase()));
+  const dxNames = selected.flatMap(it => it.names);
 
   const complaintMatches = useMemo(() => {
     const q = dxQuery.trim().toLowerCase();
@@ -195,29 +238,82 @@ export function MdmScreen({ onExit, onAdmin }) {
     [selected, aiPlan, learnTick]
   );
 
-  // ── Live note ──────────────────────────────────────────────────────────────
-  const mdmText = useMemo(() => {
-    const diagnoses = selected.map(dx => ({
-      name: dx.name,
-      tier: dxTier[dx.name] || null,
-      features: featureSets[dx.name] || {},
-      state: featureState[dx.name] || {},
-    }));
-    return generateMdm({ diagnoses, plan, handoffLine: handoff });
+  // ── Live note blocks ─────────────────────────────────────────────────────────
+  const noteBlocks = useMemo(() => {
+    const diagnoses = selected.map(item => {
+      const key = keyOf(item);
+      return {
+        name: key,
+        tier: dxTier[key] || null,
+        features: featureSets[key] || {},
+        state: featureState[key] || {},
+      };
+    });
+    return generateMdmBlocks({ diagnoses, plan, handoffLine: handoff });
   }, [selected, dxTier, featureSets, featureState, plan, handoff]);
 
-  const hasContent = selected.length > 0 || PLAN_ORDER.some(c => plan[c].length);
+  // Apply the user's drag order on top of the natural block order.
+  const orderedBlocks = useMemo(() => {
+    const byId = new Map(noteBlocks.map(b => [b.id, b]));
+    const seen = new Set();
+    const out = [];
+    for (const id of blockOrder) {
+      if (byId.has(id) && !seen.has(id)) { out.push(byId.get(id)); seen.add(id); }
+    }
+    for (const b of noteBlocks) if (!seen.has(b.id)) out.push(b);
+    return out;
+  }, [noteBlocks, blockOrder]);
+
+  const mdmText = useMemo(() => orderedBlocks.map(b => b.text).join('\n\n'), [orderedBlocks]);
+  const hasContent = orderedBlocks.length > 0;
 
   // ── Mutators ─────────────────────────────────────────────────────────────────
   function addDx(name, tier = 'custom') {
-    if (!name.trim() || isSelected(name)) return;
-    setSelected(prev => [...prev, { name: name.trim(), tier }]);
-    setDxOpen(prev => ({ ...prev, [name.trim()]: true }));
+    const clean = name.trim();
+    if (!clean || isSelected(clean)) return;
+    setSelected(prev => [...prev, { names: [clean], tier }]);
+    setDxOpen(prev => ({ ...prev, [clean]: true }));
     setOpen(prev => ({ ...prev, dx: true }));
   }
-  function removeDx(name) {
-    setSelected(prev => prev.filter(d => d.name.toLowerCase() !== name.toLowerCase()));
-    setDxTier(t => { const c = { ...t }; delete c[name]; return c; });
+  function removeDx(key) {
+    setSelected(prev => prev.filter(it => keyOf(it) !== key));
+    setDxTier(t => { const c = { ...t }; delete c[key]; return c; });
+    setFeatureState(s => { const c = { ...s }; delete c[key]; return c; });
+    setLumpSel(prev => { const n = new Set(prev); n.delete(key); return n; });
+  }
+  function toggleLump(key) {
+    setLumpSel(prev => { const n = new Set(prev); n.has(key) ? n.delete(key) : n.add(key); return n; });
+  }
+  // Combine the checked entries into one lumped diagnosis at the first one's slot.
+  function lumpSelected() {
+    const keys = new Set(lumpSel);
+    if (keys.size < 2) return;
+    setSelected(prev => {
+      const chosen = prev.filter(it => keys.has(keyOf(it)));
+      if (chosen.length < 2) return prev;
+      const names = chosen.flatMap(it => it.names);
+      const tier = chosen.find(it => it.tier === 'red')?.tier || chosen[0].tier;
+      const merged = { names, tier };
+      const firstIdx = prev.findIndex(it => keys.has(keyOf(it)));
+      const rest = prev.filter(it => !keys.has(keyOf(it)));
+      rest.splice(Math.max(0, firstIdx), 0, merged);
+      setDxOpen(o => ({ ...o, [keyOf(merged)]: true }));
+      return rest;
+    });
+    setLumpSel(new Set());
+  }
+  // Split a lumped entry back into its individual diagnoses.
+  function unlump(key) {
+    setSelected(prev => {
+      const idx = prev.findIndex(it => keyOf(it) === key);
+      if (idx < 0 || prev[idx].names.length < 2) return prev;
+      const item = prev[idx];
+      const singles = item.names.map(nm => ({ names: [nm], tier: item.tier }));
+      const copy = [...prev];
+      copy.splice(idx, 1, ...singles);
+      return copy;
+    });
+    setLumpSel(prev => { const n = new Set(prev); n.delete(key); return n; });
   }
   function commitQuery() {
     const q = dxQuery.trim();
@@ -229,14 +325,14 @@ export function MdmScreen({ onExit, onAdmin }) {
   function pickComplaint(slug) {
     setActiveComplaint(prev => (prev === slug ? null : slug));
   }
-  function setTier(dxName, tierKey) {
+  function setTier(key, tierKey) {
     setDxTier(prev => {
       const next = { ...prev };
-      if (next[dxName] === tierKey) { delete next[dxName]; return next; }
+      if (next[key] === tierKey) { delete next[key]; return next; }
       if (tierKey === 'likely') {
         for (const k of Object.keys(next)) if (next[k] === 'likely') delete next[k];
       }
-      next[dxName] = tierKey;
+      next[key] = tierKey;
       return next;
     });
   }
@@ -263,12 +359,12 @@ export function MdmScreen({ onExit, onAdmin }) {
       setAiDx({ query: q, status: 'error', results: [] });
     }
   }
-  function setFeat(dxName, featureId, value) {
+  function setFeat(key, featureId, value) {
     setFeatureState(prev => {
-      const dxState = { ...(prev[dxName] || {}) };
+      const dxState = { ...(prev[key] || {}) };
       if (value === null || value === undefined) delete dxState[featureId];
       else dxState[featureId] = value;
-      return { ...prev, [dxName]: dxState };
+      return { ...prev, [key]: dxState };
     });
   }
   function togglePlan(category, item) {
@@ -306,8 +402,8 @@ export function MdmScreen({ onExit, onAdmin }) {
   function clearAll() {
     if (!window.confirm('Clear all entries and start over?')) return;
     setSelected([]); setDxTier({}); setFeatureState({}); setAiFeatures({}); setAiStatus({});
-    setPlan(emptyPlan()); setPlanCustom({}); setOpenImg(null);
-    setAiPlan({}); setAiPlanStatus(null);
+    setLumpSel(new Set()); setPlan(emptyPlan()); setPlanCustom({}); setOpenImg(null);
+    setAiPlan({}); setAiPlanStatus(null); setBlockOrder([]);
     setHandoff(DEFAULT_HANDOFF); setDxQuery(''); setActiveComplaint(null);
     setAiDx({ query: '', status: null, results: [] });
   }
@@ -322,6 +418,18 @@ export function MdmScreen({ onExit, onAdmin }) {
       }
       setCopied(true); setTimeout(() => setCopied(false), 1800);
     } catch { setCopied(false); }
+  }
+
+  // Drag-and-drop reordering of note blocks.
+  function dropOnBlock(targetId) {
+    if (!dragId || dragId === targetId) { setDragId(null); return; }
+    const ids = orderedBlocks.map(b => b.id);
+    const from = ids.indexOf(dragId);
+    const to = ids.indexOf(targetId);
+    if (from < 0 || to < 0) { setDragId(null); return; }
+    ids.splice(to, 0, ids.splice(from, 1)[0]);
+    setBlockOrder(ids);
+    setDragId(null);
   }
 
   const totalPlan = PLAN_ORDER.reduce((n, c) => n + plan[c].length, 0);
@@ -360,7 +468,7 @@ export function MdmScreen({ onExit, onAdmin }) {
             {!exactMatch && (
               <>
                 <button onClick={generateDiagnoses} className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-blue-50 transition-colors">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-blue-500 shrink-0"><path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16 2.3 5.7L21 12l-5.7 2.3L13 20l-2.3-5.7L5 12l5.7-2.3L13 4Z" /></svg>
+                  <Sparkle className="text-blue-500 shrink-0" />
                   <span className="text-sm text-gray-600">Generate a differential for “<span className="font-medium text-gray-800">{dxQuery.trim()}</span>” with AI</span>
                 </button>
                 <button onClick={commitQuery} className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-blue-50 transition-colors">
@@ -380,10 +488,7 @@ export function MdmScreen({ onExit, onAdmin }) {
               <button onClick={() => setAiDx({ query: '', status: null, results: [] })} className="text-blue-300 hover:text-blue-600 text-xs">clear</button>
             </div>
             {aiDx.status === 'loading' && (
-              <p className="text-xs text-gray-500 flex items-center gap-1.5">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" className="animate-spin"><path strokeLinecap="round" d="M12 3a9 9 0 1 0 9 9" /></svg>
-                Generating possible diagnoses…
-              </p>
+              <p className="text-xs text-gray-500 flex items-center gap-1.5"><Spinner />Generating possible diagnoses…</p>
             )}
             {aiDx.status === 'error' && <p className="text-xs text-red-500">Couldn’t generate — try again.</p>}
             {aiDx.results.length > 0 && (
@@ -414,26 +519,49 @@ export function MdmScreen({ onExit, onAdmin }) {
           </div>
         )}
 
+        {/* Lump action bar */}
+        {lumpSel.size >= 2 && (
+          <div className="flex items-center justify-between bg-blue-50 border border-blue-100 rounded-lg px-3 py-2 mb-2">
+            <span className="text-[11px] text-blue-700 font-medium">{lumpSel.size} diagnoses selected</span>
+            <div className="flex items-center gap-3">
+              <button onClick={() => setLumpSel(new Set())} className="text-[11px] text-blue-400 hover:text-blue-600">cancel</button>
+              <button onClick={lumpSelected} className="text-[11px] font-semibold text-white bg-blue-600 rounded-md px-2.5 py-1 hover:bg-blue-700">Lump together</button>
+            </div>
+          </div>
+        )}
+
         {/* Selected diagnoses — each a collapsible finding panel */}
         {selected.length === 0 && <p className="text-xs text-gray-300 py-2">No diagnoses yet. Search above to build your differential.</p>}
         <div className="space-y-2">
-          {selected.map(dx => {
-            const groups = featureSets[dx.name] || {};
-            const { forList, againstList } = forAgainst(groups);
-            const matched = getFeatureSet(dx.name).matched;
-            const hasAi = Boolean(aiFeatures[dx.name]);
-            const aiState = aiStatus[dx.name];
-            const tier = dxTier[dx.name];
-            const isOpen = dxOpen[dx.name];
-            const marks = Object.keys(featureState[dx.name] || {}).length;
+          {selected.map(item => {
+            const key = keyOf(item);
+            const groups = featureSets[key] || {};
+            const lumped = item.names.length > 1;
+            const members = item.names.map(nm => ({
+              name: nm,
+              matched: getFeatureSet(nm).matched,
+              hasAi: Boolean(aiFeatures[nm]),
+            }));
+            const needGen = members.filter(m => !m.matched && !m.hasAi);
+            const anyAi = members.some(m => m.hasAi);
+            const tier = dxTier[key];
+            const isOpen = dxOpen[key];
+            const marks = Object.keys(featureState[key] || {}).length;
+            const checked = lumpSel.has(key);
             return (
-              <div key={dx.name} className={`border rounded-lg overflow-hidden ${tier === 'likely' ? 'border-blue-300' : 'border-gray-200'}`}>
+              <div key={key} className={`border rounded-lg overflow-hidden ${tier === 'likely' ? 'border-blue-300' : 'border-gray-200'}`}>
                 <div className="flex items-center gap-2 px-3 py-2 bg-gray-50/70">
-                  <button onClick={() => setDxOpen(o => ({ ...o, [dx.name]: !o[dx.name] }))} className="text-gray-400 shrink-0"><Chevron open={isOpen} /></button>
-                  <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${TIER_DOT[dx.tier] || 'bg-blue-300'}`} />
-                  <span className="text-sm font-semibold text-gray-800 flex-1 truncate">{dx.name}</span>
+                  {selected.length > 1 && (
+                    <button onClick={() => toggleLump(key)} title="Select to lump with another diagnosis" className="shrink-0">
+                      <span className={`w-4 h-4 rounded border flex items-center justify-center text-[10px] font-bold ${checked ? 'bg-blue-600 border-blue-600 text-white' : 'border-gray-300 text-transparent'}`}>✓</span>
+                    </button>
+                  )}
+                  <button onClick={() => setDxOpen(o => ({ ...o, [key]: !o[key] }))} className="text-gray-400 shrink-0"><Chevron open={isOpen} /></button>
+                  <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${TIER_DOT[item.tier] || 'bg-blue-300'}`} />
+                  <span className="text-sm font-semibold text-gray-800 flex-1 truncate">{key}</span>
+                  {lumped && <button onClick={() => unlump(key)} title="Split apart" className="text-[10px] text-gray-400 hover:text-blue-600 shrink-0">unlump</button>}
                   {marks > 0 && <span className="text-[10px] text-blue-600 bg-blue-50 rounded-full px-1.5 py-0.5">{marks}</span>}
-                  <button onClick={() => removeDx(dx.name)} className="text-gray-300 hover:text-red-400 shrink-0">
+                  <button onClick={() => removeDx(key)} className="text-gray-300 hover:text-red-400 shrink-0">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" d="M18 6L6 18M6 6l12 12" /></svg>
                   </button>
                 </div>
@@ -441,47 +569,49 @@ export function MdmScreen({ onExit, onAdmin }) {
                   <div className="p-3">
                     <div className="grid grid-cols-2 gap-1.5 mb-3">
                       {DX_TIERS.map(t => (
-                        <button key={t.key} onClick={() => setTier(dx.name, t.key)} className={`rounded-md px-2 py-1 text-[11px] font-medium border transition-all ${tier === t.key ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-500 border-gray-200 hover:border-blue-300 hover:text-blue-600'}`}>{t.label}</button>
+                        <button key={t.key} onClick={() => setTier(key, t.key)} className={`rounded-md px-2 py-1 text-[11px] font-medium border transition-all ${tier === t.key ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-500 border-gray-200 hover:border-blue-300 hover:text-blue-600'}`}>{t.label}</button>
                       ))}
                     </div>
-                    {!matched && !hasAi && (
-                      <div className="mb-2 rounded-lg bg-gray-50 border border-gray-200 p-2.5">
-                        <p className="text-[10px] text-gray-400 mb-1.5">No curated finding set for this diagnosis — a generic template is shown.</p>
-                        <button
-                          onClick={() => generateFindings(dx.name)}
-                          disabled={aiState === 'loading'}
-                          className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium border transition-all bg-white text-blue-600 border-blue-200 hover:border-blue-400 disabled:opacity-50"
-                        >
-                          {aiState === 'loading' ? (
-                            <><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" className="animate-spin"><path strokeLinecap="round" d="M12 3a9 9 0 1 0 9 9" /></svg>Drafting findings…</>
-                          ) : (
-                            <><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16 2.3 5.7L21 12l-5.7 2.3L13 20l-2.3-5.7L5 12l5.7-2.3L13 4Z" /></svg>Suggest findings</>
-                          )}
-                        </button>
-                        {aiState === 'error' && <span className="ml-2 text-[10px] text-red-500">Couldn’t generate — try again.</span>}
+                    {needGen.length > 0 && (
+                      <div className="mb-3 rounded-lg bg-gray-50 border border-gray-200 p-2.5">
+                        <p className="text-[10px] text-gray-400 mb-1.5">
+                          {lumped
+                            ? 'Some conditions have no curated finding set — a generic template is shown for them.'
+                            : 'No curated finding set for this diagnosis — a generic template is shown.'}
+                        </p>
+                        <div className="flex flex-wrap gap-1.5">
+                          {needGen.map(m => (
+                            <button
+                              key={m.name}
+                              onClick={() => generateFindings(m.name)}
+                              disabled={aiStatus[m.name] === 'loading'}
+                              className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium border transition-all bg-white text-blue-600 border-blue-200 hover:border-blue-400 disabled:opacity-50"
+                            >
+                              {aiStatus[m.name] === 'loading'
+                                ? <><Spinner />Drafting…</>
+                                : <><Sparkle />{lumped ? `Suggest findings — ${m.name}` : 'Suggest findings'}</>}
+                            </button>
+                          ))}
+                        </div>
+                        {needGen.some(m => aiStatus[m.name] === 'error') && <span className="mt-1.5 block text-[10px] text-red-500">Couldn’t generate — try again.</span>}
                       </div>
                     )}
-                    {hasAi && <p className="text-[10px] text-blue-500 mb-2">AI-suggested draft — review and curate before relying on it.</p>}
-                    <p className="text-[10px] text-gray-400 mb-2">Tap a finding to cycle: <span className="text-emerald-600 font-semibold">positive</span> → <span className="text-red-500 font-semibold">negative</span> → <span className="text-amber-600 font-semibold">pending</span> → off.</p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3 gap-y-3">
-                      <div>
-                        <p className="text-[10px] text-emerald-600 font-semibold uppercase tracking-wider mb-1">Supports</p>
-                        <div className="space-y-1">
-                          {forList.length === 0 && <p className="text-[11px] text-gray-300">—</p>}
-                          {forList.map(f => (
-                            <FeatureButton key={f.id} label={f.label} state={featureState[dx.name]?.[f.id]} onCycle={v => setFeat(dx.name, f.id, v)} />
-                          ))}
-                        </div>
-                      </div>
-                      <div>
-                        <p className="text-[10px] text-red-500 font-semibold uppercase tracking-wider mb-1">Against</p>
-                        <div className="space-y-1">
-                          {againstList.length === 0 && <p className="text-[11px] text-gray-300">—</p>}
-                          {againstList.map(f => (
-                            <FeatureButton key={f.id} label={f.label} state={featureState[dx.name]?.[f.id]} onCycle={v => setFeat(dx.name, f.id, v)} />
-                          ))}
-                        </div>
-                      </div>
+                    {anyAi && <p className="text-[10px] text-blue-500 mb-2">AI-suggested draft — review and curate before relying on it.</p>}
+                    <div className="space-y-3">
+                      {SECTIONS.map(section => {
+                        const feats = section.groups.flatMap(g => groups[g] || []);
+                        if (!feats.length) return null;
+                        return (
+                          <div key={section.title}>
+                            <p className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider mb-1">{section.title}</p>
+                            <div className="space-y-1">
+                              {feats.map(f => (
+                                <FeatureButton key={f.id} label={f.label} state={featureState[key]?.[f.id]} onSet={v => setFeat(key, f.id, v)} />
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 )}
@@ -497,10 +627,7 @@ export function MdmScreen({ onExit, onAdmin }) {
         {selected.length > 0 && (
           <div className="bg-blue-50/50 border border-blue-100 rounded-lg p-3 mb-3">
             <div className="flex items-center justify-between mb-2">
-              <p className="text-[11px] text-blue-500 font-medium flex items-center gap-1">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16 2.3 5.7L21 12l-5.7 2.3L13 20l-2.3-5.7L5 12l5.7-2.3L13 4Z" /></svg>
-                Suggested for your differential
-              </p>
+              <p className="text-[11px] text-blue-500 font-medium flex items-center gap-1"><Sparkle />Suggested for your differential</p>
               <button onClick={generatePlan} disabled={aiPlanStatus === 'loading'} className="text-[11px] text-blue-500 hover:text-blue-700 disabled:opacity-50">
                 {aiPlanStatus === 'loading' ? 'Thinking…' : 'Refine with AI'}
               </button>
@@ -617,12 +744,31 @@ export function MdmScreen({ onExit, onAdmin }) {
       </div>
       <div className="flex-1 overflow-y-auto p-4">
         {hasContent ? (
-          <div className="space-y-3">
-            {mdmText.split('\n\n').map((block, bi) => (
-              <div key={bi} className="text-[13px] text-gray-700 leading-relaxed">
-                {block.split('\n').map((line, li) => (
-                  <p key={li} className={line.startsWith('•') ? 'pl-3' : ''}>{renderInline(line)}</p>
-                ))}
+          <div className="space-y-2">
+            {orderedBlocks.length > 1 && (
+              <p className="text-[10px] text-gray-300 mb-1 flex items-center gap-1">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8 6h.01M8 12h.01M8 18h.01M16 6h.01M16 12h.01M16 18h.01" /></svg>
+                Drag paragraphs to reorder
+              </p>
+            )}
+            {orderedBlocks.map(block => (
+              <div
+                key={block.id}
+                draggable
+                onDragStart={() => setDragId(block.id)}
+                onDragOver={e => e.preventDefault()}
+                onDrop={() => dropOnBlock(block.id)}
+                onDragEnd={() => setDragId(null)}
+                className={`group flex gap-2 rounded-lg border px-2.5 py-2 cursor-grab active:cursor-grabbing transition-colors ${dragId === block.id ? 'border-blue-300 bg-blue-50/60 opacity-60' : 'border-transparent hover:border-gray-200 hover:bg-gray-50'}`}
+              >
+                <span className="mt-0.5 shrink-0 text-gray-300 group-hover:text-gray-400" title="Drag to reorder">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8 6h.01M8 12h.01M8 18h.01M16 6h.01M16 12h.01M16 18h.01" /></svg>
+                </span>
+                <div className="flex-1 text-[13px] text-gray-700 leading-relaxed min-w-0">
+                  {block.text.split('\n').map((line, li) => (
+                    <p key={li} className={line.startsWith('•') ? 'pl-3' : ''}>{renderInline(line)}</p>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
