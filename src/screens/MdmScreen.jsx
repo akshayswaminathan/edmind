@@ -32,6 +32,14 @@ const SECTIONS = [
 // How many suggested items to surface per plan category.
 const SUGGEST_PER_CATEGORY = 5;
 
+// The medication order-set categories are grouped under one "Medications" section:
+// each keeps its own quick-order row, but they share a single free-text box that
+// files anything typed into the general `Medications` bucket (the generator emits
+// it as "Medications: …"). The remaining categories render on their own as before.
+const MED_CATEGORIES = ['Analgesia', 'IV Fluids', 'Antiemetics', 'Sedation', 'Antimicrobials'];
+const CUSTOM_MED_CATEGORY = 'Medications';
+const NON_MED_PLAN = PLAN_ORDER.filter(c => !MED_CATEGORIES.includes(c));
+
 // Persisted acceptance of the Terms of Use (keyed by version so a substantive
 // terms change re-prompts previously accepted users).
 const TERMS_KEY = 'emtools.mdm.termsAcceptedVersion';
@@ -40,8 +48,9 @@ function hasAcceptedTerms() {
   catch { return false; }
 }
 
-// A fresh, empty plan keyed by every current plan category.
-const emptyPlan = () => Object.fromEntries(PLAN_ORDER.map(c => [c, []]));
+// A fresh, empty plan keyed by every current plan category, plus the general
+// `Medications` bucket that the shared medication text box files into.
+const emptyPlan = () => Object.fromEntries([...PLAN_ORDER, CUSTOM_MED_CATEGORY].map(c => [c, []]));
 
 // A selected entry may lump several diagnoses together (e.g. bladder + prostate
 // cancer); its stable key and display name is the members joined with " / ".
@@ -475,7 +484,7 @@ export function MdmScreen({ onExit, onAdmin }) {
     setDragId(null);
   }
 
-  const totalPlan = PLAN_ORDER.reduce((n, c) => n + plan[c].length, 0);
+  const totalPlan = Object.values(plan).reduce((n, list) => n + (list?.length || 0), 0);
 
   // ── Left menu ────────────────────────────────────────────────────────────────
   const Menu = (
@@ -721,7 +730,39 @@ export function MdmScreen({ onExit, onAdmin }) {
         )}
 
         <div className="space-y-3">
-          {PLAN_ORDER.map(category => (
+          {/* Medications — the order-set categories share one section and one
+              free-text box; each keeps its own quick-order row. */}
+          <div>
+            <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1.5">Medications</p>
+            <div className="space-y-2 mb-1.5">
+              {MED_CATEGORIES.map(category => (
+                <div key={category}>
+                  <p className="text-[9px] text-gray-400 font-medium uppercase tracking-wider mb-1">{category}</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {PLAN_MENU[category].map(item => (
+                      <PlanChip key={item} active={plan[category].includes(item)} onClick={() => togglePlan(category, item)}>{item}</PlanChip>
+                    ))}
+                    {plan[category].filter(x => !PLAN_MENU[category].includes(x)).map(item => (
+                      <PlanChip key={item} active onClick={() => togglePlan(category, item)}>{item}</PlanChip>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+            {/* Anything typed here lands in the general Medications bucket. */}
+            {plan[CUSTOM_MED_CATEGORY].length > 0 && (
+              <div className="flex flex-wrap gap-1.5 mb-1.5">
+                {plan[CUSTOM_MED_CATEGORY].map(item => (
+                  <PlanChip key={item} active onClick={() => togglePlan(CUSTOM_MED_CATEGORY, item)}>{item}</PlanChip>
+                ))}
+              </div>
+            )}
+            <div className="flex gap-1.5">
+              <input value={planCustom[CUSTOM_MED_CATEGORY] || ''} onChange={e => setPlanCustom(prev => ({ ...prev, [CUSTOM_MED_CATEGORY]: e.target.value }))} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addPlanCustom(CUSTOM_MED_CATEGORY); } }} placeholder="+ add medication" className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
+            </div>
+          </div>
+
+          {NON_MED_PLAN.map(category => (
             <div key={category}>
               <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1.5">{category}</p>
 
