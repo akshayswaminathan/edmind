@@ -285,7 +285,8 @@ export function MdmScreen({ onExit, onAdmin }) {
     const clean = name.trim();
     if (!clean || isSelected(clean)) return;
     setSelected(prev => [...prev, { names: [clean], tier }]);
-    setDxOpen(prev => ({ ...prev, [clean]: true }));
+    // Leave the new diagnosis collapsed — the compact rows make it easy to
+    // check several off and lump them before drilling into findings.
     setOpen(prev => ({ ...prev, dx: true }));
   }
   function removeDx(key) {
@@ -311,7 +312,6 @@ export function MdmScreen({ onExit, onAdmin }) {
       const firstIdx = prev.findIndex(it => keys.has(keyOf(it)));
       const rest = prev.filter(it => !keys.has(keyOf(it)));
       rest.splice(Math.max(0, firstIdx), 0, merged);
-      setDxOpen(o => ({ ...o, [keyOf(merged)]: true }));
       return rest;
     });
     setLumpSel(new Set());
