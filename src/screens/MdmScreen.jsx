@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import { MDM_COMPLAINTS, getComplaintDiagnoses, searchDiagnoses } from '../data/mdmDiagnoses';
 import {
   getFeatureSet, featuresWithIds, GROUP_ORDER, PLAN_MENU, PLAN_ORDER,
@@ -176,6 +176,9 @@ export function MdmScreen({ onExit, onAdmin }) {
   const [selected, setSelected] = useState([]);
   const [dxTier, setDxTier] = useState({});              // key -> MDM tier
   const [featureState, setFeatureState] = useState({});  // key -> { featureId: state }
+  const [customFindings, setCustomFindings] = useState({}); // key -> { group: [{ id, label, dir }] }
+  const [customDraft, setCustomDraft] = useState({});    // `${key}::${group}` -> in-progress text
+  const customIdRef = useRef(0);                          // monotonic id source for custom findings
   const [aiFeatures, setAiFeatures] = useState({});      // dxName -> AI-drafted groups
   const [aiStatus, setAiStatus] = useState({});          // dxName -> 'loading' | 'error'
   const [lumpSel, setLumpSel] = useState(new Set());     // keys checked for lumping
@@ -210,10 +213,20 @@ export function MdmScreen({ onExit, onAdmin }) {
   const featureSets = useMemo(() => {
     const map = {};
     for (const item of selected) {
-      map[keyOf(item)] = featuresWithIds(mergeGroups(item.names, aiFeatures));
+      const key = keyOf(item);
+      const groups = featuresWithIds(mergeGroups(item.names, aiFeatures));
+      // Append the clinician's own findings (they already carry stable `custom:` ids
+      // that never collide with the curated `${group}:${i}` ids).
+      const custom = customFindings[key];
+      if (custom) {
+        for (const g of GROUP_ORDER) {
+          if (custom[g]?.length) groups[g] = [...(groups[g] || []), ...custom[g]];
+        }
+      }
+      map[key] = groups;
     }
     return map;
-  }, [selected, aiFeatures]);
+  }, [selected, aiFeatures, customFindings]);
 
   const isSelected = name => selected.some(it => it.names.some(n => n.toLowerCase() === name.toLowerCase()));
   const dxNames = selected.flatMap(it => it.names);
@@ -279,6 +292,7 @@ export function MdmScreen({ onExit, onAdmin }) {
     setSelected(prev => prev.filter(it => keyOf(it) !== key));
     setDxTier(t => { const c = { ...t }; delete c[key]; return c; });
     setFeatureState(s => { const c = { ...s }; delete c[key]; return c; });
+    setCustomFindings(c => { const n = { ...c }; delete n[key]; return n; });
     setLumpSel(prev => { const n = new Set(prev); n.delete(key); return n; });
   }
   function toggleLump(key) {
@@ -367,6 +381,34 @@ export function MdmScreen({ onExit, onAdmin }) {
       return { ...prev, [key]: dxState };
     });
   }
+  // Add a clinician-authored finding to a diagnosis (an attribute the curated
+  // buttons don't cover). It joins the given group and behaves like any other
+  // finding — present supports the diagnosis, absent argues against it.
+  function addCustomFinding(key, group, rawLabel) {
+    const label = rawLabel.trim();
+    if (!label) return;
+    const id = `custom:${group}:${customIdRef.current++}`;
+    setCustomFindings(prev => {
+      const forKey = prev[key] || {};
+      const list = forKey[group] || [];
+      if (list.some(f => f.label.toLowerCase() === label.toLowerCase())) return prev;
+      return { ...prev, [key]: { ...forKey, [group]: [...list, { id, label, dir: 'for' }] } };
+    });
+    setCustomDraft(prev => ({ ...prev, [`${key}::${group}`]: '' }));
+  }
+  function removeCustomFinding(key, group, id) {
+    setCustomFindings(prev => {
+      const forKey = prev[key];
+      if (!forKey?.[group]) return prev;
+      return { ...prev, [key]: { ...forKey, [group]: forKey[group].filter(f => f.id !== id) } };
+    });
+    setFeatureState(prev => {
+      if (!prev[key]) return prev;
+      const dxState = { ...prev[key] };
+      delete dxState[id];
+      return { ...prev, [key]: dxState };
+    });
+  }
   function togglePlan(category, item) {
     const has = (plan[category] || []).includes(item);
     setPlan(prev => {
@@ -402,6 +444,7 @@ export function MdmScreen({ onExit, onAdmin }) {
   function clearAll() {
     if (!window.confirm('Clear all entries and start over?')) return;
     setSelected([]); setDxTier({}); setFeatureState({}); setAiFeatures({}); setAiStatus({});
+    setCustomFindings({}); setCustomDraft({});
     setLumpSel(new Set()); setPlan(emptyPlan()); setPlanCustom({}); setOpenImg(null);
     setAiPlan({}); setAiPlanStatus(null); setBlockOrder([]);
     setHandoff(DEFAULT_HANDOFF); setDxQuery(''); setActiveComplaint(null);
@@ -599,16 +642,41 @@ export function MdmScreen({ onExit, onAdmin }) {
                     {anyAi && <p className="text-[10px] text-blue-500 mb-2">AI-suggested draft — review and curate before relying on it.</p>}
                     <div className="space-y-3">
                       {SECTIONS.map(section => {
+                        // Custom findings land in the section's primary group (History,
+                        // Exam, Labs, Imaging) and show up alongside the curated buttons.
+                        const addGroup = section.groups[0];
                         const feats = section.groups.flatMap(g => groups[g] || []);
-                        if (!feats.length) return null;
+                        const draftKey = `${key}::${addGroup}`;
                         return (
                           <div key={section.title}>
                             <p className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider mb-1">{section.title}</p>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-1.5">
-                              {feats.map(f => (
-                                <FeatureButton key={f.id} label={f.label} state={featureState[key]?.[f.id]} onSet={v => setFeat(key, f.id, v)} />
-                              ))}
-                            </div>
+                            {feats.length > 0 && (
+                              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-1.5 mb-1.5">
+                                {feats.map(f => (
+                                  f.id.startsWith('custom:') ? (
+                                    <div key={f.id} className="relative">
+                                      <FeatureButton label={f.label} state={featureState[key]?.[f.id]} onSet={v => setFeat(key, f.id, v)} />
+                                      <button
+                                        type="button"
+                                        onClick={() => removeCustomFinding(key, addGroup, f.id)}
+                                        title="Remove finding"
+                                        aria-label={`Remove ${f.label}`}
+                                        className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-gray-300 text-white text-[10px] leading-none flex items-center justify-center shadow-sm hover:bg-red-500 transition-colors"
+                                      >×</button>
+                                    </div>
+                                  ) : (
+                                    <FeatureButton key={f.id} label={f.label} state={featureState[key]?.[f.id]} onSet={v => setFeat(key, f.id, v)} />
+                                  )
+                                ))}
+                              </div>
+                            )}
+                            <input
+                              value={customDraft[draftKey] || ''}
+                              onChange={e => setCustomDraft(prev => ({ ...prev, [draftKey]: e.target.value }))}
+                              onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addCustomFinding(key, addGroup, customDraft[draftKey] || ''); } }}
+                              placeholder={`+ add ${section.title.toLowerCase()} finding`}
+                              className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white"
+                            />
                           </div>
                         );
                       })}
