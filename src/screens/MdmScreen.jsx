@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import { MDM_COMPLAINTS, getComplaintDiagnoses, searchDiagnoses } from '../data/mdmDiagnoses';
 import {
   getFeatureSet, featuresWithIds, GROUP_ORDER, PLAN_MENU, PLAN_ORDER,
@@ -32,6 +32,14 @@ const SECTIONS = [
 // How many suggested items to surface per plan category.
 const SUGGEST_PER_CATEGORY = 5;
 
+// The medication order-set categories are grouped under one "Medications" section:
+// each keeps its own quick-order row, but they share a single free-text box that
+// files anything typed into the general `Medications` bucket (the generator emits
+// it as "Medications: …"). The remaining categories render on their own as before.
+const MED_CATEGORIES = ['Analgesia', 'IV Fluids', 'Antiemetics', 'Sedation', 'Antimicrobials'];
+const CUSTOM_MED_CATEGORY = 'Medications';
+const NON_MED_PLAN = PLAN_ORDER.filter(c => !MED_CATEGORIES.includes(c));
+
 // Persisted acceptance of the Terms of Use (keyed by version so a substantive
 // terms change re-prompts previously accepted users).
 const TERMS_KEY = 'emtools.mdm.termsAcceptedVersion';
@@ -40,8 +48,9 @@ function hasAcceptedTerms() {
   catch { return false; }
 }
 
-// A fresh, empty plan keyed by every current plan category.
-const emptyPlan = () => Object.fromEntries(PLAN_ORDER.map(c => [c, []]));
+// A fresh, empty plan keyed by every current plan category, plus the general
+// `Medications` bucket that the shared medication text box files into.
+const emptyPlan = () => Object.fromEntries([...PLAN_ORDER, CUSTOM_MED_CATEGORY].map(c => [c, []]));
 
 // A selected entry may lump several diagnoses together (e.g. bladder + prostate
 // cancer); its stable key and display name is the members joined with " / ".
@@ -176,6 +185,9 @@ export function MdmScreen({ onExit, onAdmin }) {
   const [selected, setSelected] = useState([]);
   const [dxTier, setDxTier] = useState({});              // key -> MDM tier
   const [featureState, setFeatureState] = useState({});  // key -> { featureId: state }
+  const [customFindings, setCustomFindings] = useState({}); // key -> { group: [{ id, label, dir }] }
+  const [customDraft, setCustomDraft] = useState({});    // `${key}::${group}` -> in-progress text
+  const customIdRef = useRef(0);                          // monotonic id source for custom findings
   const [aiFeatures, setAiFeatures] = useState({});      // dxName -> AI-drafted groups
   const [aiStatus, setAiStatus] = useState({});          // dxName -> 'loading' | 'error'
   const [lumpSel, setLumpSel] = useState(new Set());     // keys checked for lumping
@@ -210,10 +222,20 @@ export function MdmScreen({ onExit, onAdmin }) {
   const featureSets = useMemo(() => {
     const map = {};
     for (const item of selected) {
-      map[keyOf(item)] = featuresWithIds(mergeGroups(item.names, aiFeatures));
+      const key = keyOf(item);
+      const groups = featuresWithIds(mergeGroups(item.names, aiFeatures));
+      // Append the clinician's own findings (they already carry stable `custom:` ids
+      // that never collide with the curated `${group}:${i}` ids).
+      const custom = customFindings[key];
+      if (custom) {
+        for (const g of GROUP_ORDER) {
+          if (custom[g]?.length) groups[g] = [...(groups[g] || []), ...custom[g]];
+        }
+      }
+      map[key] = groups;
     }
     return map;
-  }, [selected, aiFeatures]);
+  }, [selected, aiFeatures, customFindings]);
 
   const isSelected = name => selected.some(it => it.names.some(n => n.toLowerCase() === name.toLowerCase()));
   const dxNames = selected.flatMap(it => it.names);
@@ -272,13 +294,15 @@ export function MdmScreen({ onExit, onAdmin }) {
     const clean = name.trim();
     if (!clean || isSelected(clean)) return;
     setSelected(prev => [...prev, { names: [clean], tier }]);
-    setDxOpen(prev => ({ ...prev, [clean]: true }));
+    // Leave the new diagnosis collapsed — the compact rows make it easy to
+    // check several off and lump them before drilling into findings.
     setOpen(prev => ({ ...prev, dx: true }));
   }
   function removeDx(key) {
     setSelected(prev => prev.filter(it => keyOf(it) !== key));
     setDxTier(t => { const c = { ...t }; delete c[key]; return c; });
     setFeatureState(s => { const c = { ...s }; delete c[key]; return c; });
+    setCustomFindings(c => { const n = { ...c }; delete n[key]; return n; });
     setLumpSel(prev => { const n = new Set(prev); n.delete(key); return n; });
   }
   function toggleLump(key) {
@@ -297,7 +321,6 @@ export function MdmScreen({ onExit, onAdmin }) {
       const firstIdx = prev.findIndex(it => keys.has(keyOf(it)));
       const rest = prev.filter(it => !keys.has(keyOf(it)));
       rest.splice(Math.max(0, firstIdx), 0, merged);
-      setDxOpen(o => ({ ...o, [keyOf(merged)]: true }));
       return rest;
     });
     setLumpSel(new Set());
@@ -367,6 +390,34 @@ export function MdmScreen({ onExit, onAdmin }) {
       return { ...prev, [key]: dxState };
     });
   }
+  // Add a clinician-authored finding to a diagnosis (an attribute the curated
+  // buttons don't cover). It joins the given group and behaves like any other
+  // finding — present supports the diagnosis, absent argues against it.
+  function addCustomFinding(key, group, rawLabel) {
+    const label = rawLabel.trim();
+    if (!label) return;
+    const id = `custom:${group}:${customIdRef.current++}`;
+    setCustomFindings(prev => {
+      const forKey = prev[key] || {};
+      const list = forKey[group] || [];
+      if (list.some(f => f.label.toLowerCase() === label.toLowerCase())) return prev;
+      return { ...prev, [key]: { ...forKey, [group]: [...list, { id, label, dir: 'for' }] } };
+    });
+    setCustomDraft(prev => ({ ...prev, [`${key}::${group}`]: '' }));
+  }
+  function removeCustomFinding(key, group, id) {
+    setCustomFindings(prev => {
+      const forKey = prev[key];
+      if (!forKey?.[group]) return prev;
+      return { ...prev, [key]: { ...forKey, [group]: forKey[group].filter(f => f.id !== id) } };
+    });
+    setFeatureState(prev => {
+      if (!prev[key]) return prev;
+      const dxState = { ...prev[key] };
+      delete dxState[id];
+      return { ...prev, [key]: dxState };
+    });
+  }
   function togglePlan(category, item) {
     const has = (plan[category] || []).includes(item);
     setPlan(prev => {
@@ -402,6 +453,7 @@ export function MdmScreen({ onExit, onAdmin }) {
   function clearAll() {
     if (!window.confirm('Clear all entries and start over?')) return;
     setSelected([]); setDxTier({}); setFeatureState({}); setAiFeatures({}); setAiStatus({});
+    setCustomFindings({}); setCustomDraft({});
     setLumpSel(new Set()); setPlan(emptyPlan()); setPlanCustom({}); setOpenImg(null);
     setAiPlan({}); setAiPlanStatus(null); setBlockOrder([]);
     setHandoff(DEFAULT_HANDOFF); setDxQuery(''); setActiveComplaint(null);
@@ -432,7 +484,7 @@ export function MdmScreen({ onExit, onAdmin }) {
     setDragId(null);
   }
 
-  const totalPlan = PLAN_ORDER.reduce((n, c) => n + plan[c].length, 0);
+  const totalPlan = Object.values(plan).reduce((n, list) => n + (list?.length || 0), 0);
 
   // ── Left menu ────────────────────────────────────────────────────────────────
   const Menu = (
@@ -599,16 +651,41 @@ export function MdmScreen({ onExit, onAdmin }) {
                     {anyAi && <p className="text-[10px] text-blue-500 mb-2">AI-suggested draft — review and curate before relying on it.</p>}
                     <div className="space-y-3">
                       {SECTIONS.map(section => {
+                        // Custom findings land in the section's primary group (History,
+                        // Exam, Labs, Imaging) and show up alongside the curated buttons.
+                        const addGroup = section.groups[0];
                         const feats = section.groups.flatMap(g => groups[g] || []);
-                        if (!feats.length) return null;
+                        const draftKey = `${key}::${addGroup}`;
                         return (
                           <div key={section.title}>
                             <p className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider mb-1">{section.title}</p>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-1.5">
-                              {feats.map(f => (
-                                <FeatureButton key={f.id} label={f.label} state={featureState[key]?.[f.id]} onSet={v => setFeat(key, f.id, v)} />
-                              ))}
-                            </div>
+                            {feats.length > 0 && (
+                              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-1.5 mb-1.5">
+                                {feats.map(f => (
+                                  f.id.startsWith('custom:') ? (
+                                    <div key={f.id} className="relative">
+                                      <FeatureButton label={f.label} state={featureState[key]?.[f.id]} onSet={v => setFeat(key, f.id, v)} />
+                                      <button
+                                        type="button"
+                                        onClick={() => removeCustomFinding(key, addGroup, f.id)}
+                                        title="Remove finding"
+                                        aria-label={`Remove ${f.label}`}
+                                        className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-gray-300 text-white text-[10px] leading-none flex items-center justify-center shadow-sm hover:bg-red-500 transition-colors"
+                                      >×</button>
+                                    </div>
+                                  ) : (
+                                    <FeatureButton key={f.id} label={f.label} state={featureState[key]?.[f.id]} onSet={v => setFeat(key, f.id, v)} />
+                                  )
+                                ))}
+                              </div>
+                            )}
+                            <input
+                              value={customDraft[draftKey] || ''}
+                              onChange={e => setCustomDraft(prev => ({ ...prev, [draftKey]: e.target.value }))}
+                              onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addCustomFinding(key, addGroup, customDraft[draftKey] || ''); } }}
+                              placeholder={`+ add ${section.title.toLowerCase()} finding`}
+                              className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white"
+                            />
                           </div>
                         );
                       })}
@@ -653,7 +730,39 @@ export function MdmScreen({ onExit, onAdmin }) {
         )}
 
         <div className="space-y-3">
-          {PLAN_ORDER.map(category => (
+          {/* Medications — the order-set categories share one section and one
+              free-text box; each keeps its own quick-order row. */}
+          <div>
+            <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1.5">Medications</p>
+            <div className="space-y-2 mb-1.5">
+              {MED_CATEGORIES.map(category => (
+                <div key={category}>
+                  <p className="text-[9px] text-gray-400 font-medium uppercase tracking-wider mb-1">{category}</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {PLAN_MENU[category].map(item => (
+                      <PlanChip key={item} active={plan[category].includes(item)} onClick={() => togglePlan(category, item)}>{item}</PlanChip>
+                    ))}
+                    {plan[category].filter(x => !PLAN_MENU[category].includes(x)).map(item => (
+                      <PlanChip key={item} active onClick={() => togglePlan(category, item)}>{item}</PlanChip>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+            {/* Anything typed here lands in the general Medications bucket. */}
+            {plan[CUSTOM_MED_CATEGORY].length > 0 && (
+              <div className="flex flex-wrap gap-1.5 mb-1.5">
+                {plan[CUSTOM_MED_CATEGORY].map(item => (
+                  <PlanChip key={item} active onClick={() => togglePlan(CUSTOM_MED_CATEGORY, item)}>{item}</PlanChip>
+                ))}
+              </div>
+            )}
+            <div className="flex gap-1.5">
+              <input value={planCustom[CUSTOM_MED_CATEGORY] || ''} onChange={e => setPlanCustom(prev => ({ ...prev, [CUSTOM_MED_CATEGORY]: e.target.value }))} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addPlanCustom(CUSTOM_MED_CATEGORY); } }} placeholder="+ add medication" className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1 text-xs text-gray-700 placeholder-gray-300 focus:border-blue-500 focus:bg-white" />
+            </div>
+          </div>
+
+          {NON_MED_PLAN.map(category => (
             <div key={category}>
               <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1.5">{category}</p>
 
